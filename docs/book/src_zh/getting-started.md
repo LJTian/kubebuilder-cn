@@ -213,10 +213,10 @@ func (r *MemcachedReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 	if memcached.Status.Conditions == nil || len(memcached.Status.Conditions) == 0 {
 		meta.SetStatusCondition(&memcached.Status.Conditions,
 			metav1.Condition{
-                Type: typeAvailableMemcached,
-                Status: metav1.ConditionUnknown,
-                Reason: "对账中",
-                Message: "开始对账"
+				Type: typeAvailableMemcached,
+				Status: metav1.ConditionUnknown,
+				Reason: "对账中",
+				Message: "开始对账"
 			})
 		if err = r.Status().Update(ctx, memcached); err != nil {
 			log.Error(err, "更新 Memcached 状态失败")
@@ -257,9 +257,9 @@ func (r *MemcachedReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 			// 在这里添加一个状态 "Downgrade"，以反映该资源开始其终止过程。
 			meta.SetStatusCondition(&memcached.Status.Conditions, 
 				metav1.Condition{
-				    Type: typeDegradedMemcached,
-                    Status: metav1.ConditionUnknown,
-                },
+					Type: typeDegradedMemcached,
+					Status: metav1.ConditionUnknown,
+				},
 				Reason: "Finalizing",
 				Message: fmt.Sprintf("执行自定义资源的 finalizer 操作：%s ", memcached.Name)})
 
@@ -287,10 +287,10 @@ func (r *MemcachedReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 
 			meta.SetStatusCondition(&memcached.Status.Conditions,
 				metav1.Condition{
-                    Type: typeDegradedMemcached,
-                    Status: metav1.ConditionTrue,
-                    Reason: "Finalizing",
-                    Message: fmt.Sprintf("自定义资源 %s 的 finalizer 操作已成功完成", memcached.Name)
+					Type: typeDegradedMemcached,
+					Status: metav1.ConditionTrue,
+					Reason: "Finalizing",
+					Message: fmt.Sprintf("自定义资源 %s 的 finalizer 操作已成功完成", memcached.Name)
 				})
 
 			if err := r.Status().Update(ctx, memcached); err != nil {
@@ -376,10 +376,10 @@ func (r *MemcachedReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 			// 以下实现将更新状态
 			meta.SetStatusCondition(&memcached.Status.Conditions, 
 				metav1.Condition{
-                    Type: typeAvailableMemcached,
-                    Status: metav1.ConditionFalse,
-                    Reason: "调整大小",
-                    Message: fmt.Sprintf("更新自定义资源的大小失败 (%s): (%s)", memcached.Name, err)
+					Type: typeAvailableMemcached,
+					Status: metav1.ConditionFalse,
+					Reason: "调整大小",
+					Message: fmt.Sprintf("更新自定义资源的大小失败 (%s): (%s)", memcached.Name, err)
 				})
 
 			if err := r.Status().Update(ctx, memcached); err != nil {
@@ -399,10 +399,10 @@ func (r *MemcachedReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 	// 以下实现将更新状态
 	meta.SetStatusCondition(&memcached.Status.Conditions,
 		metav1.Condition{
-            Type: typeAvailableMemcached,
-            Status: metav1.ConditionTrue,
-            Reason: "对账中",
-            Message: fmt.Sprintf("为自定义资源创建 %d 个副本的 Deployment 成功", memcached.Name, size)
+			Type: typeAvailableMemcached,
+			Status: metav1.ConditionTrue,
+			Reason: "对账中",
+			Message: fmt.Sprintf("为自定义资源创建 %d 个副本的 Deployment 成功", memcached.Name, size)
 		})
 
 	if err := r.Status().Update(ctx, memcached); err != nil {
