@@ -3,9 +3,8 @@ kind: Memcached
 metadata:
   name: memcached-sample
 spec:
-  # TODO(user): edit the following value to ensure the number
-  # of Pods/Instances your Operand must have on cluster
+  # TODO（用户）：编辑以下值，确保 Operand 在集群上必须拥有的 Pod/实例数量
   size: 1
 
-  # TODO(user): edit the following value to ensure the container has the right port to be initialized
+  # TODO（用户）：编辑以下值，确保容器具有正确的端口进行初始化
   containerPort: 11211

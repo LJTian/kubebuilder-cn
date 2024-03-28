@@ -8,7 +8,7 @@
 
 我们将创建一个示例项目，以便让您了解它是如何工作的。这个示例将会：
 
-- 调和一个 Memcached CR - 代表着在集群上部署/管理的 Memcached 实例
+- 对账一个 Memcached CR - 代表着在集群上部署/管理的 Memcached 实例
 - 创建一个使用 Memcached 镜像的 Deployment
 - 不允许超过 CR 中定义的大小的实例
 - 更新 Memcached CR 的状态
@@ -30,7 +30,7 @@ kubebuilder init --domain=example.com
 接下来，我们将创建一个新的 API，负责部署和管理我们的 Memcached 解决方案。在这个示例中，我们将使用[Deploy Image 插件][deploy-image]来获取我们解决方案的全面代码实现。
 
 ```shell
-kubebuilder create api --group cache\
+kubebuilder create api --group cache \
   --version v1alpha1 \
   --kind Memcached \
   --image=memcached:1.4.36-alpine \
@@ -121,21 +121,21 @@ properties:
 {{#include ./getting-started/testdata/project/config/samples/cache_v1alpha1_memcached.yaml}}
 ```
 
-### 调和过程
+### 对账过程
 
-调和函数在确保资源和其规格之间基于其中嵌入的业务逻辑的同步方面起着关键作用。它的作用类似于循环，不断检查条件并执行操作，直到所有条件符合其实现。以下是伪代码来说明这一点：
+对账函数在确保资源和其规格之间基于其中嵌入的业务逻辑的同步方面起着关键作用。它的作用类似于循环，不断检查条件并执行操作，直到所有条件符合其实现。以下是伪代码来说明这一点：
 
 ```go
 reconcile App {
 
   // 检查应用的 Deployment 是否存在，如果不存在则创建一个
-  // 如果出现错误，则重新开始调和
+  // 如果出现错误，则重新开始对账
   if err != nil {
     return reconcile.Result{}, err
   }
 
   // 检查应用的 Service 是否存在，如果不存在则创建一个
-  // 如果出现错误，则重新开始调和
+  // 如果出现错误，则重新开始对账
   if err != nil {
     return reconcile.Result{}, err
   }
@@ -143,14 +143,14 @@ reconcile App {
   // 查找数据库 CR/CRD
   // 检查数据库 Deployment 的副本大小
   // 如果 deployment.replicas 的大小与 cr.size 不匹配，则更新它
-  // 然后，从头开始调和。例如，通过返回 `reconcile.Result{Requeue: true}, nil`。
+  // 然后，从头开始对账。例如，通过返回 `reconcile.Result{Requeue: true}, nil`。
   if err != nil {
     return reconcile.Result{Requeue: true}, nil
   }
   ...
 
   // 如果循环结束时：
-  // 所有操作都成功执行，调和就可以停止了
+  // 所有操作都成功执行，对账就可以停止了
   return reconcile.Result{}, nil
 
 }
@@ -158,7 +158,7 @@ reconcile App {
 
 #### 返回选项
 
-以下是重新开始调和的一些可能返回选项：
+以下是重新开始对账的一些可能返回选项：
 
 - 带有错误：
 
@@ -171,13 +171,13 @@ return ctrl.Result{}, err
 return ctrl.Result{Requeue: true}, nil
 ``` 
 
-- 因此，要停止调和，使用：
+- 停止对账，使用（执行成功之后，或者不需要再进行对账）：
 
 ```go
 return ctrl.Result{}, nil
 ```
 
-- X 时间后重新开始调和：
+- X 时间后重新开始对账：
 
 ```go
 return ctrl.Result{RequeueAfter: nextRun.Sub(r.Now())}, nil
@@ -185,7 +185,7 @@ return ctrl.Result{RequeueAfter: nextRun.Sub(r.Now())}, nil
 
 #### 在我们的示例中
 
-当将自定义资源应用到集群时，有一个指定的控制器来管理 Memcached 类型。您可以检查其调和是如何实现的：
+当将自定义资源应用到集群时，有一个指定的控制器来管理 Memcached 类型。您可以检查其对账是如何实现的：
 
 从：[internal/controller/memcached_controller.go](https://github.com/kubernetes-sigs/kubebuilder/tree/master/docs/book/src/getting-started/testdata/project/internal/controller/memcached_controller.go)
 ```go
@@ -194,13 +194,13 @@ func (r *MemcachedReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 
 	// 获取 Memcached 实例
 	// 目的是检查是否在集群上应用了 Memcached 类型的自定义资源
-	// 如果没有，我们将返回 nil 以停止调和过程
+	// 如果没有，我们将返回 nil 以停止对账过程
 	memcached := &examplecomv1alpha1.Memcached{}
 	err := r.Get(ctx, req.NamespacedName, memcached)
 	if err != nil {
 		if apierrors.IsNotFound(err) {
 			// 如果找不到自定义资源，通常意味着它已被删除或尚未创建
-			// 这样，我们将停止调和过程
+			// 这样，我们将停止对账过程
 			log.Info("未找到 memcached 资源。忽略，因为对象可能已被删除")
 			return ctrl.Result{}, nil
 		}
@@ -211,12 +211,13 @@ func (r *MemcachedReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 
 	// 当没有状态可用时，让我们将状态设置为 Unknown
 	if memcached.Status.Conditions == nil || len(memcached.Status.Conditions) == 0 {
-		meta.SetStatusCondition(&memcached.Status.Conditions, metav1.Condition{
-			Type: typeAvailableMemcached,
-			Status: metav1.ConditionUnknown,
-			Reason: "调和中",
-			Message: "开始调和"
-		)
+		meta.SetStatusCondition(&memcached.Status.Conditions,
+			metav1.Condition{
+                Type: typeAvailableMemcached,
+                Status: metav1.ConditionUnknown,
+                Reason: "对账中",
+                Message: "开始对账"
+			})
 		if err = r.Status().Update(ctx, memcached); err != nil {
 			log.Error(err, "更新 Memcached 状态失败")
 			return ctrl.Result{}, err
@@ -225,7 +226,7 @@ func (r *MemcachedReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 		// 更新状态后，让我们重新获取 memcached 自定义资源
 		// 以便我们在集群上拥有资源的最新状态，并且避免
 		// 引发错误 "对象已被修改，请将您的更改应用到最新版本，然后重试"
-		// 如果我们尝试在后续操作中再次更新它，这将重新触发调和过程
+		// 如果我们尝试在后续操作中再次更新它，这将重新触发对账过程
 		if err := r.Get(ctx, req.NamespacedName, memcached); err != nil {
 			log.Error(err, "重新获取 memcached 失败")
 			return ctrl.Result{}, err
@@ -254,8 +255,12 @@ func (r *MemcachedReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 			log.Info("在删除 CR 之前执行 Finalizer 操作")
 
 			// 在这里添加一个状态 "Downgrade"，以反映该资源开始其终止过程。
-			meta.SetStatusCondition(&memcached.Status.Conditions, metav1.Condition{Type: typeDegradedMemcached,
-				Status: metav1.ConditionUnknown, Reason: "Finalizing",
+			meta.SetStatusCondition(&memcached.Status.Conditions, 
+				metav1.Condition{
+				    Type: typeDegradedMemcached,
+                    Status: metav1.ConditionUnknown,
+                },
+				Reason: "Finalizing",
 				Message: fmt.Sprintf("执行自定义资源的 finalizer 操作：%s ", memcached.Name)})
 
 			if err := r.Status().Update(ctx, memcached); err != nil {
@@ -274,15 +279,19 @@ func (r *MemcachedReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 			// 在更新状态前重新获取 memcached 自定义资源
 			// 以便我们在集群上拥有资源的最新状态，并且避免
 			// 引发错误 "对象已被修改，请将您的更改应用到最新版本，然后重试"
-			// 如果我们尝试在后续操作中再次更新它，这将重新触发调和过程
+			// 如果我们尝试在后续操作中再次更新它，这将重新触发对账过程
 			if err := r.Get(ctx, req.NamespacedName, memcached); err != nil {
 				log.Error(err, "重新获取 memcached 失败")
 				return ctrl.Result{}, err
 			}
 
-			meta.SetStatusCondition(&memcached.Status.Conditions, metav1.Condition{Type: typeDegradedMemcached,
-				Status: metav1.ConditionTrue, Reason: "Finalizing",
-				Message: fmt.Sprintf("自定义资源 %s 的 finalizer 操作已成功完成", memcached.Name)})
+			meta.SetStatusCondition(&memcached.Status.Conditions,
+				metav1.Condition{
+                    Type: typeDegradedMemcached,
+                    Status: metav1.ConditionTrue,
+                    Reason: "Finalizing",
+                    Message: fmt.Sprintf("自定义资源 %s 的 finalizer 操作已成功完成", memcached.Name)
+				})
 
 			if err := r.Status().Update(ctx, memcached); err != nil {
 				log.Error(err, "更新 Memcached 状态失败")
@@ -313,8 +322,10 @@ func (r *MemcachedReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 			log.Error(err, "为 Memcached 定义新的 Deployment 资源失败")
 
 			// 以下实现将更新状态
-			meta.SetStatusCondition(&memcached.Status.Conditions, metav1.Condition{Type: typeAvailableMemcached,
-				Status: metav1.ConditionFalse, Reason: "调和中",
+			meta.SetStatusCondition(&memcached.Status.Conditions, metav1.Condition{
+				Type: typeAvailableMemcached,
+				Status: metav1.ConditionFalse,
+				Reason: "对账中",
 				Message: fmt.Sprintf("为自定义资源创建 Deployment 失败 (%s): (%s)", memcached.Name, err)})
 
 			if err := r.Status().Update(ctx, memcached); err != nil {
@@ -334,18 +345,18 @@ func (r *MemcachedReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 		}
 
 		// 部署成功创建
-		// 我们将重新排队调和，以便确保状态
+		// 我们将重新排队对账，以便确保状态
 		// 并继续进行下一步操作
 		return ctrl.Result{RequeueAfter: time.Minute}, nil
 	} else if err != nil {
 		log.Error(err, "获取 Deployment 失败")
-		// 让我们返回错误以重新触发调和
+		// 让我们返回错误以重新触发对账
 		return ctrl.Result{}, err
 	}
 
 	// CRD API 定义了 Memcached 类型具有 MemcachedSpec.Size 字段
 	// 以设置集群上所需的 Deployment 实例数量。
-	// 因此，以下代码将确保 Deployment 大小与我们调和的自定义资源的 Size spec 相同。
+	// 因此，以下代码将确保 Deployment 大小与我们对账的自定义资源的 Size spec 相同。
 	size := memcached.Spec.Size
 	if *found.Spec.Replicas != size {
 		found.Spec.Replicas = &size
@@ -356,16 +367,20 @@ func (r *MemcachedReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 			// 在更新状态前重新获取 memcached 自定义资源
 			// 以便我们在集群上拥有资源的最新状态，并且避免
 			// 引发错误 "对象已被修改，请将您的更改应用到最新版本，然后重试"
-			// 如果我们尝试在后续操作中再次更新它，这将重新触发调和过程
+			// 如果我们尝试在后续操作中再次更新它，这将重新触发对账过程
 			if err := r.Get(ctx, req.NamespacedName, memcached); err != nil {
 				log.Error(err, "重新获取 memcached 失败")
 				return ctrl.Result{}, err
 			}
 
 			// 以下实现将更新状态
-			meta.SetStatusCondition(&memcached.Status.Conditions, metav1.Condition{Type: typeAvailableMemcached,
-				Status: metav1.ConditionFalse, Reason: "调整大小",
-				Message: fmt.Sprintf("更新自定义资源的大小失败 (%s): (%s)", memcached.Name, err)})
+			meta.SetStatusCondition(&memcached.Status.Conditions, 
+				metav1.Condition{
+                    Type: typeAvailableMemcached,
+                    Status: metav1.ConditionFalse,
+                    Reason: "调整大小",
+                    Message: fmt.Sprintf("更新自定义资源的大小失败 (%s): (%s)", memcached.Name, err)
+				})
 
 			if err := r.Status().Update(ctx, memcached); err != nil {
 				log.Error(err, "更新 Memcached 状态失败")
@@ -375,16 +390,20 @@ func (r *MemcachedReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 			return ctrl.Result{}, err
 		}
 
-		// 现在，我们更新大小后，希望重新排队调和
+		// 现在，我们更新大小后，希望重新排队对账
 		// 以便确保我们拥有资源的最新状态
 		// 并帮助确保集群上的期望状态
 		return ctrl.Result{Requeue: true}, nil
 	}
 
 	// 以下实现将更新状态
-	meta.SetStatusCondition(&memcached.Status.Conditions, metav1.Condition{Type: typeAvailableMemcached,
-		Status: metav1.ConditionTrue, Reason: "调和中",
-		Message: fmt.Sprintf("为自定义资源创建 %d 个副本的 Deployment 成功", memcached.Name, size)})
+	meta.SetStatusCondition(&memcached.Status.Conditions,
+		metav1.Condition{
+            Type: typeAvailableMemcached,
+            Status: metav1.ConditionTrue,
+            Reason: "对账中",
+            Message: fmt.Sprintf("为自定义资源创建 %d 个副本的 Deployment 成功", memcached.Name, size)
+		})
 
 	if err := r.Status().Update(ctx, memcached); err != nil {
 		log.Error(err, "更新 Memcached 状态失败")
@@ -397,7 +416,7 @@ func (r *MemcachedReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 
 #### 观察集群上的变化
 
-该控制器持续地观察与该类型相关的任何事件。因此，相关的变化会立即触发控制器的调和过程。值得注意的是，我们已经实现了 `watches` 特性。[(更多信息)][watches]。这使我们能够监视与创建、更新或删除 Memcached 类型的自定义资源相关的事件，以及由其相应控制器编排和拥有的 Deployment。请注意以下代码：
+该控制器持续地观察与该类型相关的任何事件。因此，相关的变化会立即触发控制器的对账过程。值得注意的是，我们已经实现了 `watches` 特性。[(更多信息)][watches]。这使我们能够监视与创建、更新或删除 Memcached 类型的自定义资源相关的事件，以及由其相应控制器编排和拥有的 Deployment。请注意以下代码：
 
 ```go
 // SetupWithManager 使用 Manager 设置控制器。
