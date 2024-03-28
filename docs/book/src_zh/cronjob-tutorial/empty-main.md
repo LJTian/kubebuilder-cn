@@ -1,5 +1,5 @@
-# Every journey needs a start, every program needs a main
+# 每段旅程都需要一个起点，每个程序都需要一个主函数
 
-{{#literatego ./testdata/emptymain.go}}
+{{#include ./testdata/emptymain.go}}
 
-With that out of the way, we can get on to scaffolding our API!
+有了这个，我们可以开始构建我们的 API 了！
