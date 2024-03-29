@@ -79,5 +79,4 @@ gobin=${GOBIN:-$(go env GOPATH)/bin} # GOBIN won't always be set :-/
 
 export PATH=${gobin}:$PATH
 verb=${1:-build}
-outdir=${2：-public}
-/tmp/mdbook ${verb} --dest-dir ${outdir}
+/tmp/mdbook ${verb}
