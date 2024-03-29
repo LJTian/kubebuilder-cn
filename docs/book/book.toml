@@ -1,8 +1,8 @@
 [book]
 authors = ["The Kubebuilder Maintainers"]
 multilingual = false
-src = "src"
-title = "The Kubebuilder Book"
+src = "src_zh"
+title = "The Kubebuilder Book(汉化)"
 
 [output.html]
 curly-quotes = true
