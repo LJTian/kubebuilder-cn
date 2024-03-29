@@ -1,76 +1,62 @@
-**Note:** Impatient readers may head straight to [Quick Start](quick-start.md).
+**注意：** 急于开始的读者可以直接前往[快速入门](quick-start.md)。
 
-**Using Kubebuilder v1 or v2? Check the legacy documentation for [v1](https://book-v1.book.kubebuilder.io) or [v2](https://book-v2.book.kubebuilder.io)** 
+**正在使用 Kubebuilder v1 或 v2 吗？请查看 [v1](https://book-v1.book.kubebuilder.io) 或 [v2](https://book-v2.book.kubebuilder.io) 的旧版文档。**
 
-## Who is this for
+## 适用对象
 
-#### Users of Kubernetes
+#### Kubernetes 用户
 
-Users of Kubernetes will develop a deeper understanding of Kubernetes through learning
-the fundamental concepts behind how APIs are designed and implemented.  This book
-will teach readers how to develop their own Kubernetes APIs and the
-principles from which the core Kubernetes APIs are designed.
+Kubernetes 用户将通过学习 API 被设计和实现的基本概念，深入了解 Kubernetes，并且将会开发出更深刻的认识。本书将教会读者如何开发自己的 Kubernetes API，以及核心 Kubernetes API 设计的原则。
 
-Including:
+包括：
 
-- The structure of Kubernetes APIs and Resources
-- API versioning semantics
-- Self-healing
-- Garbage Collection and Finalizers
-- Declarative vs Imperative APIs
-- Level-Based vs Edge-Base APIs
-- Resources vs Subresources
+- Kubernetes API 和资源的结构
+- API 版本语义
+- 自愈
+- 垃圾回收和终结器
+- 声明式 vs 命令式 API
+- 基于级别 vs 基于边缘的 API
+- 资源 vs 子资源
 
-#### Kubernetes API extension developers
+#### Kubernetes API 扩展开发者
 
-API extension developers will learn the principles and concepts behind implementing canonical
-Kubernetes APIs, as well as simple tools and libraries for rapid execution.  This
-book covers pitfalls and misconceptions that extension developers commonly encounter.
+API 扩展开发者将学习实现规范 Kubernetes API 背后的原则和概念，以及快速执行的简单工具和库。本书涵盖了扩展开发者常遇到的陷阱和误解。
 
-Including:
+包括：
 
-- How to batch multiple events into a single reconciliation call
-- How to configure periodic reconciliation
-- *Forthcoming*
-    - When to use the lister cache vs live lookups
-    - Garbage Collection vs Finalizers
-    - How to use Declarative vs Webhook Validation
-    - How to implement API versioning
+- 如何将多个事件批量处理为单个协调调用
+- 如何配置定期协调
+- *即将推出*
+    - 何时使用列表缓存 vs 实时查找
+    - 垃圾回收 vs 终结器
+    - 如何使用声明式 vs Webhook 验证
+    - 如何实现 API 版本管理
 
-## Why Kubernetes APIs
+## 为什么选择 Kubernetes API
 
-Kubernetes APIs provide consistent and well defined endpoints for
-objects adhering to a consistent and rich structure.
+Kubernetes API 为对象提供了一致和明确定义的端点，这些对象遵循一致和丰富的结构。
 
-This approach has fostered a rich ecosystem of tools and libraries for working
-with Kubernetes APIs.
+这种方法培育了一个丰富的工具和库生态系统，用于处理 Kubernetes API。
 
-Users work with the APIs through declaring objects as *yaml* or *json* config, and using
-common tooling to manage the objects.
+用户通过将对象声明为 *yaml* 或 *json* 配置，并使用常见工具来管理对象来使用这些 API。
 
-Building services as Kubernetes APIs provides many advantages to plain old REST, including:
+将服务构建为 Kubernetes API 相比于普通的 REST，提供了许多优势，包括：
 
-* Hosted API endpoints, storage, and validation.
-* Rich tooling and CLIs such as `kubectl` and `kustomize`.
-* Support for AuthN and granular AuthZ.
-* Support for API evolution through API versioning and conversion.
-* Facilitation of adaptive / self-healing APIs that continuously respond to changes
-  in the system state without user intervention.
-* Kubernetes as a hosting environment
+* 托管的 API 端点、存储和验证。
+* 丰富的工具和 CLI，如 `kubectl` 和 `kustomize`。
+* 对 AuthN 和细粒度 AuthZ 的支持。
+* 通过 API 版本控制和转换支持 API 演进。
+* 促进自适应/自愈 API 的发展，这些 API 可以持续响应系统状态的变化，而无需用户干预。
+* Kubernetes 作为托管环境
 
-Developers may build and publish their own Kubernetes APIs for installation into
-running Kubernetes clusters.
+开发人员可以构建并发布自己的 Kubernetes API，以安装到运行中的 Kubernetes 集群中。
 
-## Contribution
+## 贡献
 
-If you like to contribute to either this book or the code, please be so kind
-to read our [Contribution](https://github.com/kubernetes-sigs/kubebuilder/blob/master/CONTRIBUTING.md) guidelines first.
+如果您想要为本书或代码做出贡献，请先阅读我们的[贡献](https://github.com/kubernetes-sigs/kubebuilder/blob/master/CONTRIBUTING.md)指南。
 
-## Resources
+## 资源
 
-* Repository: [sigs.k8s.io/kubebuilder](https://sigs.k8s.io/kubebuilder)
-
-* Slack channel: [#kubebuilder](http://slack.k8s.io/#kubebuilder)
-
-* Google Group:
-  [kubebuilder@googlegroups.com](https://groups.google.com/forum/#!forum/kubebuilder)
+* 仓库: [sigs.k8s.io/kubebuilder](https://sigs.k8s.io/kubebuilder)
+* Slack 频道: [#kubebuilder](http://slack.k8s.io/#kubebuilder)
+* Google Group: [kubebuilder@googlegroups.com](https://groups.google.com/forum/#!forum/kubebuilder)
