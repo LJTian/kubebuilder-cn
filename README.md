@@ -38,8 +38,10 @@ Kubebuilder 是可扩展的，可以作为其他项目中的库使用。[Operato
 
 ## 资源
 
+- Kubebuilder 书籍（汉化版）：[kubebuilder.cn](https://kubebuilder.cn)
 - Kubebuilder 书籍：[book.kubebuilder.io](https://book.kubebuilder.io)
 - GitHub 仓库：[kubernetes-sigs/kubebuilder](https://github.com/kubernetes-sigs/kubebuilder)
+- GitHub 汉化版仓库：[LJTian/kubebuilder-cn](https://github.com/LJTian/kubebuilder-cn)
 - Slack 频道：[#kubebuilder](https://slack.k8s.io/#kubebuilder)
 - Google Group：[kubebuilder@googlegroups.com](https://groups.google.com/forum/#!forum/kubebuilder)
 - 设计文档：[designs](designs/)
@@ -47,6 +49,14 @@ Kubebuilder 是可扩展的，可以作为其他项目中的库使用。[Operato
 
 ## 动机
 
+___
+kubebuilder.cn 汉化版的初衷：
+1. 学习 kubebuilder 相关知识。
+2. 没找到相对翻译较好且内容比较新的网站。
+3. 稍微做点贡献。 
+
+*此部分内容非官网内容同步*
+___
 构建 Kubernetes 工具和 API 涉及做出许多决策并编写大量样板代码。
 
 为了便于使用规范方法轻松构建 Kubernetes API 和工具，该框架提供了一系列 Kubernetes 开发工具，以最小化重复劳动。
