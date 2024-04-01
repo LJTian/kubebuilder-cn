@@ -1,28 +1,14 @@
-# Deploying cert-manager
+# 部署 cert-manager
 
-We suggest using [cert-manager](https://github.com/cert-manager/cert-manager) for
-provisioning the certificates for the webhook server. Other solutions should
-also work as long as they put the certificates in the desired location.
+我们建议使用 [cert-manager](https://github.com/cert-manager/cert-manager) 为 Webhook 服务器提供证书。只要它们将证书放在所需的位置，其他解决方案也应该可以正常工作。
 
-You can follow
-[the cert-manager documentation](https://cert-manager.io/docs/installation/)
-to install it.
+您可以按照 [cert-manager 文档](https://cert-manager.io/docs/installation/) 进行安装。
 
-cert-manager also has a component called [CA
-Injector](https://cert-manager.io/docs/concepts/ca-injector/), which is responsible for
-injecting the CA bundle into the [`MutatingWebhookConfiguration`](https://pkg.go.dev/k8s.io/api/admissionregistration/v1#MutatingWebhookConfiguration)
-/ [`ValidatingWebhookConfiguration`](https://pkg.go.dev/k8s.io/api/admissionregistration/v1#ValidatingWebhookConfiguration).
+cert-manager 还有一个名为 [CA 注入器](https://cert-manager.io/docs/concepts/ca-injector/) 的组件，负责将 CA bundle 注入到 [`MutatingWebhookConfiguration`](https://pkg.go.dev/k8s.io/api/admissionregistration/v1#MutatingWebhookConfiguration) / [`ValidatingWebhookConfiguration`](https://pkg.go.dev/k8s.io/api/admissionregistration/v1#ValidatingWebhookConfiguration) 中。
 
-To accomplish that, you need to use an annotation with key
-`cert-manager.io/inject-ca-from`
-in the [`MutatingWebhookConfiguration`](https://pkg.go.dev/k8s.io/api/admissionregistration/v1#MutatingWebhookConfiguration)
-/ [`ValidatingWebhookConfiguration`](https://pkg.go.dev/k8s.io/api/admissionregistration/v1#ValidatingWebhookConfiguration) objects.
-The value of the annotation should point to an existing [certificate request instance](https://cert-manager.io/docs/concepts/certificaterequest/)
-in the format of `<certificate-namespace>/<certificate-name>`.
+为了实现这一点，您需要在 [`MutatingWebhookConfiguration`](https://pkg.go.dev/k8s.io/api/admissionregistration/v1#MutatingWebhookConfiguration) / [`ValidatingWebhookConfiguration`](https://pkg.go.dev/k8s.io/api/admissionregistration/v1#ValidatingWebhookConfiguration) 对象中使用一个带有键 `cert-manager.io/inject-ca-from` 的注释。注释的值应该指向一个现有的 [证书请求实例](https://cert-manager.io/docs/concepts/certificaterequest/)，格式为 `<证书命名空间>/<证书名称>`。
 
-This is the [kustomize](https://github.com/kubernetes-sigs/kustomize) patch we
-used for annotating the [`MutatingWebhookConfiguration`](https://pkg.go.dev/k8s.io/api/admissionregistration/v1#MutatingWebhookConfiguration)
-/ [`ValidatingWebhookConfiguration`](https://pkg.go.dev/k8s.io/api/admissionregistration/v1#ValidatingWebhookConfiguration) objects.
+这是我们用于给 [`MutatingWebhookConfiguration`](https://pkg.go.dev/k8s.io/api/admissionregistration/v1#MutatingWebhookConfiguration) / [`ValidatingWebhookConfiguration`](https://pkg.go.dev/k8s.io/api/admissionregistration/v1#ValidatingWebhookConfiguration) 对象添加注释的 [kustomize](https://github.com/kubernetes-sigs/kustomize) 补丁：
 
 ```yaml
 {{#include ./testdata/project/config/default/webhookcainjection_patch.yaml}}

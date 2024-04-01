@@ -1,53 +1,41 @@
-# Running and deploying the controller
+# 运行和部署控制器
 
-### Optional
-If opting to make any changes to the API definitions, then before proceeding,
-generate the manifests like CRs or CRDs with 
+### 可选步骤
+如果选择对 API 定义进行任何更改，则在继续之前，可以使用以下命令生成清单，如自定义资源（CRs）或自定义资源定义（CRDs）：
 ```bash
 make manifests
 ```
 
-To test out the controller, we can run it locally against the cluster.
-Before we do so, though, we'll need to install our CRDs, as per the [quick
-start](/quick-start.md).  This will automatically update the YAML
-manifests using controller-tools, if needed:
+要测试控制器，请在本地针对集群运行它。
+在继续之前，我们需要安装我们的 CRDs，如[快速入门](/quick-start.md)中所述。这将自动使用 controller-tools 更新 YAML 清单（如果需要）：
 
 ```bash
 make install
 ```
 
-Now that we've installed our CRDs, we can run the controller against our
-cluster.  This will use whatever credentials that we connect to the
-cluster with, so we don't need to worry about RBAC just yet.
+现在我们已经安装了我们的 CRDs，我们可以针对集群运行控制器。这将使用我们连接到集群的任何凭据，因此我们暂时不需要担心 RBAC。
 
-<aside class="note"> 
+<aside class="note">
 
-<h1>Running webhooks locally</h1>
+<h1>在本地运行 Webhook</h1>
 
-If you want to run the webhooks locally, you'll have to generate
-certificates for serving the webhooks, and place them in the right
-directory (`/tmp/k8s-webhook-server/serving-certs/tls.{crt,key}`, by
-default).
+如果要在本地运行 Webhook，您需要为提供 Webhook 生成证书，并将其放在正确的目录下（默认为`/tmp/k8s-webhook-server/serving-certs/tls.{crt,key}`）。
 
-If you're not running a local API server, you'll also need to figure out
-how to proxy traffic from the remote cluster to your local webhook server.
-For this reason, we generally recommend disabling webhooks when doing
-your local code-run-test cycle, as we do below.
+如果您没有运行本地 API 服务器，您还需要弄清楚如何将流量从远程集群代理到本地 Webhook 服务器。
+因此，通常建议在进行本地代码运行测试循环时禁用 Webhook，如下所示。
 
 </aside>
 
-In a separate terminal, run
+在另一个终端中运行
 
 ```bash
 export ENABLE_WEBHOOKS=false
 make run
 ```
 
-You should see logs from the controller about starting up, but it won't do
-anything just yet.
+您应该会看到有关控制器启动的日志，但它目前还不会执行任何操作。
 
-At this point, we need a CronJob to test with.  Let's write a sample to
-`config/samples/batch_v1_cronjob.yaml`, and use that:
+此时，我们需要一个 CronJob 进行测试。让我们编写一个样本到 `config/samples/batch_v1_cronjob.yaml`，然后使用该样本：
 
 ```yaml
 {{#include ./testdata/project/config/samples/batch_v1_cronjob.yaml}}
@@ -57,16 +45,14 @@ At this point, we need a CronJob to test with.  Let's write a sample to
 kubectl create -f config/samples/batch_v1_cronjob.yaml
 ```
 
-At this point, you should see a flurry of activity.  If you watch the
-changes, you should see your cronjob running, and updating status:
+此时，您应该会看到大量活动。如果观察更改，您应该会看到您的 CronJob 正在运行，并更新状态：
 
 ```bash
 kubectl get cronjob.batch.tutorial.kubebuilder.io -o yaml
 kubectl get job
 ```
 
-Now that we know it's working, we can run it in the cluster. Stop the
-`make run` invocation, and run
+现在我们知道它正在运行，我们可以在集群中运行它。停止 `make run` 命令，并运行
 
 ```bash
 make docker-build docker-push IMG=<some-registry>/<project-name>:tag
@@ -74,12 +60,11 @@ make deploy IMG=<some-registry>/<project-name>:tag
 ```
 
 <aside class="note">
-<h1>registry permission</h1>
+<h1>注册表权限</h1>
 
-This image ought to be published in the personal registry you specified. And it is required to have access to pull the image from the working environment. 
-Make sure you have the proper permission to the registry if the above commands don't work.
+此映像应发布在您指定的个人注册表中。并且需要具有从工作环境中拉取映像的访问权限。
+如果上述命令无法正常工作，请确保您对注册表具有适当的权限。
 
 </aside>
 
-If we list cronjobs again like we did before, we should see the controller
-functioning again!
+如果再次列出 CronJob，就像我们之前所做的那样，我们应该看到控制器再次正常运行！
