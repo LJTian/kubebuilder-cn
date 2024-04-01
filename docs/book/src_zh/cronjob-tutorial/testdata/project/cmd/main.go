@@ -1,19 +1,18 @@
 /*
-Copyright 2024 The Kubernetes authors.
+版权所有 2024 年 Kubernetes 作者。
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+根据 Apache 许可证 2.0 版（"许可证"）获得许可；
+除非符合许可证的规定，否则您不得使用此文件。
+您可以在以下网址获取许可证的副本：
 
     http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+除非适用法律要求或书面同意，根据许可证分发的软件是基于"按原样"的基础分发的，
+没有任何明示或暗示的担保或条件。
+请查看许可证以了解特定语言管理权限和限制。
+
 */
-// +kubebuilder:docs-gen:collapse=Apache License
+// +kubebuilder:docs-gen:collapse=Apache 许可证
 
 package main
 
@@ -22,8 +21,8 @@ import (
 	"flag"
 	"os"
 
-	// Import all Kubernetes client auth plugins (e.g. Azure, GCP, OIDC, etc.)
-	// to ensure that exec-entrypoint and run can make use of them.
+	// 导入所有 Kubernetes 客户端认证插件（例如 Azure、GCP、OIDC 等）
+	// 以确保 exec-entrypoint 和 run 可以利用它们。
 	_ "k8s.io/client-go/plugin/pkg/client/auth"
 
 	"k8s.io/apimachinery/pkg/runtime"
@@ -43,12 +42,11 @@ import (
 // +kubebuilder:docs-gen:collapse=Imports
 
 /*
-The first difference to notice is that kubebuilder has added the new API
-group's package (`batchv1`) to our scheme.  This means that we can use those
-objects in our controller.
+要注意的第一个变化是，kubebuilder 已将新 API 组的包（`batchv1`）添加到我们的 scheme 中。
+这意味着我们可以在我们的控制器中使用这些对象。
 
-If we would be using any other CRD we would have to add their scheme the same way.
-Builtin types such as Job have their scheme added by `clientgoscheme`.
+如果我们将使用任何其他 CRD，我们将不得不以相同的方式添加它们的 scheme。
+诸如 Job 之类的内置类型通过 `clientgoscheme` 添加了它们的 scheme。
 */
 
 var (
@@ -64,8 +62,7 @@ func init() {
 }
 
 /*
-The other thing that's changed is that kubebuilder has added a block calling our
-CronJob controller's `SetupWithManager` method.
+另一个发生变化的地方是，kubebuilder 已添加了一个块，调用我们的 CronJob 控制器的 `SetupWithManager` 方法。
 */
 
 func main() {
@@ -93,10 +90,9 @@ func main() {
 
 	ctrl.SetLogger(zap.New(zap.UseFlagOptions(&opts)))
 
-	// if the enable-http2 flag is false (the default), http/2 should be disabled
-	// due to its vulnerabilities. More specifically, disabling http/2 will
-	// prevent from being vulnerable to the HTTP/2 Stream Cancelation and
-	// Rapid Reset CVEs. For more information see:
+	// 如果 enable-http2 标志为 false（默认值），则应禁用 http/2
+	// 由于其漏洞。更具体地说，禁用 http/2 将防止受到 HTTP/2 流取消和
+	// 快速重置 CVE 的影响。更多信息请参见：
 	// - https://github.com/advisories/GHSA-qppj-fm5r-hxr3
 	// - https://github.com/advisories/GHSA-4374-p667-p6c8
 	disableHTTP2 := func(c *tls.Config) {
@@ -124,16 +120,13 @@ func main() {
 		HealthProbeBindAddress: probeAddr,
 		LeaderElection:         enableLeaderElection,
 		LeaderElectionID:       "80807133.tutorial.kubebuilder.io",
-		// LeaderElectionReleaseOnCancel defines if the leader should step down voluntarily
-		// when the Manager ends. This requires the binary to immediately end when the
-		// Manager is stopped, otherwise, this setting is unsafe. Setting this significantly
-		// speeds up voluntary leader transitions as the new leader don't have to wait
-		// LeaseDuration time first.
+		// LeaderElectionReleaseOnCancel 定义了在 Manager 结束时领导者是否应主动下台
+		//。这需要二进制文件在 Manager 停止后立即结束，否则，此设置是不安全的。设置这将显著
+		// 加快自愿领导者过渡的速度，因为新领导者无需等待 LeaseDuration 时间。
 		//
-		// In the default scaffold provided, the program ends immediately after
-		// the manager stops, so would be fine to enable this option. However,
-		// if you are doing or is intended to do any operation such as perform cleanups
-		// after the manager stops then its usage might be unsafe.
+		// 在默认提供的脚手架中，程序在 Manager 停止后立即结束，因此可以启用此选项。
+		// 但是，如果您正在执行或打算在 Manager 停止后执行任何操作，比如执行清理操作，
+		// 那么它的使用可能是不安全的。
 		// LeaderElectionReleaseOnCancel: true,
 	})
 	if err != nil {
@@ -152,12 +145,11 @@ func main() {
 	}
 
 	/*
-		We'll also set up webhooks for our type, which we'll talk about next.
-		We just need to add them to the manager.  Since we might want to run
-		the webhooks separately, or not run them when testing our controller
-		locally, we'll put them behind an environment variable.
+		我们还将为我们的类型设置 webhooks，接下来我们将讨论它们。
+		我们只需要将它们添加到 manager 中。由于我们可能希望单独运行 webhooks，
+		或者在本地测试控制器时不运行它们，我们将它们放在一个环境变量后面。
 
-		We'll just make sure to set `ENABLE_WEBHOOKS=false` when we run locally.
+		我们只需确保在本地运行时设置 `ENABLE_WEBHOOKS=false`。
 	*/
 	if os.Getenv("ENABLE_WEBHOOKS") != "false" {
 		if err = (&batchv1.CronJob{}).SetupWebhookWithManager(mgr); err != nil {

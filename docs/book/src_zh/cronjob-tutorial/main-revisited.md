@@ -1,9 +1,7 @@
-# You said something about main?
+# 你提到了主要内容？
 
-But first, remember how we said we'd [come back to `main.go`
-again](/cronjob-tutorial/empty-main.md)? Let's take a look and see what's
-changed, and what we need to add.
+但首先，记得我们说过我们会再次回到 `main.go` 吗？让我们来看看发生了什么变化，以及我们需要添加什么。
 
 {{#literatego ./testdata/project/cmd/main.go}}
 
-*Now* we can implement our controller.
+现在我们可以实现我们的控制器了。
