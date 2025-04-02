@@ -4,6 +4,12 @@ multilingual = false
 src = "src"
 title = "The Kubebuilder Book"
 
+[preprocessor.gettext]
+after = ["links"]
+
+[build]
+extra-watch-dirs = ["po"]
+
 [output.html]
 curly-quotes = true
 additional-css = ["theme/css/markers.css", "theme/css/custom.css", "theme/css/version-dropdown.css"]
