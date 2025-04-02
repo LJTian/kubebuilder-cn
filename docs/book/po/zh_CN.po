@@ -13,51 +13,51 @@ msgstr ""
 
 #: src/SUMMARY.md:1
 msgid "Summary"
-msgstr ""
+msgstr "摘要"
 
 #: src/SUMMARY.md:3
 msgid "Introduction"
-msgstr ""
+msgstr "介绍"
 
 #: src/SUMMARY.md:5
 msgid "Architecture"
-msgstr ""
+msgstr "架构"
 
 #: src/SUMMARY.md:7 src/quick-start.md:1
 msgid "Quick Start"
-msgstr ""
+msgstr "快速开始"
 
 #: src/SUMMARY.md:9 src/getting-started.md:1
 msgid "Getting Started"
-msgstr ""
+msgstr "入门"
 
 #: src/SUMMARY.md:11 src/versions_compatibility_supportability.md:1
 msgid "Versions Compatibility and Supportability"
-msgstr ""
+msgstr "版本兼容性和支持性"
 
 #: src/SUMMARY.md:14 src/cronjob-tutorial/cronjob-tutorial.md:1
 msgid "Tutorial: Building CronJob"
-msgstr ""
+msgstr "教程：构建 CronJob"
 
 #: src/SUMMARY.md:16 src/cronjob-tutorial/basic-project.md:1
 msgid "What's in a basic project?"
-msgstr ""
+msgstr "一个基本项目都包含了什么？"
 
 #: src/SUMMARY.md:17
 msgid "Every journey needs a start, every program a main"
-msgstr ""
+msgstr "每个旅程都需要一个开始，每个程序都需要一个主函数"
 
 #: src/SUMMARY.md:18 src/cronjob-tutorial/gvks.md:1
 msgid "Groups and Versions and Kinds, oh my!"
-msgstr ""
+msgstr "组、版本和种类！"
 
 #: src/SUMMARY.md:19 src/cronjob-tutorial/new-api.md:1
 msgid "Adding a new API"
-msgstr ""
+msgstr "添加一个新 API"
 
 #: src/SUMMARY.md:20 src/cronjob-tutorial/api-design.md:1
 msgid "Designing an API"
-msgstr ""
+msgstr "设计一个 API"
 
 #: src/SUMMARY.md:22 src/cronjob-tutorial/other-api-files.md:1
 msgid "A Brief Aside: What's the rest of this stuff?"

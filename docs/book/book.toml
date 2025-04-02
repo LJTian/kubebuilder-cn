@@ -8,7 +8,7 @@ title = "The Kubebuilder Book"
 after = ["links"]
 
 [build]
-extra-watch-dirs = ["po"]
+extra-watch-dirs = ["translation"]
 
 [output.html]
 curly-quotes = true
