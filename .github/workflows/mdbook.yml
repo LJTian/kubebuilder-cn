@@ -41,9 +41,9 @@ jobs:
       - run: go version
       - name: install mdbook
         run: |
-          /bin/bash -x docs/book/install-and-build.sh 
-      - name: Build with mdBook
-        run: cd docs/book && MDBOOK_BOOK__LANGUAGE=zh_CN mdbook build -d book/zh_CN
+          /bin/bash -x docs/book/install-and-build.sh && cd docs/book && MDBOOK_BOOK__LANGUAGE=zh_CN mdbook build -d book/zh_CN
+      #- name: Build with mdBook
+      #  run: cd docs/book && MDBOOK_BOOK__LANGUAGE=zh_CN mdbook build -d book/zh_CN
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
