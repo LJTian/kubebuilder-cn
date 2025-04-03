@@ -41,7 +41,7 @@ jobs:
       - run: go version
       - name: install mdbook
         run: |
-          sh -x doc/book/install-and-build.sh 
+          sh -x docs/book/install-and-build.sh 
       - name: Build with mdBook
         run: cd docs/book && MDBOOK_BOOK__LANGUAGE=zh_CN mdbook build -d book/zh_CN
       - name: Upload artifact
