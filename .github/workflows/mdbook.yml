@@ -30,11 +30,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install mdBook mdbook-i18n-helpers
+      #- name: Install mdBook mdbook-i18n-helpers
+      #  run: |
+      #    curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf -y | sh
+      #    rustup update
+      #     cargo install mdbook mdbook-i18n-helpers --locked
+      - name: Install golang
         run: |
-          curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf -y | sh
-          rustup update
-          cargo install mdbook mdbook-i18n-helpers --locked
+          apt install golang -y
+          sh -x doc/book/install-and-build.sh 
       - name: Build with mdBook
         run: cd docs/book && MDBOOK_BOOK__LANGUAGE=zh_CN mdbook build -d book/zh_CN
       - name: Upload artifact
