@@ -30,11 +30,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      #- name: Install mdBook mdbook-i18n-helpers
-      #  run: |
-      #    curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf -y | sh
-      #    rustup update
-      #     cargo install mdbook mdbook-i18n-helpers --locked
+      - name: Install mdBook mdbook-i18n-helpers
+        run: |
+          curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf -y | sh
+          rustup update
+          cargo install mdbook mdbook-i18n-helpers --locked
       - uses: actions/setup-go@v5
         with:
           go-version: '^1.23.8' # The Go version to download (if necessary) and use.
@@ -42,8 +42,8 @@ jobs:
       - name: install mdbook
         run: |
           /bin/bash -x docs/book/install-and-build.sh && cd docs/book && MDBOOK_BOOK__LANGUAGE=zh_CN mdbook build -d book/zh_CN
-      #- name: Build with mdBook
-      #  run: cd docs/book && MDBOOK_BOOK__LANGUAGE=zh_CN mdbook build -d book/zh_CN
+      - name: Build with mdBook
+        run: cd docs/book && MDBOOK_BOOK__LANGUAGE=zh_CN mdbook build -d book/zh_CN
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
