@@ -36,7 +36,7 @@ jobs:
           rustup update
           cargo install mdbook mdbook-i18n-helpers --locked
       - name: Build with mdBook
-        run: cd book && MDBOOK_BOOK__LANGUAGE=zh_CN mdbook build -d book/zh_CN
+        run: cd docs/book && MDBOOK_BOOK__LANGUAGE=zh_CN mdbook build -d book/zh_CN
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
