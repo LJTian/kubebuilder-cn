@@ -29,8 +29,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      MDBOOK_VERSION: 0.4.36
-      MDBOOK_I18N_HELPERS_VERSION: 
     steps:
       - uses: actions/checkout@v4
       - name: Install mdBook mdbook-i18n-helpers
@@ -38,9 +36,6 @@ jobs:
           curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf -y | sh
           rustup update
           cargo install mdbook mdbook-i18n-helpers --locked
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v5
       - name: Build with mdBook
         run: MDBOOK_BOOK__LANGUAGE=zh_CN mdbook build -d book/zh_CN
       - name: Upload artifact
