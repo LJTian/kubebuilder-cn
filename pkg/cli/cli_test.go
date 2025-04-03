@@ -27,12 +27,13 @@ import (
 	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
 
-	"sigs.k8s.io/kubebuilder/v4/pkg/config"
-	cfgv3 "sigs.k8s.io/kubebuilder/v4/pkg/config/v3"
-	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
-	"sigs.k8s.io/kubebuilder/v4/pkg/model/stage"
-	"sigs.k8s.io/kubebuilder/v4/pkg/plugin"
-	goPluginV4 "sigs.k8s.io/kubebuilder/v4/pkg/plugins/golang/v4"
+	"sigs.k8s.io/kubebuilder/v3/pkg/config"
+	cfgv2 "sigs.k8s.io/kubebuilder/v3/pkg/config/v2"
+	cfgv3 "sigs.k8s.io/kubebuilder/v3/pkg/config/v3"
+	"sigs.k8s.io/kubebuilder/v3/pkg/machinery"
+	"sigs.k8s.io/kubebuilder/v3/pkg/model/stage"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugin"
+	goPluginV3 "sigs.k8s.io/kubebuilder/v3/pkg/plugins/golang/v3"
 )
 
 func makeMockPluginsFor(projectVersion config.Version, pluginKeys ...string) []plugin.Plugin {
@@ -60,6 +61,7 @@ func setBoolFlag(flag string) {
 	os.Args = append(os.Args, "subcommand", "--"+flag)
 }
 
+// nolint:unparam
 func setProjectVersionFlag(value string) {
 	setFlag(projectVersionFlag, value)
 }
@@ -140,9 +142,22 @@ plugins:
 	// TODO: test CLI.getInfoFromConfigFile using a mock filesystem
 
 	Context("getInfoFromConfig", func() {
+		When("not having layout field", func() {
+			It("should succeed", func() {
+				pluginChain := []string{"go.kubebuilder.io/v2"}
+
+				projectConfig := cfgv2.New()
+
+				Expect(c.getInfoFromConfig(projectConfig)).To(Succeed())
+				Expect(c.pluginKeys).To(Equal(pluginChain))
+				Expect(c.projectVersion.Compare(projectConfig.GetVersion())).To(Equal(0))
+			})
+		})
+
 		When("having a single plugin in the layout field", func() {
 			It("should succeed", func() {
-				pluginChain := []string{"go.kubebuilder.io/v4"}
+				pluginChain := []string{"go.kubebuilder.io/v2"}
+
 				projectConfig := cfgv3.New()
 				Expect(projectConfig.SetPluginChain(pluginChain)).To(Succeed())
 
@@ -154,7 +169,7 @@ plugins:
 
 		When("having multiple plugins in the layout field", func() {
 			It("should succeed", func() {
-				pluginChain := []string{"go.kubebuilder.io/v2", "deploy-image.go.kubebuilder.io/v1-alpha"}
+				pluginChain := []string{"go.kubebuilder.io/v2", "declarative.kubebuilder.io/v1"}
 
 				projectConfig := cfgv3.New()
 				Expect(projectConfig.SetPluginChain(pluginChain)).To(Succeed())
@@ -371,7 +386,7 @@ plugins:
 				c.projectVersion = projectVersion
 
 				Expect(c.resolvePlugins()).To(Succeed())
-				Expect(c.resolvedPlugins).To(HaveLen(1))
+				Expect(len(c.resolvedPlugins)).To(Equal(1))
 				Expect(plugin.KeyFor(c.resolvedPlugins[0])).To(Equal(qualified))
 			},
 			Entry("fully qualified plugin", "foo.example.com/v1", "foo.example.com/v1"),
@@ -443,8 +458,8 @@ plugins:
 			It("should create a valid CLI", func() {
 				const version = "version string"
 				c, err = New(
-					WithPlugins(&goPluginV4.Plugin{}),
-					WithDefaultPlugins(projectVersion, &goPluginV4.Plugin{}),
+					WithPlugins(&goPluginV3.Plugin{}),
+					WithDefaultPlugins(projectVersion, &goPluginV3.Plugin{}),
 					WithVersion(version),
 				)
 				Expect(err).NotTo(HaveOccurred())
@@ -467,14 +482,15 @@ plugins:
 				printed, _ := io.ReadAll(r)
 				Expect(string(printed)).To(Equal(
 					fmt.Sprintf("%s\n", version)))
+
 			})
 		})
 
 		When("enabling completion", func() {
 			It("should create a valid CLI", func() {
 				c, err = New(
-					WithPlugins(&goPluginV4.Plugin{}),
-					WithDefaultPlugins(projectVersion, &goPluginV4.Plugin{}),
+					WithPlugins(&goPluginV3.Plugin{}),
+					WithDefaultPlugins(projectVersion, &goPluginV3.Plugin{}),
 					WithCompletion(),
 				)
 				Expect(err).NotTo(HaveOccurred())
@@ -519,8 +535,8 @@ plugins:
 			It("should create a valid CLI for non-conflicting ones", func() {
 				extraCommand := &cobra.Command{Use: "extra"}
 				c, err = New(
-					WithPlugins(&goPluginV4.Plugin{}),
-					WithDefaultPlugins(projectVersion, &goPluginV4.Plugin{}),
+					WithPlugins(&goPluginV3.Plugin{}),
+					WithDefaultPlugins(projectVersion, &goPluginV3.Plugin{}),
 					WithExtraCommands(extraCommand),
 				)
 				Expect(err).NotTo(HaveOccurred())
@@ -530,8 +546,8 @@ plugins:
 			It("should return an error for conflicting ones", func() {
 				extraCommand := &cobra.Command{Use: "init"}
 				c, err = New(
-					WithPlugins(&goPluginV4.Plugin{}),
-					WithDefaultPlugins(projectVersion, &goPluginV4.Plugin{}),
+					WithPlugins(&goPluginV3.Plugin{}),
+					WithDefaultPlugins(projectVersion, &goPluginV3.Plugin{}),
 					WithExtraCommands(extraCommand),
 				)
 				Expect(err).To(HaveOccurred())
@@ -542,8 +558,8 @@ plugins:
 			It("should create a valid CLI for non-conflicting ones", func() {
 				extraAlphaCommand := &cobra.Command{Use: "extra"}
 				c, err = New(
-					WithPlugins(&goPluginV4.Plugin{}),
-					WithDefaultPlugins(projectVersion, &goPluginV4.Plugin{}),
+					WithPlugins(&goPluginV3.Plugin{}),
+					WithDefaultPlugins(projectVersion, &goPluginV3.Plugin{}),
 					WithExtraAlphaCommands(extraAlphaCommand),
 				)
 				Expect(err).NotTo(HaveOccurred())
@@ -561,8 +577,8 @@ plugins:
 			It("should return an error for conflicting ones", func() {
 				extraAlphaCommand := &cobra.Command{Use: "extra"}
 				_, err = New(
-					WithPlugins(&goPluginV4.Plugin{}),
-					WithDefaultPlugins(projectVersion, &goPluginV4.Plugin{}),
+					WithPlugins(&goPluginV3.Plugin{}),
+					WithDefaultPlugins(projectVersion, &goPluginV3.Plugin{}),
 					WithExtraAlphaCommands(extraAlphaCommand, extraAlphaCommand),
 				)
 				Expect(err).To(HaveOccurred())
@@ -596,15 +612,6 @@ plugins:
 				printed, _ := io.ReadAll(r)
 				Expect(string(printed)).To(Equal(
 					fmt.Sprintf(noticeColor, fmt.Sprintf(deprecationFmt, deprecationWarning))))
-			})
-		})
-
-		When("new succeeds", func() {
-			It("should return the underlying command", func() {
-				c, err = New()
-				Expect(err).NotTo(HaveOccurred())
-				Expect(c.Command()).NotTo(BeNil())
-				Expect(c.Command()).To(Equal(c.cmd))
 			})
 		})
 	})

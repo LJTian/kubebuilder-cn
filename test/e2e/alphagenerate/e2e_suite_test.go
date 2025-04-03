@@ -27,6 +27,6 @@ import (
 // Run e2e tests using the Ginkgo runner.
 func TestE2E(t *testing.T) {
 	RegisterFailHandler(Fail)
-	_, _ = fmt.Fprintf(GinkgoWriter, "Starting kubebuilder suite test for the alpha command generate\n")
+	fmt.Fprintf(GinkgoWriter, "Starting kubebuilder suite test for the alpha command generate\n")
 	RunSpecs(t, "Kubebuilder alpha generate suite")
 }

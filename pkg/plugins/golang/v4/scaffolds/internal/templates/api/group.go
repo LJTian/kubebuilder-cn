@@ -21,7 +21,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
+	"sigs.k8s.io/kubebuilder/v3/pkg/machinery"
 )
 
 var _ machinery.Template = &Group{}
@@ -34,7 +34,7 @@ type Group struct {
 	machinery.ResourceMixin
 }
 
-// SetTemplateDefaults implements machinery.Template
+// SetTemplateDefaults implements file.Template
 func (f *Group) SetTemplateDefaults() error {
 	if f.Path == "" {
 		if f.MultiGroup && f.Resource.Group != "" {
@@ -54,9 +54,9 @@ func (f *Group) SetTemplateDefaults() error {
 //nolint:lll
 const groupTemplate = `{{ .Boilerplate }}
 
-// Package {{ .Resource.Version }} contains API Schema definitions for the {{ .Resource.Group }} {{ .Resource.Version }} API group.
-// +kubebuilder:object:generate=true
-// +groupName={{ .Resource.QualifiedGroup }}
+// Package {{ .Resource.Version }} contains API Schema definitions for the {{ .Resource.Group }} {{ .Resource.Version }} API group
+//+kubebuilder:object:generate=true
+//+groupName={{ .Resource.QualifiedGroup }}
 package {{ .Resource.Version }}
 
 import (
@@ -65,10 +65,10 @@ import (
 )
 
 var (
-	// GroupVersion is group version used to register these objects.
+	// GroupVersion is group version used to register these objects
 	GroupVersion = schema.GroupVersion{Group: "{{ .Resource.QualifiedGroup }}", Version: "{{ .Resource.Version }}"}
 
-	// SchemeBuilder is used to add go types to the GroupVersionKind scheme.
+	// SchemeBuilder is used to add go types to the GroupVersionKind scheme
 	SchemeBuilder = &scheme.Builder{GroupVersion: GroupVersion}
 
 	// AddToScheme adds the types in this group-version to the given scheme.

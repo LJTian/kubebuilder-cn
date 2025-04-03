@@ -24,8 +24,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"sigs.k8s.io/kubebuilder/v4/pkg/config"
-	"sigs.k8s.io/kubebuilder/v4/pkg/plugin"
+	"sigs.k8s.io/kubebuilder/v3/pkg/config"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugin"
 )
 
 const initErrorMsg = "failed to initialize project"
@@ -39,7 +39,7 @@ func (c CLI) newInitCmd() *cobra.Command {
 For further help about a specific plugin, set --plugins.
 `,
 		Example: c.getInitHelpExamples(),
-		Run:     func(_ *cobra.Command, _ []string) {},
+		Run:     func(cmd *cobra.Command, args []string) {},
 	}
 
 	// Register --project-version on the dynamically created command

@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"strings"
 
-	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
+	"sigs.k8s.io/kubebuilder/v3/pkg/machinery"
 )
 
 var _ machinery.Template = &Readme{}
@@ -32,12 +32,9 @@ type Readme struct {
 	machinery.ProjectNameMixin
 
 	License string
-
-	// CommandName stores the name of the bin used
-	CommandName string
 }
 
-// SetTemplateDefaults implements machinery.Template
+// SetTemplateDefaults implements file.Template
 func (f *Readme) SetTemplateDefaults() error {
 	if f.Path == "" {
 		f.Path = "README.md"
@@ -58,12 +55,12 @@ func (f *Readme) SetTemplateDefaults() error {
 		codeFence("make build-installer IMG=<some-registry>/{{ .ProjectName }}:tag"),
 		codeFence("kubectl apply -f https://raw.githubusercontent.com/<org>/{{ .ProjectName }}/"+
 			"<tag or branch>/dist/install.yaml"),
-		codeFence(fmt.Sprintf("%s edit --plugins=helm/v1-alpha", f.CommandName)),
 	)
 
 	return nil
 }
 
+//nolint:lll
 const readmeFileTemplate = `# {{ .ProjectName }}
 // TODO(user): Add simple overview of use/purpose
 
@@ -73,7 +70,7 @@ const readmeFileTemplate = `# {{ .ProjectName }}
 ## Getting Started
 
 ### Prerequisites
-- go version v1.23.0+
+- go version v1.21.0+
 - docker version 17.03+.
 - kubectl version v1.11.3+.
 - Access to a Kubernetes v1.11.3+ cluster.
@@ -83,8 +80,8 @@ const readmeFileTemplate = `# {{ .ProjectName }}
 
 %s
 
-**NOTE:** This image ought to be published in the personal registry you specified.
-And it is required to have access to pull the image from the working environment.
+**NOTE:** This image ought to be published in the personal registry you specified. 
+And it is required to have access to pull the image from the working environment. 
 Make sure you have the proper permission to the registry if the above commands don’t work.
 
 **Install the CRDs into the cluster:**
@@ -95,7 +92,7 @@ Make sure you have the proper permission to the registry if the above commands d
 
 %s
 
-> **NOTE**: If you encounter RBAC errors, you may need to grant yourself cluster-admin
+> **NOTE**: If you encounter RBAC errors, you may need to grant yourself cluster-admin 
 privileges or be logged in as admin.
 
 **Create instances of your solution**
@@ -120,41 +117,22 @@ You can apply the samples (examples) from the config/sample:
 
 ## Project Distribution
 
-Following the options to release and provide this solution to the users.
-
-### By providing a bundle with all YAML files
+Following are the steps to build the installer and distribute this project to users.
 
 1. Build the installer for the image built and published in the registry:
 
 %s
 
-**NOTE:** The makefile target mentioned above generates an 'install.yaml'
+NOTE: The makefile target mentioned above generates an 'install.yaml'
 file in the dist directory. This file contains all the resources built
-with Kustomize, which are necessary to install this project without its
-dependencies.
+with Kustomize, which are necessary to install this project without
+its dependencies.
 
 2. Using the installer
 
-Users can just run 'kubectl apply -f <URL for YAML BUNDLE>' to install
-the project, i.e.:
+Users can just run kubectl apply -f <URL for YAML BUNDLE> to install the project, i.e.:
 
 %s
-
-### By providing a Helm Chart
-
-1. Build the chart using the optional helm plugin
-
-%s
-
-2. See that a chart was generated under 'dist/chart', and users
-can obtain this solution from there.
-
-**NOTE:** If you change the project, you need to update the Helm Chart
-using the same command above to sync the latest changes. Furthermore,
-if you create webhooks, you need to use the above command with
-the '--force' flag and manually ensure that any custom configuration
-previously added to 'dist/chart/values.yaml' or 'dist/chart/manager/manager.yaml'
-is manually re-applied afterwards.
 
 ## Contributing
 // TODO(user): Add detailed information on how you would like others to contribute to this project

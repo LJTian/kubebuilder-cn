@@ -19,17 +19,17 @@ package templates
 import (
 	"path/filepath"
 
-	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
+	"sigs.k8s.io/kubebuilder/v3/pkg/machinery"
 )
 
 var _ machinery.Template = &ResourcesManifest{}
 
-// ResourcesManifest scaffolds a file that defines the kustomization scheme for the prometheus folder
+// Kustomization scaffolds a file that defines the kustomization scheme for the prometheus folder
 type ResourcesManifest struct {
 	machinery.TemplateMixin
 }
 
-// SetTemplateDefaults implements machinery.Template
+// SetTemplateDefaults implements file.Template
 func (f *ResourcesManifest) SetTemplateDefaults() error {
 	if f.Path == "" {
 		f.Path = filepath.Join("grafana", "controller-resources-metrics.json")
@@ -45,6 +45,7 @@ func (f *ResourcesManifest) SetTemplateDefaults() error {
 	return nil
 }
 
+// nolint: lll
 const controllerResourcesTemplate = `{
   "__inputs": [
     {

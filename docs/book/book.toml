@@ -1,20 +1,14 @@
 [book]
 authors = ["The Kubebuilder Maintainers"]
 multilingual = false
-src = "src"
-title = "The Kubebuilder Book"
-
-[preprocessor.gettext]
-after = ["links"]
-
-[build]
-extra-watch-dirs = ["translation"]
+src = "src_zh"
+title = "The Kubebuilder Book(汉化)"
 
 [output.html]
 curly-quotes = true
 additional-css = ["theme/css/markers.css", "theme/css/custom.css", "theme/css/version-dropdown.css"]
-git-repository-url = "https://github.com/kubernetes-sigs/kubebuilder"
-edit-url-template = "https://github.com/kubernetes-sigs/kubebuilder/edit/master/docs/book/{path}"
+git-repository-url = "https://github.com/LJTian/kubebuilder-cn"
+edit-url-template = "https://github.com/LJTian/kubebuilder-cn/edit/master/docs/book/{path}"
 
 [preprocessor.literatego]
 command = "./litgo.sh"
@@ -23,8 +17,8 @@ command = "./litgo.sh"
 command = "./markerdocs.sh"
 
 [context.environment]
-  environment = { GO_VERSION = "1.23" }
+  environment = { GO_VERSION = "1.21" }
 
 [context.deploy-preview.environment]
-  environment = { GO_VERSION = "1.23" }
+  environment = { GO_VERSION = "1.21" }
 

@@ -2,6 +2,5 @@
 resources:
 - crew_v1_captain.yaml
 - crew_v1_firstmate.yaml
-- crew_v2_firstmate.yaml
 - crew_v1_admiral.yaml
-# +kubebuilder:scaffold:manifestskustomizesamples
+#+kubebuilder:scaffold:manifestskustomizesamples

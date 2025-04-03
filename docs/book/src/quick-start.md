@@ -9,15 +9,19 @@ This Quick Start guide will cover:
 
 ## Prerequisites
 
-- [go](https://go.dev/dl/) version v1.23.0+
+- [go](https://golang.org/dl/) version v1.20.0+
 - [docker](https://docs.docker.com/install/) version 17.03+.
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) version v1.11.3+.
 - Access to a Kubernetes v1.11.3+ cluster.
 
 <aside class="note">
-<h1>Versions Compatibility and Supportability</h1>
+<h1>Versions and Supportability</h1>
 
-Please, ensure that you see the [guidance](./versions_compatibility_supportability.md).
+Projects created by Kubebuilder contain a Makefile that will install tools at versions defined at creation time. Those tools are:
+- [kustomize](https://github.com/kubernetes-sigs/kustomize)
+- [controller-gen](https://github.com/kubernetes-sigs/controller-tools)
+
+The versions which are defined in the `Makefile` and `go.mod` files are the versions tested and therefore is recommended to use the specified versions.
 
 </aside>
 
@@ -28,14 +32,13 @@ Install [kubebuilder](https://sigs.k8s.io/kubebuilder):
 ```bash
 # download kubebuilder and install locally.
 curl -L -o kubebuilder "https://go.kubebuilder.io/dl/latest/$(go env GOOS)/$(go env GOARCH)"
-chmod +x kubebuilder && sudo mv kubebuilder /usr/local/bin/
+chmod +x kubebuilder && mv kubebuilder /usr/local/bin/
 ```
 
 <aside class="note">
-<h1>Using the Master Branch</h1>
+<h1>Using master branch</h1>
 
-You can work with the master branch by cloning the repository and running `make install` to generate the binary.
-Please follow the steps in the section **How to Build Kubebuilder Locally** from the [Contributing Guide](https://github.com/kubernetes-sigs/kubebuilder/blob/master/CONTRIBUTING.md#how-to-build-kubebuilder-locally).
+You can work with a master snapshot by installing from `https://go.kubebuilder.io/dl/master/$(go env GOOS)/$(go env GOARCH)`.
 
 </aside>
 
@@ -66,6 +69,7 @@ Read the [Go modules blogpost][go-modules-blogpost] if unfamiliar with the modul
 
 </aside>
 
+
 ## Create an API
 
 Run the following command to create a new API (group/version) as `webapp/v1` and the new Kind(CRD) `Guestbook` on it:
@@ -82,12 +86,12 @@ and the `internal/controllers/guestbook_controller.go` where the reconciliation 
 
 </aside>
 
+
 **OPTIONAL:** Edit the API definition and the reconciliation business
 logic. For more info see [Designing an API](/cronjob-tutorial/api-design.md) and [What's in
 a Controller](cronjob-tutorial/controller-overview.md).
 
 If you are editing the API definitions, generate the manifests such as Custom Resources (CRs) or Custom Resource Definitions (CRDs) using
-
 ```bash
 make manifests
 ```
@@ -112,7 +116,7 @@ type GuestbookSpec struct {
 	ConfigMapName string `json:"configMapName"`
 
 	// +kubebuilder:validation:Enum=Phone;Address;Name
-	Type string `json:"type,omitempty"`
+	Type string `json:"alias,omitempty"`
 }
 
 // GuestbookStatus defines the observed state of Guestbook
@@ -144,9 +148,10 @@ type Guestbook struct {
 </p>
 </details>
 
+
 ## Test It Out
 
-You'll need a Kubernetes cluster to run against. You can use
+You'll need a Kubernetes cluster to run against.  You can use
 [KIND](https://sigs.k8s.io/kind) to get a local cluster for testing, or
 run against a remote cluster.
 
@@ -159,14 +164,12 @@ kubeconfig file (i.e. whatever cluster `kubectl cluster-info` shows).
 </aside>
 
 Install the CRDs into the cluster:
-
 ```bash
 make install
 ```
 
 For quick feedback and code-level debugging, run your controller (this will run in the foreground, so switch to a new
 terminal if you want to leave it running):
-
 ```bash
 make run
 ```
@@ -181,7 +184,6 @@ kubectl apply -k config/samples/
 ```
 
 ## Run It On the Cluster
-
 When your controller is ready to be packaged and tested in other clusters.
 
 Build and push your image to the location specified by `IMG`:
@@ -197,20 +199,10 @@ make deploy IMG=<some-registry>/<project-name>:tag
 ```
 
 <aside class="note">
-<h1>Registry Permission</h1>
+<h1>registry permission</h1>
 
 This image ought to be published in the personal registry you specified. And it is required to have access to pull the image from the working environment.
 Make sure you have the proper permission to the registry if the above commands don't work.
-
-Consider incorporating Kind into your workflow for a faster, more efficient local development and CI experience.
-Note that, if you're using a Kind cluster, there's no need to push your image to a remote container registry.
-You can directly load your local image into your specified Kind cluster:
-
-```bash
-kind load docker-image <your-image-name>:tag --name <your-kind-cluster-name>
-```
-
-To know more, see: [Using Kind For Development Purposes and CI](./reference/kind.md)
 
 <h1>RBAC errors</h1>
 
@@ -237,16 +229,24 @@ make undeploy
 
 ## Next Step
 
-- Now, take a look at the [Architecture Concept Diagram][architecture-concept-diagram] for a clearer overview.
-- Next, proceed with the [Getting Started Guide][getting-started], which should take no more than 30 minutes and will
-  provide a solid foundation. Afterward, dive into the [CronJob Tutorial][cronjob-tutorial] to deepen your
-  understanding by developing a demo project.
+Now, see the [architecture concept diagram][architecture-concept-diagram] for a better overview and follow up the
+[CronJob tutorial][cronjob-tutorial] to better understand how it works by developing a 
+demo example project.
+
+<aside class="note">
+<h1> Using Deploy Image plugin to generate APIs and controllers code </h1>
+
+Ensure that you check out the [Deploy Image](https://book.kubebuilder.io/plugins/deploy-image-plugin-v1-alpha.html)
+Plugin. This plugin allows users to scaffold API/Controllers to deploy and manage an
+Operand (image) on the cluster following the guidelines and best practices. It abstracts the
+complexities of achieving this goal while allowing users to customize the generated code.
+
+</aside>
 
 [pre-rbc-gke]: https://cloud.google.com/kubernetes-engine/docs/how-to/role-based-access-control#iam-rolebinding-bootstrap
 [cronjob-tutorial]: https://book.kubebuilder.io/cronjob-tutorial/cronjob-tutorial.html
-[GOPATH-golang-docs]: https://go.dev/doc/code.html#GOPATH
-[go-modules-blogpost]: https://blog.go.dev/using-go-modules
+[GOPATH-golang-docs]: https://golang.org/doc/code.html#GOPATH
+[go-modules-blogpost]: https://blog.golang.org/using-go-modules
 [envtest]: https://book.kubebuilder.io/reference/testing/envtest.html
 [architecture-concept-diagram]: architecture.md
 [kustomize]: https://github.com/kubernetes-sigs/kustomize
-[getting-started]: getting-started.md

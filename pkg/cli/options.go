@@ -29,11 +29,11 @@ import (
 	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
 
-	"sigs.k8s.io/kubebuilder/v4/pkg/config"
-	cfgv3 "sigs.k8s.io/kubebuilder/v4/pkg/config/v3"
-	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
-	"sigs.k8s.io/kubebuilder/v4/pkg/plugin"
-	"sigs.k8s.io/kubebuilder/v4/pkg/plugins/external"
+	"sigs.k8s.io/kubebuilder/v3/pkg/config"
+	cfgv2 "sigs.k8s.io/kubebuilder/v3/pkg/config/v2"
+	cfgv3 "sigs.k8s.io/kubebuilder/v3/pkg/config/v3"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugin"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugins/external"
 )
 
 var retrievePluginsRoot = getPluginsRoot
@@ -153,18 +153,6 @@ func WithCompletion() Option {
 	}
 }
 
-// WithFilesystem is an Option that allows to set the filesystem used in the CLI.
-func WithFilesystem(filesystem machinery.Filesystem) Option {
-	return func(c *CLI) error {
-		if filesystem.FS == nil {
-			return errors.New("invalid filesystem")
-		}
-
-		c.fs = filesystem
-		return nil
-	}
-}
-
 // parseExternalPluginArgs returns the program arguments.
 func parseExternalPluginArgs() (args []string) {
 	// Loop through os.Args and only get flags and their values that should be passed to the plugins
@@ -203,7 +191,7 @@ func getPluginsRoot(host string) (pluginsRoot string, err error) {
 	// if user provides specific path, return
 	if pluginsPath := os.Getenv("EXTERNAL_PLUGINS_PATH"); pluginsPath != "" {
 		// verify if the path actually exists
-		if _, err = os.Stat(pluginsPath); err != nil {
+		if _, err := os.Stat(pluginsPath); err != nil {
 			if os.IsNotExist(err) {
 				// the path does not exist
 				return "", fmt.Errorf("the specified path %s does not exist", pluginsPath)
@@ -240,14 +228,14 @@ func getPluginsRoot(host string) (pluginsRoot string, err error) {
 
 // DiscoverExternalPlugins discovers the external plugins in the plugins root directory
 // and adds them to external.Plugin.
-func DiscoverExternalPlugins(filesystem afero.Fs) (ps []plugin.Plugin, err error) {
+func DiscoverExternalPlugins(fs afero.Fs) (ps []plugin.Plugin, err error) {
 	pluginsRoot, err := retrievePluginsRoot(runtime.GOOS)
 	if err != nil {
 		logrus.Errorf("could not get plugins root: %v", err)
 		return nil, err
 	}
 
-	rootInfo, err := filesystem.Stat(pluginsRoot)
+	rootInfo, err := fs.Stat(pluginsRoot)
 	if err != nil {
 		if errors.Is(err, afero.ErrFileNotFound) {
 			logrus.Debugf("External plugins dir %q does not exist, skipping external plugin parsing", pluginsRoot)
@@ -260,7 +248,7 @@ func DiscoverExternalPlugins(filesystem afero.Fs) (ps []plugin.Plugin, err error
 		return nil, nil
 	}
 
-	pluginInfos, err := afero.ReadDir(filesystem, pluginsRoot)
+	pluginInfos, err := afero.ReadDir(fs, pluginsRoot)
 	if err != nil {
 		return nil, err
 	}
@@ -271,7 +259,7 @@ func DiscoverExternalPlugins(filesystem afero.Fs) (ps []plugin.Plugin, err error
 			continue
 		}
 
-		versions, err := afero.ReadDir(filesystem, filepath.Join(pluginsRoot, pluginInfo.Name()))
+		versions, err := afero.ReadDir(fs, filepath.Join(pluginsRoot, pluginInfo.Name()))
 		if err != nil {
 			return nil, err
 		}
@@ -282,7 +270,7 @@ func DiscoverExternalPlugins(filesystem afero.Fs) (ps []plugin.Plugin, err error
 				continue
 			}
 
-			pluginFiles, err := afero.ReadDir(filesystem, filepath.Join(pluginsRoot, pluginInfo.Name(), version.Name()))
+			pluginFiles, err := afero.ReadDir(fs, filepath.Join(pluginsRoot, pluginInfo.Name(), version.Name()))
 			if err != nil {
 				return nil, err
 			}
@@ -299,14 +287,14 @@ func DiscoverExternalPlugins(filesystem afero.Fs) (ps []plugin.Plugin, err error
 
 				if pluginFile.Name() == pluginInfo.Name() || trimmedPluginName[0] == pluginInfo.Name() {
 					// check whether the external plugin is an executable.
-					if !isPluginExecutable(pluginFile.Mode()) {
+					if !isPluginExectuable(pluginFile.Mode()) {
 						return nil, fmt.Errorf("External plugin %q found in path is not an executable", pluginFile.Name())
 					}
 
 					ep := external.Plugin{
 						PName:                     pluginInfo.Name(),
 						Path:                      filepath.Join(pluginsRoot, pluginInfo.Name(), version.Name(), pluginFile.Name()),
-						PSupportedProjectVersions: []config.Version{cfgv3.Version},
+						PSupportedProjectVersions: []config.Version{cfgv2.Version, cfgv3.Version},
 						Args:                      parseExternalPluginArgs(),
 					}
 
@@ -327,7 +315,7 @@ func DiscoverExternalPlugins(filesystem afero.Fs) (ps []plugin.Plugin, err error
 	return ps, nil
 }
 
-// isPluginExecutable checks if a plugin is an executable based on the bitmask and returns true or false.
-func isPluginExecutable(mode fs.FileMode) bool {
-	return mode&0o111 != 0
+// isPluginExectuable checks if a plugin is an executable based on the bitmask and returns true or false.
+func isPluginExectuable(mode fs.FileMode) bool {
+	return mode&0111 != 0
 }

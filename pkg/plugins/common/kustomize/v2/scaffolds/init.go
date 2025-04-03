@@ -19,14 +19,13 @@ package scaffolds
 import (
 	log "github.com/sirupsen/logrus"
 
-	"sigs.k8s.io/kubebuilder/v4/pkg/config"
-	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
-	"sigs.k8s.io/kubebuilder/v4/pkg/plugins"
-	"sigs.k8s.io/kubebuilder/v4/pkg/plugins/common/kustomize/v2/scaffolds/internal/templates/config/kdefault"
-	"sigs.k8s.io/kubebuilder/v4/pkg/plugins/common/kustomize/v2/scaffolds/internal/templates/config/manager"
-	network_policy "sigs.k8s.io/kubebuilder/v4/pkg/plugins/common/kustomize/v2/scaffolds/internal/templates/config/network-policy"
-	"sigs.k8s.io/kubebuilder/v4/pkg/plugins/common/kustomize/v2/scaffolds/internal/templates/config/prometheus"
-	"sigs.k8s.io/kubebuilder/v4/pkg/plugins/common/kustomize/v2/scaffolds/internal/templates/config/rbac"
+	"sigs.k8s.io/kubebuilder/v3/pkg/config"
+	"sigs.k8s.io/kubebuilder/v3/pkg/machinery"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugins"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugins/common/kustomize/v2/scaffolds/internal/templates/config/kdefault"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugins/common/kustomize/v2/scaffolds/internal/templates/config/manager"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugins/common/kustomize/v2/scaffolds/internal/templates/config/prometheus"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugins/common/kustomize/v2/scaffolds/internal/templates/config/rbac"
 )
 
 const (
@@ -43,9 +42,9 @@ type initScaffolder struct {
 }
 
 // NewInitScaffolder returns a new Scaffolder for project initialization operations
-func NewInitScaffolder(cfg config.Config) plugins.Scaffolder {
+func NewInitScaffolder(config config.Config) plugins.Scaffolder {
 	return &initScaffolder{
-		config: cfg,
+		config: config,
 	}
 }
 
@@ -65,27 +64,28 @@ func (s *initScaffolder) Scaffold() error {
 
 	templates := []machinery.Builder{
 		&rbac.Kustomization{},
-		&kdefault.MetricsService{},
+		&rbac.AuthProxyRole{},
+		&rbac.AuthProxyRoleBinding{},
+		&rbac.AuthProxyService{},
+		&rbac.AuthProxyClientRole{},
 		&rbac.RoleBinding{},
 		// We need to create a Role because if the project
 		// has not CRD define the controller-gen will not generate this file
 		&rbac.Role{},
-		&rbac.MetricsAuthRole{},
-		&rbac.MetricsAuthRoleBinding{},
-		&rbac.MetricsReaderRole{},
 		&rbac.LeaderElectionRole{},
 		&rbac.LeaderElectionRoleBinding{},
 		&rbac.ServiceAccount{},
 		&manager.Kustomization{},
-		&kdefault.ManagerMetricsPatch{},
-		&kdefault.CertManagerMetricsPatch{},
 		&manager.Config{Image: imageName},
 		&kdefault.Kustomization{},
-		&network_policy.Kustomization{},
-		&network_policy.PolicyAllowMetrics{},
+		&kdefault.ManagerAuthProxyPatch{},
+		&kdefault.ManagerConfigPatch{},
 		&prometheus.Kustomization{},
 		&prometheus.Monitor{},
-		&prometheus.ServiceMonitorPatch{},
+	}
+
+	if s.config.IsComponentConfig() {
+		templates = append(templates, &manager.ControllerManagerConfig{})
 	}
 
 	return scaffold.Execute(templates...)

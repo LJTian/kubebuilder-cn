@@ -19,7 +19,7 @@ package webhook
 import (
 	"path/filepath"
 
-	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
+	"sigs.k8s.io/kubebuilder/v3/pkg/machinery"
 )
 
 var _ machinery.Template = &Service{}
@@ -30,7 +30,7 @@ type Service struct {
 	machinery.ProjectNameMixin
 }
 
-// SetTemplateDefaults implements machinery.Template
+// SetTemplateDefaults implements file.Template
 func (f *Service) SetTemplateDefaults() error {
 	if f.Path == "" {
 		f.Path = filepath.Join("config", "webhook", "service.yaml")
@@ -59,5 +59,4 @@ spec:
       targetPort: 9443
   selector:
     control-plane: controller-manager
-    app.kubernetes.io/name: {{ .ProjectName }}
 `

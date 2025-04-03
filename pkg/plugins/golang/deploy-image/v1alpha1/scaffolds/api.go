@@ -17,7 +17,6 @@ limitations under the License.
 package scaffolds
 
 import (
-	"errors"
 	"fmt"
 	"path/filepath"
 	"strings"
@@ -25,16 +24,19 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/afero"
 
-	"sigs.k8s.io/kubebuilder/v4/pkg/config"
-	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
-	"sigs.k8s.io/kubebuilder/v4/pkg/model/resource"
-	"sigs.k8s.io/kubebuilder/v4/pkg/plugin/util"
-	"sigs.k8s.io/kubebuilder/v4/pkg/plugins"
-	kustomizev2scaffolds "sigs.k8s.io/kubebuilder/v4/pkg/plugins/common/kustomize/v2/scaffolds"
-	"sigs.k8s.io/kubebuilder/v4/pkg/plugins/golang/deploy-image/v1alpha1/scaffolds/internal/templates/api"
-	"sigs.k8s.io/kubebuilder/v4/pkg/plugins/golang/deploy-image/v1alpha1/scaffolds/internal/templates/config/samples"
-	"sigs.k8s.io/kubebuilder/v4/pkg/plugins/golang/deploy-image/v1alpha1/scaffolds/internal/templates/controllers"
-	golangv4scaffolds "sigs.k8s.io/kubebuilder/v4/pkg/plugins/golang/v4/scaffolds"
+	"sigs.k8s.io/kubebuilder/v3/pkg/config"
+	"sigs.k8s.io/kubebuilder/v3/pkg/machinery"
+	"sigs.k8s.io/kubebuilder/v3/pkg/model/resource"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugin"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugin/util"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugins"
+	kustomizev1scaffolds "sigs.k8s.io/kubebuilder/v3/pkg/plugins/common/kustomize/v1/scaffolds"
+	kustomizev2scaffolds "sigs.k8s.io/kubebuilder/v3/pkg/plugins/common/kustomize/v2/scaffolds"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugins/golang/deploy-image/v1alpha1/scaffolds/internal/templates/api"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugins/golang/deploy-image/v1alpha1/scaffolds/internal/templates/config/samples"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugins/golang/deploy-image/v1alpha1/scaffolds/internal/templates/controllers"
+	golangv3scaffolds "sigs.k8s.io/kubebuilder/v3/pkg/plugins/golang/v3/scaffolds"
+	golangv4scaffolds "sigs.k8s.io/kubebuilder/v3/pkg/plugins/golang/v4/scaffolds"
 )
 
 var _ plugins.Scaffolder = &apiScaffolder{}
@@ -54,11 +56,12 @@ type apiScaffolder struct {
 }
 
 // NewDeployImageScaffolder returns a new Scaffolder for declarative
-func NewDeployImageScaffolder(cfg config.Config, res resource.Resource, image,
+// nolint: lll
+func NewDeployImageScaffolder(config config.Config, res resource.Resource, image,
 	command, port, runAsUser string,
 ) plugins.Scaffolder {
 	return &apiScaffolder{
-		config:    cfg,
+		config:    config,
 		resource:  res,
 		image:     image,
 		command:   command,
@@ -76,26 +79,17 @@ func (s *apiScaffolder) InjectFS(fs machinery.Filesystem) {
 func (s *apiScaffolder) Scaffold() error {
 	log.Println("Writing scaffold for you to edit...")
 
-	if err := s.scaffoldCreateAPI(); err != nil {
+	//nolint: staticcheck
+	isGoV3 := plugin.IsLegacyLayout(s.config)
+
+	if err := s.scaffoldCreateAPIFromPlugins(isGoV3); err != nil {
 		return err
 	}
 
-	// Define the boilerplate file path
-	boilerplatePath := filepath.Join("hack", "boilerplate.go.txt")
-
 	// Load the boilerplate
-	boilerplate, err := afero.ReadFile(s.fs.FS, boilerplatePath)
+	boilerplate, err := afero.ReadFile(s.fs.FS, filepath.Join("hack", "boilerplate.go.txt"))
 	if err != nil {
-		if errors.Is(err, afero.ErrFileNotFound) {
-			log.Warnf("Unable to find %s : %s .\n"+
-				"This file is used to generate the license header in the project.\n"+
-				"Note that controller-gen will also use this. Therefore, ensure that you "+
-				"add the license file or configure your project accordingly.",
-				boilerplatePath, err)
-			boilerplate = []byte("")
-		} else {
-			return fmt.Errorf("error scaffolding API/controller: unable to load boilerplate: %w", err)
-		}
+		return fmt.Errorf("error scaffolding API/controller: unable to load boilerplate: %w", err)
 	}
 
 	// Initialize the machinery.Scaffold that will write the files to disk
@@ -106,7 +100,7 @@ func (s *apiScaffolder) Scaffold() error {
 	)
 
 	if err := scaffold.Execute(
-		&api.Types{Port: s.port},
+		&api.Types{Port: s.port, IsLegacyLayout: isGoV3},
 	); err != nil {
 		return fmt.Errorf("error updating APIs: %v", err)
 	}
@@ -118,7 +112,12 @@ func (s *apiScaffolder) Scaffold() error {
 	}
 
 	controller := &controllers.Controller{
-		ControllerRuntimeVersion: golangv4scaffolds.ControllerRuntimeVersion,
+		ControllerRuntimeVersion: golangv3scaffolds.ControllerRuntimeVersion,
+		IsLegacyLayout:           isGoV3,
+	}
+
+	if !isGoV3 {
+		controller.ControllerRuntimeVersion = golangv4scaffolds.ControllerRuntimeVersion
 	}
 
 	if err := scaffold.Execute(
@@ -132,17 +131,24 @@ func (s *apiScaffolder) Scaffold() error {
 	}
 
 	defaultMainPath := "cmd/main.go"
+	if isGoV3 {
+		defaultMainPath = "main.go"
+	}
 	if err := s.updateMainByAddingEventRecorder(defaultMainPath); err != nil {
 		return fmt.Errorf("error updating main.go: %v", err)
 	}
 
 	if err := scaffold.Execute(
-		&controllers.ControllerTest{Port: s.port},
+		&controllers.ControllerTest{Port: s.port, IsLegacyLayout: isGoV3},
 	); err != nil {
 		return fmt.Errorf("error creating controller/**_controller_test.go: %v", err)
 	}
 
-	return s.addEnvVarIntoManager()
+	if err := s.addEnvVarIntoManager(); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // addEnvVarIntoManager will update the config/manager/manager.yaml by adding
@@ -152,7 +158,8 @@ func (s *apiScaffolder) addEnvVarIntoManager() error {
 	managerPath := filepath.Join("config", "manager", "manager.yaml")
 	err := util.ReplaceInFile(managerPath, `env:`, `env:`)
 	if err != nil {
-		if err = util.InsertCode(managerPath, `name: manager`, "\n        env:"); err != nil {
+		if err := util.InsertCode(managerPath, `name: manager`, `
+        env:`); err != nil {
 			return fmt.Errorf("error scaffolding env key in config/manager/manager.yaml")
 		}
 	}
@@ -165,14 +172,14 @@ func (s *apiScaffolder) addEnvVarIntoManager() error {
 	return nil
 }
 
-// scaffoldCreateAPI will reuse the code from the kustomize and base golang
+// scaffoldCreateAPIFromPlugins will reuse the code from the kustomize and base golang
 // plugins to do the default scaffolds which an API is created
-func (s *apiScaffolder) scaffoldCreateAPI() error {
-	if err := s.scaffoldCreateAPIFromGolang(); err != nil {
+func (s *apiScaffolder) scaffoldCreateAPIFromPlugins(isLegacyLayout bool) error {
+	if err := s.scaffoldCreateAPIFromGolang(isLegacyLayout); err != nil {
 		return fmt.Errorf("error scaffolding golang files for the new API: %v", err)
 	}
 
-	if err := s.scaffoldCreateAPIFromKustomize(); err != nil {
+	if err := s.scaffoldCreateAPIFromKustomize(isLegacyLayout); err != nil {
 		return fmt.Errorf("error scaffolding kustomize manifests for the new API: %v", err)
 	}
 	return nil
@@ -223,8 +230,8 @@ func (s *apiScaffolder) updateControllerCode(controller controllers.Controller) 
 		res = strings.TrimLeft(res, " ")
 
 		if err := util.InsertCode(controller.Path, `SecurityContext: &corev1.SecurityContext{
-							RunAsNonRoot:             ptr.To(true),
-							AllowPrivilegeEscalation: ptr.To(false),
+							RunAsNonRoot:             &[]bool{true}[0],
+							AllowPrivilegeEscalation: &[]bool{false}[0],
 							Capabilities: &corev1.Capabilities{
 								Drop: []corev1.Capability{
 									"ALL",
@@ -241,8 +248,8 @@ func (s *apiScaffolder) updateControllerCode(controller controllers.Controller) 
 		if err := util.InsertCode(
 			controller.Path,
 			`SecurityContext: &corev1.SecurityContext{
-							RunAsNonRoot:             ptr.To(true),
-							AllowPrivilegeEscalation: ptr.To(false),
+							RunAsNonRoot:             &[]bool{true}[0],
+							AllowPrivilegeEscalation: &[]bool{false}[0],
 							Capabilities: &corev1.Capabilities{
 								Drop: []corev1.Capability{
 									"ALL",
@@ -263,7 +270,7 @@ func (s *apiScaffolder) updateControllerCode(controller controllers.Controller) 
 	if len(s.runAsUser) > 0 {
 		if err := util.InsertCode(
 			controller.Path,
-			`RunAsNonRoot:             ptr.To(true),`,
+			`RunAsNonRoot:             &[]bool{true}[0],`,
 			fmt.Sprintf(runAsUserTemplate, s.runAsUser),
 		); err != nil {
 			return fmt.Errorf("error scaffolding user-id in the controller path (%s): %v",
@@ -274,12 +281,25 @@ func (s *apiScaffolder) updateControllerCode(controller controllers.Controller) 
 	return nil
 }
 
-func (s *apiScaffolder) scaffoldCreateAPIFromKustomize() error {
-	kustomizeScaffolder := kustomizev2scaffolds.NewAPIScaffolder(
-		s.config,
-		s.resource,
-		true,
-	)
+func (s *apiScaffolder) scaffoldCreateAPIFromKustomize(isLegacyLayout bool) error {
+	// Now we need call the kustomize/v1 plugin to do its scaffolds when we create a new API
+	// todo: when we have the go/v4 plugin we will also need to check what is the plugin used
+	// in the Project layout to know if we should use kustomize/v1 OR kustomize/v2-alpha
+	var kustomizeScaffolder plugins.Scaffolder
+
+	if isLegacyLayout {
+		kustomizeScaffolder = kustomizev1scaffolds.NewAPIScaffolder(
+			s.config,
+			s.resource,
+			true,
+		)
+	} else {
+		kustomizeScaffolder = kustomizev2scaffolds.NewAPIScaffolder(
+			s.config,
+			s.resource,
+			true,
+		)
+	}
 
 	kustomizeScaffolder.InjectFS(s.fs)
 
@@ -290,7 +310,16 @@ func (s *apiScaffolder) scaffoldCreateAPIFromKustomize() error {
 	return nil
 }
 
-func (s *apiScaffolder) scaffoldCreateAPIFromGolang() error {
+func (s *apiScaffolder) scaffoldCreateAPIFromGolang(isLegacyLayout bool) error {
+	// Now we need call the kustomize/v1 plugin to do its scaffolds when we create a new API
+	// todo: when we have the go/v4 plugin we will also need to check what is the plugin used
+	// in the Project layout to know if we should use kustomize/v1 OR kustomize/v2-alpha
+	if isLegacyLayout {
+		golangV3Scaffolder := golangv3scaffolds.NewAPIScaffolder(s.config,
+			s.resource, true)
+		golangV3Scaffolder.InjectFS(s.fs)
+		return golangV3Scaffolder.Scaffold()
+	}
 	golangV4Scaffolder := golangv4scaffolds.NewAPIScaffolder(s.config,
 		s.resource, true)
 	golangV4Scaffolder.InjectFS(s.fs)
@@ -304,8 +333,8 @@ const containerTemplate = `Containers: []corev1.Container{{
 						// Ensure restrictive context for the container
 						// More info: https://kubernetes.io/docs/concepts/security/pod-security-standards/#restricted
 						SecurityContext: &corev1.SecurityContext{
-							RunAsNonRoot:             ptr.To(true),
-							AllowPrivilegeEscalation: ptr.To(false),
+							RunAsNonRoot:             &[]bool{true}[0],
+							AllowPrivilegeEscalation: &[]bool{false}[0],
 							Capabilities: &corev1.Capabilities{
 								Drop: []corev1.Capability{
 									"ALL",
@@ -315,7 +344,7 @@ const containerTemplate = `Containers: []corev1.Container{{
 					}}`
 
 const runAsUserTemplate = `
-							RunAsUser:                ptr.To(int64(%s)),`
+							RunAsUser:                &[]int64{%s}[0],`
 
 const commandTemplate = `
 						Command: []string{%s},`

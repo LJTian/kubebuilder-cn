@@ -28,7 +28,9 @@ const (
 	goVerPattern = `^go(?P<major>[0-9]+)\.(?P<minor>[0-9]+)(?:\.(?P<patch>[0-9]+)|(?P<pre>(?:alpha|beta|rc)[0-9]+))?$`
 )
 
-var goVerRegexp = regexp.MustCompile(goVerPattern)
+var (
+	goVerRegexp = regexp.MustCompile(goVerPattern)
+)
 
 // GoVersion describes a Go version.
 type GoVersion struct {
@@ -123,15 +125,15 @@ func (v GoVersion) Compare(other GoVersion) int {
 }
 
 // ValidateGoVersion verifies that Go is installed and the current go version is supported by a plugin.
-func ValidateGoVersion(minVersion, maxVersion GoVersion) error {
-	err := fetchAndCheckGoVersion(minVersion, maxVersion)
+func ValidateGoVersion(min, max GoVersion) error {
+	err := fetchAndCheckGoVersion(min, max)
 	if err != nil {
 		return fmt.Errorf("%s. You can skip this check using the --skip-go-version-check flag", err)
 	}
 	return nil
 }
 
-func fetchAndCheckGoVersion(minVersion, maxVersion GoVersion) error {
+func fetchAndCheckGoVersion(min, max GoVersion) error {
 	cmd := exec.Command("go", "version")
 	out, err := cmd.Output()
 	if err != nil {
@@ -143,20 +145,20 @@ func fetchAndCheckGoVersion(minVersion, maxVersion GoVersion) error {
 		return fmt.Errorf("found invalid Go version: %q", string(out))
 	}
 	goVer := split[2]
-	if err := checkGoVersion(goVer, minVersion, maxVersion); err != nil {
+	if err := checkGoVersion(goVer, min, max); err != nil {
 		return fmt.Errorf("go version '%s' is incompatible because '%s'", goVer, err)
 	}
 	return nil
 }
 
-func checkGoVersion(verStr string, minVersion, maxVersion GoVersion) error {
+func checkGoVersion(verStr string, min, max GoVersion) error {
 	var version GoVersion
 	if err := version.parse(verStr); err != nil {
 		return err
 	}
 
-	if version.Compare(minVersion) < 0 || version.Compare(maxVersion) >= 0 {
-		return fmt.Errorf("plugin requires %s <= version < %s", minVersion, maxVersion)
+	if version.Compare(min) < 0 || version.Compare(max) >= 0 {
+		return fmt.Errorf("plugin requires %s <= version < %s", min, max)
 	}
 
 	return nil

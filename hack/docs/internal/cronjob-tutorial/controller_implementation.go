@@ -16,7 +16,7 @@ limitations under the License.
 
 package cronjob
 
-const controllerIntro = `
+const ControllerIntro = `
 // +kubebuilder:docs-gen:collapse=Apache License
 
 /*
@@ -24,7 +24,7 @@ We'll start out with some imports.  You'll see below that we'll need a few more 
 than those scaffolded for us.  We'll talk about each one when we use it.
 */`
 
-const controllerImport = `import (
+const ControllerImport = `import (
 	"context"
 	"fmt"
 	"sort"
@@ -38,7 +38,7 @@ const controllerImport = `import (
 	ref "k8s.io/client-go/tools/reference"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	logf "sigs.k8s.io/controller-runtime/pkg/log"
+	"sigs.k8s.io/controller-runtime/pkg/log"
 
 	batchv1 "tutorial.kubebuilder.io/project/api/v1"
 )
@@ -48,7 +48,7 @@ Next, we'll need a Clock, which will allow us to fake timing in our tests.
 */
 `
 
-const controllerMockClock = `
+const ControllerMockClock = `
 /*
 We'll mock out the clock to make it easier to jump around in time while testing,
 the "real" clock just calls` + " `" + `time.Now` + "`" + `.
@@ -72,9 +72,9 @@ a couple more [markers](/reference/markers/rbac.md).
 */
 `
 
-const controllerReconcile = `
-// +kubebuilder:rbac:groups=batch,resources=jobs,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=batch,resources=jobs/status,verbs=get
+const ControllerReconcile = `
+//+kubebuilder:rbac:groups=batch,resources=jobs,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=batch,resources=jobs/status,verbs=get
 
 /*
 Now, we get to the heart of the controller -- the reconciler logic.
@@ -84,10 +84,7 @@ var (
 )
 `
 
-const skipGoCycloLint = `
-// nolint:gocyclo`
-
-const controllerReconcileLogic = `log := logf.FromContext(ctx)
+const ControllerReconcileLogic = `log := log.FromContext(ctx)
 
 	/*
 		### 1: Load the CronJob by name
@@ -536,8 +533,7 @@ var (
 	apiGVStr    = batchv1.GroupVersion.String()
 )
 `
-
-const controllerSetupWithManager = `
+const ControllerSetupWithManager = `
 	// set up a real clock, since we're not in a test
 	if r.Clock == nil {
 		r.Clock = realClock{}

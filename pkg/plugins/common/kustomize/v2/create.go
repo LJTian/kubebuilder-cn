@@ -21,8 +21,8 @@ import (
 
 	"github.com/spf13/pflag"
 
-	"sigs.k8s.io/kubebuilder/v4/pkg/config"
-	"sigs.k8s.io/kubebuilder/v4/pkg/model/resource"
+	"sigs.k8s.io/kubebuilder/v3/pkg/config"
+	"sigs.k8s.io/kubebuilder/v3/pkg/model/resource"
 )
 
 type createSubcommand struct {
@@ -52,6 +52,7 @@ func (p *createSubcommand) configure() (err error) {
 		if p.force, err = strconv.ParseBool(forceFlag.Value.String()); err != nil {
 			return err
 		}
+
 	}
 	return nil
 }

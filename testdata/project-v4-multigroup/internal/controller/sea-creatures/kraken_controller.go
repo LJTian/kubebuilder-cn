@@ -1,5 +1,5 @@
 /*
-Copyright 2025 The Kubernetes authors.
+Copyright 2024 The Kubernetes authors.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	logf "sigs.k8s.io/controller-runtime/pkg/log"
+	"sigs.k8s.io/controller-runtime/pkg/log"
 
 	seacreaturesv1beta1 "sigs.k8s.io/kubebuilder/testdata/project-v4-multigroup/api/sea-creatures/v1beta1"
 )
@@ -33,9 +33,9 @@ type KrakenReconciler struct {
 	Scheme *runtime.Scheme
 }
 
-// +kubebuilder:rbac:groups=sea-creatures.testproject.org,resources=krakens,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=sea-creatures.testproject.org,resources=krakens/status,verbs=get;update;patch
-// +kubebuilder:rbac:groups=sea-creatures.testproject.org,resources=krakens/finalizers,verbs=update
+//+kubebuilder:rbac:groups=sea-creatures.testproject.org,resources=krakens,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=sea-creatures.testproject.org,resources=krakens/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=sea-creatures.testproject.org,resources=krakens/finalizers,verbs=update
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
@@ -45,9 +45,9 @@ type KrakenReconciler struct {
 // the user.
 //
 // For more details, check Reconcile and its Result here:
-// - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.20.4/pkg/reconcile
+// - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.17.0/pkg/reconcile
 func (r *KrakenReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	_ = logf.FromContext(ctx)
+	_ = log.FromContext(ctx)
 
 	// TODO(user): your logic here
 
@@ -58,6 +58,5 @@ func (r *KrakenReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctr
 func (r *KrakenReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&seacreaturesv1beta1.Kraken{}).
-		Named("sea-creatures-kraken").
 		Complete(r)
 }

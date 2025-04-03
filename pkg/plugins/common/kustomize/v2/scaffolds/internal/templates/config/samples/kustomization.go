@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
+	"sigs.k8s.io/kubebuilder/v3/pkg/machinery"
 )
 
 var (
@@ -59,10 +59,7 @@ const samplesCodeFragment = `- %s
 // makeCRFileName returns a Custom Resource example file name in the same format
 // as kubebuilder's CreateAPI plugin for a gvk.
 func (f Kustomization) makeCRFileName() string {
-	if f.Resource.Group != "" {
-		return f.Resource.Replacer().Replace("%[group]_%[version]_%[kind].yaml")
-	}
-	return f.Resource.Replacer().Replace("%[version]_%[kind].yaml")
+	return f.Resource.Replacer().Replace("%[group]_%[version]_%[kind].yaml")
 }
 
 // GetCodeFragments implements file.Inserter

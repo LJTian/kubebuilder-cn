@@ -19,7 +19,7 @@ package patches
 import (
 	"path/filepath"
 
-	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
+	"sigs.k8s.io/kubebuilder/v3/pkg/machinery"
 )
 
 var _ machinery.Template = &EnableWebhookPatch{}
@@ -31,14 +31,15 @@ type EnableWebhookPatch struct {
 	machinery.ResourceMixin
 }
 
-// SetTemplateDefaults implements machinery.Template
+// SetTemplateDefaults implements file.Template
 func (f *EnableWebhookPatch) SetTemplateDefaults() error {
 	if f.Path == "" {
-		if f.MultiGroup && f.Resource.Group != "" {
+		if f.MultiGroup {
 			f.Path = filepath.Join("config", "crd", "patches", "webhook_in_%[group]_%[plural].yaml")
 		} else {
 			f.Path = filepath.Join("config", "crd", "patches", "webhook_in_%[plural].yaml")
 		}
+
 	}
 	f.Path = f.Resource.Replacer().Replace(f.Path)
 

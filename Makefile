@@ -46,15 +46,15 @@ help: ## Display this help
 ##@ Build
 
 LD_FLAGS=-ldflags " \
-    -X sigs.k8s.io/kubebuilder/v4/cmd.kubeBuilderVersion=$(shell git describe --tags --dirty --broken) \
-    -X sigs.k8s.io/kubebuilder/v4/cmd.goos=$(shell go env GOOS) \
-    -X sigs.k8s.io/kubebuilder/v4/cmd.goarch=$(shell go env GOARCH) \
-    -X sigs.k8s.io/kubebuilder/v4/cmd.gitCommit=$(shell git rev-parse HEAD) \
-    -X sigs.k8s.io/kubebuilder/v4/cmd.buildDate=$(shell date -u +'%Y-%m-%dT%H:%M:%SZ') \
+    -X main.kubeBuilderVersion=$(shell git describe --tags --dirty --broken) \
+    -X main.goos=$(shell go env GOOS) \
+    -X main.goarch=$(shell go env GOARCH) \
+    -X main.gitCommit=$(shell git rev-parse HEAD) \
+    -X main.buildDate=$(shell date -u +'%Y-%m-%dT%H:%M:%SZ') \
     "
 .PHONY: build
 build: ## Build the project locally
-	go build $(LD_FLAGS) -o bin/kubebuilder
+	go build $(LD_FLAGS) -o bin/kubebuilder ./cmd
 
 .PHONY: install
 install: build ## Build and install the binary with the current source code. Use it to test your changes locally.
@@ -64,19 +64,8 @@ install: build ## Build and install the binary with the current source code. Use
 ##@ Development
 
 .PHONY: generate
-generate: generate-testdata generate-docs update-k8s-version ## Update/generate all mock data. You should run this commands to update the mock data after your changes.
+generate: generate-testdata generate-docs ## Update/generate all mock data. You should run this commands to update the mock data after your changes.
 	go mod tidy
-	make remove-spaces
-
-.PHONY: remove-spaces
-remove-spaces:
-	@echo "Removing trailing spaces"
-	@bash -c ' \
-		if [[ "$$(uname)" == "Linux" ]]; then \
-			find . -type f -name "*.md" -exec sed -i "s/[[:space:]]*$$//" {} + || true; \
-		else \
-			find . -type f -name "*.md" -exec sed -i "" "s/[[:space:]]*$$//" {} + || true; \
-		fi'
 
 .PHONY: generate-testdata
 generate-testdata: ## Update/generate the testdata in $GOPATH/src/sigs.k8s.io/kubebuilder
@@ -85,20 +74,8 @@ generate-testdata: ## Update/generate the testdata in $GOPATH/src/sigs.k8s.io/ku
 	./test/testdata/generate.sh
 
 .PHONY: generate-docs
-generate-docs: ## Update/generate the docs
+generate-docs: ## Update/generate the docs in $GOPATH/src/sigs.k8s.io/kubebuilder
 	./hack/docs/generate.sh
-
-.PHONY: generate-charts
-generate-charts: build ## Re-generate the helm chart testdata and docs samples
-	rm -rf testdata/project-v4-with-plugins/dist/chart
-	rm -rf docs/book/src/getting-started/testdata/project/dist/chart
-	rm -rf docs/book/src/cronjob-tutorial/testdata/project/dist/chart
-	rm -rf docs/book/src/multiversion-tutorial/testdata/project/dist/chart
-
-	(cd testdata/project-v4-with-plugins && ../../bin/kubebuilder edit --plugins=helm/v1-alpha)
-	(cd docs/book/src/getting-started/testdata/project && ../../../../../../bin/kubebuilder edit --plugins=helm/v1-alpha)
-	(cd docs/book/src/cronjob-tutorial/testdata/project && ../../../../../../bin/kubebuilder edit --plugins=helm/v1-alpha)
-	(cd docs/book/src/multiversion-tutorial/testdata/project && ../../../../../../bin/kubebuilder edit --plugins=helm/v1-alpha)
 
 .PHONY: check-docs
 check-docs: ## Run the script to ensure that the docs are updated
@@ -112,20 +89,16 @@ lint: golangci-lint yamllint ## Run golangci-lint linter & yamllint
 lint-fix: golangci-lint ## Run golangci-lint linter and perform fixes
 	$(GOLANGCI_LINT) run --fix
 
-.PHONY: lint-config
-lint-config: golangci-lint ## Verify golangci-lint linter configuration
-	$(GOLANGCI_LINT) config verify
-
 .PHONY: yamllint
 yamllint:
-	@files=$$(find testdata -name '*.yaml' ! -path 'testdata/*/dist/*'); \
+	@files=$$(find testdata -name '*.yaml' ! -path 'testdata/*/dist/install.yaml'); \
     	docker run --rm $$(tty -s && echo "-it" || echo) -v $(PWD):/data cytopia/yamllint:latest $$files -d "{extends: relaxed, rules: {line-length: {max: 120}}}" --no-warnings
 
 GOLANGCI_LINT = $(shell pwd)/bin/golangci-lint
 golangci-lint:
 	@[ -f $(GOLANGCI_LINT) ] || { \
 	set -e ;\
-	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(shell dirname $(GOLANGCI_LINT)) v1.63.4 ;\
+	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(shell dirname $(GOLANGCI_LINT)) v1.54.2 ;\
 	}
 
 .PHONY: apidiff
@@ -163,6 +136,12 @@ check-testdata: ## Run the script to ensure that the testdata is updated
 test-testdata: ## Run the tests of the testdata directory
 	./test/testdata/test.sh
 
+#todo(remove the test-legacy whne the go/v2 be removed from kubebuilder)
+
+.PHONY: test-legacy
+test-legacy: ## Run the legacy tests (go/v2) of the testdata directory
+	./test/testdata/test_legacy.sh
+
 .PHONY: test-e2e-local
 test-e2e-local: ## Run the end-to-end tests locally
 	## To keep the same kind cluster between test runs, use `SKIP_KIND_CLEANUP=1 make test-e2e-local`
@@ -175,40 +154,9 @@ test-e2e-ci: ## Run the end-to-end tests (used in the CI)`
 .PHONY: test-book
 test-book: ## Run the cronjob tutorial's unit tests to make sure we don't break it
 	cd ./docs/book/src/cronjob-tutorial/testdata/project && make test
+	cd ./docs/book/src/component-config-tutorial/testdata/project && make test
 	cd ./docs/book/src/multiversion-tutorial/testdata/project && make test
-	cd ./docs/book/src/getting-started/testdata/project && make test
 
 .PHONY: test-license
 test-license:  ## Run the license check
 	./test/check-license.sh
-
-.PHONY: test-spaces
-test-spaces:  ## Run the trailing spaces check
-	./test/check_spaces.sh
-
-## TODO: Remove me when go/v4 plugin be removed
-## Deprecated
-.PHONY: test-legacy
-test-legacy:  ## Run the tests to validate legacy path for webhooks
-	rm -rf  ./testdata/**legacy**/
-	./test/testdata/legacy-webhook-path.sh
-
-.PHONY: install-helm
-install-helm: ## Install the latest version of Helm locally
-	@curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-
-.PHONY: helm-lint
-helm-lint: install-helm ## Lint the Helm chart in testdata
-	helm lint testdata/project-v4-with-plugins/dist/chart
-
-K8S_VERSION ?= $(shell go list -m -modfile=./testdata/project-v4/go.mod -f "{{ .Version }}" k8s.io/api | awk -F'[v.]' '{printf "1.%d.%d", $$3, $$4}')
-.PHONY: update-k8s-version
-update-k8s-version: ## Update Kubernetes API version in version.go and .goreleaser.yml
-	@if [ -z "$(K8S_VERSION)" ]; then echo "Error: K8S_VERSION is empty"; exit 1; fi
-	@echo "Updating Kubernetes version to $(K8S_VERSION)"
-	@# Update version.go
-	@sed -i.bak 's/kubernetesVendorVersion = .*/kubernetesVendorVersion = "$(K8S_VERSION)"/' cmd/version.go
-	@# Update .goreleaser.yml
-	@sed -i.bak 's/KUBERNETES_VERSION=.*/KUBERNETES_VERSION=$(K8S_VERSION)/' build/.goreleaser.yml
-	@# Clean up backup files
-	@find . -name "*.bak" -type f -delete

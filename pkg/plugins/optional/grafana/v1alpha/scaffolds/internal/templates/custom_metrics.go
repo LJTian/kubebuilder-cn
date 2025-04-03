@@ -23,15 +23,13 @@ import (
 	"strings"
 	"text/template"
 
-	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
+	"sigs.k8s.io/kubebuilder/v3/pkg/machinery"
 )
 
-// CustomMetricsConfig represents the configuration for custom metrics
 type CustomMetricsConfig struct {
 	CustomMetrics []CustomMetricItem `json:"customMetrics"`
 }
 
-// CustomMetricItem defines the config items for the custom metrics
 type CustomMetricItem struct {
 	Metric string `json:"metric"`
 	Type   string `json:"type"`
@@ -41,14 +39,14 @@ type CustomMetricItem struct {
 
 var _ machinery.Template = &CustomMetricsDashManifest{}
 
-// CustomMetricsDashManifest scaffolds a file that defines the kustomization scheme for the prometheus folder
+// Kustomization scaffolds a file that defines the kustomization scheme for the prometheus folder
 type CustomMetricsDashManifest struct {
 	machinery.TemplateMixin
 
 	Items []CustomMetricItem
 }
 
-// SetTemplateDefaults implements machinery.Template
+// SetTemplateDefaults implements file.Template
 func (f *CustomMetricsDashManifest) SetTemplateDefaults() error {
 	if f.Path == "" {
 		f.Path = filepath.Join("grafana", "custom-metrics", "custom-metrics-dashboard.json")
@@ -84,6 +82,7 @@ func (f *CustomMetricsDashManifest) createTemplate() (string, error) {
 	return outputTmpl.String(), nil
 }
 
+// nolint: lll
 const customMetricsDashTemplate = `{
   "__inputs": [
     {

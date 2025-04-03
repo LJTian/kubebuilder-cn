@@ -19,7 +19,6 @@ package cli
 import (
 	"errors"
 	"fmt"
-	"io/fs"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -29,10 +28,10 @@ import (
 	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
 
-	"sigs.k8s.io/kubebuilder/v4/pkg/config"
-	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
-	"sigs.k8s.io/kubebuilder/v4/pkg/model/stage"
-	"sigs.k8s.io/kubebuilder/v4/pkg/plugin"
+	"sigs.k8s.io/kubebuilder/v3/pkg/config"
+	"sigs.k8s.io/kubebuilder/v3/pkg/machinery"
+	"sigs.k8s.io/kubebuilder/v3/pkg/model/stage"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugin"
 )
 
 var _ = Describe("Discover external plugins", func() {
@@ -52,33 +51,33 @@ var _ = Describe("Discover external plugins", func() {
 			BeforeEach(func() {
 				originalXdghome = os.Getenv("XDG_CONFIG_HOME")
 				err := os.Unsetenv("XDG_CONFIG_HOME")
-				Expect(err).ToNot(HaveOccurred())
+				Expect(err).To(BeNil())
 			})
 
 			AfterEach(func() {
 				if originalXdghome != "" {
 					// restore the original value
 					err := os.Setenv("XDG_CONFIG_HOME", originalXdghome)
-					Expect(err).ToNot(HaveOccurred())
+					Expect(err).To(BeNil())
 				}
 			})
 
 			It("should return the correct path for the darwin OS", func() {
 				plgPath, err := getPluginsRoot("darwin")
-				Expect(err).ToNot(HaveOccurred())
+				Expect(err).To(BeNil())
 				Expect(plgPath).To(Equal(fmt.Sprintf("%s/Library/Application Support/kubebuilder/plugins", homePath)))
 			})
 
 			It("should return the correct path for the linux OS", func() {
 				plgPath, err := getPluginsRoot("linux")
-				Expect(err).ToNot(HaveOccurred())
+				Expect(err).To(BeNil())
 				Expect(plgPath).To(Equal(fmt.Sprintf("%s/.config/kubebuilder/plugins", homePath)))
 			})
 
 			It("should return error when the host is not darwin / linux", func() {
 				plgPath, err := getPluginsRoot("random")
 				Expect(plgPath).To(Equal(""))
-				Expect(err).To(HaveOccurred())
+				Expect(err).ToNot(BeNil())
 				Expect(err.Error()).To(ContainSubstring("host not supported"))
 			})
 		})
@@ -88,7 +87,7 @@ var _ = Describe("Discover external plugins", func() {
 				// store and set the XDG_CONFIG_HOME
 				originalXdghome = os.Getenv("XDG_CONFIG_HOME")
 				err := os.Setenv("XDG_CONFIG_HOME", fmt.Sprintf("%s/.config", homePath))
-				Expect(err).ToNot(HaveOccurred())
+				Expect(err).To(BeNil())
 
 				xdghome = os.Getenv("XDG_CONFIG_HOME")
 			})
@@ -97,73 +96,73 @@ var _ = Describe("Discover external plugins", func() {
 				if originalXdghome != "" {
 					// restore the original value
 					err := os.Setenv("XDG_CONFIG_HOME", originalXdghome)
-					Expect(err).ToNot(HaveOccurred())
+					Expect(err).To(BeNil())
 				} else {
 					// unset if it was originally unset
 					err := os.Unsetenv("XDG_CONFIG_HOME")
-					Expect(err).ToNot(HaveOccurred())
+					Expect(err).To(BeNil())
 				}
 			})
 
 			It("should return the correct path for the darwin OS", func() {
 				plgPath, err := getPluginsRoot("darwin")
-				Expect(err).ToNot(HaveOccurred())
+				Expect(err).To(BeNil())
 				Expect(plgPath).To(Equal(fmt.Sprintf("%s/kubebuilder/plugins", xdghome)))
 			})
 
 			It("should return the correct path for the linux OS", func() {
 				plgPath, err := getPluginsRoot("linux")
-				Expect(err).ToNot(HaveOccurred())
+				Expect(err).To(BeNil())
 				Expect(plgPath).To(Equal(fmt.Sprintf("%s/kubebuilder/plugins", xdghome)))
 			})
 
 			It("should return error when the host is not darwin / linux", func() {
 				plgPath, err := getPluginsRoot("random")
 				Expect(plgPath).To(Equal(""))
-				Expect(err).To(HaveOccurred())
+				Expect(err).ToNot(BeNil())
 				Expect(err.Error()).To(ContainSubstring("host not supported"))
 			})
 		})
 
 		When("using the custom path", func() {
 			BeforeEach(func() {
-				err := os.MkdirAll(customPath, 0o750)
-				Expect(err).ToNot(HaveOccurred())
+				err := os.MkdirAll(customPath, 0750)
+				Expect(err).To(BeNil())
 
 				// store and set the EXTERNAL_PLUGINS_PATH
 				originalPluginPath = os.Getenv("EXTERNAL_PLUGINS_PATH")
 				err = os.Setenv("EXTERNAL_PLUGINS_PATH", customPath)
-				Expect(err).ToNot(HaveOccurred())
+				Expect(err).To(BeNil())
 			})
 
 			AfterEach(func() {
 				if originalPluginPath != "" {
 					// restore the original value
 					err := os.Setenv("EXTERNAL_PLUGINS_PATH", originalPluginPath)
-					Expect(err).ToNot(HaveOccurred())
+					Expect(err).To(BeNil())
 				} else {
 					// unset if it was originally unset
 					err := os.Unsetenv("EXTERNAL_PLUGINS_PATH")
-					Expect(err).ToNot(HaveOccurred())
+					Expect(err).To(BeNil())
 				}
 			})
 
 			It("should return the user given path for darwin OS", func() {
 				plgPath, err := getPluginsRoot("darwin")
 				Expect(plgPath).To(Equal(customPath))
-				Expect(err).ToNot(HaveOccurred())
+				Expect(err).To(BeNil())
 			})
 
 			It("should return the user given path for linux OS", func() {
 				plgPath, err := getPluginsRoot("linux")
 				Expect(plgPath).To(Equal(customPath))
-				Expect(err).ToNot(HaveOccurred())
+				Expect(err).To(BeNil())
 			})
 
 			It("should report error when the host is not darwin / linux", func() {
 				plgPath, err := getPluginsRoot("random")
 				Expect(plgPath).To(Equal(""))
-				Expect(err).To(HaveOccurred())
+				Expect(err).ToNot(BeNil())
 				Expect(err.Error()).To(ContainSubstring("host not supported"))
 			})
 		})
@@ -175,36 +174,36 @@ var _ = Describe("Discover external plugins", func() {
 		BeforeEach(func() {
 			originalPluginPath = os.Getenv("EXTERNAL_PLUGINS_PATH")
 			err := os.Setenv("EXTERNAL_PLUGINS_PATH", "/non/existent/path")
-			Expect(err).ToNot(HaveOccurred())
+			Expect(err).To(BeNil())
 		})
 
 		AfterEach(func() {
 			if originalPluginPath != "" {
 				// restore the original value
 				err := os.Setenv("EXTERNAL_PLUGINS_PATH", originalPluginPath)
-				Expect(err).ToNot(HaveOccurred())
+				Expect(err).To(BeNil())
 			} else {
 				// unset if it was originally unset
 				err := os.Unsetenv("EXTERNAL_PLUGINS_PATH")
-				Expect(err).ToNot(HaveOccurred())
+				Expect(err).To(BeNil())
 			}
 		})
 
 		It("should return an error for the darwin OS", func() {
 			plgPath, err := getPluginsRoot("darwin")
-			Expect(err).To(HaveOccurred())
+			Expect(err).ToNot(BeNil())
 			Expect(plgPath).To(Equal(""))
 		})
 
 		It("should return an error for the linux OS", func() {
 			plgPath, err := getPluginsRoot("linux")
-			Expect(err).To(HaveOccurred())
+			Expect(err).ToNot(BeNil())
 			Expect(plgPath).To(Equal(""))
 		})
 
 		It("should return an error when the host is not darwin / linux", func() {
 			plgPath, err := getPluginsRoot("random")
-			Expect(err).To(HaveOccurred())
+			Expect(err).ToNot(BeNil())
 			Expect(plgPath).To(Equal(""))
 		})
 	})
@@ -221,33 +220,31 @@ var _ = Describe("Discover external plugins", func() {
 			pluginFilePath string
 			pluginFileName string
 			pluginPath     string
-			pluginsRoot    string
-			plugins        []plugin.Plugin
 			f              afero.File
-			filesystem     machinery.Filesystem
+			fs             machinery.Filesystem
 			err            error
 		)
 
 		BeforeEach(func() {
-			filesystem = machinery.Filesystem{
+			fs = machinery.Filesystem{
 				FS: afero.NewMemMapFs(),
 			}
 
 			pluginPath, err = getPluginsRoot(runtime.GOOS)
-			Expect(err).ToNot(HaveOccurred())
+			Expect(err).To(BeNil())
 
 			pluginFileName = "externalPlugin.sh"
 			pluginFilePath = filepath.Join(pluginPath, "externalPlugin", "v1", pluginFileName)
 
-			err = filesystem.FS.MkdirAll(filepath.Dir(pluginFilePath), 0o700)
-			Expect(err).ToNot(HaveOccurred())
+			err = fs.FS.MkdirAll(filepath.Dir(pluginFilePath), 0o700)
+			Expect(err).To(BeNil())
 
-			f, err = filesystem.FS.Create(pluginFilePath)
-			Expect(err).ToNot(HaveOccurred())
+			f, err = fs.FS.Create(pluginFilePath)
+			Expect(err).To(BeNil())
 			Expect(f).ToNot(BeNil())
 
-			_, err = filesystem.FS.Stat(pluginFilePath)
-			Expect(err).ToNot(HaveOccurred())
+			_, err = fs.FS.Stat(pluginFilePath)
+			Expect(err).To(BeNil())
 		})
 
 		It("should discover the external plugin executable without any errors", func() {
@@ -256,201 +253,201 @@ var _ = Describe("Discover external plugins", func() {
 			_, err = f.WriteString(testPluginScript)
 			Expect(err).To(Not(HaveOccurred()))
 
-			err = filesystem.FS.Chmod(pluginFilePath, filePermissions)
+			err = fs.FS.Chmod(pluginFilePath, filePermissions)
 			Expect(err).To(Not(HaveOccurred()))
 
-			_, err = filesystem.FS.Stat(pluginFilePath)
-			Expect(err).ToNot(HaveOccurred())
+			_, err = fs.FS.Stat(pluginFilePath)
+			Expect(err).To(BeNil())
 
-			plugins, err = DiscoverExternalPlugins(filesystem.FS)
-			Expect(err).ToNot(HaveOccurred())
-			Expect(plugins).NotTo(BeNil())
-			Expect(plugins).To(HaveLen(1))
-			Expect(plugins[0].Name()).To(Equal("externalPlugin"))
-			Expect(plugins[0].Version().Number).To(Equal(1))
+			ps, err := DiscoverExternalPlugins(fs.FS)
+			Expect(err).To(BeNil())
+			Expect(ps).NotTo(BeNil())
+			Expect(len(ps)).To(Equal(1))
+			Expect(ps[0].Name()).To(Equal("externalPlugin"))
+			Expect(ps[0].Version().Number).To(Equal(1))
 		})
 
 		It("should discover multiple external plugins and return the plugins without any errors", func() {
 			// set the execute permissions on the first plugin executable
-			err = filesystem.FS.Chmod(pluginFilePath, filePermissions)
+			err = fs.FS.Chmod(pluginFilePath, filePermissions)
 
 			pluginFileName = "myotherexternalPlugin.sh"
 			pluginFilePath = filepath.Join(pluginPath, "myotherexternalPlugin", "v1", pluginFileName)
 
-			f, err = filesystem.FS.Create(pluginFilePath)
-			Expect(err).ToNot(HaveOccurred())
+			f, err = fs.FS.Create(pluginFilePath)
+			Expect(err).To(BeNil())
 			Expect(f).ToNot(BeNil())
 
-			_, err = filesystem.FS.Stat(pluginFilePath)
-			Expect(err).ToNot(HaveOccurred())
+			_, err = fs.FS.Stat(pluginFilePath)
+			Expect(err).To(BeNil())
 
 			_, err = f.WriteString(testPluginScript)
 			Expect(err).To(Not(HaveOccurred()))
 
 			// set the execute permissions on the second plugin executable
-			err = filesystem.FS.Chmod(pluginFilePath, filePermissions)
+			err = fs.FS.Chmod(pluginFilePath, filePermissions)
 			Expect(err).To(Not(HaveOccurred()))
 
-			_, err = filesystem.FS.Stat(pluginFilePath)
-			Expect(err).ToNot(HaveOccurred())
+			_, err = fs.FS.Stat(pluginFilePath)
+			Expect(err).To(BeNil())
 
-			plugins, err = DiscoverExternalPlugins(filesystem.FS)
-			Expect(err).ToNot(HaveOccurred())
-			Expect(plugins).NotTo(BeNil())
-			Expect(plugins).To(HaveLen(2))
+			ps, err := DiscoverExternalPlugins(fs.FS)
+			Expect(err).To(BeNil())
+			Expect(ps).NotTo(BeNil())
+			Expect(len(ps)).To(Equal(2))
 
-			Expect(plugins[0].Name()).To(Equal("externalPlugin"))
-			Expect(plugins[1].Name()).To(Equal("myotherexternalPlugin"))
+			Expect(ps[0].Name()).To(Equal("externalPlugin"))
+			Expect(ps[1].Name()).To(Equal("myotherexternalPlugin"))
 		})
 
 		Context("that are invalid", func() {
 			BeforeEach(func() {
-				filesystem = machinery.Filesystem{
+				fs = machinery.Filesystem{
 					FS: afero.NewMemMapFs(),
 				}
 
 				pluginPath, err = getPluginsRoot(runtime.GOOS)
-				Expect(err).ToNot(HaveOccurred())
+				Expect(err).To(BeNil())
 			})
 
 			It("should error if the plugin found is not an executable", func() {
 				pluginFileName = "externalPlugin.sh"
 				pluginFilePath = filepath.Join(pluginPath, "externalPlugin", "v1", pluginFileName)
 
-				err = filesystem.FS.MkdirAll(filepath.Dir(pluginFilePath), 0o700)
-				Expect(err).ToNot(HaveOccurred())
+				err = fs.FS.MkdirAll(filepath.Dir(pluginFilePath), 0o700)
+				Expect(err).To(BeNil())
 
-				var file fs.File
-				file, err = filesystem.FS.Create(pluginFilePath)
-				Expect(err).ToNot(HaveOccurred())
-				Expect(file).ToNot(BeNil())
+				f, err := fs.FS.Create(pluginFilePath)
+				Expect(err).To(BeNil())
+				Expect(f).ToNot(BeNil())
 
-				_, err = filesystem.FS.Stat(pluginFilePath)
-				Expect(err).ToNot(HaveOccurred())
+				_, err = fs.FS.Stat(pluginFilePath)
+				Expect(err).To(BeNil())
 
 				// set the plugin file permissions to read-only
-				err = filesystem.FS.Chmod(pluginFilePath, 0o444)
+				err = fs.FS.Chmod(pluginFilePath, 0o444)
 				Expect(err).To(Not(HaveOccurred()))
 
-				plugins, err = DiscoverExternalPlugins(filesystem.FS)
-				Expect(err).To(HaveOccurred())
+				ps, err := DiscoverExternalPlugins(fs.FS)
+				Expect(err).NotTo(BeNil())
 				Expect(err.Error()).To(ContainSubstring("not an executable"))
-				Expect(plugins).To(BeEmpty())
+				Expect(len(ps)).To(Equal(0))
 			})
 
 			It("should error if the plugin found has an invalid plugin name", func() {
 				pluginFileName = ".sh"
 				pluginFilePath = filepath.Join(pluginPath, "externalPlugin", "v1", pluginFileName)
 
-				err = filesystem.FS.MkdirAll(filepath.Dir(pluginFilePath), 0o700)
-				Expect(err).ToNot(HaveOccurred())
+				err = fs.FS.MkdirAll(filepath.Dir(pluginFilePath), 0o700)
+				Expect(err).To(BeNil())
 
-				f, err = filesystem.FS.Create(pluginFilePath)
-				Expect(err).ToNot(HaveOccurred())
+				f, err = fs.FS.Create(pluginFilePath)
+				Expect(err).To(BeNil())
 				Expect(f).ToNot(BeNil())
 
-				plugins, err = DiscoverExternalPlugins(filesystem.FS)
-				Expect(err).To(HaveOccurred())
+				ps, err := DiscoverExternalPlugins(fs.FS)
+				Expect(err).NotTo(BeNil())
 				Expect(err.Error()).To(ContainSubstring("Invalid plugin name found"))
-				Expect(plugins).To(BeEmpty())
+				Expect(len(ps)).To(Equal(0))
 			})
 		})
 
 		Context("that does not match the plugin root directory name", func() {
 			BeforeEach(func() {
-				filesystem = machinery.Filesystem{
+				fs = machinery.Filesystem{
 					FS: afero.NewMemMapFs(),
 				}
 
 				pluginPath, err = getPluginsRoot(runtime.GOOS)
-				Expect(err).ToNot(HaveOccurred())
+				Expect(err).To(BeNil())
 			})
 
 			It("should skip adding the external plugin and not return any errors", func() {
 				pluginFileName = "random.sh"
 				pluginFilePath = filepath.Join(pluginPath, "externalPlugin", "v1", pluginFileName)
 
-				err = filesystem.FS.MkdirAll(filepath.Dir(pluginFilePath), 0o700)
-				Expect(err).ToNot(HaveOccurred())
+				err = fs.FS.MkdirAll(filepath.Dir(pluginFilePath), 0o700)
+				Expect(err).To(BeNil())
 
-				f, err = filesystem.FS.Create(pluginFilePath)
-				Expect(err).ToNot(HaveOccurred())
+				f, err = fs.FS.Create(pluginFilePath)
+				Expect(err).To(BeNil())
 				Expect(f).ToNot(BeNil())
 
-				err = filesystem.FS.Chmod(pluginFilePath, filePermissions)
-				Expect(err).ToNot(HaveOccurred())
+				err = fs.FS.Chmod(pluginFilePath, filePermissions)
+				Expect(err).To(BeNil())
 
-				var ps []plugin.Plugin
-				ps, err = DiscoverExternalPlugins(filesystem.FS)
-				Expect(err).ToNot(HaveOccurred())
-				Expect(ps).To(BeEmpty())
+				ps, err := DiscoverExternalPlugins(fs.FS)
+				Expect(err).To(BeNil())
+				Expect(len(ps)).To(Equal(0))
 			})
 
 			It("should fail if pluginsroot is empty", func() {
 				errPluginsRoot := errors.New("could not retrieve plugins root")
-				retrievePluginsRoot = func(_ string) (string, error) {
+				retrievePluginsRoot = func(host string) (string, error) {
 					return "", errPluginsRoot
 				}
 
-				_, err = DiscoverExternalPlugins(filesystem.FS)
-				Expect(err).To(HaveOccurred())
+				_, err := DiscoverExternalPlugins(fs.FS)
+				Expect(err).NotTo(BeNil())
 
 				Expect(err).To(Equal(errPluginsRoot))
 			})
 
 			It("should skip parsing of directories if plugins root is not a directory", func() {
-				retrievePluginsRoot = func(_ string) (string, error) {
+				retrievePluginsRoot = func(host string) (string, error) {
 					return "externalplugin.sh", nil
 				}
 
-				_, err = DiscoverExternalPlugins(filesystem.FS)
-				Expect(err).ToNot(HaveOccurred())
+				_, err := DiscoverExternalPlugins(fs.FS)
+				Expect(err).To(BeNil())
 			})
 
 			It("should return full path to the external plugins without XDG_CONFIG_HOME", func() {
 				if _, ok := os.LookupEnv("XDG_CONFIG_HOME"); ok {
 					err = os.Setenv("XDG_CONFIG_HOME", "")
-					Expect(err).ToNot(HaveOccurred())
+					Expect(err).To(BeNil())
 				}
 
 				home := os.Getenv("HOME")
 
-				pluginsRoot, err = getPluginsRoot("darwin")
-				Expect(err).ToNot(HaveOccurred())
+				pluginsRoot, err := getPluginsRoot("darwin")
+				Expect(err).To(BeNil())
 				expected := filepath.Join(home, "Library", "Application Support", "kubebuilder", "plugins")
 				Expect(pluginsRoot).To(Equal(expected))
 
 				pluginsRoot, err = getPluginsRoot("linux")
-				Expect(err).ToNot(HaveOccurred())
+				Expect(err).To(BeNil())
 				expected = filepath.Join(home, ".config", "kubebuilder", "plugins")
 				Expect(pluginsRoot).To(Equal(expected))
 			})
 
 			It("should return full path to the external plugins with XDG_CONFIG_HOME", func() {
 				err = os.Setenv("XDG_CONFIG_HOME", "/some/random/path")
-				Expect(err).ToNot(HaveOccurred())
+				Expect(err).To(BeNil())
 
-				pluginsRoot, err = getPluginsRoot(runtime.GOOS)
-				Expect(err).ToNot(HaveOccurred())
+				pluginsRoot, err := getPluginsRoot(runtime.GOOS)
+				Expect(err).To(BeNil())
 				Expect(pluginsRoot).To(Equal("/some/random/path/kubebuilder/plugins"))
 			})
 
 			It("should return error when home directory is set to empty", func() {
 				_, ok := os.LookupEnv("XDG_CONFIG_HOME")
-				if ok {
+				if !ok {
+				} else {
 					err = os.Setenv("XDG_CONFIG_HOME", "")
-					Expect(err).ToNot(HaveOccurred())
+					Expect(err).To(BeNil())
 				}
 
 				_, ok = os.LookupEnv("HOME")
-				if ok {
+				if !ok {
+				} else {
 					err = os.Setenv("HOME", "")
-					Expect(err).ToNot(HaveOccurred())
+					Expect(err).To(BeNil())
 				}
 
-				pluginsRoot, err = getPluginsRoot(runtime.GOOS)
-				Expect(err).To(HaveOccurred())
-				Expect(pluginsRoot).To(Equal(""))
+				pluginsroot, err := getPluginsRoot(runtime.GOOS)
+				Expect(err).NotTo(BeNil())
+				Expect(pluginsroot).To(Equal(""))
 				Expect(err.Error()).To(ContainSubstring("error retrieving home dir"))
 			})
 		})
@@ -684,7 +681,7 @@ var _ = Describe("CLI options", func() {
 			Expect(err).NotTo(HaveOccurred())
 			Expect(c).NotTo(BeNil())
 			Expect(c.extraCommands).NotTo(BeNil())
-			Expect(c.extraCommands).To(HaveLen(1))
+			Expect(len(c.extraCommands)).To(Equal(1))
 			Expect(c.extraCommands[0]).NotTo(BeNil())
 			Expect(c.extraCommands[0].Use).To(Equal(commandTest.Use))
 		})
@@ -699,7 +696,7 @@ var _ = Describe("CLI options", func() {
 			Expect(err).NotTo(HaveOccurred())
 			Expect(c).NotTo(BeNil())
 			Expect(c.extraAlphaCommands).NotTo(BeNil())
-			Expect(c.extraAlphaCommands).To(HaveLen(1))
+			Expect(len(c.extraAlphaCommands)).To(Equal(1))
 			Expect(c.extraAlphaCommands[0]).NotTo(BeNil())
 			Expect(c.extraAlphaCommands[0].Use).To(Equal(commandTest.Use))
 		})
@@ -718,29 +715,6 @@ var _ = Describe("CLI options", func() {
 			Expect(err).NotTo(HaveOccurred())
 			Expect(c).NotTo(BeNil())
 			Expect(c.completionCommand).To(BeTrue())
-		})
-	})
-
-	Context("WithFilesystem", func() {
-		When("providing a valid filesystem", func() {
-			It("should use the provided filesystem", func() {
-				fs := machinery.Filesystem{
-					FS: afero.NewMemMapFs(),
-				}
-				c, err = newCLI(WithFilesystem(fs))
-				Expect(err).NotTo(HaveOccurred())
-				Expect(c).NotTo(BeNil())
-				Expect(c.fs).To(Equal(fs))
-			})
-		})
-
-		When("providing a invalid filesystem", func() {
-			It("should return an error", func() {
-				fs := machinery.Filesystem{}
-				c, err = newCLI(WithFilesystem(fs))
-				Expect(err).To(HaveOccurred())
-				Expect(c).To(BeNil())
-			})
 		})
 	})
 })

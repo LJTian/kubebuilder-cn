@@ -22,7 +22,7 @@ import (
 	"strings"
 )
 
-const kbPrefix = "+kubebuilder:scaffold:"
+const prefix = "+kubebuilder:scaffold:"
 
 var commentsByExt = map[string]string{
 	".go":   "//",
@@ -33,28 +33,16 @@ var commentsByExt = map[string]string{
 
 // Marker represents a machine-readable comment that will be used for scaffolding purposes
 type Marker struct {
-	prefix  string
 	comment string
 	value   string
 }
 
-// NewMarkerFor creates a new marker customized for the specific file. The created marker
-// is prefixed with `+kubebuilder:scaffold:` the default prefix for kubebuilder.
-// Supported file extensions: .go, .yaml, .yml.
-func NewMarkerFor(path string, value string) Marker {
-	return NewMarkerWithPrefixFor(kbPrefix, path, value)
-}
-
-// NewMarkerWithPrefixFor creates a new custom prefixed marker customized for the specific file
+// NewMarkerFor creates a new marker customized for the specific file
 // Supported file extensions: .go, .yaml, .yml
-func NewMarkerWithPrefixFor(prefix string, path string, value string) Marker {
+func NewMarkerFor(path string, value string) Marker {
 	ext := filepath.Ext(path)
 	if comment, found := commentsByExt[ext]; found {
-		return Marker{
-			prefix:  markerPrefix(prefix),
-			comment: comment,
-			value:   value,
-		}
+		return Marker{comment, value}
 	}
 
 	extensions := make([]string, 0, len(commentsByExt))
@@ -66,13 +54,13 @@ func NewMarkerWithPrefixFor(prefix string, path string, value string) Marker {
 
 // String implements Stringer
 func (m Marker) String() string {
-	return m.comment + " " + m.prefix + m.value
+	return m.comment + prefix + m.value
 }
 
 // EqualsLine compares a marker with a string representation to check if they are the same marker
 func (m Marker) EqualsLine(line string) bool {
 	line = strings.TrimSpace(strings.TrimPrefix(strings.TrimSpace(line), m.comment))
-	return line == m.prefix+m.value
+	return line == prefix+m.value
 }
 
 // CodeFragments represents a set of code fragments
@@ -81,17 +69,3 @@ type CodeFragments []string
 
 // CodeFragmentsMap binds Markers and CodeFragments together
 type CodeFragmentsMap map[Marker]CodeFragments
-
-func markerPrefix(prefix string) string {
-	trimmed := strings.TrimSpace(prefix)
-	var builder strings.Builder
-	if !strings.HasPrefix(trimmed, "+") {
-		builder.WriteString("+")
-	}
-	builder.WriteString(trimmed)
-	if !strings.HasSuffix(trimmed, ":") {
-		builder.WriteString(":")
-	}
-
-	return builder.String()
-}

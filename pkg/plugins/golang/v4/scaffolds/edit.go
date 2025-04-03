@@ -19,9 +19,9 @@ package scaffolds
 import (
 	"github.com/spf13/afero"
 
-	"sigs.k8s.io/kubebuilder/v4/pkg/config"
-	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
-	"sigs.k8s.io/kubebuilder/v4/pkg/plugins"
+	"sigs.k8s.io/kubebuilder/v3/pkg/config"
+	"sigs.k8s.io/kubebuilder/v3/pkg/machinery"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugins"
 )
 
 var _ plugins.Scaffolder = &editScaffolder{}
@@ -56,6 +56,11 @@ func (s *editScaffolder) Scaffold() error {
 	}
 	str := string(bs)
 
+	// Ignore the error encountered, if the file is already in desired format.
+	if err != nil && s.multigroup != s.config.IsMultiGroup() {
+		return err
+	}
+
 	if s.multigroup {
 		_ = s.config.SetMultiGroup()
 	} else {
@@ -66,7 +71,7 @@ func (s *editScaffolder) Scaffold() error {
 	// because there is nothing to replace.
 	if str != "" {
 		// TODO: instead of writing it directly, we should use the scaffolding machinery for consistency
-		return afero.WriteFile(s.fs.FS, filename, []byte(str), 0o644)
+		return afero.WriteFile(s.fs.FS, filename, []byte(str), 0644)
 	}
 
 	return nil

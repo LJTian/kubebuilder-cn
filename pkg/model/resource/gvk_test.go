@@ -25,21 +25,18 @@ import (
 
 var _ = Describe("GVK", func() {
 	const (
-		group           = "group"
-		domain          = "my.domain"
-		version         = "v1"
-		kind            = "Kind"
-		internalVersion = "__internal"
+		group   = "group"
+		domain  = "my.domain"
+		version = "v1"
+		kind    = "Kind"
 	)
 
 	gvk := GVK{Group: group, Domain: domain, Version: version, Kind: kind}
 
 	Context("Validate", func() {
-		DescribeTable("should pass valid GVKs",
-			func(gvk GVK) { Expect(gvk.Validate()).To(Succeed()) },
-			Entry("Standard GVK", gvk),
-			Entry("Version (__internal)", GVK{Group: group, Domain: domain, Version: internalVersion, Kind: kind}),
-		)
+		It("should succeed for a valid GVK", func() {
+			Expect(gvk.Validate()).To(Succeed())
+		})
 
 		DescribeTable("should fail for invalid GVKs",
 			func(gvk GVK) { Expect(gvk.Validate()).NotTo(Succeed()) },
@@ -50,11 +47,13 @@ var _ = Describe("GVK", func() {
 			Entry("Domain (non-alpha characters)", GVK{Group: group, Domain: "_*?", Version: version, Kind: kind}),
 			Entry("Group and Domain (empty)", GVK{Group: "", Domain: "", Version: version, Kind: kind}),
 			Entry("Version (empty)", GVK{Group: group, Domain: domain, Version: "", Kind: kind}),
-			Entry("Version (wrong prefix)", GVK{Group: group, Domain: domain, Version: "-example.com", Kind: kind}),
-			Entry("Version (wrong suffix)", GVK{Group: group, Domain: domain, Version: "example.com-", Kind: kind}),
-			Entry("Version (uppercase)", GVK{Group: group, Domain: domain, Version: "Example.com", Kind: kind}),
-			Entry("Version (special characters)", GVK{Group: group, Domain: domain, Version: "example!domain.com", Kind: kind}),
-			Entry("Version (consecutive dots)", GVK{Group: group, Domain: domain, Version: "example..com", Kind: kind}),
+			Entry("Version (no v prefix)", GVK{Group: group, Domain: domain, Version: "1", Kind: kind}),
+			Entry("Version (wrong prefix)", GVK{Group: group, Domain: domain, Version: "a1", Kind: kind}),
+			Entry("Version (unstable no v prefix)", GVK{Group: group, Domain: domain, Version: "1beta1", Kind: kind}),
+			Entry("Version (unstable no alpha/beta number)",
+				GVK{Group: group, Domain: domain, Version: "v1beta", Kind: kind}),
+			Entry("Version (multiple unstable)",
+				GVK{Group: group, Domain: domain, Version: "v1beta1alpha1", Kind: kind}),
 			Entry("Kind (empty)", GVK{Group: group, Domain: domain, Version: version, Kind: ""}),
 			Entry("Kind (whitespaces)", GVK{Group: group, Domain: domain, Version: version, Kind: "Ki nd"}),
 			Entry("Kind (lowercase)", GVK{Group: group, Domain: domain, Version: version, Kind: "kind"}),

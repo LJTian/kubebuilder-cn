@@ -1,5 +1,5 @@
 /*
-Copyright 2025 The Kubernetes authors.
+Copyright 2024 The Kubernetes authors.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -62,14 +62,14 @@ import (
  the fields.
 */
 
-// CronJobSpec defines the desired state of CronJob.
+// CronJobSpec defines the desired state of CronJob
 type CronJobSpec struct {
-	// +kubebuilder:validation:MinLength=0
+	//+kubebuilder:validation:MinLength=0
 
 	// The schedule in Cron format, see https://en.wikipedia.org/wiki/Cron.
 	Schedule string `json:"schedule"`
 
-	// +kubebuilder:validation:Minimum=0
+	//+kubebuilder:validation:Minimum=0
 
 	// Optional deadline in seconds for starting the job if it misses scheduled
 	// time for any reason.  Missed jobs executions will be counted as failed ones.
@@ -92,14 +92,14 @@ type CronJobSpec struct {
 	// Specifies the job that will be created when executing a CronJob.
 	JobTemplate batchv1.JobTemplateSpec `json:"jobTemplate"`
 
-	// +kubebuilder:validation:Minimum=0
+	//+kubebuilder:validation:Minimum=0
 
 	// The number of successful finished jobs to retain.
 	// This is a pointer to distinguish between explicit zero and not specified.
 	// +optional
 	SuccessfulJobsHistoryLimit *int32 `json:"successfulJobsHistoryLimit,omitempty"`
 
-	// +kubebuilder:validation:Minimum=0
+	//+kubebuilder:validation:Minimum=0
 
 	// The number of failed finished jobs to retain.
 	// This is a pointer to distinguish between explicit zero and not specified.
@@ -142,7 +142,7 @@ const (
  serialization, as mentioned above.
 */
 
-// CronJobStatus defines the observed state of CronJob.
+// CronJobStatus defines the observed state of CronJob
 type CronJobStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
@@ -162,10 +162,10 @@ type CronJobStatus struct {
  we want a status subresource, so that we behave like built-in kubernetes types.
 */
 
-// +kubebuilder:object:root=true
-// +kubebuilder:subresource:status
+//+kubebuilder:object:root=true
+//+kubebuilder:subresource:status
 
-// CronJob is the Schema for the cronjobs API.
+// CronJob is the Schema for the cronjobs API
 type CronJob struct {
 	/*
 	 */
@@ -176,9 +176,9 @@ type CronJob struct {
 	Status CronJobStatus `json:"status,omitempty"`
 }
 
-// +kubebuilder:object:root=true
+//+kubebuilder:object:root=true
 
-// CronJobList contains a list of CronJob.
+// CronJobList contains a list of CronJob
 type CronJobList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -189,4 +189,4 @@ func init() {
 	SchemeBuilder.Register(&CronJob{}, &CronJobList{})
 }
 
-// +kubebuilder:docs-gen:collapse=Root Object Definitions
+//+kubebuilder:docs-gen:collapse=Root Object Definitions

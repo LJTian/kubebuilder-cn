@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"strings"
 
-	"sigs.k8s.io/kubebuilder/v4/pkg/internal/validation"
+	"sigs.k8s.io/kubebuilder/v3/pkg/internal/validation"
 )
 
 // Resource contains the information required to scaffold files for a resource.
@@ -42,12 +42,6 @@ type Resource struct {
 
 	// Webhooks holds the information related to the associated webhooks.
 	Webhooks *Webhooks `json:"webhooks,omitempty"`
-
-	// External specifies if the resource is defined externally.
-	External bool `json:"external,omitempty"`
-
-	// Core specifies if the resource is from Kubernetes API.
-	Core bool `json:"core,omitempty"`
 }
 
 // Validate checks that the Resource is valid.
@@ -123,11 +117,6 @@ func (r Resource) HasValidationWebhook() bool {
 // HasConversionWebhook returns true if the resource has an associated conversion webhook.
 func (r Resource) HasConversionWebhook() bool {
 	return r.Webhooks != nil && r.Webhooks.Conversion
-}
-
-// IsExternal returns true if the resource was scaffold as external.
-func (r Resource) IsExternal() bool {
-	return r.External
 }
 
 // IsRegularPlural returns true if the plural is the regular plural form for the kind.

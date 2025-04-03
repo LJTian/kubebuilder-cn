@@ -19,7 +19,7 @@ package samples
 import (
 	"path/filepath"
 
-	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
+	"sigs.k8s.io/kubebuilder/v3/pkg/machinery"
 )
 
 var _ machinery.Template = &CRDSample{}
@@ -33,14 +33,10 @@ type CRDSample struct {
 	Force bool
 }
 
-// SetTemplateDefaults implements machinery.Template
+// SetTemplateDefaults implements file.Template
 func (f *CRDSample) SetTemplateDefaults() error {
 	if f.Path == "" {
-		if f.Resource.Group != "" {
-			f.Path = filepath.Join("config", "samples", "%[group]_%[version]_%[kind].yaml")
-		} else {
-			f.Path = filepath.Join("config", "samples", "%[version]_%[kind].yaml")
-		}
+		f.Path = filepath.Join("config", "samples", "%[group]_%[version]_%[kind].yaml")
 	}
 	f.Path = f.Resource.Replacer().Replace(f.Path)
 

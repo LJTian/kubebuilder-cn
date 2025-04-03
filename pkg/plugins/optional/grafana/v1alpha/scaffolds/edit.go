@@ -24,9 +24,9 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
-	"sigs.k8s.io/kubebuilder/v4/pkg/plugins"
-	"sigs.k8s.io/kubebuilder/v4/pkg/plugins/optional/grafana/v1alpha/scaffolds/internal/templates"
+	"sigs.k8s.io/kubebuilder/v3/pkg/machinery"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugins"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugins/optional/grafana/v1alpha/scaffolds/internal/templates"
 
 	"sigs.k8s.io/yaml"
 )
@@ -62,18 +62,15 @@ func loadConfig(configPath string) ([]templates.CustomMetricItem, error) {
 		return nil, nil
 	}
 
-	//nolint:gosec
+	// nolint:gosec
 	f, err := os.Open(configPath)
 	if err != nil {
 		return nil, fmt.Errorf("error loading plugin config: %w", err)
 	}
 
 	items, err := configReader(f)
-	if err != nil {
-		return nil, fmt.Errorf("error reading config.yaml: %w", err)
-	}
 
-	if err = f.Close(); err != nil {
+	if err := f.Close(); err != nil {
 		return nil, fmt.Errorf("could not close config.yaml: %w", err)
 	}
 
@@ -139,7 +136,7 @@ func fillMissingExpr(item templates.CustomMetricItem) templates.CustomMetricItem
 		case "counter":
 			item.Expr = "sum(rate(" + item.Metric + `{job=\"$job\", namespace=\"$namespace\"}[5m])) by (instance, pod)`
 		case "histogram":
-			//nolint:lll
+			// nolint: lll
 			item.Expr = "histogram_quantile(0.90, sum by(instance, le) (rate(" + item.Metric + `{job=\"$job\", namespace=\"$namespace\"}[5m])))`
 		default: // gauge
 			item.Expr = item.Metric
@@ -172,7 +169,7 @@ func (s *editScaffolder) Scaffold() error {
 
 	configPath := string(configFilePath)
 
-	templatesBuilder := []machinery.Builder{
+	var templatesBuilder = []machinery.Builder{
 		&templates.RuntimeManifest{},
 		&templates.ResourcesManifest{},
 		&templates.CustomMetricsConfigManifest{ConfigPath: configPath},
@@ -182,7 +179,7 @@ func (s *editScaffolder) Scaffold() error {
 	if err == nil && len(configItems) > 0 {
 		templatesBuilder = append(templatesBuilder, &templates.CustomMetricsDashManifest{Items: configItems})
 	} else if err != nil {
-		_, _ = fmt.Fprintf(os.Stderr, "Error on scaffolding manifest for custom metris:\n%v", err)
+		fmt.Fprintf(os.Stderr, "Error on scaffolding manifest for custom metris:\n%v", err)
 	}
 
 	return scaffold.Execute(templatesBuilder...)

@@ -28,7 +28,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	logf "sigs.k8s.io/controller-runtime/pkg/log"
+	"sigs.k8s.io/controller-runtime/pkg/log"
 
 	batchv1 "tutorial.kubebuilder.io/project/api/v1"
 )
@@ -76,7 +76,7 @@ some changes.
 
 Most controllers need a logging handle and a context, so we set them up here.
 
-The [context](https://golang.org/pkg/context/) is used to allow cancellation of
+The [context](https://golang.org/pkg/context/) is used to allow cancelation of
 requests, and potentially things like tracing.  It's the first argument to all
 client methods.  The `Background` context is just a basic context without any
 extra data or timing restrictions.
@@ -88,7 +88,7 @@ some pairs at the top of our reconcile method to have those attached to all log
 lines in this reconciler.
 */
 func (r *CronJobReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	_ = logf.FromContext(ctx)
+	_ = log.FromContext(ctx)
 
 	// your logic here
 

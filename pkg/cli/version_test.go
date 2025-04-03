@@ -22,7 +22,9 @@ import (
 )
 
 var _ = Describe("Version", func() {
-	var c *CLI
+	var (
+		c *CLI
+	)
 
 	BeforeEach(func() {
 		c = &CLI{}

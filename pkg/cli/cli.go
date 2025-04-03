@@ -26,11 +26,11 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 
-	"sigs.k8s.io/kubebuilder/v4/pkg/config"
-	yamlstore "sigs.k8s.io/kubebuilder/v4/pkg/config/store/yaml"
-	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
-	"sigs.k8s.io/kubebuilder/v4/pkg/model/stage"
-	"sigs.k8s.io/kubebuilder/v4/pkg/plugin"
+	"sigs.k8s.io/kubebuilder/v3/pkg/config"
+	yamlstore "sigs.k8s.io/kubebuilder/v3/pkg/config/store/yaml"
+	"sigs.k8s.io/kubebuilder/v3/pkg/machinery"
+	"sigs.k8s.io/kubebuilder/v3/pkg/model/stage"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugin"
 )
 
 const (
@@ -146,14 +146,6 @@ func (c *CLI) buildCmd() error {
 	c.cmd = c.newRootCmd()
 
 	var uve config.UnsupportedVersionError
-
-	// Workaround for kubebuilder alpha generate
-	if len(os.Args) > 2 && os.Args[1] == "alpha" && os.Args[2] == "generate" {
-		err := updateProjectFileForAlphaGenerate()
-		if err != nil {
-			return fmt.Errorf("failed to update PROJECT file: %w", err)
-		}
-	}
 
 	// Get project version and plugin keys.
 	switch err := c.getInfo(); {
@@ -452,7 +444,7 @@ func (c *CLI) addExtraCommands() error {
 func (c CLI) printDeprecationWarnings() {
 	for _, p := range c.resolvedPlugins {
 		if p != nil && p.(plugin.Deprecated) != nil && len(p.(plugin.Deprecated).DeprecationWarning()) > 0 {
-			_, _ = fmt.Fprintf(os.Stderr, noticeColor, fmt.Sprintf(deprecationFmt, p.(plugin.Deprecated).DeprecationWarning()))
+			fmt.Fprintf(os.Stderr, noticeColor, fmt.Sprintf(deprecationFmt, p.(plugin.Deprecated).DeprecationWarning()))
 		}
 	}
 }
@@ -469,9 +461,4 @@ func (c CLI) metadata() plugin.CLIMetadata {
 // If an error is found, command help and examples will be printed.
 func (c CLI) Run() error {
 	return c.cmd.Execute()
-}
-
-// Command returns the underlying root command.
-func (c CLI) Command() *cobra.Command {
-	return c.cmd
 }

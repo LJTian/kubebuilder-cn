@@ -21,37 +21,49 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
+	"sigs.k8s.io/kubebuilder/v3/pkg/machinery"
 )
 
 var _ machinery.Template = &ControllerTest{}
 
 // ControllerTest scaffolds the file that defines tests for the controller for a CRD or a builtin resource
-//
-//nolint:maligned
+// nolint:maligned
 type ControllerTest struct {
 	machinery.TemplateMixin
 	machinery.MultiGroupMixin
 	machinery.BoilerplateMixin
 	machinery.ResourceMixin
 
-	Port        string
-	PackageName string
+	Port           string
+	IsLegacyLayout bool
+	PackageName    string
 }
 
-// SetTemplateDefaults implements machinery.Template
+// SetTemplateDefaults implements file.Template
 func (f *ControllerTest) SetTemplateDefaults() error {
 	if f.Path == "" {
 		if f.MultiGroup && f.Resource.Group != "" {
-			f.Path = filepath.Join("internal", "controller", "%[group]", "%[kind]_controller_test.go")
+			if f.IsLegacyLayout {
+				f.Path = filepath.Join("controllers", "%[group]", "%[kind]_controller_test.go")
+			} else {
+				f.Path = filepath.Join("internal", "controller", "%[group]", "%[kind]_controller_test.go")
+			}
 		} else {
-			f.Path = filepath.Join("internal", "controller", "%[kind]_controller_test.go")
+			if f.IsLegacyLayout {
+				f.Path = filepath.Join("controllers", "%[kind]_controller_test.go")
+			} else {
+				f.Path = filepath.Join("internal", "controller", "%[kind]_controller_test.go")
+			}
 		}
 	}
 	f.Path = f.Resource.Replacer().Replace(f.Path)
 	log.Println(f.Path)
 
 	f.PackageName = "controller"
+	if f.IsLegacyLayout {
+		f.PackageName = "controllers"
+	}
+
 	f.IfExistsAction = machinery.OverwriteFile
 
 	log.Println("creating import for %", f.Resource.Path)
@@ -60,6 +72,7 @@ func (f *ControllerTest) SetTemplateDefaults() error {
 	return nil
 }
 
+//nolint:lll
 const controllerTestTemplate = `{{ .Boilerplate }}
 
 package {{ if and .MultiGroup .Resource.Group }}{{ .Resource.PackageName }}{{ else }}{{ .PackageName }}{{ end }}
@@ -68,17 +81,18 @@ import (
 	"context"
 	"os"
 	"time"
+	"fmt"
 
+	//nolint:golint
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
-	
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
-
+	
 	{{ if not (isEmptyStr .Resource.Path) -}}
 	{{ .Resource.ImportAlias }} "{{ .Resource.Path }}"
 	{{- end }}
@@ -98,26 +112,23 @@ var _ = Describe("{{ .Resource.Kind }} controller", func() {
 			},
 		}
 
-		typeNamespacedName := types.NamespacedName{
+		typeNamespaceName := types.NamespacedName{
 			Name:      {{ .Resource.Kind }}Name,
 			Namespace: {{ .Resource.Kind }}Name,
 		}
 		{{ lower .Resource.Kind }} := &{{ .Resource.ImportAlias }}.{{ .Resource.Kind }}{}
 
-		SetDefaultEventuallyTimeout(2 * time.Minute)
-		SetDefaultEventuallyPollingInterval(time.Second)
-
 		BeforeEach(func() {
 			By("Creating the Namespace to perform the tests")
 			err := k8sClient.Create(ctx, namespace);
-			Expect(err).NotTo(HaveOccurred())
+			Expect(err).To(Not(HaveOccurred()))
 
 			By("Setting the Image ENV VAR which stores the Operand image")
 			err= os.Setenv("{{ upper .Resource.Kind }}_IMAGE", "example.com/image:test")
-			Expect(err).NotTo(HaveOccurred())
+			Expect(err).To(Not(HaveOccurred()))
 
 			By("creating the custom resource for the Kind {{ .Resource.Kind }}")
-			err = k8sClient.Get(ctx, typeNamespacedName, {{ lower .Resource.Kind }})
+			err = k8sClient.Get(ctx, typeNamespaceName, {{ lower .Resource.Kind }})
 			if err != nil && errors.IsNotFound(err) {
 				// Let's mock our custom resource at the same way that we would
 				// apply on the cluster the manifest under config/samples
@@ -133,38 +144,38 @@ var _ = Describe("{{ .Resource.Kind }} controller", func() {
 						{{- end }}
 					},
 				}
-
+				
 				err = k8sClient.Create(ctx, {{ lower .Resource.Kind }})
-				Expect(err).NotTo(HaveOccurred())
+				Expect(err).To(Not(HaveOccurred()))
 			}
 		})
 
 		AfterEach(func() {
 			By("removing the custom resource for the Kind {{ .Resource.Kind }}")
 			found := &{{ .Resource.ImportAlias }}.{{ .Resource.Kind }}{}
-			err := k8sClient.Get(ctx, typeNamespacedName, found)
-			Expect(err).NotTo(HaveOccurred())
+			err := k8sClient.Get(ctx, typeNamespaceName, found)
+			Expect(err).To(Not(HaveOccurred()))
 
-			Eventually(func(g Gomega) {
-				g.Expect(k8sClient.Delete(context.TODO(), found)).To(Succeed())
-			}).Should(Succeed())
+			Eventually(func() error {
+				return k8sClient.Delete(context.TODO(), found)
+			}, 2*time.Minute, time.Second).Should(Succeed())
 
 			// TODO(user): Attention if you improve this code by adding other context test you MUST
-			// be aware of the current delete namespace limitations.
+			// be aware of the current delete namespace limitations. 
 			// More info: https://book.kubebuilder.io/reference/envtest.html#testing-considerations
 			By("Deleting the Namespace to perform the tests")
 			_ = k8sClient.Delete(ctx, namespace);
-
+	
 			By("Removing the Image ENV VAR which stores the Operand image")
 			_ = os.Unsetenv("{{ upper .Resource.Kind }}_IMAGE")
 		})
 
 		It("should successfully reconcile a custom resource for {{ .Resource.Kind }}", func() {
 			By("Checking if the custom resource was successfully created")
-			Eventually(func(g Gomega) {
+			Eventually(func() error {
 				found := &{{ .Resource.ImportAlias }}.{{ .Resource.Kind }}{}
-				Expect(k8sClient.Get(ctx, typeNamespacedName, found)).To(Succeed())
-			}).Should(Succeed())
+				return k8sClient.Get(ctx, typeNamespaceName, found)
+			}, time.Minute, time.Second).Should(Succeed())
 
 			By("Reconciling the custom resource created")
 			{{ lower .Resource.Kind }}Reconciler := &{{ .Resource.Kind }}Reconciler{
@@ -173,30 +184,36 @@ var _ = Describe("{{ .Resource.Kind }} controller", func() {
 			}
 
 			_, err := {{ lower .Resource.Kind }}Reconciler.Reconcile(ctx, reconcile.Request{
-				NamespacedName: typeNamespacedName,
+				NamespacedName: typeNamespaceName,
 			})
-			Expect(err).NotTo(HaveOccurred())
+			Expect(err).To(Not(HaveOccurred()))
 
 			By("Checking if Deployment was successfully created in the reconciliation")
-			Eventually(func(g Gomega) {
+			Eventually(func() error {
 				found := &appsv1.Deployment{}
-				g.Expect(k8sClient.Get(ctx, typeNamespacedName, found)).To(Succeed())
-			}).Should(Succeed())
-
-			By("Reconciling the custom resource again")
-			_, err = {{ lower .Resource.Kind }}Reconciler.Reconcile(ctx, reconcile.Request{
-				NamespacedName: typeNamespacedName,
-			})
-			Expect(err).NotTo(HaveOccurred())
+				return k8sClient.Get(ctx, typeNamespaceName, found)
+			}, time.Minute, time.Second).Should(Succeed())
 
 			By("Checking the latest Status Condition added to the {{ .Resource.Kind }} instance")
-			Expect(k8sClient.Get(ctx, typeNamespacedName, {{ lower .Resource.Kind }})).To(Succeed())
-			conditions := []metav1.Condition{}
-			Expect({{ lower .Resource.Kind }}.Status.Conditions).To(ContainElement(
-				HaveField("Type", Equal(typeAvailable{{ .Resource.Kind }})), &conditions))
-			Expect(conditions).To(HaveLen(1), "Multiple conditions of type %s", typeAvailable{{ .Resource.Kind }})
-			Expect(conditions[0].Status).To(Equal(metav1.ConditionTrue), "condition %s", typeAvailable{{ .Resource.Kind }})
-			Expect(conditions[0].Reason).To(Equal("Reconciling"), "condition %s", typeAvailable{{ .Resource.Kind }})
+			Eventually(func() error {
+				if {{ lower .Resource.Kind }}.Status.Conditions != nil &&
+					len({{ lower .Resource.Kind }}.Status.Conditions) != 0 {
+					latestStatusCondition := {{ lower .Resource.Kind }}.Status.Conditions[len({{ lower .Resource.Kind }}.Status.Conditions)-1]
+					expectedLatestStatusCondition := metav1.Condition{
+						Type:    typeAvailable{{ .Resource.Kind }},
+						Status:  metav1.ConditionTrue,
+						Reason:  "Reconciling",
+						Message: fmt.Sprintf(
+							"Deployment for custom resource (%s) with %d replicas created successfully", 
+							{{ lower .Resource.Kind }}.Name,
+							{{ lower .Resource.Kind }}.Spec.Size),
+					}
+					if latestStatusCondition != expectedLatestStatusCondition {
+						return fmt.Errorf("The latest status condition added to the {{ .Resource.Kind }} instance is not as expected")
+					}
+				}
+				return nil
+			}, time.Minute, time.Second).Should(Succeed())
 		})
 	})
 })

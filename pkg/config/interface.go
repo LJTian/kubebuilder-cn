@@ -17,7 +17,7 @@ limitations under the License.
 package config
 
 import (
-	"sigs.k8s.io/kubebuilder/v4/pkg/model/resource"
+	"sigs.k8s.io/kubebuilder/v3/pkg/model/resource"
 )
 
 // Config defines the interface that project configuration types must follow.
@@ -62,6 +62,16 @@ type Config interface {
 	// ClearMultiGroup disables multi-group.
 	ClearMultiGroup() error
 
+	// IsComponentConfig checks if component config is enabled.
+	// This method was introduced in project version 3.
+	IsComponentConfig() bool
+	// SetComponentConfig enables component config.
+	// This method was introduced in project version 3.
+	SetComponentConfig() error
+	// ClearComponentConfig disables component config.
+	// This method was introduced in project version 3.
+	ClearComponentConfig() error
+
 	/* Resources */
 
 	// ResourcesLength returns the number of tracked resources.
@@ -95,8 +105,8 @@ type Config interface {
 
 	/* Persistence */
 
-	// MarshalYAML Marshal returns the YAML representation of the Config.
+	// Marshal returns the YAML representation of the Config.
 	MarshalYAML() ([]byte, error)
-	// UnmarshalYAML Unmarshal loads the Config fields from its YAML representation.
+	// Unmarshal loads the Config fields from its YAML representation.
 	UnmarshalYAML([]byte) error
 }

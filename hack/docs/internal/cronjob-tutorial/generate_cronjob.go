@@ -17,26 +17,41 @@ limitations under the License.
 package cronjob
 
 import (
+	"os"
 	"os/exec"
 	"path/filepath"
 
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/afero"
-	hackutils "sigs.k8s.io/kubebuilder/v4/hack/docs/utils"
-	pluginutil "sigs.k8s.io/kubebuilder/v4/pkg/plugin/util"
-	"sigs.k8s.io/kubebuilder/v4/test/e2e/utils"
+
+	pluginutil "sigs.k8s.io/kubebuilder/v3/pkg/plugin/util"
+	"sigs.k8s.io/kubebuilder/v3/test/e2e/utils"
 )
 
-// Sample define the sample which will be scaffolded
 type Sample struct {
 	ctx *utils.TestContext
 }
 
-// NewSample create a new instance of the cronjob sample and configure the KB CLI that will be used
 func NewSample(binaryPath, samplePath string) Sample {
 	log.Infof("Generating the sample context of Cronjob...")
-	ctx := hackutils.NewSampleContext(binaryPath, samplePath, "GO111MODULE=on")
+
+	ctx := newSampleContext(binaryPath, samplePath, "GO111MODULE=on")
+
 	return Sample{&ctx}
+}
+
+func newSampleContext(binaryPath string, samplePath string, env ...string) utils.TestContext {
+	cmdContext := &utils.CmdContext{
+		Env: env,
+		Dir: samplePath,
+	}
+
+	testContext := utils.TestContext{
+		CmdContext: cmdContext,
+		BinaryName: binaryPath,
+	}
+
+	return testContext
 }
 
 // Prepare the Context for the sample project
@@ -47,20 +62,20 @@ func (sp *Sample) Prepare() {
 	log.Infof("refreshing tools and creating directory...")
 	err := sp.ctx.Prepare()
 
-	hackutils.CheckError("creating directory for sample project", err)
+	CheckError("creating directory for sample project", err)
 }
 
-// GenerateSampleProject will generate the sample
 func (sp *Sample) GenerateSampleProject() {
 	log.Infof("Initializing the cronjob project")
 
 	err := sp.ctx.Init(
+		"--plugins", "go/v4",
 		"--domain", "tutorial.kubebuilder.io",
 		"--repo", "tutorial.kubebuilder.io/project",
 		"--license", "apache2",
 		"--owner", "The Kubernetes authors",
 	)
-	hackutils.CheckError("Initializing the cronjob project", err)
+	CheckError("Initializing the cronjob project", err)
 
 	log.Infof("Adding a new config type")
 	err = sp.ctx.CreateAPI(
@@ -69,7 +84,7 @@ func (sp *Sample) GenerateSampleProject() {
 		"--kind", "CronJob",
 		"--resource", "--controller",
 	)
-	hackutils.CheckError("Creating the API", err)
+	CheckError("Creating the API", err)
 
 	log.Infof("Implementing admission webhook")
 	err = sp.ctx.CreateWebhook(
@@ -78,74 +93,61 @@ func (sp *Sample) GenerateSampleProject() {
 		"--kind", "CronJob",
 		"--defaulting", "--programmatic-validation",
 	)
-	hackutils.CheckError("Implementing admission webhook", err)
+	CheckError("Implementing admission webhook", err)
 }
 
-// UpdateTutorial the cronjob tutorial with the scaffold changes
 func (sp *Sample) UpdateTutorial() {
-	log.Println("Update tutorial with cronjob code")
+	log.Println("TODO: update tutorial")
 	// 1. update specs
-	sp.updateSpec()
+	updateSpec(sp)
 	// 2. update webhook
-	sp.updateWebhook()
-	// 3. update webhookTests
-	sp.updateWebhookTests()
-	// 4. update makefile
-	sp.updateMakefile()
-	// 5. generate extra files
-	cmd := exec.Command("go", "mod", "tidy")
-	_, err := sp.ctx.Run(cmd)
-	hackutils.CheckError("Failed to run go mod tidy for cronjob tutorial", err)
-
-	cmd = exec.Command("go", "get", "github.com/robfig/cron")
-	_, err = sp.ctx.Run(cmd)
-	hackutils.CheckError("Failed to get package robfig/cron", err)
-
-	cmd = exec.Command("make", "generate", "manifests")
-	_, err = sp.ctx.Run(cmd)
-	hackutils.CheckError("run make generate and manifests", err)
-
-	// 6. compensate other intro in API
-	sp.updateAPIStuff()
-	// 7. update reconciliation and main.go
-	// 7.1 update controller
-	sp.updateController()
-	// 7.2 update main.go
-	sp.updateMain()
-	// 8. generate extra files
-	cmd = exec.Command("make", "generate", "manifests")
-	_, err = sp.ctx.Run(cmd)
-	hackutils.CheckError("run make generate and manifests", err)
-	// 9. update suite_test explanation
-	sp.updateSuiteTest()
-	// 10. uncomment kustomization
-	sp.updateKustomization()
-	// 11. add example
-	sp.updateExample()
-	// 12. add test
-	sp.addControllerTest()
-	// 13. update e2e tests
-	sp.updateE2E()
+	updateWebhook(sp)
+	// 3. generate extra files
+	codeGen(sp)
+	// 4. compensate other intro in API
+	updateAPIStuff(sp)
+	// 5. update reconciliation and main.go
+	// 5.1 update controller
+	updateController(sp)
+	// 5.2 update main.go
+	updateMain(sp)
+	// 6. generate extra files
+	codeGen(sp)
+	// 7. update suite_test explanation
+	updateSuiteTest(sp)
+	// 8. uncomment kustomization
+	updateKustomization(sp)
+	// 9. add example
+	updateExample(sp)
+	// 10. add test
+	addControllerTest(sp)
 }
 
 // CodeGen is a noop for this sample, just to make generation of all samples
 // more efficient. We may want to refactor `UpdateTutorial` some day to take
 // advantage of a separate call, but it is not necessary.
-func (sp *Sample) CodeGen() {
-	cmd := exec.Command("make", "all")
+func (sp *Sample) CodeGen() {}
+
+func codeGen(sp *Sample) {
+	cmd := exec.Command("go", "get", "github.com/robfig/cron")
 	_, err := sp.ctx.Run(cmd)
-	hackutils.CheckError("Failed to run make all for cronjob tutorial", err)
+	CheckError("Failed to get package robfig/cron", err)
 
-	cmd = exec.Command("make", "build-installer")
+	cmd = exec.Command("make", "manifests")
 	_, err = sp.ctx.Run(cmd)
-	hackutils.CheckError("Failed to run make build-installer for cronjob tutorial", err)
+	CheckError("Failed to run make manifests for cronjob tutorial", err)
 
-	err = sp.ctx.EditHelmPlugin()
-	hackutils.CheckError("Failed to enable helm plugin", err)
+	cmd = exec.Command("make", "all")
+	_, err = sp.ctx.Run(cmd)
+	CheckError("Failed to run make all for cronjob tutorial", err)
+
+	cmd = exec.Command("go", "mod", "tidy")
+	_, err = sp.ctx.Run(cmd)
+	CheckError("Failed to run go mod tidy for cronjob tutorial", err)
 }
 
 // insert code to fix docs
-func (sp *Sample) updateSpec() {
+func updateSpec(sp *Sample) {
 	var err error
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "api/v1/cronjob_types.go"),
@@ -156,7 +158,7 @@ func (sp *Sample) updateSpec() {
 
 /*
  */`)
-	hackutils.CheckError("fixing cronjob_types.go", err)
+	CheckError("fixing cronjob_types.go", err)
 
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "api/v1/cronjob_types.go"),
@@ -164,7 +166,7 @@ func (sp *Sample) updateSpec() {
 		`
 /*
  */`)
-	hackutils.CheckError("fixing cronjob_types.go", err)
+	CheckError("fixing cronjob_types.go", err)
 
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "api/v1/cronjob_types.go"),
@@ -172,17 +174,17 @@ func (sp *Sample) updateSpec() {
 		`
 	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"`)
-	hackutils.CheckError("fixing cronjob_types.go", err)
+	CheckError("fixing cronjob_types.go", err)
 
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "api/v1/cronjob_types.go"),
-		`to be serialized.`, cronjobSpecExplaination)
-	hackutils.CheckError("fixing cronjob_types.go", err)
+		`to be serialized.`, CronjobSpecExplaination)
+	CheckError("fixing cronjob_types.go", err)
 
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "api/v1/cronjob_types.go"),
-		`type CronJobSpec struct {`, cronjobSpecStruct)
-	hackutils.CheckError("fixing cronjob_types.go", err)
+		`type CronJobSpec struct {`, CronjobSpecStruct)
+	CheckError("fixing cronjob_types.go", err)
 
 	err = pluginutil.ReplaceInFile(
 		filepath.Join(sp.ctx.Dir, "api/v1/cronjob_types.go"),
@@ -191,28 +193,28 @@ func (sp *Sample) updateSpec() {
 
 	// Foo is an example field of CronJob. Edit cronjob_types.go to remove/update
 	Foo string`+" `"+`json:"foo,omitempty"`+"`", "")
-	hackutils.CheckError("fixing cronjob_types.go", err)
+	CheckError("fixing cronjob_types.go", err)
 
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "api/v1/cronjob_types.go"),
-		`// Important: Run "make" to regenerate code after modifying this file`, cronjobList)
-	hackutils.CheckError("fixing cronjob_types.go", err)
+		`// Important: Run "make" to regenerate code after modifying this file`, CronjobList)
+	CheckError("fixing cronjob_types.go", err)
 
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "api/v1/cronjob_types.go"),
 		`SchemeBuilder.Register(&CronJob{}, &CronJobList{})
 }`, `
-// +kubebuilder:docs-gen:collapse=Root Object Definitions`)
-	hackutils.CheckError("fixing cronjob_types.go", err)
+//+kubebuilder:docs-gen:collapse=Root Object Definitions`)
+	CheckError("fixing cronjob_types.go", err)
 
 	err = pluginutil.ReplaceInFile(
 		filepath.Join(sp.ctx.Dir, "api/v1/cronjob_types.go"),
-		`// CronJob is the Schema for the cronjobs API.
-type CronJob struct {`, `// CronJob is the Schema for the cronjobs API.
+		`// CronJob is the Schema for the cronjobs API
+type CronJob struct {`, `// CronJob is the Schema for the cronjobs API
 type CronJob struct {`+`
 	/*
 	 */`)
-	hackutils.CheckError("fixing cronjob_types.go", err)
+	CheckError("fixing cronjob_types.go", err)
 
 	// fix lint
 	err = pluginutil.ReplaceInFile(
@@ -220,7 +222,7 @@ type CronJob struct {`+`
 		`
 	
 }`, "")
-	hackutils.CheckError("fixing cronjob_types.go", err)
+	CheckError("fixing cronjob_types.go", err)
 
 	err = pluginutil.ReplaceInFile(
 		filepath.Join(sp.ctx.Dir, "api/v1/cronjob_types.go"),
@@ -228,32 +230,32 @@ type CronJob struct {`+`
 
 
 }`, "")
-	hackutils.CheckError("fixing cronjob_types.go", err)
+	CheckError("fixing cronjob_types.go", err)
 }
 
-func (sp *Sample) updateAPIStuff() {
+func updateAPIStuff(sp *Sample) {
 	var err error
 	// fix groupversion_info
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "api/v1/groupversion_info.go"),
 		`limitations under the License.
-*/`, groupVersionIntro)
-	hackutils.CheckError("fixing groupversion_info.go", err)
+*/`, GroupversionIntro)
+	CheckError("fixing groupversion_info.go", err)
 
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "api/v1/groupversion_info.go"),
 		`	"sigs.k8s.io/controller-runtime/pkg/scheme"
-)`, groupVersionSchema)
-	hackutils.CheckError("fixing groupversion_info.go", err)
+)`, GroupversionSchema)
+	CheckError("fixing groupversion_info.go", err)
 }
 
-func (sp *Sample) updateController() {
+func updateController(sp *Sample) {
 	var err error
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "internal/controller/cronjob_controller.go"),
 		`limitations under the License.
-*/`, controllerIntro)
-	hackutils.CheckError("fixing cronjob_controller.go", err)
+*/`, ControllerIntro)
+	CheckError("fixing cronjob_controller.go", err)
 
 	err = pluginutil.ReplaceInFile(
 		filepath.Join(sp.ctx.Dir, "internal/controller/cronjob_controller.go"),
@@ -263,57 +265,52 @@ func (sp *Sample) updateController() {
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	logf "sigs.k8s.io/controller-runtime/pkg/log"
+	"sigs.k8s.io/controller-runtime/pkg/log"
 
 	batchv1 "tutorial.kubebuilder.io/project/api/v1"
-)`, controllerImport)
-	hackutils.CheckError("fixing cronjob_controller.go", err)
+)`, ControllerImport)
+	CheckError("fixing cronjob_controller.go", err)
 
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "internal/controller/cronjob_controller.go"),
 		`Scheme *runtime.Scheme`, `
 	Clock`)
-	hackutils.CheckError("fixing cronjob_controller.go", err)
+	CheckError("fixing cronjob_controller.go", err)
 
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "internal/controller/cronjob_controller.go"),
 		`	Clock
-}`, controllerMockClock)
-	hackutils.CheckError("fixing cronjob_controller.go", err)
+}`, ControllerMockClock)
+	CheckError("fixing cronjob_controller.go", err)
 
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "internal/controller/cronjob_controller.go"),
-		`// +kubebuilder:rbac:groups=batch.tutorial.kubebuilder.io,resources=cronjobs/finalizers,verbs=update`, controllerReconcile)
-	hackutils.CheckError("fixing cronjob_controller.go", err)
-
-	err = pluginutil.InsertCode(
-		filepath.Join(sp.ctx.Dir, "internal/controller/cronjob_controller.go"),
-		`// - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.20.4/pkg/reconcile`, skipGoCycloLint)
-	hackutils.CheckError("fixing cronjob_controller.go", err)
+		`//+kubebuilder:rbac:groups=batch.tutorial.kubebuilder.io,resources=cronjobs/finalizers,verbs=update`, ControllerReconcile)
+	CheckError("fixing cronjob_controller.go", err)
 
 	err = pluginutil.ReplaceInFile(
 		filepath.Join(sp.ctx.Dir, "internal/controller/cronjob_controller.go"),
-		`	_ = logf.FromContext(ctx)
+		`	_ = log.FromContext(ctx)
 
 	// TODO(user): your logic here
 
 	return ctrl.Result{}, nil
-}`, controllerReconcileLogic)
-	hackutils.CheckError("fixing cronjob_controller.go", err)
+}`, ControllerReconcileLogic)
+	CheckError("fixing cronjob_controller.go", err)
 
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "internal/controller/cronjob_controller.go"),
-		`SetupWithManager(mgr ctrl.Manager) error {`, controllerSetupWithManager)
-	hackutils.CheckError("fixing cronjob_controller.go", err)
+		`SetupWithManager(mgr ctrl.Manager) error {`, ControllerSetupWithManager)
+	CheckError("fixing cronjob_controller.go", err)
 
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "internal/controller/cronjob_controller.go"),
 		`For(&batchv1.CronJob{}).`, `
 		Owns(&kbatch.Job{}).`)
-	hackutils.CheckError("fixing cronjob_controller.go", err)
+	CheckError("fixing cronjob_controller.go", err)
 }
 
-func (sp *Sample) updateMain() {
+func updateMain(sp *Sample) {
 	var err error
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "cmd/main.go"),
@@ -321,30 +318,30 @@ func (sp *Sample) updateMain() {
 */`,
 		`
 // +kubebuilder:docs-gen:collapse=Apache License`)
-	hackutils.CheckError("fixing main.go", err)
+	CheckError("fixing main.go", err)
 
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "cmd/main.go"),
-		`// +kubebuilder:scaffold:imports
-)`, mainBatch)
-	hackutils.CheckError("fixing main.go", err)
+		`//+kubebuilder:scaffold:imports
+)`, MainBatch)
+	CheckError("fixing main.go", err)
 
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "cmd/main.go"),
-		`// +kubebuilder:scaffold:scheme
+		`//+kubebuilder:scaffold:scheme
 }`, `
 /*
 The other thing that's changed is that kubebuilder has added a block calling our
 CronJob controller's`+" `"+`SetupWithManager`+"`"+` method.
 */`)
-	hackutils.CheckError("fixing main.go", err)
+	CheckError("fixing main.go", err)
 
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "cmd/main.go"),
 		`func main() {`, `
 	/*
 	 */`)
-	hackutils.CheckError("fixing main.go", err)
+	CheckError("fixing main.go", err)
 
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "cmd/main.go"),
@@ -354,14 +351,14 @@ CronJob controller's`+" `"+`SetupWithManager`+"`"+` method.
 	}`, `
 
 	// +kubebuilder:docs-gen:collapse=old stuff`)
-	hackutils.CheckError("fixing main.go", err)
+	CheckError("fixing main.go", err)
 
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "cmd/main.go"),
 		`setupLog.Error(err, "unable to create controller", "controller", "CronJob")
 		os.Exit(1)
-	}`, mainEnableWebhook)
-	hackutils.CheckError("fixing main.go", err)
+	}`, MainEnableWebhook)
+	CheckError("fixing main.go", err)
 
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "cmd/main.go"),
@@ -369,169 +366,118 @@ CronJob controller's`+" `"+`SetupWithManager`+"`"+` method.
 		os.Exit(1)
 	}`, `
 	// +kubebuilder:docs-gen:collapse=old stuff`)
-	hackutils.CheckError("fixing main.go", err)
+	CheckError("fixing main.go", err)
 }
 
-func (sp *Sample) updateMakefile() {
-	const originalManifestTarget = `.PHONY: manifests
-manifests: controller-gen ## Generate WebhookConfiguration, ClusterRole and CustomResourceDefinition objects.
-	$(CONTROLLER_GEN) rbac:roleName=manager-role crd webhook paths="./..." output:crd:artifacts:config=config/crd/bases
-`
-	const changedManifestTarget = `.PHONY: manifests
-manifests: controller-gen ## Generate WebhookConfiguration, ClusterRole and CustomResourceDefinition objects.
-	# Note that the option maxDescLen=0 was added in the default scaffold in order to sort out the issue
-	# Too long: must have at most 262144 bytes. By using kubectl apply to create / update resources an annotation
-	# is created by K8s API to store the latest version of the resource ( kubectl.kubernetes.io/last-applied-configuration).
-	# However, it has a size limit and if the CRD is too big with so many long descriptions as this one it will cause the failure.
-	$(CONTROLLER_GEN) rbac:roleName=manager-role crd:maxDescLen=0 webhook paths="./..." output:crd:artifacts:config=config/crd/bases
-`
-	err := pluginutil.ReplaceInFile(filepath.Join(sp.ctx.Dir, "Makefile"), originalManifestTarget, changedManifestTarget)
-	hackutils.CheckError("updating makefile to use maxDescLen=0 in make manifest target", err)
-}
-
-func (sp *Sample) updateWebhookTests() {
-	file := filepath.Join(sp.ctx.Dir, "internal/webhook/v1/cronjob_webhook_test.go")
-
-	err := pluginutil.ReplaceInFile(file,
-		webhookTestCreateDefaultingFragment,
-		webhookTestCreateDefaultingReplaceFragment)
-	hackutils.CheckError("replace create defaulting test", err)
-
-	err = pluginutil.ReplaceInFile(file,
-		webhookTestingValidatingTodoFragment,
-		webhookTestingValidatingExampleFragment)
-	hackutils.CheckError("replace validating defaulting test", err)
-
-	err = pluginutil.ReplaceInFile(file,
-		webhookTestsVars,
-		webhookTestsConstants)
-	hackutils.CheckError("replace before each webhook test ", err)
-
-	err = pluginutil.ReplaceInFile(file,
-		webhookTestsBeforeEachOriginal,
-		webhookTestsBeforeEachChanged)
-	hackutils.CheckError("replace before each webhook test ", err)
-}
-
-func (sp *Sample) updateWebhook() {
+func updateWebhook(sp *Sample) {
 	var err error
 	err = pluginutil.InsertCode(
-		filepath.Join(sp.ctx.Dir, "internal/webhook/v1/cronjob_webhook.go"),
+		filepath.Join(sp.ctx.Dir, "api/v1/cronjob_webhook.go"),
 		`limitations under the License.
 */`,
 		`
 // +kubebuilder:docs-gen:collapse=Apache License`)
-	hackutils.CheckError("fixing cronjob_webhook.go by adding collapse", err)
-
-	err = pluginutil.InsertCode(
-		filepath.Join(sp.ctx.Dir, "internal/webhook/v1/cronjob_webhook.go"),
-		`import (
-	"context"
-	"fmt"`,
-		`
-	
-	"github.com/robfig/cron"
-	apierrors "k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/runtime/schema"
-	validationutils "k8s.io/apimachinery/pkg/util/validation"
-	"k8s.io/apimachinery/pkg/util/validation/field"`,
-	)
-	hackutils.CheckError("add extra imports to cronjob_webhook.go", err)
+	CheckError("fixing cronjob_webhook.go by adding collapse", err)
 
 	err = pluginutil.ReplaceInFile(
-		filepath.Join(sp.ctx.Dir, "internal/webhook/v1/cronjob_webhook.go"),
-		`batchv1 "tutorial.kubebuilder.io/project/api/v1"
+		filepath.Join(sp.ctx.Dir, "api/v1/cronjob_webhook.go"),
+		`import (
+	"k8s.io/apimachinery/pkg/runtime"
+	ctrl "sigs.k8s.io/controller-runtime"
+	logf "sigs.k8s.io/controller-runtime/pkg/log"
+	"sigs.k8s.io/controller-runtime/pkg/webhook"
+	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// nolint:unused
 // log is for logging in this package.
-`, webhookIntro)
-	hackutils.CheckError("fixing cronjob_webhook.go", err)
+`, WebhookIntro)
+	CheckError("fixing cronjob_webhook.go", err)
 
 	err = pluginutil.InsertCode(
-		filepath.Join(sp.ctx.Dir, "internal/webhook/v1/cronjob_webhook.go"),
+		filepath.Join(sp.ctx.Dir, "api/v1/cronjob_webhook.go"),
 		`var cronjoblog = logf.Log.WithName("cronjob-resource")`,
 		`
 /*
 Then, we set up the webhook with the manager.
 */`)
-	hackutils.CheckError("fixing cronjob_webhook.go by setting webhook with manager comment", err)
+	CheckError("fixing cronjob_webhook.go by setting webhook with manager comment", err)
 
 	err = pluginutil.ReplaceInFile(
-		filepath.Join(sp.ctx.Dir, "internal/webhook/v1/cronjob_webhook.go"),
-		`// TODO(user): EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!`, webhooksNoticeMarker)
-	hackutils.CheckError("fixing cronjob_webhook.go by replacing note about path attribute", err)
+		filepath.Join(sp.ctx.Dir, "api/v1/cronjob_webhook.go"),
+		`// TODO(user): EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!`, WebhookMarker)
+	CheckError("fixing cronjob_webhook.go by replacing TODO", err)
 
 	err = pluginutil.ReplaceInFile(
-		filepath.Join(sp.ctx.Dir, "internal/webhook/v1/cronjob_webhook.go"),
-		`// NOTE: The 'path' attribute must follow a specific pattern and should not be modified directly here.
-// Modifying the path for an invalid path can cause API server errors; failing to locate the webhook.`, explanationValidateCRD)
-	hackutils.CheckError("fixing cronjob_webhook.go by replacing note about path attribute", err)
-
-	err = pluginutil.ReplaceInFile(
-		filepath.Join(sp.ctx.Dir, "internal/webhook/v1/cronjob_webhook.go"),
+		filepath.Join(sp.ctx.Dir, "api/v1/cronjob_webhook.go"),
 		`// TODO(user): change verbs to "verbs=create;update;delete" if you want to enable deletion validation.`, "")
-	hackutils.CheckError("fixing cronjob_webhook.go by replace TODO to change verbs", err)
+	CheckError("fixing cronjob_webhook.go by replace TODO to change verbs", err)
 
 	err = pluginutil.ReplaceInFile(
-		filepath.Join(sp.ctx.Dir, "internal/webhook/v1/cronjob_webhook.go"),
-		`// TODO(user): Add more fields as needed for defaulting`, fragmentForDefaultFields)
-	hackutils.CheckError("fixing cronjob_webhook.go by replacing TODO in Defaulter", err)
+		filepath.Join(sp.ctx.Dir, "api/v1/cronjob_webhook.go"),
+		`//+kubebuilder:webhook:path=/mutate-batch-tutorial-kubebuilder-io-v1-cronjob,mutating=true,failurePolicy=fail,sideEffects=None,groups=batch.tutorial.kubebuilder.io,resources=cronjobs,verbs=create;update,versions=v1,name=mcronjob.kb.io,admissionReviewVersions=v1`, "")
+	CheckError("fixing cronjob_webhook.go by replacing marker", err)
 
 	err = pluginutil.ReplaceInFile(
-		filepath.Join(sp.ctx.Dir, "internal/webhook/v1/cronjob_webhook.go"),
-		`WithDefaulter(&CronJobCustomDefaulter{}).`,
-		`WithDefaulter(&CronJobCustomDefaulter{
-        DefaultConcurrencyPolicy:      batchv1.AllowConcurrent,
-        DefaultSuspend:                false,
-        DefaultSuccessfulJobsHistoryLimit: 3,
-        DefaultFailedJobsHistoryLimit: 1,
-    }).`)
-	hackutils.CheckError("replacing WithDefaulter call in cronjob_webhook.go", err)
+		filepath.Join(sp.ctx.Dir, "api/v1/cronjob_webhook.go"),
+		`//+kubebuilder:webhook:path=/validate-batch-tutorial-kubebuilder-io-v1-cronjob,mutating=false,failurePolicy=fail,sideEffects=None,groups=batch.tutorial.kubebuilder.io,resources=cronjobs,verbs=create;update,versions=v1,name=vcronjob.kb.io,admissionReviewVersions=v1`, "")
+	CheckError("fixing cronjob_webhook.go validate batch marker", err)
 
 	err = pluginutil.ReplaceInFile(
-		filepath.Join(sp.ctx.Dir, "internal/webhook/v1/cronjob_webhook.go"),
-		`// TODO(user): fill in your defaulting logic.
+		filepath.Join(sp.ctx.Dir, "api/v1/cronjob_webhook.go"),
+		`cronjoblog.Info("default", "name", r.Name)
 
-	return nil
-}`, webhookDefaultingSettings)
-	hackutils.CheckError("fixing cronjob_webhook.go by adding logic", err)
+	// TODO(user): fill in your defaulting logic.
+`, WebhookValidate)
+	CheckError("fixing cronjob_webhook.go by adding logic", err)
 
 	err = pluginutil.ReplaceInFile(
-		filepath.Join(sp.ctx.Dir, "internal/webhook/v1/cronjob_webhook.go"),
+		filepath.Join(sp.ctx.Dir, "api/v1/cronjob_webhook.go"),
 		`// TODO(user): fill in your validation logic upon object creation.
-
 	return nil, nil`,
-		`return nil, validateCronJob(cronjob)`)
-	hackutils.CheckError("fixing cronjob_webhook.go by fill in your validation", err)
+		`
+	return nil, r.validateCronJob()`)
+	CheckError("fixing cronjob_webhook.go by fill in your validation", err)
 
 	err = pluginutil.ReplaceInFile(
-		filepath.Join(sp.ctx.Dir, "internal/webhook/v1/cronjob_webhook.go"),
+		filepath.Join(sp.ctx.Dir, "api/v1/cronjob_webhook.go"),
 		`// TODO(user): fill in your validation logic upon object update.
-
 	return nil, nil`,
-		`return nil, validateCronJob(cronjob)`)
-	hackutils.CheckError("fixing cronjob_webhook.go by adding validation logic upon object update", err)
+		`
+	return nil, r.validateCronJob()`)
+	CheckError("fixing cronjob_webhook.go by adding validation logic upon object update", err)
+
+	err = pluginutil.InsertCode(
+		filepath.Join(sp.ctx.Dir, "api/v1/cronjob_webhook.go"),
+		`func (r *CronJob) ValidateDelete() (admission.Warnings, error) {
+	cronjoblog.Info("validate delete", "name", r.Name)
+
+	// TODO(user): fill in your validation logic upon object deletion.
+	return nil, nil
+}`, WebhookValidateSpec)
+	CheckError("fixing cronjob_webhook.go", err)
 
 	err = pluginutil.ReplaceInFile(
-		filepath.Join(sp.ctx.Dir, "internal/webhook/v1/cronjob_webhook.go"),
-		`// Default implements webhook.CustomDefaulter so a webhook will be registered for the Kind CronJob.`,
-		customInterfaceDefaultInfo)
-	hackutils.CheckError("fixing cronjob_webhook.go by adding validation logic upon object update", err)
-
-	err = pluginutil.AppendCodeAtTheEnd(
-		filepath.Join(sp.ctx.Dir, "internal/webhook/v1/cronjob_webhook.go"),
-		webhookValidateSpecMethods)
-	hackutils.CheckError("adding validation spec methods at the end", err)
+		filepath.Join(sp.ctx.Dir, "api/v1/cronjob_webhook.go"),
+		`validate anything on deletion.
+*/
+}`, `validate anything on deletion.
+*/`)
+	CheckError("fixing cronjob_webhook.go by adding comments to validate on deletion", err)
 }
 
-func (sp *Sample) updateSuiteTest() {
+func updateSuiteTest(sp *Sample) {
 	var err error
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "internal/controller/suite_test.go"),
 		`limitations under the License.
-*/`, suiteTestIntro)
-	hackutils.CheckError("updating suite_test.go to add license intro", err)
+*/`, SuiteTestIntro)
+	CheckError("updating suite_test.go to add license intro", err)
+
+	err = pluginutil.InsertCode(
+		filepath.Join(sp.ctx.Dir, "internal/controller/suite_test.go"),
+		`import (`, `
+	"context"`)
+	CheckError("updating suite_test.go to add context", err)
 
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "internal/controller/suite_test.go"),
@@ -540,20 +486,33 @@ func (sp *Sample) updateSuiteTest() {
 `, `
 	ctrl "sigs.k8s.io/controller-runtime"
 `)
-	hackutils.CheckError("updating suite_test.go to add ctrl import", err)
+	CheckError("updating suite_test.go to add ctrl import", err)
 
 	err = pluginutil.ReplaceInFile(
 		filepath.Join(sp.ctx.Dir, "internal/controller/suite_test.go"),
 		`
-var (
-	ctx       context.Context
-	cancel    context.CancelFunc
-	testEnv   *envtest.Environment
-	cfg       *rest.Config
-	k8sClient client.Client
-)
-`, suiteTestEnv)
-	hackutils.CheckError("updating suite_test.go to add more variables", err)
+var cfg *rest.Config
+var k8sClient client.Client
+var testEnv *envtest.Environment
+`, SuiteTestEnv)
+	CheckError("updating suite_test.go to add more variables", err)
+
+	err = pluginutil.InsertCode(
+		filepath.Join(sp.ctx.Dir, "internal/controller/suite_test.go"),
+		`
+	logf.SetLogger(zap.New(zap.WriteTo(GinkgoWriter), zap.UseDevMode(true)))
+`, SuiteTestReadCRD)
+	CheckError("updating suite_test.go to add text about CRD", err)
+
+	err = pluginutil.InsertCode(
+		filepath.Join(sp.ctx.Dir, "internal/controller/suite_test.go"),
+		`, runtime.GOOS, runtime.GOARCH)),
+	}
+`, `
+	/*
+		Then, we start the envtest cluster.
+	*/`)
+	CheckError("updating suite_test.go to add text to show where envtest cluster start", err)
 
 	err = pluginutil.ReplaceInFile(
 		filepath.Join(sp.ctx.Dir, "internal/controller/suite_test.go"),
@@ -561,27 +520,9 @@ var (
 	err = batchv1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
-	// +kubebuilder:scaffold:scheme
-`, suiteTestAddSchema)
-	hackutils.CheckError("updating suite_test.go to add schema", err)
-
-	err = pluginutil.InsertCode(
-		filepath.Join(sp.ctx.Dir, "internal/controller/suite_test.go"),
-		`testEnv.BinaryAssetsDirectory = getFirstFoundEnvTestBinaryDir()
-	}`, `
-	/*
-		Then, we start the envtest cluster.
-	*/`)
-	hackutils.CheckError("updating suite_test.go to add text to show where envtest cluster start", err)
-
-	err = pluginutil.InsertCode(
-		filepath.Join(sp.ctx.Dir, "internal/controller/suite_test.go"),
-		`
-	cfg, err = testEnv.Start()
-	Expect(err).NotTo(HaveOccurred())
-	Expect(cfg).NotTo(BeNil())
-`, suiteTestClient)
-	hackutils.CheckError("updating suite_test.go to add text about test client", err)
+	//+kubebuilder:scaffold:scheme
+`, SuiteTestAddSchema)
+	CheckError("updating suite_test.go to add schema", err)
 
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "internal/controller/suite_test.go"),
@@ -589,95 +530,81 @@ var (
 	k8sClient, err = client.New(cfg, client.Options{Scheme: scheme.Scheme})
 	Expect(err).NotTo(HaveOccurred())
 	Expect(k8sClient).NotTo(BeNil())
-`, suiteTestDescription)
-	hackutils.CheckError("updating suite_test.go for test description", err)
+`, SuiteTestDescription)
+	CheckError("updating suite_test.go for test description", err)
 
 	err = pluginutil.ReplaceInFile(
 		filepath.Join(sp.ctx.Dir, "internal/controller/suite_test.go"),
 		`
 var _ = AfterSuite(func() {
 	By("tearing down the test environment")
-	cancel()
 	err := testEnv.Stop()
 	Expect(err).NotTo(HaveOccurred())
 })
-`, suiteTestCleanup)
-	hackutils.CheckError("updating suite_test.go to cleanup tests", err)
+`, SuiteTestCleanup)
+	CheckError("updating suite_test.go to cleanup tests", err)
 }
 
-func (sp *Sample) updateKustomization() {
+func updateKustomization(sp *Sample) {
 	var err error
 	err = pluginutil.UncommentCode(
 		filepath.Join(sp.ctx.Dir, "config/default/kustomization.yaml"),
 		`#- ../certmanager`, `#`)
-	hackutils.CheckError("fixing default/kustomization", err)
+	CheckError("fixing default/kustomization", err)
+
+	err = pluginutil.UncommentCode(
+		filepath.Join(sp.ctx.Dir, "config/default/kustomization.yaml"),
+		`#- path: webhookcainjection`, `#`)
+	CheckError("fixing default/kustomization", err)
 
 	err = pluginutil.UncommentCode(
 		filepath.Join(sp.ctx.Dir, "config/default/kustomization.yaml"),
 		`#- ../prometheus`, `#`)
-	hackutils.CheckError("fixing default/kustomization", err)
+	CheckError("fixing default/kustomization", err)
 
 	err = pluginutil.UncommentCode(
 		filepath.Join(sp.ctx.Dir, "config/default/kustomization.yaml"),
-		`#- path: cert_metrics_manager_patch.yaml
-#  target:
-#    kind: Deployment`, `#`)
-	hackutils.CheckError("enabling cert_metrics_manager_patch.yaml", err)
+		DefaultKustomization, `#`)
+	CheckError("fixing default/kustomization", err)
 
 	err = pluginutil.UncommentCode(
-		filepath.Join(sp.ctx.Dir, "config/prometheus/kustomization.yaml"),
-		`#patches:
-#  - path: monitor_tls_patch.yaml
-#    target:
-#      kind: ServiceMonitor`, `#`)
-	hackutils.CheckError("enabling monitor tls patch", err)
-
-	err = pluginutil.UncommentCode(
-		filepath.Join(sp.ctx.Dir, "config/default/kustomization.yaml"),
-		certManagerForMetricsAndWebhooks, `#`)
-	hackutils.CheckError("fixing default/kustomization", err)
+		filepath.Join(sp.ctx.Dir, "config/crd/kustomization.yaml"),
+		`#- path: patches/cainjection_in_cronjobs.yaml`, `#`)
+	CheckError("fixing crd/kustomization", err)
 }
 
-func (sp *Sample) updateExample() {
+func updateExample(sp *Sample) {
 	var err error
 
 	// samples/batch_v1_cronjob
 	err = pluginutil.InsertCode(
 		filepath.Join(sp.ctx.Dir, "config/samples/batch_v1_cronjob.yaml"),
-		`spec:`, cronjobSample)
-	hackutils.CheckError("fixing samples/batch_v1_cronjob.yaml", err)
+		`spec:`, CronjobSample)
+	CheckError("fixing samples/batch_v1_cronjob.yaml", err)
 
 	err = pluginutil.ReplaceInFile(
 		filepath.Join(sp.ctx.Dir, "config/samples/batch_v1_cronjob.yaml"),
 		`# TODO(user): Add fields here`, "")
-	hackutils.CheckError("fixing samples/batch_v1_cronjob.yaml", err)
+	CheckError("fixing samples/batch_v1_cronjob.yaml", err)
+
+	// update default/manager_auth_proxy_patch.yaml
+	err = pluginutil.InsertCode(
+		filepath.Join(sp.ctx.Dir, "config/default/manager_auth_proxy_patch.yaml"),
+		` template:
+    spec:`, ManagerAuthProxySample)
+	CheckError("fixing default/manager_auth_proxy_patch.yaml", err)
 }
 
-func (sp *Sample) addControllerTest() {
-	fs := afero.NewOsFs()
-	err := afero.WriteFile(fs, filepath.Join(sp.ctx.Dir, "internal/controller/cronjob_controller_test.go"), []byte(controllerTest), 0o600)
-	hackutils.CheckError("adding cronjob_controller_test", err)
+func addControllerTest(sp *Sample) {
+	var fs = afero.NewOsFs()
+	err := afero.WriteFile(fs, filepath.Join(sp.ctx.Dir, "internal/controller/cronjob_controller_test.go"), []byte(ControllerTest), 0600)
+	CheckError("adding cronjob_controller_test", err)
 }
 
-func (sp *Sample) updateE2E() {
-	cronjobE2ESuite := filepath.Join(sp.ctx.Dir, "test", "e2e", "e2e_suite_test.go")
-	cronjobE2ETest := filepath.Join(sp.ctx.Dir, "test", "e2e", "e2e_test.go")
-	var err error
-
-	err = pluginutil.InsertCode(cronjobE2ESuite, `isCertManagerAlreadyInstalled = false`, isPrometheusInstalledVar)
-	hackutils.CheckError("fixing test/e2e/e2e_suite_test.go", err)
-
-	err = pluginutil.InsertCode(cronjobE2ESuite, `var _ = BeforeSuite(func() {`, beforeSuitePrometheus)
-	hackutils.CheckError("fixing test/e2e/e2e_suite_test.go", err)
-
-	err = pluginutil.InsertCode(cronjobE2ESuite,
-		`// The tests-e2e are intended to run on a temporary cluster that is created and destroyed for testing.`,
-		checkPrometheusInstalled)
-	hackutils.CheckError("fixing test/e2e/e2e_suite_test.go", err)
-
-	err = pluginutil.InsertCode(cronjobE2ESuite, `var _ = AfterSuite(func() {`, afterSuitePrometheus)
-	hackutils.CheckError("fixing test/e2e/e2e_suite_test.go", err)
-
-	err = pluginutil.InsertCode(cronjobE2ETest, `Expect(err).NotTo(HaveOccurred(), "Metrics service should exist")`, serviceMonitorE2e)
-	hackutils.CheckError("fixing test/e2e/e2e_test.go", err)
+// CheckError will exit with exit code 1 when err is not nil.
+func CheckError(msg string, err error) {
+	if err != nil {
+		log.Errorf("error %s: %s", msg, err)
+		os.Exit(1)
+	}
 }

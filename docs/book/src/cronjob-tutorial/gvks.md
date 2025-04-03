@@ -1,6 +1,6 @@
 # Groups and Versions and Kinds, oh my!
 
-Before we get started with our API, we should talk about terminology
+Actually, before we get started with our API, we should talk terminology
 a bit.
 
 When we talk about APIs in Kubernetes, we often use 4 terms: *groups*,
@@ -38,7 +38,7 @@ lowercase form of the Kind.
 
 ## So, how does that correspond to Go?
 
-When we refer to a kind in a particular group version, we'll call it
+When we refer to a kind in a particular group-version, we'll call it
 a *GroupVersionKind*, or GVK for short.  Same with resources and GVR. As
 we'll see shortly, each GVK corresponds to a given root Go type in
 a package.
@@ -48,10 +48,10 @@ API!
 
 ## So, how can we create our API?
 
-In the next section, [Adding a new API](../cronjob-tutorial/new-api.html), we will check how the tool helps us to
+In the next section, [Adding a new API](../cronjob-tutorial/new-api.html), we will check how the tool helps us to 
 create our own APIs with the command `kubebuilder create api`.
 
-The goal of this command is to create a Custom Resource (CR) and Custom Resource Definition (CRD) for our Kind(s). To check it further see; [Extend the Kubernetes API with CustomResourceDefinitions][kubernetes-extend-api].
+The goal of this command is to create Custom Resource (CR) and Custom Resource Definition (CRD) for our Kind(s). To check it further see; [Extend the Kubernetes API with CustomResourceDefinitions][kubernetes-extend-api].
 
 ## But, why create APIs at all?
 
@@ -59,7 +59,7 @@ New APIs are how we teach Kubernetes about our custom objects. The Go structs ar
 
 Our APIs and resources represent our solutions on the clusters. Basically, the CRDs are a definition of our customized Objects, and the CRs are an instance of it.
 
-## Ah, do you have an example?
+## Ah, do you have an example? 
 
 Let’s think about the classic scenario where the goal is to have an application and its database running on the platform with Kubernetes. Then, one CRD could represent the App, and another one could represent the DB. By having one CRD to describe the App and another one for the DB, we will not be hurting concepts such as encapsulation, the single responsibility principle, and cohesion. Damaging these concepts could cause unexpected side effects, such as difficulty in extending, reuse, or maintenance, just to mention a few.
 
@@ -87,7 +87,7 @@ API server that says
 }
 ```
 
-or properly look up the group version when we go to submit a `&CronJob{}`
+or properly look up the group-version when we go to submit a `&CronJob{}`
 in an update.
 
 [kubernetes-extend-api]: https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/

@@ -30,9 +30,9 @@ import (
 
 	"github.com/spf13/afero"
 	"github.com/spf13/pflag"
-	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
-	"sigs.k8s.io/kubebuilder/v4/pkg/plugin"
-	"sigs.k8s.io/kubebuilder/v4/pkg/plugin/external"
+	"sigs.k8s.io/kubebuilder/v3/pkg/machinery"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugin"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugin/external"
 )
 
 var outputGetter ExecOutputGetter = &execOutputGetter{}
@@ -99,7 +99,7 @@ func makePluginRequest(req external.PluginRequest, path string) (*external.Plugi
 
 	// Error if the plugin failed.
 	if res.Error {
-		return nil, fmt.Errorf("%s", strings.Join(res.ErrorMsgs, "\n"))
+		return nil, fmt.Errorf(strings.Join(res.ErrorMsgs, "\n"))
 	}
 
 	return &res, nil
@@ -127,7 +127,7 @@ func getUniverseMap(fs machinery.Filesystem) (map[string]string, error) {
 		}
 
 		defer func() {
-			if err = file.Close(); err != nil {
+			if err := file.Close(); err != nil {
 				return
 			}
 		}()
@@ -141,6 +141,7 @@ func getUniverseMap(fs machinery.Filesystem) (map[string]string, error) {
 
 		return nil
 	})
+
 	if err != nil {
 		return nil, err
 	}

@@ -19,10 +19,9 @@ package v1alpha
 import (
 	"errors"
 
-	"sigs.k8s.io/kubebuilder/v4/pkg/config"
+	"sigs.k8s.io/kubebuilder/v3/pkg/config"
 )
 
-// InsertPluginMetaToConfig will insert the metadata to the plugin configuration
 func InsertPluginMetaToConfig(target config.Config, cfg pluginConfig) error {
 	err := target.DecodePluginConfig(pluginKey, cfg)
 	if !errors.As(err, &config.UnsupportedFieldError{}) {

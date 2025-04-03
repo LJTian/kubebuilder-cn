@@ -1,182 +1,141 @@
-> ⚠️ **IMPORTANT NOTICE:** Images under `gcr.io/kubebuilder/` Will Be Unavailable Soon
->
-> **If your project uses `gcr.io/kubebuilder/kube-rbac-proxy`** it will be affected.
-> Your project may fail to work if the image cannot be pulled. **You must move as soon as possible**, sometime from early 2025, the GCR will go away.
->
-> The usage of the project [kube-rbac-proxy](https://github.com/brancz/kube-rbac-proxy) was discontinued from Kubebuilder
-> and replaced for similar protection using `authn/authz` via Controller-Runtime's feature [WithAuthenticationAndAuthorization](https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.18.4/pkg/metrics/filters#WithAuthenticationAndAuthorization).
->
-> For more information and guidance see the discussion https://github.com/kubernetes-sigs/kubebuilder/discussions/3907
-
 [![Lint](https://github.com/kubernetes-sigs/kubebuilder/actions/workflows/lint.yml/badge.svg)](https://github.com/kubernetes-sigs/kubebuilder/actions/workflows/lint.yml)
 [![Unit tests](https://github.com/kubernetes-sigs/kubebuilder/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/kubernetes-sigs/kubebuilder/actions/workflows/unit-tests.yml)
 [![Go Report Card](https://goreportcard.com/badge/sigs.k8s.io/kubebuilder)](https://goreportcard.com/report/sigs.k8s.io/kubebuilder)
 [![Coverage Status](https://coveralls.io/repos/github/kubernetes-sigs/kubebuilder/badge.svg?branch=master)](https://coveralls.io/github/kubernetes-sigs/kubebuilder?branch=master)
-[![Latest release](https://badgen.net/github/release/kubernetes-sigs/kubebuilder)](https://github.com/kubernetes-sigs/kubebuilder/releases)
-
-- [简体中文](https://github.com/LJTian/kubebuilder-cn/edit/release-4.5/README_cn.md)
+[![Latest release](https://badgen.net/github/release/kubernetes-sigs/kubebuilder)](https://github.com/kubernetes-sigs/kubebuilder/lreleases)
 
 ## Kubebuilder
 
-Kubebuilder is a framework for building Kubernetes APIs using [custom resource definitions (CRDs)](https://kubernetes.io/docs/tasks/access-kubernetes-api/extend-api-custom-resource-definitions).
+Kubebuilder 是一个使用[自定义资源定义 (CRDs)](https://kubernetes.io/docs/tasks/access-kubernetes-api/extend-api-custom-resource-definitions)构建 Kubernetes API 的框架。
 
-Similar to web development frameworks such as *Ruby on Rails* and *SpringBoot*,
-Kubebuilder increases velocity and reduces the complexity managed by
-developers for rapidly building and publishing Kubernetes APIs in Go.
-It builds on top of the canonical techniques used to build the core Kubernetes APIs to provide simple abstractions that reduce boilerplate and toil.
+类似于 *Ruby on Rails* 和 *SpringBoot* 等 Web 开发框架，Kubebuilder 增加了开发人员的速度，减少了构建和发布 Kubernetes API 时的复杂性。它建立在构建核心 Kubernetes API 所使用的规范技术之上，提供了简单的抽象，减少了样板代码和重复劳动。
 
-Kubebuilder does **not** exist as an example to *copy-paste*, but instead provides powerful libraries and tools
-to simplify building and publishing Kubernetes APIs from scratch. It
-provides a plugin architecture allowing users to take advantage of optional helpers
-and features. To learn more about this see the [Plugin section][plugin-section].
+Kubebuilder 并不是一个可以*复制粘贴*的示例，而是提供了强大的库和工具，用于从头开始简化构建和发布 Kubernetes API。它提供了一个插件架构，允许用户利用可选的辅助工具和功能。要了解更多信息，请参阅[插件部分][plugin-section]。
 
-Kubebuilder is developed on top of the [controller-runtime][controller-runtime] and [controller-tools][controller-tools] libraries.
+Kubebuilder 是在 [controller-runtime][controller-runtime] 和 [controller-tools][controller-tools] 库之上开发的。
 
-### Kubebuilder is also a library
+### Kubebuilder 也是一个库
 
-Kubebuilder is extensible and can be used as a library in other projects.
-[Operator-SDK][operator-sdk] is a good example of a project that uses Kubebuilder as a library.
-[Operator-SDK][operator-sdk] uses the plugin feature to include non-Go operators _e.g. operator-sdk's Ansible and Helm-based language Operators_.
+Kubebuilder 是可扩展的，可以作为其他项目中的库使用。[Operator-SDK][operator-sdk] 是使用 Kubebuilder 作为库的一个很好的例子。[Operator-SDK][operator-sdk] 使用插件功能来包含非 Go 运算符，例如 operator-sdk 的 Ansible 和基于 Helm 的语言运算符。
 
-To learn more see [how to create your own plugins][your-own-plugins].
+要了解更多信息，请参阅[如何创建您自己的插件][your-own-plugins]。
 
-### Installation
+### 安装
 
-It is strongly recommended that you use a released version. Release binaries are available on the [releases](https://github.com/kubernetes-sigs/kubebuilder/releases) page.
-Follow the [instructions](https://book.kubebuilder.io/quick-start.html#installation) to install Kubebuilder.
+强烈建议您使用发布版本。发布的二进制文件可在[发布页面](https://github.com/kubernetes-sigs/kubebuilder/releases)上获得。请按照[说明](https://book.kubebuilder.io/quick-start.html#installation)安装 Kubebuilder。
 
-## Getting Started
+## 入门指南
 
-See the [Getting Started](https://book.kubebuilder.io/quick-start.html) documentation.
+请查看[入门指南](https://book.kubebuilder.io/quick-start.html)文档。
 
-![Quick Start](docs/gif/kb-demo.v3.11.1.svg)
+![快速入门](docs/gif/kb-demo.v3.11.1.svg)
 
-Also, ensure that you check out the [Deploy Image](./docs/book/src/plugins/available/deploy-image-plugin-v1-alpha.md)
-Plugin. This plugin allows users to scaffold API/Controllers to deploy and manage an
-Operand (image) on the cluster following the guidelines and best practices. It abstracts the
-complexities of achieving this goal while allowing users to customize the generated code.
+此外，请确保查看[部署镜像](https://book.kubebuilder.io/plugins/deploy-image-plugin-v1-alpha.html)插件。该插件允许用户生成 API/Controller，以便在集群上部署和管理操作数（镜像），遵循指南和最佳实践。它在抽象实现此目标的复杂性的同时，允许用户定制生成的代码。
 
-## Documentation
+## 文档
 
-Check out the Kubebuilder [book](https://book.kubebuilder.io).
+查看 Kubebuilder [书籍](https://book.kubebuilder.io)。
 
-## Resources
+## 资源
 
-- Kubebuilder Book: [book.kubebuilder.io](https://book.kubebuilder.io)
-- GitHub Repo: [kubernetes-sigs/kubebuilder](https://github.com/kubernetes-sigs/kubebuilder)
-- Slack channel: [#kubebuilder](https://kubernetes.slack.com/messages/#kubebuilder)
-- Google Group: [kubebuilder@googlegroups.com](https://groups.google.com/forum/#!forum/kubebuilder)
-- Design Documents: [designs](designs/)
-- Plugin: [plugins][plugin-section]
+- Kubebuilder 书籍（汉化版）：[kubebuilder.cn](https://kubebuilder.cn)
+- Kubebuilder 书籍：[book.kubebuilder.io](https://book.kubebuilder.io)
+- GitHub 仓库：[kubernetes-sigs/kubebuilder](https://github.com/kubernetes-sigs/kubebuilder)
+- GitHub 汉化版仓库：[LJTian/kubebuilder-cn](https://github.com/LJTian/kubebuilder-cn)
+- Slack 频道：[#kubebuilder](https://slack.k8s.io/#kubebuilder)
+- Google Group：[kubebuilder@googlegroups.com](https://groups.google.com/forum/#!forum/kubebuilder)
+- 设计文档：[designs](designs/)
+- 插件：[plugins][plugin-section]
 
-## Motivation
+## 动机
 
-Building Kubernetes tools and APIs involves making a lot of decisions and writing a lot of boilerplate.
+___
+kubebuilder.cn 汉化版的初衷：
+1. 学习 kubebuilder 相关知识。
+2. 没找到相对翻译较好且内容比较新的网站。
+3. 稍微做点贡献。 
 
-To facilitate easily building Kubernetes APIs and tools using the canonical approach, this framework
-provides a collection of Kubernetes development tools to minimize toil.
+*此部分内容非官网内容同步*
+___
+构建 Kubernetes 工具和 API 涉及做出许多决策并编写大量样板代码。
 
-Kubebuilder attempts to facilitate the following developer workflow for building APIs
+为了便于使用规范方法轻松构建 Kubernetes API 和工具，该框架提供了一系列 Kubernetes 开发工具，以最小化重复劳动。
 
-1. Create a new project directory
-2. Create one or more resource APIs as CRDs and then add fields to the resources
-3. Implement reconcile loops in controllers and watch additional resources
-4. Test by running against a cluster (self-installs CRDs and starts controllers automatically)
-5. Update bootstrapped integration tests to test new fields and business logic
-6. Build and publish a container from the provided Dockerfile
+Kubebuilder 试图为构建 API 的开发者工作流程提供帮助：
 
-## Scope
+1. 创建一个新的项目目录
+2. 创建一个或多个资源 API 作为 CRDs，然后向资源添加字段
+3. 在控制器中实现调和循环并监视其他资源
+4. 通过针对集群运行测试（自动安装 CRDs 并自动启动控制器）
+5. 更新引导集成测试以测试新字段和业务逻辑
+6. 从提供的 Dockerfile 构建和发布容器
 
-Building APIs using CRDs, Controllers, and Admission Webhooks.
+## 范围
 
-## Philosophy
+使用 CRDs、控制器和准入 Webhook 构建 API。
 
-See [DESIGN.md](DESIGN.md) for the guiding principles of the various Kubebuilder projects.
+## 哲学
 
-TL;DR:
+请参阅 [DESIGN.md](DESIGN.md)，了解各种 Kubebuilder 项目的指导原则。
 
-Provide clean library abstractions with clear and well-exampled go docs.
+简而言之：
 
-- Prefer using go *interfaces* and *libraries* over-relying on *code generation*
-- Prefer using *code generation* over *1 time init* of stubs
-- Prefer *1 time init* of stubs over forked and modified boilerplate
-- Never fork and modify boilerplate
+提供清晰和良好示例的库抽象。
 
-## Techniques
+- 更倾向于使用 go *接口* 和 *库*，而不是依赖于*代码生成*
+- 更倾向于使用*代码生成*，而不是*一次性初始化*存根
+- 更倾向于*一次性初始化*存根，而不是分叉和修改样板代码
+- 永远不要分叉和修改样板代码
 
-- Provide higher-level libraries on top of low-level client libraries
-  - Protect developers from breaking changes in low-level libraries
-  - Start minimal and provide progressive discovery of functionality
-  - Provide sane defaults and allow users to override when they exist
-- Provide code generators to maintain common boilerplate that can't be addressed by interfaces
-  - Driven off of `// +` comments
-- Provide bootstrapping commands to initialize new packages
+## 技术
 
-## Versioning and Releasing
+- 在低级别客户端库之上提供更高级别的库
+    - 保护开发人员免受低级别库的重大更改
+    - 从最小开始，并提供功能的渐进式发现
+    - 提供合理的默认值，并允许用户在存在时进行覆盖
+- 提供代码生成器来维护无法通过接口解决的常见样板代码
+    - 由 `//+` 注释驱动
+- 提供引导命令以初始化新包
 
-See [VERSIONING.md](VERSIONING.md).
+## 版本控制和发布
 
-## Troubleshooting
+请参阅 [VERSIONING.md](VERSIONING.md)。
 
-- ### Bugs and Feature Requests:
-  If you have what looks like a bug, or you would like to make a feature request, please use the [Github issue tracking system.](https://github.com/kubernetes-sigs/kubebuilder/issues)
-Before you file an issue, please search existing issues to see if your issue is already covered.
+## 故障排除
+
+- ### 错误和功能请求：
+  如果您遇到看起来像错误的问题，或者您想提出功能请求，请使用[Github 问题跟踪系统](https://github.com/kubernetes-sigs/kubebuilder/issues)。
+  在提交问题之前，请搜索现有问题，以查看您的问题是否已经有解决方案。
 
 - ### Slack
-  For real-time discussion,  you can join the [#kubebuilder](https://slack.k8s.io/#kubebuilder) slack channel. Slack requires registration, but the Kubernetes team is an open invitation to anyone to register here. Feel free to come and ask any questions.
+  对于实时讨论，您可以加入 [#kubebuilder](https://slack.k8s.io/#kubebuilder) slack 频道。Slack 需要注册，但 Kubernetes 团队对任何人的注册都是开放邀请。欢迎随时前来提问。
 
-## Contributing
+## 贡献
 
-Contributions are greatly appreciated. The maintainers actively manage the issues list and try to highlight issues suitable for newcomers.
-The project follows the typical GitHub pull request model. See [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
-Before starting any work, please either comment on an existing issue or file a new one.
+非常感谢您的贡献。维护人员积极管理问题列表，并尝试突出适合新手的问题。
+该项目遵循典型的 GitHub 拉取请求模型。有关更多详细信息，请参阅[CONTRIBUTING.md](CONTRIBUTING.md)。
+在开始任何工作之前，请在现有问题上发表评论，或者提出新问题。
 
-## Operating Systems Supported
+## 支持性说明
 
-Currently, Kubebuilder officially supports macOS and Linux platforms. If you are using a Windows OS, you may encounter issues.
-Contributions towards supporting Windows are welcome.
+目前，Kubebuilder 正式支持 OSX 和 Linux 平台。
+因此，如果您使用的是 Windows 操作系统，可能会遇到问题。欢迎为支持 Windows 而做出贡献。
 
-## Versions Compatibility and Supportability
+### 苹果芯片
 
-Projects created by Kubebuilder contain a `Makefile` that installs tools at versions defined during project creation. The main tools included are:
+苹果芯片（`darwin/arm64`）支持始于 `go/v4` 插件。
 
-- [kustomize](https://github.com/kubernetes-sigs/kustomize)
-- [controller-gen](https://github.com/kubernetes-sigs/controller-tools)
-- [setup-envtest](https://github.com/kubernetes-sigs/controller-runtime/tree/main/tools/setup-envtest)
+## 社区会议
 
-Additionally, these projects include a `go.mod` file specifying dependency versions.
-Kubebuilder relies on [controller-runtime](https://github.com/kubernetes-sigs/controller-runtime) and its Go and Kubernetes dependencies.
-Therefore, the versions defined in the `Makefile` and `go.mod` files are the ones that have been tested, supported, and recommended.
+以下会议每两周举行一次：
 
-Each minor version of Kubebuilder is tested with a specific minor version of the client-go.
-While a Kubebuilder minor version *may* be compatible with other client-go minor versions,
-or other tools this compatibility is not guaranteed, supported, or tested.
+- Kubebuilder 会议
 
-The minimum Go version required by Kubebuilder is determined by the highest minimum
-Go version required by its dependencies. This is usually aligned with the minimum
-Go version required by the corresponding `k8s.io/*` dependencies.
-
-Compatible `k8s.io/*` versions, client-go versions, and minimum Go versions can be found in the `go.mod`
-file scaffolded for each project for each [tag release](https://github.com/kubernetes-sigs/kubebuilder/tags).
-
-**Example:** For the `4.1.1` release, the minimum Go version compatibility is `1.22`.
-You can refer to the samples in the testdata directory of the tag released [v4.1.1](https://github.com/kubernetes-sigs/kubebuilder/tree/v4.1.1/testdata),
-such as the [go.mod](https://github.com/kubernetes-sigs/kubebuilder/blob/v4.1.1/testdata/project-v4/go.mod#L3) file for `project-v4`. You can also check the versions of the tools supported and
-tested for this release by examining the [Makefile](https://github.com/kubernetes-sigs/kubebuilder/blob/v4.1.1/testdata/project-v4/Makefile#L160-L165).
-
-## Community Meetings
-
-The following meetings happen biweekly:
-
-- Kubebuilder Meeting
-
-You are more than welcome to attend. For further info join to [kubebuilder@googlegroups.com](https://groups.google.com/g/kubebuilder).
-Every month, our team meets on the first Thursday at 11:00 PT (Pacific Time) to discuss our progress and plan for the upcoming weeks.
-Please note that we have been syncing more frequently offline via Slack lately. However, if you add a topic to the agenda, we will hold the meeting as scheduled.
-Additionally, we can use this channel to demonstrate new features.
+欢迎参加。有关更多信息，请加入 [kubebuilder@googlegroups.com](https://groups.google.com/g/kubebuilder)。
+每月，我们的团队在每个月的第一个星期四的 11:00 PT（太平洋时间）举行会议，讨论我们的进展并制定未来几周的计划。
 
 [operator-sdk]: https://github.com/operator-framework/operator-sdk
 [plugin-section]: https://book.kubebuilder.io/plugins/plugins.html
 [controller-runtime]: https://github.com/kubernetes-sigs/controller-runtime
-[your-own-plugins]: https://book.kubebuilder.io/plugins/extending
+[your-own-plugins]: https://book.kubebuilder.io/plugins/creating-plugins.html
 [controller-tools]: https://github.com/kubernetes-sigs/controller-tools

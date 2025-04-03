@@ -17,12 +17,12 @@ limitations under the License.
 package cli
 
 import (
-	"errors"
+	"fmt"
 	"strings"
 
 	"github.com/spf13/pflag"
 
-	"sigs.k8s.io/kubebuilder/v4/pkg/model/resource"
+	"sigs.k8s.io/kubebuilder/v3/pkg/model/resource"
 )
 
 const (
@@ -53,13 +53,13 @@ func (opts resourceOptions) validate() error {
 	// NOTE: We must do this for all the required flags first or we may output the wrong
 	// error as flags may seem to be missing because Cobra assigned them to another flag.
 	if strings.HasPrefix(opts.Group, "-") {
-		return errors.New(groupPresent)
+		return fmt.Errorf(groupPresent)
 	}
 	if strings.HasPrefix(opts.Version, "-") {
-		return errors.New(versionPresent)
+		return fmt.Errorf(versionPresent)
 	}
 	if strings.HasPrefix(opts.Kind, "-") {
-		return errors.New(kindPresent)
+		return fmt.Errorf(kindPresent)
 	}
 
 	// We do not check here if the GVK values are empty because that would

@@ -21,14 +21,13 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
+	"sigs.k8s.io/kubebuilder/v3/pkg/machinery"
 )
 
 var _ machinery.Template = &ControllerTest{}
 
 // ControllerTest scaffolds the file that sets up the controller unit tests
-//
-//nolint:maligned
+// nolint:maligned
 type ControllerTest struct {
 	machinery.TemplateMixin
 	machinery.MultiGroupMixin
@@ -40,7 +39,7 @@ type ControllerTest struct {
 	DoAPI bool
 }
 
-// SetTemplateDefaults implements machinery.Template
+// SetTemplateDefaults implements file.Template
 func (f *ControllerTest) SetTemplateDefaults() error {
 	if f.Path == "" {
 		if f.MultiGroup && f.Resource.Group != "" {

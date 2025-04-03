@@ -19,10 +19,10 @@ package v1alpha
 import (
 	"fmt"
 
-	"sigs.k8s.io/kubebuilder/v4/pkg/config"
-	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
-	"sigs.k8s.io/kubebuilder/v4/pkg/plugin"
-	"sigs.k8s.io/kubebuilder/v4/pkg/plugins/optional/grafana/v1alpha/scaffolds"
+	"sigs.k8s.io/kubebuilder/v3/pkg/config"
+	"sigs.k8s.io/kubebuilder/v3/pkg/machinery"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugin"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugins/optional/grafana/v1alpha/scaffolds"
 )
 
 var _ plugin.EditSubcommand = &editSubcommand{}
@@ -32,11 +32,11 @@ type editSubcommand struct {
 }
 
 func (p *editSubcommand) UpdateMetadata(cliMeta plugin.CLIMetadata, subcmdMeta *plugin.SubcommandMetadata) {
-	subcmdMeta.Description = metaDataDescription
+	subcmdMeta.Description = MetaDataDescription
 
 	subcmdMeta.Examples = fmt.Sprintf(`  # Edit a common project with this plugin
-  %[1]s edit --plugins=%[2]s
-`, cliMeta.CommandName, pluginKey)
+  %[1]s edit --plugins=grafana.kubebuilder.io/v1-alpha
+`, cliMeta.CommandName)
 }
 
 func (p *editSubcommand) InjectConfig(c config.Config) error {

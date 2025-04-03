@@ -24,11 +24,11 @@ import (
 
 	"github.com/spf13/pflag"
 
-	"sigs.k8s.io/kubebuilder/v4/pkg/config"
-	"sigs.k8s.io/kubebuilder/v4/pkg/internal/validation"
-	"sigs.k8s.io/kubebuilder/v4/pkg/machinery"
-	"sigs.k8s.io/kubebuilder/v4/pkg/plugin"
-	"sigs.k8s.io/kubebuilder/v4/pkg/plugins/common/kustomize/v2/scaffolds"
+	"sigs.k8s.io/kubebuilder/v3/pkg/config"
+	"sigs.k8s.io/kubebuilder/v3/pkg/internal/validation"
+	"sigs.k8s.io/kubebuilder/v3/pkg/machinery"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugin"
+	"sigs.k8s.io/kubebuilder/v3/pkg/plugins/common/kustomize/v2/scaffolds"
 )
 
 var _ plugin.InitSubcommand = &initSubcommand{}
@@ -37,8 +37,9 @@ type initSubcommand struct {
 	config config.Config
 
 	// config options
-	domain string
-	name   string
+	domain          string
+	name            string
+	componentConfig bool
 }
 
 func (p *initSubcommand) UpdateMetadata(cliMeta plugin.CLIMetadata, subcmdMeta *plugin.SubcommandMetadata) {
@@ -49,16 +50,23 @@ func (p *initSubcommand) UpdateMetadata(cliMeta plugin.CLIMetadata, subcmdMeta *
 NOTE: This plugin requires kustomize version v5 and kubectl >= 1.22.
 `
 	subcmdMeta.Examples = fmt.Sprintf(`  # Initialize a common project with your domain and name in copyright
-  %[1]s init --plugins %[2]s --domain example.org
+  %[1]s init --plugins common/v3 --domain example.org
 
   # Initialize a common project defining a specific project version
-  %[1]s init --plugins %[2]s --project-version 3
-`, cliMeta.CommandName, plugin.KeyFor(Plugin{}))
+  %[1]s init --plugins common/v3 --project-version 3
+`, cliMeta.CommandName)
 }
 
 func (p *initSubcommand) BindFlags(fs *pflag.FlagSet) {
 	fs.StringVar(&p.domain, "domain", "my.domain", "domain for groups")
 	fs.StringVar(&p.name, "project-name", "", "name of this project")
+	fs.BoolVar(&p.componentConfig, "component-config", false,
+		"create a versioned ComponentConfig file, may be 'true' or 'false'")
+	_ = fs.MarkDeprecated("component-config", "the ComponentConfig has been deprecated in the "+
+		"Controller-Runtime since its version 0.15.0. Moreover, it has undergone breaking changes and is no longer "+
+		"functioning as intended. As a result, this tool, which heavily relies on the Controller Runtime, "+
+		"has also deprecated this feature, no longer guaranteeing its functionality from version 3.11.0 onwards. "+
+		"You can find additional details on https://github.com/kubernetes-sigs/controller-runtime/issues/895.")
 }
 
 func (p *initSubcommand) InjectConfig(c config.Config) error {
@@ -80,7 +88,17 @@ func (p *initSubcommand) InjectConfig(c config.Config) error {
 	if err := validation.IsDNS1123Label(p.name); err != nil {
 		return fmt.Errorf("project name (%s) is invalid: %v", p.name, err)
 	}
-	return p.config.SetProjectName(p.name)
+	if err := p.config.SetProjectName(p.name); err != nil {
+		return err
+	}
+
+	if p.componentConfig {
+		if err := p.config.SetComponentConfig(); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func (p *initSubcommand) Scaffold(fs machinery.Filesystem) error {
