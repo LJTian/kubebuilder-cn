@@ -35,9 +35,12 @@ jobs:
       #    curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf -y | sh
       #    rustup update
       #     cargo install mdbook mdbook-i18n-helpers --locked
-      - name: Install golang
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '^1.23.8' # The Go version to download (if necessary) and use.
+      - run: go version
+      - name: install mdbook
         run: |
-          apt install golang -y
           sh -x doc/book/install-and-build.sh 
       - name: Build with mdBook
         run: cd docs/book && MDBOOK_BOOK__LANGUAGE=zh_CN mdbook build -d book/zh_CN
