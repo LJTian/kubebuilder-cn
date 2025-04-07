@@ -59,7 +59,7 @@ jobs:
           # MDBOOK_BOOK__LANGUAGE=zh_CN mdbook build -d book/zh_CN
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: built-book
           path: ./docs/book/book/zh_CN # 确保这个路径是正确的
