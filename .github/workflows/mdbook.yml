@@ -57,6 +57,7 @@ jobs:
           git config --global user.email "tianlijun315@gmail.com"
       - name: Commit and push changes
         run: |
-          git add *
+          cd /home/runner/work/kubebuilder-cn/kubebuilder-cn/
+          git add .
           git commit -m "auto add page"
           git push origin mdbook-page
