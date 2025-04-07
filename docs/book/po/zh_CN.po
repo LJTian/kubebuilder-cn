@@ -61,7 +61,7 @@ msgstr "设计一个 API"
 
 #: src/SUMMARY.md:22 src/cronjob-tutorial/other-api-files.md:1
 msgid "A Brief Aside: What's the rest of this stuff?"
-msgstr ""
+msgstr "简短的插曲：这些其他东西是什么？"
 
 #: src/SUMMARY.md:24 src/cronjob-tutorial/controller-overview.md:1
 msgid "What's in a controller?"
