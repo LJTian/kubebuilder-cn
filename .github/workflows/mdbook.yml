@@ -76,7 +76,7 @@ jobs:
           fetch-depth: 0 # 获取完整的历史记录，以便正确推送
 
       - name: Download built artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: built-book
           path: built-book
