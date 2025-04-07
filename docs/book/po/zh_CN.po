@@ -18051,8 +18051,7 @@ msgid ""
 "// SetupWithManager sets up the controller with the Manager.\n"
 "// The controller will watch both the BackupBusybox primary resource and the "
 "Busybox resource, using predicates.\n"
-msgstr "// SetupWithManager 使用 Manager 设置控制器。
-// 控制器将同时监视 BackupBusybox 主要资源和 Busybox 资源，并使用谓词。"
+msgstr "// SetupWithManager 使用 Manager 设置控制器。\n// 控制器将同时监视 BackupBusybox 主要资源和 Busybox 资源，并使用谓词。"
 
 #: src/reference/watching-resources/predicates-with-watch.md:101
 msgid "// Apply the predicate\n"
