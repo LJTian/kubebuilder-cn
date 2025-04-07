@@ -79,7 +79,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: built-book
-          path: built-book
+          path: /tmp/built-book
 
       - name: Set up Git user
         run: |
@@ -95,7 +95,7 @@ jobs:
           rm -rf ./*
 
           # 将构建好的内容复制到目标分支
-          cp -r built-book/* .
+          cp -r /tmp/built-book .
 
           # 添加所有更改
           git add .
