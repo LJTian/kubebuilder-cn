@@ -56,7 +56,7 @@ jobs:
           cd docs/book
           /bin/bash -x install-and-build.sh
           # 如果你的 install-and-build.sh 没有构建特定语言，取消注释下一行
-          # MDBOOK_BOOK__LANGUAGE=zh_CN mdbook build -d book/zh_CN
+          MDBOOK_BOOK__LANGUAGE=zh_CN mdbook build -d book/zh_CN
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
