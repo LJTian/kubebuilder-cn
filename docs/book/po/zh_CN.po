@@ -355,7 +355,10 @@ msgstr "**注意：** 不耐烦的读者可以直接跳到 [快速开始](quick-
 
 #: src/introduction.md:3
 msgid ""
-msgstr ""
+"**Using previous version of Kubebuilder v1 or v2?** **Check the legacy "
+"documentation for [v1](https://book-v1.book.kubebuilder.io), [v2](https://"
+"book-v2.book.kubebuilder.io) or [v3](https://book-v3.book.kubebuilder.io)**"
+msgstr "**使用旧版本的 Kubebuilder v1 或 v2？** **请查看 [v1](https://book-v1.book.kubebuilder.io)、[v2](https://book-v2.book.kubebuilder.io) 或 [v3](https://book-v3.book.kubebuilder.io) 的遗留文档**"
 
 #: src/introduction.md:6
 msgid "Who is this for"
