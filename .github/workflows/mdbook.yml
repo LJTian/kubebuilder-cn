@@ -31,7 +31,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: mdbook-page 
+          ref: release-4.5 
       - name: Install mdBook mdbook-i18n-helpers
         run: |
           curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf -y | sh
@@ -60,4 +60,4 @@ jobs:
           cd /home/runner/work/kubebuilder-cn/kubebuilder-cn/
           git add .
           git commit -m "auto add page"
-          git push origin mdbook-page
+          git push origin release-4.5:mdbook-page
