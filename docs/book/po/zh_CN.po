@@ -9980,16 +9980,7 @@ msgid ""
 "// For more details, check Reconcile and its Result here:\n"
 "// - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.20.4/pkg/"
 "reconcile\n"
-msgstr "// Reconcile 是主 Kubernetes 协调循环的一部分，旨在将集群的当前状态向期望状态靠拢。
-// 控制器的协调循环必须是幂等的。遵循操作员模式，您将创建提供协调功能的控制器，
-// 该功能负责同步资源，直到集群达到期望状态。
-// 违反此建议会违背控制器运行时的设计原则，可能导致意想不到的后果，例如资源卡住并需要手动干预。
-// 了解更多信息：
-// - 关于操作员模式：https://kubernetes.io/docs/concepts/extend-kubernetes/operator/
-// - 关于控制器：https://kubernetes.io/docs/concepts/architecture/controller/
-//
-// 有关更多详细信息，请查看 Reconcile 及其结果：
-// - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.20.4/pkg/reconcile"
+msgstr "// Reconcile 是主 Kubernetes 协调循环的一部分，旨在将集群的当前状态向期望状态靠拢. \n// 控制器的协调循环必须是幂等的。遵循操作员模式，您将创建提供协调功能的控制器，\n// 该功能负责同步资源，直到集群达到期望状态。\n// 违反此建议会违背控制器运行时的设计原则，可能导致意想不到的后果，例如资源卡住并需要手动干预。\n// 了解更多信息：\n// - 关于操作员模式：https://kubernetes.io/docs/concepts/extend-kubernetes/operator/ \n// - 关于控制器：https://kubernetes.io/docs/concepts/architecture/controller/ \n// \n// 有关更多详细信息，请查看 Reconcile 及其结果： \n// - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.20.4/pkg/reconcile"
 
 #: src/getting-started.md:505
 msgid ""
