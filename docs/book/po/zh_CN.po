@@ -18940,13 +18940,13 @@ msgstr "正如在[快速入门](../quick-start.md)中所述，我们需要搭建
 
 #: src/cronjob-tutorial/cronjob-tutorial.md:47
 msgid "# create a project directory, and then run the init command.\n"
-msgstr "# 创建一个项目目录，然后运行初始化命令。"
+msgstr "# 创建一个项目目录，然后运行初始化命令。\n"
 
 #: src/cronjob-tutorial/cronjob-tutorial.md:49
 msgid ""
 "# we'll use a domain of tutorial.kubebuilder.io,\n"
 "# so all API groups will be <group>.tutorial.kubebuilder.io.\n"
-msgstr "# 我们将使用域名 tutorial.kubebuilder.io，\n# 所有 API 组将为 <group>.tutorial.kubebuilder.io。"
+msgstr "# 我们将使用域名 tutorial.kubebuilder.io，\n# 所有 API 组将为 <group>.tutorial.kubebuilder.io。\n"
 
 #: src/cronjob-tutorial/cronjob-tutorial.md:57
 msgid ""
