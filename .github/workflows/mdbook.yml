@@ -43,7 +43,7 @@ jobs:
         run: |
           curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf -y | sh
           rustup update stable
-          cargo install mdbook --version "0.4.40" mdbook-i18n-helpers
+          cargo install mdbook --version "0.4.40" mdbook-i18n-helpers --locked
 
       - name: Install Go (if required)
         uses: actions/setup-go@v5
