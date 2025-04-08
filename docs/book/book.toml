@@ -2,7 +2,7 @@
 authors = ["The Kubebuilder Maintainers"]
 multilingual = false
 src = "src"
-title = "The Kubebuilder Book"
+title = "Kubebuilder 指南"
 
 [preprocessor.gettext]
 after = ["links"]
@@ -13,7 +13,7 @@ extra-watch-dirs = ["translation"]
 [output.html]
 curly-quotes = true
 additional-css = ["theme/css/markers.css", "theme/css/custom.css", "theme/css/version-dropdown.css"]
-git-repository-url = "https://github.com/kubernetes-sigs/kubebuilder"
+git-repository-url = "https://github.com/LJTian/kubebuilder-cn"
 edit-url-template = "https://github.com/kubernetes-sigs/kubebuilder/edit/master/docs/book/{path}"
 
 [preprocessor.literatego]
