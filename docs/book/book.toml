@@ -1,6 +1,6 @@
 [book]
 authors = ["The Kubebuilder Maintainers"]
-multilingual = false
+multilingual = true
 src = "src"
 title = "Kubebuilder 指南"
 
@@ -14,7 +14,7 @@ extra-watch-dirs = ["translation"]
 curly-quotes = true
 additional-css = ["theme/css/markers.css", "theme/css/custom.css", "theme/css/version-dropdown.css"]
 git-repository-url = "https://github.com/LJTian/kubebuilder-cn"
-edit-url-template = "https://github.com/kubernetes-sigs/kubebuilder/edit/master/docs/book/{path}"
+edit-url-template = "https://github.com/LJTian/kubebuilder-cn/edit/master/docs/book/{path}"
 
 [preprocessor.literatego]
 command = "./litgo.sh"
