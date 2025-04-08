@@ -447,7 +447,7 @@ msgstr "如何使用声明式验证与 Webhook 验证"
 
 #: src/introduction.md:39
 msgid "How to implement API versioning"
-msgstr ""
+msgstr "如何实现 API 版本控制"
 
 #: src/introduction.md:41
 msgid "Why Kubernetes APIs"
@@ -457,29 +457,29 @@ msgstr "为什么选择 Kubernetes API"
 msgid ""
 "Kubernetes APIs provide consistent and well defined endpoints for objects "
 "adhering to a consistent and rich structure."
-msgstr "Kubernetes API 提供了一致且明确定义的端点，用于遵循一致且丰富结构的对象。"
+msgstr "Kubernetes API 提供了一致且明确定义的对象网络端点，遵循一致且丰富的结构"
 
 #: src/introduction.md:46
 msgid ""
 "This approach has fostered a rich ecosystem of tools and libraries for "
 "working with Kubernetes APIs."
-msgstr "这种方法促进了一个丰富的工具和库生态系统，以便与 Kubernetes API 进行交互。"
+msgstr "这种方式促进了丰富的工具和库生态系统与 Kubernetes API 进行交互。"
 
 #: src/introduction.md:49
 msgid ""
 "Users work with the APIs through declaring objects as _yaml_ or _json_ "
 "config, and using common tooling to manage the objects."
-msgstr "用户通过将对象声明为 _yaml_ 或 _json_ 配置，并使用常见工具来管理这些对象，从而与 APIs 进行交互。"
+msgstr "用户通过将对象声明为 _yaml_ 或 _json_ 配置，并使用常见工具来管理这些对象，方便与 APIs 进行交互。"
 
 #: src/introduction.md:52
 msgid ""
 "Building services as Kubernetes APIs provides many advantages to plain old "
 "REST, including:"
-msgstr "将服务构建为Kubernetes API 相较于传统的REST，提供了许多优势，包括："
+msgstr "将服务构建为 Kubernetes API 相较于传统的REST，有以下优势："
 
 #: src/introduction.md:54
 msgid "Hosted API endpoints, storage, and validation."
-msgstr "托管的 API 端点、存储和验证。"
+msgstr "托管的 API 网络端点、存储和验证。"
 
 #: src/introduction.md:55
 msgid "Rich tooling and CLIs such as `kubectl` and `kustomize`."
@@ -491,23 +491,23 @@ msgstr "支持身份验证（AuthN）和细粒度授权（AuthZ）。"
 
 #: src/introduction.md:57
 msgid "Support for API evolution through API versioning and conversion."
-msgstr "通过API版本控制和转换支持API演进。"
+msgstr "通过 API 版本控制和转换并且支持 API 版本演进。"
 
 #: src/introduction.md:58
 msgid ""
 "Facilitation of adaptive / self-healing APIs that continuously respond to "
 "changes in the system state without user intervention."
-msgstr "促进自适应/自愈API的实现，它们能够在没有用户干预的情况下持续响应系统状态的变化。"
+msgstr "促进自适应/自愈 API 的实现，它们能够在没有用户干预的情况下持续响应系统状态的变化。"
 
 #: src/introduction.md:60
 msgid "Kubernetes as a hosting environment"
-msgstr "Kubernetes 作为一个托管环境"
+msgstr "Kubernetes 是一个托管环境"
 
 #: src/introduction.md:62
 msgid ""
 "Developers may build and publish their own Kubernetes APIs for installation "
 "into running Kubernetes clusters."
-msgstr "开发者可以构建并发布自己的 Kubernetes API，以便安装到运行中的 Kubernetes 集群中。"
+msgstr "开发者可以构建并发布自己的 Kubernetes API，方便安装到运行中的 Kubernetes 集群中。"
 
 #: src/introduction.md:65
 msgid "Contribution"
