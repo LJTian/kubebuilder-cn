@@ -18279,13 +18279,13 @@ msgstr ""
 #: src/reference/project-config.md:88 src/reference/project-config.md:105
 #: src/plugins/extending/extending_cli_features_and_plugins.md:424
 msgid "resources"
-msgstr "资源"
+msgstr "resources"
 
 #: src/getting-started.md:800
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:147
 #: src/reference/using_an_external_resource.md:105
 msgid "events"
-msgstr "事件"
+msgstr "events"
 
 #: src/getting-started.md:801 src/getting-started.md:808
 #: src/getting-started.md:816 src/getting-started.md:828
@@ -18294,7 +18294,7 @@ msgstr "事件"
 #: src/reference/using_an_external_resource.md:156
 #: src/reference/using_an_external_resource.md:162
 msgid "verbs"
-msgstr "动词"
+msgstr "verbs"
 
 #: src/getting-started.md:802 src/getting-started.md:817
 #: src/getting-started.md:829 src/cronjob-tutorial/running-webhook.md:113
@@ -18309,35 +18309,35 @@ msgstr "动词"
 #: src/cronjob-tutorial/running-webhook.md:253
 #: src/reference/using_an_external_resource.md:145
 msgid "create"
-msgstr "创建"
+msgstr "create"
 
 #: src/getting-started.md:803 src/getting-started.md:821
 #: src/getting-started.md:833 src/getting-started.md:848
 #: src/reference/using_an_external_resource.md:149
 #: src/reference/using_an_external_resource.md:164
 msgid "patch"
-msgstr "补丁"
+msgstr "patch"
 
 #: src/getting-started.md:807
 msgid "pods"
-msgstr "豆荚"
+msgstr "pods"
 
 #: src/getting-started.md:809 src/getting-started.md:819
 #: src/getting-started.md:831 src/getting-started.md:847
 #: src/reference/using_an_external_resource.md:147
 #: src/reference/using_an_external_resource.md:163
 msgid "get"
-msgstr "获取"
+msgstr "get"
 
 #: src/getting-started.md:810 src/getting-started.md:820
 #: src/getting-started.md:832 src/reference/using_an_external_resource.md:148
 msgid "list"
-msgstr "清单"
+msgstr "list"
 
 #: src/getting-started.md:811 src/getting-started.md:823
 #: src/getting-started.md:835 src/reference/using_an_external_resource.md:151
 msgid "watch"
-msgstr "手表"
+msgstr "watch"
 
 #: src/getting-started.md:813
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:137
@@ -18347,16 +18347,16 @@ msgstr "手表"
 #: src/reference/using_an_external_resource.md:153
 #: src/reference/using_an_external_resource.md:159
 msgid "apps"
-msgstr "应用程序"
+msgstr "apps"
 
 #: src/getting-started.md:815 src/reference/using_an_external_resource.md:143
 msgid "deployments"
-msgstr "部署"
+msgstr "deployments"
 
 #: src/getting-started.md:818 src/getting-started.md:830
 #: src/reference/using_an_external_resource.md:146
 msgid "delete"
-msgstr "删除"
+msgstr "delete"
 
 #: src/getting-started.md:822 src/getting-started.md:834
 #: src/getting-started.md:841 src/getting-started.md:849
@@ -19229,7 +19229,7 @@ msgstr "tutorial.kubebuilder.io"
 #: src/migration/multi-group.md:87 src/reference/project-config.md:16
 #: src/reference/project-config.md:83
 msgid "layout"
-msgstr "布局"
+msgstr "layout"
 
 #: src/cronjob-tutorial/basic-project.md:362
 #: src/migration/manually_migration_guide_gov3_to_gov4.md:40
@@ -19242,7 +19242,7 @@ msgstr "go.kubebuilder.io/v4"
 #: src/reference/project-config.md:85
 #: src/plugins/extending/extending_cli_features_and_plugins.md:421
 msgid "plugins"
-msgstr "插件"
+msgstr "plugins"
 
 #: src/cronjob-tutorial/basic-project.md:364
 msgid "helm.kubebuilder.io/v1-alpha"
@@ -19256,7 +19256,7 @@ msgstr "helm.kubebuilder.io/v1-alpha"
 #: src/migration/multi-group.md:90 src/reference/project-config.md:36
 #: src/reference/project-config.md:103
 msgid "projectName"
-msgstr "项目名称"
+msgstr "projectName"
 
 #: src/cronjob-tutorial/basic-project.md:365
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:227
@@ -19266,7 +19266,7 @@ msgstr "项目名称"
 #: src/migration/multi-group.md:91 src/reference/project-config.md:37
 #: src/reference/project-config.md:104
 msgid "repo"
-msgstr "仓库"
+msgstr "repo"
 
 #: src/cronjob-tutorial/basic-project.md:366 src/migration/multi-group.md:92
 msgid "tutorial.kubebuilder.io/project"
@@ -19355,7 +19355,7 @@ msgstr ""
 #: src/reference/project-config.md:54 src/reference/project-config.md:109
 #: src/reference/project-config.md:121
 msgid "namespaced"
-msgstr "命名空间的"
+msgstr "namespaced"
 
 #: src/cronjob-tutorial/basic-project.md:371
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:101
@@ -19368,7 +19368,7 @@ msgstr "命名空间的"
 #: src/reference/project-config.md:55 src/reference/project-config.md:110
 #: src/reference/project-config.md:122
 msgid "controller"
-msgstr "控制器"
+msgstr "controller"
 
 #: src/cronjob-tutorial/basic-project.md:372
 #: src/migration/legacy/migration_guide_v2tov3.md:59
@@ -19392,14 +19392,14 @@ msgstr "控制器"
 #: src/plugins/extending/extending_cli_features_and_plugins.md:425
 #: src/plugins/extending/extending_cli_features_and_plugins.md:434
 msgid "domain"
-msgstr "域名"
+msgstr "domain"
 
 #: src/cronjob-tutorial/basic-project.md:373
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:143
 #: src/migration/multi-group.md:99
 #: src/reference/using_an_external_resource.md:101
 msgid "batch"
-msgstr "批处理"
+msgstr "batch"
 
 #: src/cronjob-tutorial/basic-project.md:374 src/cronjob-tutorial/running.md:54
 #: src/multiversion-tutorial/deployment.md:50
@@ -19423,7 +19423,7 @@ msgstr "CronJob"
 #: src/reference/project-config.md:47 src/reference/project-config.md:59
 #: src/reference/project-config.md:114 src/reference/project-config.md:126
 msgid "path"
-msgstr "路径"
+msgstr "path"
 
 #: src/cronjob-tutorial/basic-project.md:375
 msgid "tutorial.kubebuilder.io/project/api/v1"
@@ -19465,7 +19465,7 @@ msgstr "tutorial.kubebuilder.io/project/api/v1"
 #: src/plugins/extending/extending_cli_features_and_plugins.md:433
 #: src/plugins/extending/extending_cli_features_and_plugins.md:439
 msgid "version"
-msgstr "版本"
+msgstr "version"
 
 #: src/cronjob-tutorial/basic-project.md:377
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:211
@@ -19475,7 +19475,7 @@ msgstr "版本"
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:698
 #: src/reference/project-config.md:49 src/reference/project-config.md:116
 msgid "webhooks"
-msgstr "Webhooks（网络钩子）"
+msgstr "webhooks"
 
 #: src/cronjob-tutorial/basic-project.md:378
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:212
@@ -19483,14 +19483,14 @@ msgstr "Webhooks（网络钩子）"
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:306
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:699
 msgid "defaulting"
-msgstr "默认设置"
+msgstr "defaulting"
 
 #: src/cronjob-tutorial/basic-project.md:379
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:213
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:282
 #: src/reference/project-config.md:50 src/reference/project-config.md:117
 msgid "validation"
-msgstr "验证"
+msgstr "validation"
 
 #: src/cronjob-tutorial/basic-project.md:380
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:214
@@ -19500,7 +19500,7 @@ msgstr "验证"
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:700
 #: src/reference/project-config.md:51 src/reference/project-config.md:118
 msgid "webhookVersion"
-msgstr "webhook版本"
+msgstr "webhookVersion"
 
 #: src/cronjob-tutorial/basic-project.md:381
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:57
