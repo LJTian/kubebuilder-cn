@@ -19059,7 +19059,7 @@ msgstr "首先，构建项目所需的基本基础设施："
 #: src/cronjob-tutorial/basic-project.md:112
 #: src/cronjob-tutorial/basic-project.md:113
 msgid "// indirect\n"
-msgstr "// 间接的"
+msgstr "// indirect\n"
 
 #: src/cronjob-tutorial/basic-project.md:121
 msgid "# Image URL to use all building/pushing image targets"
