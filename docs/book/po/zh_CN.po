@@ -16524,7 +16524,7 @@ msgstr "安装 [kubebuilder](https://sigs.k8s.io/kubebuilder)："
 
 #: src/quick-start.md:29
 msgid "# download kubebuilder and install locally.\n"
-msgstr "# 下载 kubebuilder 并在本地安装。"
+msgstr "# 下载 kubebuilder 并在本地安装。\n"
 
 #: src/quick-start.md:30
 msgid "\"https://go.kubebuilder.io/dl/latest/$(go env GOOS)/$(go env GOARCH)\""
