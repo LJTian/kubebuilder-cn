@@ -49,7 +49,7 @@ msgstr "每个旅程都需要一个开始，每个程序都需要一个主函数
 
 #: src/SUMMARY.md:18 src/cronjob-tutorial/gvks.md:1
 msgid "Groups and Versions and Kinds, oh my!"
-msgstr "组、版本和种类！"
+msgstr "组、版本和种类，真是让人头大！"
 
 #: src/SUMMARY.md:19 src/cronjob-tutorial/new-api.md:1
 msgid "Adding a new API"
@@ -16586,7 +16586,7 @@ msgid ""
 "\\[y/n\\] then this will create the files `api/v1/guestbook_types.go` where "
 "the API is defined and the `internal/controllers/guestbook_controller.go` "
 "where the reconciliation business logic is implemented for this Kind(CRD)."
-msgstr "如果您在“创建资源”\\[y/n\\]中按`y`，并在“创建控制器”\\[y/n\\]中按`y`，那么将会创建文件`api/v1/guestbook_types.go`，该文件中定义了API，以及`internal/controllers/guestbook_controller.go`，该文件中实现了此Kind（CRD）的协调业务逻辑。"
+msgstr "如果您在“创建资源(Create Resource)”\\[y/n\\]中按`y`，并在“创建控制器(Create Controller)”\\[y/n\\]中按`y`，那么将会创建文件`api/v1/guestbook_types.go`，该文件中定义了 API，以及`internal/controllers/guestbook_controller.go`，该文件中实现了此 Kind（CRD）的协调业务逻辑。"
 
 #: src/quick-start.md:85
 msgid ""
@@ -16735,7 +16735,7 @@ msgid ""
 "If you pressed `y` for Create Resource \\[y/n\\] then you created a CR for "
 "your CRD in your samples (make sure to edit them first if you've changed the "
 "API definition):"
-msgstr "如果你按下 `y` 来创建资源 \\[y/n\\]，那么你就在你的示例中为你的 CRD 创建了一个 CR（如果你已更改 API 定义，请确保先编辑它们）："
+msgstr "如果你按下 `y` 来创建资源(Create Resource) \\[y/n\\]，那么你就在你的示例中为你的 CRD 创建了一个 CR（如果你已更改 API 定义，请确保先编辑它们）："
 
 #: src/quick-start.md:183
 msgid "Run It On the Cluster"
@@ -16831,7 +16831,7 @@ msgstr "我们将创建一个示例项目，以让您了解它是如何工作的
 msgid ""
 "Reconcile a Memcached CR - which represents an instance of a Memcached "
 "deployed/managed on cluster"
-msgstr "对 Memcached CR 进行协调 - 该 CR 表示在集群上部署/管理的 Memcached 实例。"
+msgstr "对 Memcached CR 进行协调 - 该 CR 表示在集群上部署/管理的 Memcached 实例"
 
 #: src/getting-started.md:6
 msgid "Create a Deployment with the Memcached image"
@@ -16841,7 +16841,7 @@ msgstr "使用 Memcached 镜像创建一个部署"
 msgid ""
 "Not allow more instances than the size defined in the CR which will be "
 "applied"
-msgstr "不允许实例数量超过将在 CR 中定义的大小。"
+msgstr "不允许实例数量超过将在 CR 中定义的大小"
 
 #: src/getting-started.md:8
 msgid "Update the Memcached CR status"
@@ -16855,7 +16855,7 @@ msgid ""
 "execution time. To illustrate this idea, imagine if someone accidentally "
 "changed a configuration or removed a resource by mistake; in this case, the "
 "operator could fix it without any human intervention."
-msgstr "通过遵循 [操作符模式](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)，不仅可以提供所有预期的资源，还可以动态地、以编程的方式和在执行时对其进行管理。为了说明这个想法，设想一下如果有人意外更改了配置或错误地移除了某个资源；在这种情况下，操作符可以在没有任何人工干预的情况下进行修复。"
+msgstr "通过遵循 [ Operator 模式](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)，不仅可以提供所有预期的资源，还可以动态地、以编程的方式和在执行时对其进行管理。为了说明这个想法，设想一下如果有人意外更改了配置或错误地移除了某个资源；在这种情况下，Operator 可以在没有任何人工干预的情况下进行修复。"
 
 #: src/getting-started.md:23
 msgid ""
@@ -16922,7 +16922,7 @@ msgstr "虽然在这个例子中我们只添加了一种资源，但我们可以
 
 #: src/getting-started.md:72
 msgid "[Groups and Versions and Kinds, oh my!](./cronjob-tutorial/gvks.md)."
-msgstr "[组、版本和种类，哦我的！](./cronjob-tutorial/gvks.md)。"
+msgstr "[组、版本和种类，真是让人头大！](./cronjob-tutorial/gvks.md)。"
 
 #: src/getting-started.md:76
 msgid "Defining our API"
@@ -24721,7 +24721,7 @@ msgid ""
 "[controller-runtime](https://github.com/kubernetes-sigs/controller-runtime). "
 "This may lead to unforeseen consequences, such as resources becoming stuck "
 "and requiring manual intervention."
-msgstr "根据特定事件编写协调逻辑，会违反操作符模式的建议，并且违背了[controller-runtime](https://github.com/kubernetes-sigs/controller-runtime)的设计原则。这可能导致不可预见的后果，例如资源被卡住，需要人工干预。"
+msgstr "根据特定事件编写协调逻辑，会违反 Operator 模式的建议，并且违背了[controller-runtime](https://github.com/kubernetes-sigs/controller-runtime)的设计原则。这可能导致不可预见的后果，例如资源被卡住，需要人工干预。"
 
 #: src/reference/good-practices.md:15
 msgid "Understanding Kubernetes APIs and following API conventions"
@@ -24893,7 +24893,7 @@ msgid ""
 "**Extensibility**: As new features or states are added to your Operator, "
 "conditions can be easily extended to represent these new states without "
 "requiring significant changes to the existing API or structure."
-msgstr "**可扩展性**：当新的功能或状态被添加到您的操作符时，可以轻松扩展条件以表示这些新状态，而无需对现有的 API 或结构进行重大更改。"
+msgstr "**可扩展性**：当新的功能或状态被添加到您的 Operator 时，可以轻松扩展条件以表示这些新状态，而无需对现有的 API 或结构进行重大更改。"
 
 #: src/reference/good-practices.md:55
 msgid ""
@@ -28004,7 +28004,7 @@ msgstr "为 APIs 和 Controllers 使用分开的 `go.mod` 模块可以帮助解�
 msgid ""
 "There is an enterprise version of an operator available that wants to reuse "
 "APIs from the Community Version"
-msgstr "有一个企业版的操作符可用，它希望重用社区版的 API。"
+msgstr "有一个企业版的 Operator 可用，它希望重用社区版的 API。"
 
 #: src/reference/submodule-layouts.md:21
 msgid ""
@@ -28205,7 +28205,7 @@ msgstr "在开发中使用替换指令"
 msgid ""
 "When trying to resolve your main module in the root folder of the operator, "
 "you will notice an error if you use a VCS path:"
-msgstr "当尝试在操作符的根文件夹中解析主模块时，如果使用 VCS 路径，您会注意到一个错误："
+msgstr "当尝试在 Operator 的根文件夹中解析主模块时，如果使用 VCS 路径，您会注意到一个错误："
 
 #: src/reference/submodule-layouts.md:105
 msgid ""
@@ -30719,7 +30719,7 @@ msgstr "`部署镜像/v1-alpha`"
 msgid ""
 "Optional helper plugin which can be used to scaffold APIs and controller "
 "with code implementation to Deploy and Manage an Operand(image)."
-msgstr "可选的辅助插件，可用于搭建API和控制器，提供代码实现以部署和管理操作符（镜像）。"
+msgstr "可选的辅助插件，可用于搭建API和控制器，提供代码实现以部署和管理 Operator（镜像）。"
 
 #: src/plugins/available-plugins.md:23
 msgid "[helm.kubebuilder.io/v1-alpha](./available/helm-v1-alpha.md)"
@@ -33387,7 +33387,7 @@ msgid ""
 "which defines the config of your project and will be used as a domain to "
 "create the endpoints of your API(s). Please, ensure that you understand the "
 "[Groups and Versions and Kinds, oh my!](./cronjob-tutorial/gvks.md)."
-msgstr "创建项目后，通常您会希望扩展 Kubernetes API，并定义由您的项目拥有的新 API。因此，域值会被记录在 [PROJECT](./reference/project-config.md) 文件中，该文件定义了您的项目配置，并将作为域来创建您的 API 端点。请确保您了解 [组、版本和种类，哦，我的天！](./cronjob-tutorial/gvks.md)。"
+msgstr "创建项目后，通常您会希望扩展 Kubernetes API，并定义由您的项目拥有的新 API。因此，域值会被记录在 [PROJECT](./reference/project-config.md) 文件中，该文件定义了您的项目配置，并将作为域来创建您的 API 端点。请确保您了解 [组、版本和种类，真是让人头大！](./cronjob-tutorial/gvks.md)。"
 
 #: src/faq.md:17
 msgid ""
