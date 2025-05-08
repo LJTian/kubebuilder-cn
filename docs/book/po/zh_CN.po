@@ -266,7 +266,7 @@ msgstr "使用 Pprof 进行监控"
 
 #: src/SUMMARY.md:102
 msgid "Manager and CRDs Scope"
-msgstr "经理和客户关系主任的职责范围"
+msgstr "监控程序和自定义资源（CRDs）的职责范围"
 
 #: src/SUMMARY.md:104 src/reference/submodule-layouts.md:1
 msgid "Sub-Module Layouts"
@@ -16586,14 +16586,14 @@ msgid ""
 "\\[y/n\\] then this will create the files `api/v1/guestbook_types.go` where "
 "the API is defined and the `internal/controllers/guestbook_controller.go` "
 "where the reconciliation business logic is implemented for this Kind(CRD)."
-msgstr "如果您在“创建资源(Create Resource)”\\[y/n\\]中按`y`，并在“创建控制器(Create Controller)”\\[y/n\\]中按`y`，那么将会创建文件`api/v1/guestbook_types.go`，该文件中定义了 API，以及`internal/controllers/guestbook_controller.go`，该文件中实现了此 Kind（CRD）的协调业务逻辑。"
+msgstr "如果您在“创建资源(Create Resource)”\\[y/n\\]中按`y`，并在“创建控制器(Create Controller)”\\[y/n\\]中按`y`，那么将会创建文件`api/v1/guestbook_types.go`，该文件中定义了 API，以及`internal/controllers/guestbook_controller.go`，该文件中实现了此 Kind（CRD）的调整业务逻辑。"
 
 #: src/quick-start.md:85
 msgid ""
 "**OPTIONAL:** Edit the API definition and the reconciliation business logic. "
 "For more info see [Designing an API](/cronjob-tutorial/api-design.md) and "
 "[What's in a Controller](cronjob-tutorial/controller-overview.md)."
-msgstr "**可选：** 编辑 API 定义和协调业务逻辑。有关更多信息，请参见 [设计 API](/cronjob-tutorial/api-design.md) 和 [控制器中的内容](cronjob-tutorial/controller-overview.md)。"
+msgstr "**可选：** 编辑 API 定义和调整业务逻辑。有关更多信息，请参见 [设计 API](/cronjob-tutorial/api-design.md) 和 [控制器中的内容](cronjob-tutorial/controller-overview.md)。"
 
 #: src/quick-start.md:89
 msgid ""
@@ -16831,7 +16831,7 @@ msgstr "我们将创建一个示例项目，以让您了解它是如何工作的
 msgid ""
 "Reconcile a Memcached CR - which represents an instance of a Memcached "
 "deployed/managed on cluster"
-msgstr "对 Memcached CR 进行协调 - 该 CR 表示在集群上部署/管理的 Memcached 实例"
+msgstr "对 Memcached CR 进行调整 - 该 CR 表示在集群上部署/管理的 Memcached 实例"
 
 #: src/getting-started.md:6
 msgid "Create a Deployment with the Memcached image"
@@ -17546,7 +17546,7 @@ msgid ""
 "of Custom Resources that can be applied to the cluster. In this particular "
 "example, by applying the given resource to the cluster, we would generate a "
 "Deployment with a single instance size (see `size: 1`)."
-msgstr "位于 `config/samples` 目录下的清单作为可以应用于集群的自定义资源示例。在这个特定的例子中，通过将给定的资源应用于集群，我们将生成一个实例大小为1的部署（请参见 `size: 1`）。"
+msgstr "在 `config/samples` 目录下的清单,可以应用于集群的自定义资源示例。在这个例子中，通过将给定的资源应用于集群，我们将生成一个实例大小为1的部署（请参见 `size: 1`）。"
 
 #: src/getting-started.md:266
 msgid "cache.example.com/v1alpha1"
@@ -17597,7 +17597,7 @@ msgid ""
 "# TODO(user): edit the following value to ensure the number\n"
 "  # of Pods/Instances your Operand must have on cluster\n"
 "  size"
-msgstr "# TODO(用户)：编辑以下值以确保您的操作数在集群中的 Pod/实例数量"
+msgstr "# TODO(用户)：编辑以下值以确保您的操作数在集群中的 Pod/实例数量\n size"
 
 #: src/getting-started.md:279
 msgid "Reconciliation Process"
@@ -17633,13 +17633,13 @@ msgstr "这是一个伪代码示例来说明这一点："
 msgid ""
 "// Check if a Deployment for the app exists, if not, create one\n"
 "  // If there's an error, then restart from the beginning of the reconcile\n"
-msgstr "// 检查应用的 Deployment 是否存在，如果不存在，则创建一个\n  // 如果发生错误，则从协调的开始重新启动\n"
+msgstr "// 检查应用的 Deployment 是否存在，如果不存在，则创建一个\n  // 如果发生错误，则从调整的开始重新启动\n"
 
 #: src/getting-started.md:298
 msgid ""
 "// Check if a Service for the app exists, if not, create one\n"
 "  // If there's an error, then restart from the beginning of the reconcile\n"
-msgstr "// 检查应用程序是否存在服务，如果不存在，则创建一个\n  // 如果出现错误，则从协调的开头重新开始\n"
+msgstr "// 检查应用程序是否存在服务，如果不存在，则创建一个\n  // 如果出现错误，则从调整的开头重新开始\n"
 
 #: src/getting-started.md:304
 msgid ""
@@ -17648,13 +17648,13 @@ msgid ""
 "  // If deployment.replicas size doesn't match cr.size, then update it\n"
 "  // Then, restart from the beginning of the reconcile. For example, by "
 "returning `reconcile.Result{Requeue: true}, nil`.\n"
-msgstr "// 查找数据库 CR/CRD\n  // 检查数据库部署的副本大小\n  // 如果 deployment.replicas 的大小与 cr.size 不匹配，则更新它\n  // 然后，从调和的开始重新启动。例如，通过返回 `reconcile.Result{Requeue: true}, nil`。"
+msgstr "// 查找数据库 CR/CRD\n  // 检查数据库部署的副本大小\n  // 如果 deployment.replicas 的大小与 cr.size 不匹配，则更新它\n  // 然后，从对账的开始重新启动。例如，通过返回 `reconcile.Result{Requeue: true}, nil`。 \n"
 
 #: src/getting-started.md:313
 msgid ""
 "// If at the end of the loop:\n"
 "  // Everything was executed successfully, and the reconcile can stop\n"
-msgstr "// 如果在循环结束时：\n  // 一切都成功执行，并且调和可以停止"
+msgstr "// 如果在循环结束时：\n  // 一切都成功执行，并且对账可以停止 \n"
 
 #: src/getting-started.md:323
 msgid ""
@@ -17667,15 +17667,15 @@ msgstr "出现错误："
 
 #: src/getting-started.md:330
 msgid "Without an error:"
-msgstr "您接受的训练数据截止到2023年10月。"
+msgstr "没有错误："
 
 #: src/getting-started.md:336
 msgid "Therefore, to stop the Reconcile, use:"
-msgstr "因此，要停止对账，请使用："
+msgstr "要停止对账，请使用："
 
 #: src/getting-started.md:342
 msgid "Reconcile again after X time:"
-msgstr "在X时间后再次对账："
+msgstr "在 X 时间后再次对账："
 
 #: src/getting-started.md:350
 msgid "In the context of our example"
@@ -17687,7 +17687,7 @@ msgid ""
 "`kubectl apply -f config/sample/cache_v1alpha1_memcached.yaml`), we want to "
 "ensure that a Deployment is created for our Memcached image and that it "
 "matches the number of replicas defined in the CR."
-msgstr "当我们的示例自定义资源（CR）应用到集群时（即 `kubectl apply -f config/sample/cache_v1alpha1_memcached.yaml`），我们希望确保为我们的 Memcached 镜像创建一个 Deployment，并且它与 CR 中定义的副本数量相匹配。"
+msgstr "当我们的示例自定义资源（CR）应用到集群时（即 `kubectl apply -f config/sample/cache_v1alpha1_memcached.yaml`），我们希望确保为我们的 Memcached 镜像创建一个部署（Deployment），并且它与 CR 中定义的副本数量相匹配。"
 
 #: src/getting-started.md:355
 msgid ""
@@ -17697,15 +17697,15 @@ msgid ""
 "Therefore, our reconciliation process must include an operation to ensure "
 "that this desired state is consistently maintained. This operation would "
 "involve:"
-msgstr "为实现这一目标，我们需要首先执行一个操作，以检查我们的 Memcached 实例的 Deployment 是否已经存在于集群中。如果不存在，控制器将相应地创建该 Deployment。因此，我们的协调过程必须包含一个操作，以确保这一期望状态持续保持。该操作将涉及："
+msgstr "为实现这一目标，我们需要首先执行一个操作，以检查我们的 Memcached 实例的 Deployment 是否已经存在于集群中。如果不存在，控制器将相应地创建该 Deployment。因此，我们的调整过程必须包含一个操作，以确保这一期望状态持续保持。该操作将涉及："
 
 #: src/getting-started.md:360 src/getting-started.md:541
 msgid "// Check if the deployment already exists, if not create a new one\n"
-msgstr "// 检查部署是否已经存在，如果不存在则创建一个新部署。"
+msgstr "// 检查部署是否已经存在，如果不存在则创建一个新部署。\n"
 
 #: src/getting-started.md:364 src/getting-started.md:545
 msgid "// Define a new deployment\n"
-msgstr "// 定义新的部署"
+msgstr "// 定义新的部署 \n"
 
 #: src/getting-started.md:366
 msgid "// Create the Deployment on the cluster\n"
@@ -17714,6 +17714,7 @@ msgstr "// 在集群上创建部署\n"
 #: src/getting-started.md:368 src/getting-started.md:566
 #: src/reference/watching-resources/secondary-owned-resources.md:104
 msgid "\"Failed to create new Deployment\""
+msgstr "\"无法创建新的部署\""
 
 #: src/getting-started.md:369 src/getting-started.md:416
 #: src/getting-started.md:564 src/getting-started.md:567
@@ -17776,7 +17777,7 @@ msgid ""
 "the Memcached Kind is created or updated on the cluster, the controller will "
 "continuously reconcile the state until the actual number of replicas matches "
 "the desired count. The following example illustrates this process:"
-msgstr "此外，我们需要实施一个机制，以验证集群中的 Memcached 副本数量是否与自定义资源（CR）中指定的期望数量相匹配。如果存在差异，协调过程必须更新集群以确保一致性。这意味着每当在集群上创建或更新 Memcached 类型的 CR 时，控制器将持续协调状态，直到实际副本数量与期望数量相匹配。以下示例说明了这一过程："
+msgstr "此外，我们需要实施一个机制，以验证集群中的 Memcached 副本数量是否与自定义资源（CR）中指定的期望数量相匹配。如果存在差异，调整过程必须更新集群以确保一致性。这意味着每当在集群上创建或更新 Memcached 类型的 CR 时，控制器将持续调整状态，直到实际副本数量与期望数量相匹配。以下示例说明了这一过程："
 
 #: src/getting-started.md:415 src/getting-started.md:589
 msgid "\"Failed to update Deployment\""
@@ -17890,7 +17891,7 @@ msgstr "// 管理状态条件的定义"
 msgid ""
 "// typeAvailableMemcached represents the status of the Deployment "
 "reconciliation\n"
-msgstr "// typeAvailableMemcached 表示部署协调的状态\n"
+msgstr "// typeAvailableMemcached 表示部署调整的状态\n"
 
 #: src/getting-started.md:473
 msgid "\"Available\""
@@ -17898,7 +17899,7 @@ msgstr ""
 
 #: src/getting-started.md:475
 msgid "// MemcachedReconciler reconciles a Memcached object\n"
-msgstr "// MemcachedReconciler 负责协调 Memcached 对象。"
+msgstr "// MemcachedReconciler 负责调整 Memcached 对象。"
 
 #: src/getting-started.md:481 src/getting-started.md:777
 msgid ""
@@ -17937,7 +17938,7 @@ msgid ""
 "// For more details, check Reconcile and its Result here:\n"
 "// - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.20.4/pkg/"
 "reconcile\n"
-msgstr "// Reconcile 是主 Kubernetes 协调循环的一部分，旨在将集群的当前状态向期望状态靠拢. \n// 控制器的协调循环必须是幂等的。遵循操作员模式，您将创建提供协调功能的控制器，\n// 该功能负责同步资源，直到集群达到期望状态。\n// 违反此建议会违背控制器运行时的设计原则，可能导致意想不到的后果，例如资源卡住并需要手动干预。\n// 了解更多信息：\n// - 关于操作员模式：https://kubernetes.io/docs/concepts/extend-kubernetes/operator/ \n// - 关于控制器：https://kubernetes.io/docs/concepts/architecture/controller/ \n// \n// 有关更多详细信息，请查看 Reconcile 及其结果： \n// - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.20.4/pkg/reconcile"
+msgstr "// Reconcile 是主 Kubernetes 调整循环的一部分，旨在将集群的当前状态向期望状态靠拢. \n// 控制器的调整循环必须是幂等的。遵循操作员模式，您将创建提供调整功能的控制器，\n// 该功能负责同步资源，直到集群达到期望状态。\n// 违反此建议会违背控制器运行时的设计原则，可能导致意想不到的后果，例如资源卡住并需要手动干预。\n// 了解更多信息：\n// - 关于操作员模式：https://kubernetes.io/docs/concepts/extend-kubernetes/operator/ \n// - 关于控制器：https://kubernetes.io/docs/concepts/architecture/controller/ \n// \n// 有关更多详细信息，请查看 Reconcile 及其结果： \n// - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.20.4/pkg/reconcile\n"
 
 #: src/getting-started.md:505
 msgid ""
@@ -17945,14 +17946,14 @@ msgid ""
 "\t// The purpose is check if the Custom Resource for the Kind Memcached\n"
 "\t// is applied on the cluster if not we return nil to stop the "
 "reconciliation\n"
-msgstr "// 获取 Memcached 实例\n\t// 目的是检查 Kind Memcached 的自定义资源是否\n\t// 已在集群上应用，如果没有，我们返回 nil 以停止调和过程\n"
+msgstr "// 获取 Memcached 实例\n\t// 目的是检查 Kind Memcached 的自定义资源是否\n\t// 已在集群上应用，如果没有，我们返回 nil 以停止对账过程\n"
 
 #: src/getting-started.md:512
 msgid ""
 "// If the custom resource is not found then it usually means that it was "
 "deleted or not created\n"
 "\t\t\t// In this way, we will stop the reconciliation\n"
-msgstr "// 如果未找到自定义资源，通常意味着它已被删除或未创建\n\t\t\t// 这样，我们将停止协调过程\n"
+msgstr "// 如果未找到自定义资源，通常意味着它已被删除或未创建\n\t\t\t// 这样，我们将停止调整过程\n"
 
 #: src/getting-started.md:514
 msgid "\"memcached resource not found. Ignoring since object must be deleted\""
@@ -17960,7 +17961,7 @@ msgstr ""
 
 #: src/getting-started.md:517
 msgid "// Error reading the object - requeue the request.\n"
-msgstr "// 读取对象时出错 - 重新排队请求。"
+msgstr "// 读取对象时出错 - 重新排队请求。\n"
 
 #: src/getting-started.md:518
 msgid "\"Failed to get memcached\""
@@ -17968,7 +17969,7 @@ msgstr ""
 
 #: src/getting-started.md:522
 msgid "// Let's just set the status as Unknown when no status is available\n"
-msgstr "// 当没有可用状态时，我们将状态设置为未知。"
+msgstr "// 当没有可用状态时，我们将状态设置为未知。\n"
 
 #: src/getting-started.md:524 src/getting-started.md:552
 #: src/getting-started.md:622
@@ -17992,7 +17993,7 @@ msgid ""
 "\t\t// your changes to the latest version and try again\" which would re-"
 "trigger the reconciliation\n"
 "\t\t// if we try to update it again in the following operations\n"
-msgstr "// 在更新状态后，让我们重新获取 memcached 自定义资源\n\t\t// 这样我们就可以获得集群中资源的最新状态，避免\n\t\t// 引发错误“对象已被修改，请将\n\t\t// 您的更改应用于最新版本并重试”，这将在后续操作中\n\t\t// 如果我们再次尝试更新它，将重新触发调和过程"
+msgstr "// 在更新状态后，让我们重新获取 memcached 自定义资源\n\t\t// 这样我们就可以获得集群中资源的最新状态，避免\n\t\t// 引发错误“对象已被修改，请将\n\t\t// 您的更改应用于最新版本并重试”，这将在后续操作中\n\t\t// 如果我们再次尝试更新它，将重新触发对账过程\n"
 
 #: src/getting-started.md:536 src/getting-started.md:597
 msgid "\"Failed to re-fetch memcached\""
@@ -18005,7 +18006,7 @@ msgstr ""
 #: src/getting-started.md:550 src/getting-started.md:601
 #: src/getting-started.md:620
 msgid "// The following implementation will update the status\n"
-msgstr "// 以下实现将更新状态"
+msgstr "// 以下实现将更新状态\n"
 
 #: src/getting-started.md:553
 msgid "\"Failed to create Deployment for the custom resource (%s): (%s)\""
@@ -18021,7 +18022,7 @@ msgid ""
 "// Deployment created successfully\n"
 "\t\t// We will requeue the reconciliation so that we can ensure the state\n"
 "\t\t// and move forward for the next operations\n"
-msgstr "// 部署成功创建\n\t\t// 我们将重新排队协调，以确保状态\n\t\t// 并继续进行下一步操作\n"
+msgstr "// 部署成功创建\n\t\t// 我们将重新排队调整，以确保状态\n\t\t// 并继续进行下一步操作\n"
 
 #: src/getting-started.md:576
 #: src/reference/watching-resources/secondary-owned-resources.md:110
@@ -18029,7 +18030,7 @@ msgid "\"Failed to get Deployment\""
 
 #: src/getting-started.md:577
 msgid "// Let's return the error for the reconciliation be re-trigged again\n"
-msgstr "// 让我们返回错误，以便重新触发对账。"
+msgstr "// 让我们返回错误，以便重新触发对账。\n"
 
 #: src/getting-started.md:581
 msgid ""
@@ -18040,7 +18041,7 @@ msgid ""
 "\t// Therefore, the following code will ensure the Deployment size is the "
 "same as defined\n"
 "\t// via the Size spec of the Custom Resource which we are reconciling.\n"
-msgstr "// CRD API 定义了 Memcached 类型具有一个 MemcachedSpec.Size 字段\n\t// 用于设置集群中部署实例的数量到所需状态。\n\t// 因此，以下代码将确保部署的大小与我们正在调和的\n\t// 自定义资源的 Size 规格中定义的相同。"
+msgstr "// CRD API 定义了 Memcached 类型具有一个 MemcachedSpec.Size 字段\n\t// 用于设置集群中部署实例的数量到所需状态。\n\t// 因此，以下代码将确保部署的大小与我们正在对账的\n\t// 自定义资源的 Size 规格中定义的相同。\n"
 
 #: src/getting-started.md:592
 msgid ""
@@ -18050,7 +18051,7 @@ msgid ""
 "\t\t\t// raising the error \"the object has been modified, please apply\n"
 "\t\t\t// your changes to the latest version and try again\" which would re-"
 "trigger the reconciliation\n"
-msgstr "在更新状态之前重新获取 memcached 自定义资源，\n\t\t\t// 以便我们能够获得集群中资源的最新状态，并避免\n\t\t\t// 引发错误“对象已被修改，请将您的更改应用于\n\t\t\t// 最新版本并重试”，这将重新触发协调。"
+msgstr "在更新状态之前重新获取 memcached 自定义资源，\n\t\t\t// 以便我们能够获得集群中资源的最新状态，并避免\n\t\t\t// 引发错误“对象已被修改，请将您的更改应用于\n\t\t\t// 最新版本并重试”，这将重新触发调整。\n"
 
 #: src/getting-started.md:603
 msgid "\"Resizing\""
@@ -18066,7 +18067,7 @@ msgid ""
 "\t\t// so that we can ensure that we have the latest state of the resource "
 "before\n"
 "\t\t// update. Also, it will help ensure the desired state on the cluster\n"
-msgstr "// 现在我们更新了大小，我们想要重新排队调和\n\t\t// 以便确保在更新之前我们拥有资源的最新状态。\n\t\t// 此外，它还将有助于确保集群上的期望状态。"
+msgstr "// 现在我们更新了大小，我们想要重新排队对账\n\t\t// 以便确保在更新之前我们拥有资源的最新状态。\n\t\t// 此外，它还将有助于确保集群上的期望状态。\n"
 
 #: src/getting-started.md:623
 msgid ""
@@ -18075,11 +18076,11 @@ msgstr "“自定义资源（%s）部署成功，创建了 %d 个副本”"
 
 #: src/getting-started.md:632
 msgid "// SetupWithManager sets up the controller with the Manager.\n"
-msgstr "// SetupWithManager 将控制器与管理器进行设置。"
+msgstr "// SetupWithManager 将控制器与管理器进行设置。\n"
 
 #: src/getting-started.md:641
 msgid "// deploymentForMemcached returns a Memcached Deployment object\n"
-msgstr "// deploymentForMemcached 返回一个 Memcached 部署对象。"
+msgstr "// deploymentForMemcached 返回一个 Memcached 部署对象。\n"
 
 #: src/getting-started.md:656 src/getting-started.md:660
 msgid "\"app.kubernetes.io/name\""
@@ -18122,7 +18123,7 @@ msgid ""
 "the Watch triggers the controller's reconciliation loop, ensuring that the "
 "actual state of the resource matches the desired state as defined in the "
 "controller's logic."
-msgstr "整个想法是关注对控制器重要的资源。当控制器感兴趣的资源发生变化时，Watch 会触发控制器的调和循环，确保资源的实际状态与控制器逻辑中定义的期望状态相匹配。"
+msgstr "整个想法是关注对控制器重要的资源。当控制器感兴趣的资源发生变化时，Watch 会触发控制器的对账循环，确保资源的实际状态与控制器逻辑中定义的期望状态相匹配。"
 
 #: src/getting-started.md:715
 msgid ""
@@ -18136,14 +18137,14 @@ msgid ""
 "// SetupWithManager sets up the controller with the Manager.\n"
 "// The Deployment is also watched to ensure its\n"
 "// desired state in the cluster.\n"
-msgstr "// SetupWithManager 将控制器与管理器设置起来。\n// 部署也会被监视以确保其\n// 在集群中的期望状态。"
+msgstr "// SetupWithManager 将控制器与管理器设置起来。\n// 部署也会被监视以确保其\n// 在集群中的期望状态。\n"
 
 #: src/getting-started.md:724
 msgid ""
 "// Watch the Memcached Custom Resource and trigger reconciliation whenever "
 "it\n"
 "\t\t//is created, updated, or deleted\n"
-msgstr "// 监视 Memcached 自定义资源，并在其创建、更新或删除时触发一致性检查。"
+msgstr "// 监视 Memcached 自定义资源，并在其创建、更新或删除时触发一致性检查。\n"
 
 #: src/getting-started.md:727
 msgid ""
@@ -18152,11 +18153,11 @@ msgid ""
 "        // owned and managed by this controller, it will trigger "
 "reconciliation, ensuring that the cluster\n"
 "        // state aligns with the desired state.\n"
-msgstr "// 监视由 Memcached 控制器管理的 Deployment。如果该控制器拥有和管理的 Deployment 发生任何变化，将触发调和，确保集群状态与期望状态一致。"
+msgstr "// 监视由 Memcached 控制器管理的 Deployment。如果该控制器拥有和管理的 Deployment 发生任何变化，将触发对账，确保集群状态与期望状态一致。\n"
 
 #: src/getting-started.md:735
 msgid "But, How Does the Manager Know Which Resources Are Owned by It?"
-msgstr "但是，经理如何知道哪些资源是由它拥有的呢？"
+msgstr "但是，管理程序如何知道哪些资源是由它拥有的呢？"
 
 #: src/getting-started.md:737
 msgid ""
@@ -18166,13 +18167,13 @@ msgid ""
 "is changed. For example, if someone accidentally deletes our Deployment or "
 "changes the number of replicas, we want to trigger the reconciliation to "
 "ensure that it returns to the desired state."
-msgstr "我们不希望我们的控制器监视集群中的任何部署并触发我们的协调循环。相反，我们只希望在运行我们 Memcached 实例的特定部署发生更改时触发协调。例如，如果有人不小心删除了我们的部署或更改了副本数，我们希望触发协调，以确保它返回到期望的状态。"
+msgstr "我们不希望我们的控制器监视集群中的任何部署并触发我们的调整循环。相反，我们只希望在运行我们 Memcached 实例的特定部署发生更改时触发调整。例如，如果有人不小心删除了我们的部署或更改了副本数，我们希望触发调整，以确保它返回到期望的状态。"
 
 #: src/getting-started.md:743
 msgid ""
 "The Manager knows which Deployment to observe because we set the `ownerRef` "
 "(Owner Reference):"
-msgstr "经理知道要观察哪个部署，因为我们设置了 `ownerRef`（拥有者引用）："
+msgstr "监控程序知道要观察哪个部署，因为我们设置了 `ownerRef`（拥有者引用）："
 
 #: src/getting-started.md:755
 msgid ""
@@ -18233,7 +18234,7 @@ msgstr "集群角色"
 
 #: src/getting-started.md:795
 msgid "manager-role"
-msgstr "经理角色"
+msgstr "监控程序角色"
 
 #: src/getting-started.md:795
 msgid "rules"
@@ -18376,7 +18377,7 @@ msgstr "memcacheds/状态"
 
 #: src/getting-started.md:853
 msgid "Manager (main.go)"
-msgstr "经理 (main.go)"
+msgstr "监控程序 (main.go)"
 
 #: src/getting-started.md:855
 msgid ""
@@ -19957,7 +19958,7 @@ msgid ""
 "controller-runtime/pkg/reconcile?tab=doc).  A reconciler takes the name of "
 "an object, and returns whether or not we need to try again (e.g. in case of "
 "errors or periodic controllers, like the HorizontalPodAutoscaler)."
-msgstr "在 controller-runtime 中，实现特定种类的调和逻辑的部分称为 [_Reconciler_](https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/reconcile?tab=doc)。一个 reconciler 接收一个对象的名称，并返回是否需要重新尝试（例如，在出现错误或周期性控制器的情况下，如水平 Pod 自动缩放器）。"
+msgstr "在 controller-runtime 中，实现特定种类的对账逻辑的部分称为 [_Reconciler_](https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/reconcile?tab=doc)。一个 reconciler 接收一个对象的名称，并返回是否需要重新尝试（例如，在出现错误或周期性控制器的情况下，如水平 Pod 自动缩放器）。"
 
 #: src/cronjob-tutorial/controller-overview.md:19
 msgid "{{#literatego ./testdata/emptycontroller.go}}"
@@ -20418,7 +20419,7 @@ msgstr "../rbac"
 
 #: src/cronjob-tutorial/running-webhook.md:56
 msgid "../manager"
-msgstr "../经理"
+msgstr "../manager"
 
 #: src/cronjob-tutorial/running-webhook.md:56
 #: src/cronjob-tutorial/running-webhook.md:86
@@ -21436,7 +21437,7 @@ msgstr "两者都应该填写，并且看起来与我们的 v2 和 v1 示例各�
 msgid ""
 "Finally, if we wait a bit, we should notice that our CronJob continues to "
 "reconcile, even though our controller is written against our v1 API version."
-msgstr "最后，如果我们等一会儿，我们应该注意到我们的 CronJob 继续进行协调，尽管我们的控制器是针对我们的 v1 API 版本编写的。"
+msgstr "最后，如果我们等一会儿，我们应该注意到我们的 CronJob 继续进行调整，尽管我们的控制器是针对我们的 v1 API 版本编写的。"
 
 #: src/multiversion-tutorial/deployment.md:159
 msgid ""
@@ -21689,7 +21690,7 @@ msgid ""
 "up with a project that looks like a native v2 project. However, in some "
 "cases, it's possible to do an in-place upgrade (i.e. reuse the v1 project "
 "layout, upgrading controller-runtime and controller-tools."
-msgstr "推荐的迁移 v1 项目的方法是创建一个新的 v2 项目，并复制 API 和协调代码。转换后将得到一个看起来像原生 v2 项目的项目。然而，在某些情况下，也可以进行就地升级（即重用 v1 项目布局，升级 controller-runtime 和 controller-tools）。"
+msgstr "推荐的迁移 v1 项目的方法是创建一个新的 v2 项目，并复制 API 和调整代码。转换后将得到一个看起来像原生 v2 项目的项目。然而，在某些情况下，也可以进行就地升级（即重用 v1 项目布局，升级 controller-runtime 和 controller-tools）。"
 
 #: src/migration/legacy/migration_guide_v1tov2.md:15
 msgid ""
@@ -21833,7 +21834,7 @@ msgstr "迁移控制器"
 msgid ""
 "Now, let's migrate the controller reconciler code from `pkg/controller/"
 "cronjob/cronjob_controller.go` to `controllers/cronjob_controller.go`."
-msgstr "现在，让我们将控制器协调器代码从 `pkg/controller/cronjob/cronjob_controller.go` 迁移到 `controllers/cronjob_controller.go`。"
+msgstr "现在，让我们将控制器调整器代码从 `pkg/controller/cronjob/cronjob_controller.go` 迁移到 `controllers/cronjob_controller.go`。"
 
 #: src/migration/legacy/migration_guide_v1tov2.md:126
 msgid "We'll need to copy"
@@ -22287,7 +22288,7 @@ msgid ""
 "layout, upgrading [controller-runtime](https://github.com/kubernetes-sigs/"
 "controller-runtime/releases) and [controller-tools](https://github.com/"
 "kubernetes-sigs/controller-tools/releases))."
-msgstr "迁移 v2 项目的推荐方式是创建一个新的 v3 项目，并将 API 和协调代码复制过去。转换后的项目将类似于原生 v3 项目。然而，在某些情况下，可以进行就地升级（即重用 v2 项目的布局，升级 [controller-runtime](https://github.com/kubernetes-sigs/controller-runtime/releases) 和 [controller-tools](https://github.com/kubernetes-sigs/controller-tools/releases)）。"
+msgstr "迁移 v2 项目的推荐方式是创建一个新的 v3 项目，并将 API 和调整代码复制过去。转换后的项目将类似于原生 v3 项目。然而，在某些情况下，可以进行就地升级（即重用 v2 项目的布局，升级 [controller-runtime](https://github.com/kubernetes-sigs/controller-runtime/releases) 和 [controller-tools](https://github.com/kubernetes-sigs/controller-tools/releases)）。"
 
 #: src/migration/legacy/migration_guide_v2tov3.md:15
 msgid "Initialize a v3 Project"
@@ -22750,7 +22751,7 @@ msgstr "证书"
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:145
 #: src/reference/using_an_external_resource.md:103
 msgid "coordination"
-msgstr "协调"
+msgstr "调整"
 
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:146
 #: src/reference/using_an_external_resource.md:104
@@ -23257,7 +23258,7 @@ msgstr "在 `main.go` 文件中替换："
 
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:619
 msgid "Rename the manager flags"
-msgstr "重命名经理标志"
+msgstr "重命名监控程序标志"
 
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:621
 msgid ""
@@ -23296,7 +23297,7 @@ msgstr "然后，重命名 `config/default/manager_auth_proxy_patch.yaml` 和 `c
 
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:651
 msgid "manager"
-msgstr "经理"
+msgstr "manager"
 
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:653
 msgid "\"--health-probe-bind-address=:8081\""
@@ -23555,7 +23556,7 @@ msgid ""
 "project and copy over the API and the reconciliation code. The conversion "
 "will end up with a project that looks like a native go/v4 project layout "
 "(latest version)."
-msgstr "迁移 `go/v3` 项目的推荐方法是创建一个新的 `go/v4` 项目，并将 API 和协调代码复制过去。转换后的项目将呈现出原生 `go/v4` 项目布局的样子（最新版本）。"
+msgstr "迁移 `go/v3` 项目的推荐方法是创建一个新的 `go/v4` 项目，并将 API 和调整代码复制过去。转换后的项目将呈现出原生 `go/v4` 项目布局的样子（最新版本）。"
 
 #: src/migration/migration_guide_gov3_to_gov4.md:16
 msgid ""
@@ -24641,7 +24642,7 @@ msgid ""
 "timestamp on the object indicates that it is being deleted. Otherwise, "
 "without finalizers, a delete shows up as a reconcile where the object is "
 "missing from the cache."
-msgstr "需要注意的关键点是，最终处理器导致对象的“删除”变成“更新”，以设置删除时间戳。对象上存在删除时间戳表明该对象正在被删除。否则，如果没有最终处理器，删除会表现为一个协调过程，其中对象在缓存中丢失。"
+msgstr "需要注意的关键点是，最终处理器导致对象的“删除”变成“更新”，以设置删除时间戳。对象上存在删除时间戳表明该对象正在被删除。否则，如果没有最终处理器，删除会表现为一个调整过程，其中对象在缓存中丢失。"
 
 #: src/reference/using-finalizers.md:16
 msgid "Highlights:"
@@ -24683,7 +24684,7 @@ msgid ""
 "[Controllers](https://kubernetes.io/docs/concepts/architecture/controller/), "
 "which offer a reconcile function that synchronizes resources until the "
 "desired state is achieved within the cluster."
-msgstr "当你使用 Kubebuilder 创建一个项目时，可以查看在 `cmd/main.go` 中生成的代码。这段代码初始化了一个 [Manager](https://github.com/kubernetes-sigs/controller-runtime/blob/304027bcbe4b3f6d582180aec5759eb4db3f17fd/pkg/manager/manager.go#L53)，项目依赖于 [controller-runtime](https://github.com/kubernetes-sigs/controller-runtime) 框架。这个 Manager 管理着 [Controllers](https://kubernetes.io/docs/concepts/architecture/controller/)，提供了一种协调功能，用于在集群内同步资源直到达到所需状态。"
+msgstr "当你使用 Kubebuilder 创建一个项目时，可以查看在 `cmd/main.go` 中生成的代码。这段代码初始化了一个 [Manager](https://github.com/kubernetes-sigs/controller-runtime/blob/304027bcbe4b3f6d582180aec5759eb4db3f17fd/pkg/manager/manager.go#L53)，项目依赖于 [controller-runtime](https://github.com/kubernetes-sigs/controller-runtime) 框架。这个 Manager 管理着 [Controllers](https://kubernetes.io/docs/concepts/architecture/controller/)，提供了一种调整功能，用于在集群内同步资源直到达到所需状态。"
 
 #: src/reference/good-practices.md:7
 msgid ""
@@ -24693,7 +24694,7 @@ msgid ""
 "controller/). For further information, check out the [Operator patterns]"
 "(https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) "
 "documentation from Kubernetes to better understand those concepts."
-msgstr "协调是一个持续的循环，执行必要的操作以保持期望的状态，遵循Kubernetes的原则，如[控制循环](https://kubernetes.io/docs/concepts/architecture/controller/)。有关更多信息，请查阅Kubernetes的[Operator模式](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)文档，以更好地理解这些概念。"
+msgstr "调整是一个持续的循环，执行必要的操作以保持期望的状态，遵循Kubernetes的原则，如[控制循环](https://kubernetes.io/docs/concepts/architecture/controller/)。有关更多信息，请查阅Kubernetes的[Operator模式](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)文档，以更好地理解这些概念。"
 
 #: src/reference/good-practices.md:9
 msgid "Why should reconciliations be idempotent?"
@@ -24712,7 +24713,7 @@ msgid ""
 "available [here](https://github.com/kubernetes-sigs/controller-runtime/blob/"
 "main/FAQ.md#q-how-do-i-have-different-logic-in-my-reconciler-for-different-"
 "types-of-events-eg-create-update-delete)."
-msgstr "在开发运算符时，控制器的调和循环需要是幂等的。通过遵循 [运算符模式](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)，我们创建 [控制器](https://kubernetes.io/docs/concepts/architecture/controller/)，这些控制器提供一个调和函数，负责在集群上同步资源，直到达到期望状态。开发幂等的解决方案将允许调和器正确响应通用或意外事件，轻松处理应用程序的启动或升级。更多相关解释可以参考 [这里](https://github.com/kubernetes-sigs/controller-runtime/blob/main/FAQ.md#q-how-do-i-have-different-logic-in-my-reconciler-for-different-types-of-events-eg-create-update-delete)。"
+msgstr "在开发运算符时，控制器的对账循环需要是幂等的。通过遵循 [运算符模式](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)，我们创建 [控制器](https://kubernetes.io/docs/concepts/architecture/controller/)，这些控制器提供一个对账函数，负责在集群上同步资源，直到达到期望状态。开发幂等的解决方案将允许对账器正确响应通用或意外事件，轻松处理应用程序的启动或升级。更多相关解释可以参考 [这里](https://github.com/kubernetes-sigs/controller-runtime/blob/main/FAQ.md#q-how-do-i-have-different-logic-in-my-reconciler-for-different-types-of-events-eg-create-update-delete)。"
 
 #: src/reference/good-practices.md:13
 msgid ""
@@ -24721,7 +24722,7 @@ msgid ""
 "[controller-runtime](https://github.com/kubernetes-sigs/controller-runtime). "
 "This may lead to unforeseen consequences, such as resources becoming stuck "
 "and requiring manual intervention."
-msgstr "根据特定事件编写协调逻辑，会违反 Operator 模式的建议，并且违背了[controller-runtime](https://github.com/kubernetes-sigs/controller-runtime)的设计原则。这可能导致不可预见的后果，例如资源被卡住，需要人工干预。"
+msgstr "根据特定事件编写调整逻辑，会违反 Operator 模式的建议，并且违背了[controller-runtime](https://github.com/kubernetes-sigs/controller-runtime)的设计原则。这可能导致不可预见的后果，例如资源被卡住，需要人工干预。"
 
 #: src/reference/good-practices.md:15
 msgid "Understanding Kubernetes APIs and following API conventions"
@@ -24816,7 +24817,7 @@ msgid ""
 "unexpected side effects and increase the difficulty of extending, reusing, "
 "or maintaining the operator. Having one controller manage many Custom "
 "Resources (CRs) in an Operator can lead to several issues:"
-msgstr "避免采用一种设计方案，其中同一个控制器调和多个 Kind。将多个 Kind（如 CRD）都由同一个控制器管理，通常与 controller-runtime 提出的设计相悖。此外，这可能会损害封装性、单一职责原则和内聚性等概念。损害这些概念可能会导致意想不到的副作用，并增加扩展、重用或维护操作器的难度。在一个操作器中，由一个控制器管理多个自定义资源（CRs）可能会导致几个问题："
+msgstr "避免采用一种设计方案，其中同一个控制器对账多个 Kind。将多个 Kind（如 CRD）都由同一个控制器管理，通常与 controller-runtime 提出的设计相悖。此外，这可能会损害封装性、单一职责原则和内聚性等概念。损害这些概念可能会导致意想不到的副作用，并增加扩展、重用或维护操作器的难度。在一个操作器中，由一个控制器管理多个自定义资源（CRs）可能会导致几个问题："
 
 #: src/reference/good-practices.md:40
 msgid ""
@@ -25022,7 +25023,7 @@ msgid ""
 "CorrelatorOptions struct`, which can be created for a Controller by calling "
 "`GetRecorder(name string)` on a Manager. See that we will change the "
 "implementation scaffolded in `cmd/main.go`:"
-msgstr "以下是一些步骤和示例，帮助您在控制器的协调中触发事件。事件是通过使用[EventRecorder](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#events)的`type CorrelatorOptions struct`从控制器发布的，可以通过在管理器上调用`GetRecorder(name string)`来为控制器创建。请注意，我们将更改在`cmd/main.go`中构建的实现。"
+msgstr "以下是一些步骤和示例，帮助您在控制器的调整中触发事件。事件是通过使用[EventRecorder](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#events)的`type CorrelatorOptions struct`从控制器发布的，可以通过在管理器上调用`GetRecorder(name string)`来为控制器创建。请注意，我们将更改在`cmd/main.go`中构建的实现。"
 
 #: src/reference/raising-events.md:53 src/reference/raising-events.md:87
 msgid "// Note that we added the following line:\n"
@@ -25052,7 +25053,7 @@ msgstr ""
 
 #: src/reference/raising-events.md:69
 msgid "// MyKindReconciler reconciles a MyKind object\n"
-msgstr "// MyKindReconciler 协调一个 MyKind 对象"
+msgstr "// MyKindReconciler 调整一个 MyKind 对象"
 
 #: src/reference/raising-events.md:74
 msgid ""
@@ -25101,7 +25102,7 @@ msgid ""
 "responsible for responding to changes in the cluster—such as when a "
 "`Deployment` is created, updated, or deleted—by triggering reconciliation to "
 "ensure the resource’s state matches the desired state."
-msgstr "在扩展 Kubernetes API 时，我们的目标是确保我们的解决方案与 Kubernetes 本身的行为一致。例如，考虑一个由控制器管理的 `Deployment` 资源。这个控制器负责响应集群中的变化——例如，当 `Deployment` 被创建、更新或删除时——通过触发协调以确保资源的状态与期望状态相匹配。"
+msgstr "在扩展 Kubernetes API 时，我们的目标是确保我们的解决方案与 Kubernetes 本身的行为一致。例如，考虑一个由控制器管理的 `Deployment` 资源。这个控制器负责响应集群中的变化——例如，当 `Deployment` 被创建、更新或删除时——通过触发调整以确保资源的状态与期望状态相匹配。"
 
 #: src/reference/watching-resources.md:8
 msgid ""
@@ -25109,7 +25110,7 @@ msgid ""
 "changes in resources that are crucial to our solution. These changes—whether "
 "creations, updates, or deletions—should trigger the reconciliation loop to "
 "take appropriate actions and maintain consistency across the cluster."
-msgstr "同样，在开发我们的控制器时，我们希望关注对我们解决方案至关重要的资源中的相关变化。这些变化——无论是创建、更新还是删除——都应该触发协调循环，以采取适当的行动并维护集群的一致性。"
+msgstr "同样，在开发我们的控制器时，我们希望关注对我们解决方案至关重要的资源中的相关变化。这些变化——无论是创建、更新还是删除——都应该触发调整循环，以采取适当的行动并维护集群的一致性。"
 
 #: src/reference/watching-resources.md:12
 msgid ""
@@ -25134,7 +25135,7 @@ msgid ""
 "In this case, `MyApp` is the **Primary Resource** for that controller, and "
 "your controller’s reconciliation loop focuses on ensuring the desired state "
 "of these primary resources is maintained."
-msgstr "在这种情况下，`MyApp` 是该控制器的 **主资源**，您的控制器的协调循环专注于确保这些主资源的期望状态得以维护。"
+msgstr "在这种情况下，`MyApp` 是该控制器的 **主资源**，您的控制器的调整循环专注于确保这些主资源的期望状态得以维护。"
 
 #: src/reference/watching-resources.md:23
 msgid ""
@@ -25200,7 +25201,7 @@ msgid ""
 "controllerutil#SetOwnerReference) function to indicate that these resources "
 "are owned by the same controller responsible for managing `MyApp` instances, "
 "which will be reconciled by the `MyAppReconciler`."
-msgstr "例如，如果我们在集群中有一个控制器来管理 `MyApp` 类型的自定义资源（CR），这代表了我们的应用解决方案，那么确保 `MyApp` 以所需实例数正常运行所需的所有资源将被称为 **次要资源**。负责创建、删除和更新这些资源的代码将是 `MyApp` 控制器的一部分。我们将使用 [controllerutil.SetControllerReference](https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/controller/controllerutil#SetOwnerReference) 函数添加适当的 [OwnerReferences](https://kubernetes.io/docs/concepts/overview/working-with-objects/owners-dependents/) 以指示这些资源由相同的控制器所拥有，该控制器负责管理 `MyApp` 实例，这些实例将由 `MyAppReconciler` 进行协调。"
+msgstr "例如，如果我们在集群中有一个控制器来管理 `MyApp` 类型的自定义资源（CR），这代表了我们的应用解决方案，那么确保 `MyApp` 以所需实例数正常运行所需的所有资源将被称为 **次要资源**。负责创建、删除和更新这些资源的代码将是 `MyApp` 控制器的一部分。我们将使用 [controllerutil.SetControllerReference](https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/controller/controllerutil#SetOwnerReference) 函数添加适当的 [OwnerReferences](https://kubernetes.io/docs/concepts/overview/working-with-objects/owners-dependents/) 以指示这些资源由相同的控制器所拥有，该控制器负责管理 `MyApp` 实例，这些实例将由 `MyAppReconciler` 进行调整。"
 
 #: src/reference/watching-resources.md:63
 msgid ""
@@ -25228,7 +25229,7 @@ msgid ""
 "resource to trigger reconciliation in `MyBackup` to ensure the desired "
 "state. Similarly, `MyApp`'s behavior might also be impacted by CRDs/APIs "
 "defined in other projects."
-msgstr "例如，如果我们有一个表示备份解决方案（即 `MyBackup`）的自定义资源定义（CRD），用于我们的 `MyApp`，它可能需要监视 `MyApp` 资源的变化，以便在 `MyBackup` 中触发调和，确保达到期望的状态。同样，`MyApp` 的行为也可能受到其他项目中定义的 CRD/API 的影响。"
+msgstr "例如，如果我们有一个表示备份解决方案（即 `MyBackup`）的自定义资源定义（CRD），用于我们的 `MyApp`，它可能需要监视 `MyApp` 资源的变化，以便在 `MyBackup` 中触发对账，确保达到期望的状态。同样，`MyApp` 的行为也可能受到其他项目中定义的 CRD/API 的影响。"
 
 #: src/reference/watching-resources.md:77
 msgid ""
@@ -25260,7 +25261,7 @@ msgid ""
 "Resource**, **Operator B** can watch and reconcile changes in **Operator "
 "A**'s `MyApp`, ensuring that backup processes are initiated whenever `MyApp` "
 "is updated or scaled."
-msgstr "在这种情况下，**运维人员 B** 可以定义一个 `BackupConfig` 自定义资源定义（CRD），该定义依赖于 `MyApp` 的状态。通过将 `MyApp` 视为 **辅助资源**，**运维人员 B** 可以监视并协调 **运维人员 A** 的 `MyApp` 中的变化，确保在 `MyApp` 更新或扩展时启动备份过程。"
+msgstr "在这种情况下，**运维人员 B** 可以定义一个 `BackupConfig` 自定义资源定义（CRD），该定义依赖于 `MyApp` 的状态。通过将 `MyApp` 视为 **辅助资源**，**运维人员 B** 可以监视并调整 **运维人员 A** 的 `MyApp` 中的变化，确保在 `MyApp` 更新或扩展时启动备份过程。"
 
 #: src/reference/watching-resources.md:93
 msgid "General Concept of Watching Resources"
@@ -25290,7 +25291,7 @@ msgid ""
 "Therefore, regardless of whether the resource was defined by your project or "
 "by another project, your controller can watch, reconcile, and manage changes "
 "to these resources as needed."
-msgstr "因此，无论该资源是由您的项目定义还是由其他项目定义，您的控制器都可以根据需要监视、调和和管理这些资源的变化。"
+msgstr "因此，无论该资源是由您的项目定义还是由其他项目定义，您的控制器都可以根据需要监视、对账和管理这些资源的变化。"
 
 #: src/reference/watching-resources.md:103
 msgid "Why does watching the secondary resources matter?"
@@ -25328,7 +25329,7 @@ msgid ""
 "Watching secondary resources ensures that any changes are detected "
 "immediately, allowing the controller to reconcile and restore the desired "
 "state."
-msgstr "观察辅助资源确保任何变化都能立即被检测到，这使得控制器能够调和并恢复所需状态。"
+msgstr "观察辅助资源确保任何变化都能立即被检测到，这使得控制器能够对账并恢复所需状态。"
 
 #: src/reference/watching-resources.md:121
 msgid "**Avoiding Random Self-Healing**:"
@@ -25346,7 +25347,7 @@ msgid ""
 "Monitoring secondary resources ensures that inconsistencies are addressed "
 "promptly, rather than waiting for a controller restart or external event to "
 "trigger reconciliation."
-msgstr "监控二级资源可以确保及时处理不一致性，而不是等待控制器重启或外部事件来触发协调。"
+msgstr "监控二级资源可以确保及时处理不一致性，而不是等待控制器重启或外部事件来触发调整。"
 
 #: src/reference/watching-resources.md:127
 msgid "**Effective Lifecycle Management**:"
@@ -25386,7 +25387,7 @@ msgid ""
 "requeuing or polling resources using `RequeueAfter`. This ensures that the "
 "system only takes action when necessary, maintaining both performance and "
 "efficiency."
-msgstr "Kubernetes 控制器本质上是 **事件驱动** 的。在创建控制器时，**协调循环** 通常是由对资源的 `create`、`update` 或 `delete` 操作等 **事件** 触发的。这种事件驱动的方法相比于不断重新排队或轮询资源使用 `RequeueAfter` 更加高效和响应迅速。这确保了系统只在必要时采取行动，从而保持性能和效率。"
+msgstr "Kubernetes 控制器本质上是 **事件驱动** 的。在创建控制器时，**调整循环** 通常是由对资源的 `create`、`update` 或 `delete` 操作等 **事件** 触发的。这种事件驱动的方法相比于不断重新排队或轮询资源使用 `RequeueAfter` 更加高效和响应迅速。这确保了系统只在必要时采取行动，从而保持性能和效率。"
 
 #: src/reference/watching-resources.md:143
 msgid ""
@@ -25401,7 +25402,7 @@ msgid ""
 "prioritize **event-driven reconciliation** by configuring your controller to "
 "**watch resources** whenever possible, and reserving `RequeueAfter` for "
 "situations where periodic checks are required."
-msgstr "在许多情况下，**监视资源**是确保Kubernetes资源保持在所需状态的首选方法。它更高效、更灵敏，并且与Kubernetes的事件驱动架构相一致。然而，在某些场景中，`RequeueAfter`是合适且必要的，特别是在管理不发出事件的外部系统或处理需要时间才能收敛的资源时，例如长时间运行的过程。仅依赖`RequeueAfter`处理所有场景可能导致不必要的开销和反应延迟。因此，至关重要的是优先考虑**事件驱动的协调**，通过在可能的情况下配置控制器以**监视资源**，并将`RequeueAfter`保留用于需要定期检查的情况。"
+msgstr "在许多情况下，**监视资源**是确保Kubernetes资源保持在所需状态的首选方法。它更高效、更灵敏，并且与Kubernetes的事件驱动架构相一致。然而，在某些场景中，`RequeueAfter`是合适且必要的，特别是在管理不发出事件的外部系统或处理需要时间才能收敛的资源时，例如长时间运行的过程。仅依赖`RequeueAfter`处理所有场景可能导致不必要的开销和反应延迟。因此，至关重要的是优先考虑**事件驱动的调整**，通过在可能的情况下配置控制器以**监视资源**，并将`RequeueAfter`保留用于需要定期检查的情况。"
 
 #: src/reference/watching-resources.md:152
 msgid "When `RequeueAfter X` is Useful"
@@ -25411,7 +25412,7 @@ msgstr "`RequeueAfter X` 何时有用"
 msgid ""
 "While `RequeueAfter` is not the primary method for triggering "
 "reconciliations, there are specific cases where it is necessary, such as:"
-msgstr "虽然 `RequeueAfter` 不是触发协调的主要方法，但在某些特定情况下是必要的，例如："
+msgstr "虽然 `RequeueAfter` 不是触发调整的主要方法，但在某些特定情况下是必要的，例如："
 
 #: src/reference/watching-resources.md:157
 msgid ""
@@ -25434,7 +25435,7 @@ msgid ""
 "or require time to self-heal, `RequeueAfter` ensures the controller waits "
 "for a specified duration before checking the resource’s status again, "
 "avoiding constant reconciliation attempts."
-msgstr "**处理错误或延迟**：在管理遇到错误或需要时间自我修复的资源时，`RequeueAfter` 确保控制器在再次检查资源状态之前等待指定的时间，从而避免不断尝试进行协调。"
+msgstr "**处理错误或延迟**：在管理遇到错误或需要时间自我修复的资源时，`RequeueAfter` 确保控制器在再次检查资源状态之前等待指定的时间，从而避免不断尝试进行调整。"
 
 #: src/reference/watching-resources.md:167
 msgid "Usage of Predicates"
@@ -25555,7 +25556,7 @@ msgid ""
 "count to 3, while the `Busybox` CR defines the desired state as 1 replica, "
 "the controller will reconcile this and ensure the `Deployment` is scaled "
 "back to 1 replica."
-msgstr "例如，如果有人修改了 `Deployment`，将副本数更改为 3，而 `Busybox` CR 定义的期望状态为 1 个副本，控制器将进行协调，确保 `Deployment` 缩减回 1 个副本。"
+msgstr "例如，如果有人修改了 `Deployment`，将副本数更改为 3，而 `Busybox` CR 定义的期望状态为 1 个副本，控制器将进行调整，确保 `Deployment` 缩减回 1 个副本。"
 
 #: src/reference/watching-resources/secondary-owned-resources.md:78
 msgid "**Reconcile Function Example**"
@@ -25565,7 +25566,7 @@ msgstr "**对账函数示例**"
 msgid ""
 "// Reconcile handles the main reconciliation loop for Busybox and the "
 "Deployment\n"
-msgstr "// Reconcile 处理 Busybox 和 Deployment 的主要协调循环。"
+msgstr "// Reconcile 处理 Busybox 和 Deployment 的主要调整循环。"
 
 #: src/reference/watching-resources/secondary-owned-resources.md:85
 msgid "// Fetch the Busybox instance\n"
@@ -25620,7 +25621,7 @@ msgid ""
 "To ensure that changes to the secondary resource (such as the `Deployment`) "
 "trigger a reconciliation of the primary resource (`Busybox`), we configure "
 "the controller to watch both resources."
-msgstr "为了确保对次要资源（例如 `Deployment`）的更改能够触发对主要资源（`Busybox`）的调和，我们配置控制器以监视这两个资源。"
+msgstr "为了确保对次要资源（例如 `Deployment`）的更改能够触发对主要资源（`Busybox`）的对账，我们配置控制器以监视这两个资源。"
 
 #: src/reference/watching-resources/secondary-owned-resources.md:143
 msgid ""
@@ -25717,7 +25718,7 @@ msgid ""
 "resource not `Owned` by the controller, including **Core Types** or **Custom "
 "Resources** managed by other controllers or projects and reconciled in "
 "separate processes."
-msgstr "以下示例演示了控制器如何监控和调和它不直接管理的资源。这适用于任何不是由控制器“拥有”的资源，包括由其他控制器或项目管理的**核心类型**或**自定义资源**，并在单独的流程中进行调和。"
+msgstr "以下示例演示了控制器如何监控和对账它不直接管理的资源。这适用于任何不是由控制器“拥有”的资源，包括由其他控制器或项目管理的**核心类型**或**自定义资源**，并在单独的流程中进行对账。"
 
 #: src/reference/watching-resources/secondary-resources-not-owned.md:12
 msgid ""
@@ -25725,12 +25726,12 @@ msgid ""
 "If changes to `Busybox` should trigger reconciliation in the `BackupBusybox` "
 "controller, we can configure the `BackupBusybox` controller to watch for "
 "updates in `Busybox`."
-msgstr "例如，考虑两个自定义资源——`Busybox` 和 `BackupBusybox`。如果对 `Busybox` 的更改应该触发 `BackupBusybox` 控制器的协调，我们可以配置 `BackupBusybox` 控制器来监视 `Busybox` 的更新。"
+msgstr "例如，考虑两个自定义资源——`Busybox` 和 `BackupBusybox`。如果对 `Busybox` 的更改应该触发 `BackupBusybox` 控制器的调整，我们可以配置 `BackupBusybox` 控制器来监视 `Busybox` 的更新。"
 
 #: src/reference/watching-resources/secondary-resources-not-owned.md:16
 msgid ""
 "Example: Watching a Non-Owned Busybox Resource to Reconcile BackupBusybox"
-msgstr "示例：监视未拥有的 Busybox 资源以重新协调 BackupBusybox"
+msgstr "示例：监视未拥有的 Busybox 资源以重新调整 BackupBusybox"
 
 #: src/reference/watching-resources/secondary-resources-not-owned.md:18
 msgid ""
@@ -25738,7 +25739,7 @@ msgid ""
 "also needs to monitor changes to `Busybox` resources across the cluster. We "
 "only want to trigger reconciliation when `Busybox` instances have the Backup "
 "feature enabled."
-msgstr "考虑一个控制器，它管理一个自定义资源 `BackupBusybox`，同时需要监控整个集群中 `Busybox` 资源的变化。我们只希望在 `Busybox` 实例启用备份功能时触发对其的协调。"
+msgstr "考虑一个控制器，它管理一个自定义资源 `BackupBusybox`，同时需要监控整个集群中 `Busybox` 资源的变化。我们只希望在 `Busybox` 实例启用备份功能时触发对其的调整。"
 
 #: src/reference/watching-resources/secondary-resources-not-owned.md:23
 msgid "**Why Watch Secondary Resources?**"
@@ -25766,7 +25767,7 @@ msgstr "配置示例"
 msgid ""
 "Here’s how to configure the `BackupBusyboxReconciler` to watch changes in "
 "the `Busybox` resource and trigger reconciliation for `BackupBusybox`:"
-msgstr "以下是如何配置 `BackupBusyboxReconciler` 以监视 `Busybox` 资源的更改并触发 `BackupBusybox` 的调和："
+msgstr "以下是如何配置 `BackupBusyboxReconciler` 以监视 `Busybox` 资源的更改并触发 `BackupBusybox` 的对账："
 
 #: src/reference/watching-resources/secondary-resources-not-owned.md:36
 msgid ""
@@ -25801,7 +25802,7 @@ msgstr ""
 #: src/reference/watching-resources/secondary-resources-not-owned.md:77
 #: src/reference/watching-resources/predicates-with-watch.md:95
 msgid "// Reconcile the associated BackupBusybox resource\n"
-msgstr "// 对关联的 BackupBusybox 资源进行协调\n"
+msgstr "// 对关联的 BackupBusybox 资源进行调整\n"
 
 #: src/reference/watching-resources/secondary-resources-not-owned.md:49
 #: src/reference/watching-resources/secondary-resources-not-owned.md:78
@@ -25811,7 +25812,7 @@ msgstr "// 使用已更改的 Busybox 命名空间\n"
 
 #: src/reference/watching-resources/secondary-resources-not-owned.md:54
 msgid "// Trigger reconciliation when the Busybox resource changes\n"
-msgstr "// 当 Busybox 资源发生变化时触发协调。"
+msgstr "// 当 Busybox 资源发生变化时触发调整。"
 
 #: src/reference/watching-resources/secondary-resources-not-owned.md:59
 msgid ""
@@ -25842,7 +25843,7 @@ msgid "\"true\""
 msgid ""
 "// If the label is present and set to \"true\", trigger reconciliation for "
 "BackupBusybox\n"
-msgstr "// 如果标签存在并设置为“true”，则触发 BackupBusybox 的调和"
+msgstr "// 如果标签存在并设置为“true”，则触发 BackupBusybox 的对账"
 
 #: src/reference/watching-resources/secondary-resources-not-owned.md:83
 msgid ""
@@ -25852,7 +25853,7 @@ msgstr "// 如果标签不存在或不匹配，则不触发和解"
 
 #: src/reference/watching-resources/secondary-resources-not-owned.md:86
 msgid "// Trigger reconciliation when the labeled Busybox resource changes\n"
-msgstr "// 当标记的 Busybox 资源发生变化时触发重调和"
+msgstr "// 当标记的 Busybox 资源发生变化时触发重对账"
 
 #: src/reference/watching-resources/predicates-with-watch.md:1
 msgid "Using Predicates to Refine Watches"
@@ -25863,7 +25864,7 @@ msgid ""
 "When working with controllers, it's often beneficial to use **Predicates** "
 "to filter events and control when the reconciliation loop should be "
 "triggered."
-msgstr "在使用控制器时，使用 **谓词** 来过滤事件和控制何时触发协调循环通常是有益的。"
+msgstr "在使用控制器时，使用 **谓词** 来过滤事件和控制何时触发调整循环通常是有益的。"
 
 #: src/reference/watching-resources/predicates-with-watch.md:6
 msgid ""
@@ -25882,7 +25883,7 @@ msgid ""
 "resources should trigger a reconciliation. By using predicates, you avoid "
 "unnecessary reconciliations and can ensure that the controller only reacts "
 "to relevant changes."
-msgstr "这在你想要细化哪些资源的变化应该触发调和时尤其有用。通过使用谓词，你可以避免不必要的调和，并确保控制器仅对相关变化做出反应。"
+msgstr "这在你想要细化哪些资源的变化应该触发对账时尤其有用。通过使用谓词，你可以避免不必要的对账，并确保控制器仅对相关变化做出反应。"
 
 #: src/reference/watching-resources/predicates-with-watch.md:16
 msgid "When to Use Predicates"
@@ -25902,7 +25903,7 @@ msgstr "您想忽略某些更改，例如那些不影响控制器关注的字段
 msgid ""
 "You want to trigger reconciliation only for resources with specific labels "
 "or annotations."
-msgstr "您只想对具有特定标签或注释的资源触发协调。"
+msgstr "您只想对具有特定标签或注释的资源触发调整。"
 
 #: src/reference/watching-resources/predicates-with-watch.md:22
 msgid ""
@@ -25919,7 +25920,7 @@ msgid ""
 "when certain fields of the **`Busybox`** resource change, for example, when "
 "the `spec.size` field changes, but we want to ignore all other changes (such "
 "as status updates)."
-msgstr "假设我们只希望我们的 **`BackupBusybox`** 控制器在 **`Busybox`** 资源的某些字段发生变化时进行协调，例如，当 `spec.size` 字段发生变化时，但我们希望忽略所有其他变化（如状态更新）。"
+msgstr "假设我们只希望我们的 **`BackupBusybox`** 控制器在 **`Busybox`** 资源的某些字段发生变化时进行调整，例如，当 `spec.size` 字段发生变化时，但我们希望忽略所有其他变化（如状态更新）。"
 
 #: src/reference/watching-resources/predicates-with-watch.md:30
 msgid "Defining a Predicate"
@@ -25930,7 +25931,7 @@ msgid ""
 "In the following example, we define a predicate that only allows "
 "reconciliation when there’s a meaningful update to the **`Busybox`** "
 "resource:"
-msgstr "在下面的示例中，我们定义了一个谓词，仅在对 **`Busybox`** 资源有重要更新时才允许调和："
+msgstr "在下面的示例中，我们定义了一个谓词，仅在对 **`Busybox`** 资源有重要更新时才允许对账："
 
 #: src/reference/watching-resources/predicates-with-watch.md:38
 msgid "\"sigs.k8s.io/controller-runtime/pkg/predicate\""
@@ -25944,7 +25945,7 @@ msgstr ""
 msgid ""
 "// Predicate to trigger reconciliation only on size changes in the Busybox "
 "spec\n"
-msgstr "// 仅在 Busybox 规格的大小变化时触发重新协调的谓词\n"
+msgstr "// 仅在 Busybox 规格的大小变化时触发重新调整的谓词\n"
 
 #: src/reference/watching-resources/predicates-with-watch.md:44
 msgid ""
@@ -25953,7 +25954,7 @@ msgstr "// 仅在 Busybox 资源的 spec.size 发生变化时允许更新\n"
 
 #: src/reference/watching-resources/predicates-with-watch.md:49
 msgid "// Trigger reconciliation only if the spec.size field has changed\n"
-msgstr "// 仅在 spec.size 字段发生变化时触发重新调和"
+msgstr "// 仅在 spec.size 字段发生变化时触发重新对账"
 
 #: src/reference/watching-resources/predicates-with-watch.md:53
 msgid "// Allow create events\n"
@@ -25983,14 +25984,14 @@ msgid ""
 "**`CreateFunc`**, **`DeleteFunc`**, and **`GenericFunc`** return `true`, "
 "meaning that create, delete, and generic events are still processed, "
 "allowing reconciliation to happen for these event types."
-msgstr "**`CreateFunc`**、**`DeleteFunc`** 和 **`GenericFunc`** 返回 `true`，意味着创建、删除和通用事件仍然被处理，从而允许这些事件类型的协调发生。"
+msgstr "**`CreateFunc`**、**`DeleteFunc`** 和 **`GenericFunc`** 返回 `true`，意味着创建、删除和通用事件仍然被处理，从而允许这些事件类型的调整发生。"
 
 #: src/reference/watching-resources/predicates-with-watch.md:76
 msgid ""
 "This ensures that the controller reconciles only when the specific field "
 "**`spec.size`** is modified, while ignoring any other modifications in the "
 "`spec` that are irrelevant to your logic."
-msgstr "这确保了只有在特定字段 **`spec.size`** 被修改时，控制器才会进行协调，而忽略 `spec` 中与您的逻辑无关的其他修改。"
+msgstr "这确保了只有在特定字段 **`spec.size`** 被修改时，控制器才会进行调整，而忽略 `spec` 中与您的逻辑无关的其他修改。"
 
 #: src/reference/watching-resources/predicates-with-watch.md:78
 msgid "Example: Using Predicates in `Watches`"
@@ -26001,7 +26002,7 @@ msgid ""
 "Now, we apply this predicate in the **`Watches()`** method of the "
 "**`BackupBusyboxReconciler`** to trigger reconciliation only for relevant "
 "events:"
-msgstr "现在，我们将这个谓词应用在 **`BackupBusyboxReconciler`** 的 **`Watches()`** 方法中，以便仅针对相关事件触发重新调和："
+msgstr "现在，我们将这个谓词应用在 **`BackupBusyboxReconciler`** 的 **`Watches()`** 方法中，以便仅针对相关事件触发重新对账："
 
 #: src/reference/watching-resources/predicates-with-watch.md:84
 msgid ""
@@ -26018,7 +26019,7 @@ msgstr "// 应用谓词"
 msgid ""
 "// Trigger reconciliation when the Busybox resource changes (if it meets "
 "predicate conditions)\n"
-msgstr "// 当 Busybox 资源发生变化时触发协调（如果符合谓词条件）\n"
+msgstr "// 当 Busybox 资源发生变化时触发调整（如果符合谓词条件）\n"
 
 #: src/reference/watching-resources/predicates-with-watch.md:109
 msgid ""
@@ -26032,7 +26033,7 @@ msgstr "**[`builder.WithPredicates(updatePred)`](https://pkg.go.dev/sigs.k8s.io/
 msgid ""
 "**Other Events**: The controller will still trigger reconciliation on "
 "`Create`, `Delete`, and `Generic` events."
-msgstr "**其他事件**：控制器仍将在 `创建`、`删除` 和 `通用` 事件上触发协调。"
+msgstr "**其他事件**：控制器仍将在 `创建`、`删除` 和 `通用` 事件上触发调整。"
 
 #: src/reference/kind.md:1
 msgid "Using Kind For Development Purposes and CI"
@@ -26287,7 +26288,7 @@ msgstr "对于那些深入研究自定义资源的自定义控制器的人来说
 #: src/reference/admission-webhook.md:68
 msgid ""
 "// Custom controller's reconcile function might look something like this:\n"
-msgstr "// 自定义控制器的协调函数可能看起来像这样：\n"
+msgstr "// 自定义控制器的调整函数可能看起来像这样：\n"
 
 #: src/reference/admission-webhook.md:70
 msgid ""
@@ -26706,7 +26707,7 @@ msgid ""
 "The `+kubebuilder:scaffold:builder` marker ensures that newly scaffolded "
 "controllers are properly registered with the manager, so that the controller "
 "can reconcile the resource."
-msgstr "`+kubebuilder:scaffold:builder` 标记确保新生成的控制器正确地注册到管理器中，以便控制器可以协调资源。"
+msgstr "`+kubebuilder:scaffold:builder` 标记确保新生成的控制器正确地注册到管理器中，以便控制器可以调整资源。"
 
 #: src/reference/markers/scaffold.md:96
 msgid "List of `+kubebuilder:scaffold` Markers"
@@ -27637,7 +27638,7 @@ msgstr "使用Kubebuilder命令行界面创建的项目有两个工作负载，�
 
 #: src/reference/platform.md:201
 msgid "Manager"
-msgstr "经理"
+msgstr "监控程序"
 
 #: src/reference/platform.md:203
 msgid ""
@@ -27798,7 +27799,7 @@ msgstr "您已对数据进行训练，直到2023年10月。"
 
 #: src/reference/scopes.md:1
 msgid "Understanding and Setting Scopes for Managers (Operators) and CRDs"
-msgstr "理解和设定经理（操作员）及 CRD 的范围"
+msgstr "理解和设定监控程序（操作员）及 CRD 的范围"
 
 #: src/reference/scopes.md:3
 msgid ""
@@ -27899,7 +27900,7 @@ msgid ""
 "webhook configurations to ensure they are correctly applied within the "
 "intended scope. This facilitates a more controlled and phased rollout "
 "strategy."
-msgstr "命名空间范围的 CRD（自定义资源定义）适用于当资源需要隔离到特定命名空间时。这种设置有助于管理与特定团队或应用程序相关的资源。然而，需要注意的是，由于 Kubernetes 中 CRD 的独特定义，测试 CRD 的新版本并非简单。需要实施适当的版本控制和转换策略（可参考我们的 [kubebuilder 教程](https://book.kubebuilder.io/multiversion-tutorial/tutorial)），并且需要协调管理哪个管理实例处理转换（有关此内容，请参阅官方 [kubernetes 文档](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/#webhook-conversion)）。此外，必须考虑命名空间范围，以便在变更和验证 webhook 配置时确保它们在预期范围内正确应用。这将有助于实现更可控和分阶段的推出策略。"
+msgstr "命名空间范围的 CRD（自定义资源定义）适用于当资源需要隔离到特定命名空间时。这种设置有助于管理与特定团队或应用程序相关的资源。然而，需要注意的是，由于 Kubernetes 中 CRD 的独特定义，测试 CRD 的新版本并非简单。需要实施适当的版本控制和转换策略（可参考我们的 [kubebuilder 教程](https://book.kubebuilder.io/multiversion-tutorial/tutorial)），并且需要调整管理哪个管理实例处理转换（有关此内容，请参阅官方 [kubernetes 文档](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/#webhook-conversion)）。此外，必须考虑命名空间范围，以便在变更和验证 webhook 配置时确保它们在预期范围内正确应用。这将有助于实现更可控和分阶段的推出策略。"
 
 #: src/reference/scopes.md:67
 msgid "Cluster-scoped CRDs"
@@ -28623,7 +28624,7 @@ msgstr "k8s.io/证书"
 
 #: src/reference/using_an_external_resource.md:103
 msgid "k8s.io/coordination"
-msgstr "k8s.io/协调"
+msgstr "k8s.io/调整"
 
 #: src/reference/using_an_external_resource.md:105
 msgid "k8s.io/events"
@@ -29060,7 +29061,7 @@ msgid ""
 "never actually be reclaimed. Trying to recreate the namespace will fail. "
 "This will cause your reconciler to continue reconciling any objects left "
 "behind, unless they are deleted."
-msgstr "EnvTest不支持命名空间的删除。删除命名空间看似成功，但实际情况是该命名空间会处于终止状态，并且永远不会被回收。尝试重新创建该命名空间将会失败。这将导致您的协调器继续协调任何遗留的对象，除非它们被删除。"
+msgstr "EnvTest不支持命名空间的删除。删除命名空间看似成功，但实际情况是该命名空间会处于终止状态，并且永远不会被回收。尝试重新创建该命名空间将会失败。这将导致您的调整器继续调整任何遗留的对象，除非它们被删除。"
 
 #: src/reference/envtest.md:210
 msgid ""
@@ -29072,11 +29073,11 @@ msgid ""
 "teardown of a namespace is difficult, it may be possible to wire the "
 "reconciler in such a way that it ignores reconcile requests that come from "
 "namespaces other than the one being tested:"
-msgstr "为了克服这一限制，您可以为每个测试创建一个新的命名空间。即便如此，当一个测试完成（例如在“namespace-1”中）而另一个测试开始（例如在“namespace-2”中）时，控制器仍会对“namespace-1”中的任何活动对象进行调和。通过确保所有测试在测试清理过程中进行自我清理，可以避免这种情况。如果命名空间的清理比较困难，可以考虑以某种方式配置调和器，使其忽略来自非测试命名空间的调和请求。"
+msgstr "为了克服这一限制，您可以为每个测试创建一个新的命名空间。即便如此，当一个测试完成（例如在“namespace-1”中）而另一个测试开始（例如在“namespace-2”中）时，控制器仍会对“namespace-1”中的任何活动对象进行对账。通过确保所有测试在测试清理过程中进行自我清理，可以避免这种情况。如果命名空间的清理比较困难，可以考虑以某种方式配置对账器，使其忽略来自非测试命名空间的对账请求。"
 
 #: src/reference/envtest.md:216
 msgid "// restrict namespaces to reconcile\n"
-msgstr "// 限制命名空间以进行协调\n"
+msgstr "// 限制命名空间以进行调整\n"
 
 #: src/reference/envtest.md:219
 msgid "\"myreconciler\""
@@ -29109,7 +29110,7 @@ msgid ""
 "will do the test against a cluster and because of this the binaries are "
 "downloaded and used to configure its pre-requirements, however, its purpose "
 "is mainly to `unit` test the controllers."
-msgstr "使用 Kubebuilder 创建的项目可以启用 [`metrics`](https://book.kubebuilder.io/reference/metrics.html) 和 [`cert-manager`](https://book.kubebuilder.io/cronjob-tutorial/cert-manager.html) 选项。请注意，当我们使用 ENV TEST 时，我们旨在测试控制器及其协调过程。这被视为集成测试，因为 ENV TEST API 会在集群中进行测试，因此会下载并使用二进制文件来配置其前置要求。然而，其主要目的是对控制器进行 `单元` 测试。"
+msgstr "使用 Kubebuilder 创建的项目可以启用 [`metrics`](https://book.kubebuilder.io/reference/metrics.html) 和 [`cert-manager`](https://book.kubebuilder.io/cronjob-tutorial/cert-manager.html) 选项。请注意，当我们使用 ENV TEST 时，我们旨在测试控制器及其调整过程。这被视为集成测试，因为 ENV TEST API 会在集群中进行测试，因此会下载并使用二进制文件来配置其前置要求。然而，其主要目的是对控制器进行 `单元` 测试。"
 
 #: src/reference/envtest.md:233
 msgid ""
@@ -29870,7 +29871,7 @@ msgid ""
 "You may then record metrics to those collectors from any part of your "
 "reconcile loop. These metrics can be evaluated from anywhere in the operator "
 "code."
-msgstr "您可以从协调循环的任何部分将指标记录到这些收集器中。这些指标可以在操作员代码的任何位置进行评估。"
+msgstr "您可以从调整循环的任何部分将指标记录到这些收集器中。这些指标可以在操作员代码的任何位置进行评估。"
 
 #: src/reference/metrics.md:350
 msgid ""
@@ -31048,7 +31049,7 @@ msgstr "Grafana 仪表板"
 
 #: src/plugins/available/grafana-v1-alpha.md:75
 msgid "Controller Runtime Reconciliation total & errors"
-msgstr "控制器运行时调和总数及错误"
+msgstr "控制器运行时对账总数及错误"
 
 #: src/plugins/available/grafana-v1-alpha.md:77
 #: src/plugins/available/grafana-v1-alpha.md:90
