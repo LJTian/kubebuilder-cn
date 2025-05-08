@@ -17808,20 +17808,7 @@ msgid ""
 "See the License for the specific language governing permissions and\n"
 "limitations under the License.\n"
 "*/"
-msgstr "/********************************************************************************
-版权 2025 The Kubernetes authors.
-
-根据 Apache 许可证，版本 2.0（“许可证”）授权；
-您只能在遵守该许可证的情况下使用此文件。
-您可以在以下地址获得该许可证的副本：
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-除非适用法律要求或书面同意，否则根据该许可证分发的软件
-是按“原样”基础分发的，
-不提供任何形式的担保或条件，无论是明示还是否明示。
-有关许可证下的具体权限和限制，请参见许可证。
-********************************************************************************/"
+msgstr "/*\n 版权 2025 The Kubernetes authors.\n 根据 Apache 许可证，版本 2.0（“许可证”）授权；\n 您只能在遵守该许可证的情况下使用此文件。\n 您可以在以下地址获得该许可证的副本：\n\n   http://www.apache.org/licenses/LICENSE-2.0 \n\n 除非适用法律要求或书面同意，否则根据该许可证分发的软件\n 是按“原样”基础分发的，\n 不提供任何形式的担保或条件，无论是明示还是否明示。\n有关许可证下的具体权限和限制，请参见许可证。\n*/"
 
 #: src/getting-started.md:449
 msgid "\"context\""
