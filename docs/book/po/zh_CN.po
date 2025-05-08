@@ -16586,7 +16586,7 @@ msgid ""
 "\\[y/n\\] then this will create the files `api/v1/guestbook_types.go` where "
 "the API is defined and the `internal/controllers/guestbook_controller.go` "
 "where the reconciliation business logic is implemented for this Kind(CRD)."
-msgstr "如果您在“创建资源(Create Resource)”\\[y/n\\]中按`y`，并在“创建控制器(Create Controller)”\\[y/n\\]中按`y`，那么将会创建文件`api/v1/guestbook_types.go`，该文件中定义了 API，以及`internal/controllers/guestbook_controller.go`，该文件中实现了此 Kind（CRD）的调整业务逻辑。"
+msgstr "如果您在\"创建资源(Create Resource)\"\\[y/n\\]中按`y`，并在\"创建控制器(Create Controller)\"\\[y/n\\]中按`y`，那么将会创建文件`api/v1/guestbook_types.go`，该文件中定义了 API，以及`internal/controllers/guestbook_controller.go`，该文件中实现了此 Kind（CRD）的调整业务逻辑。"
 
 #: src/quick-start.md:85
 msgid ""
@@ -16609,7 +16609,7 @@ msgstr "// GuestbookSpec 定义了 Guestbook 的期望状态\n"
 msgid ""
 "// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster\n"
 "\t// Important: Run \"make\" to regenerate code after modifying this file\n"
-msgstr "// 插入额外的规格字段 - 集群的期望状态\n\t// 注意：修改此文件后，运行“make”以重新生成代码\n"
+msgstr "// 插入额外的规格字段 - 集群的期望状态\n\t// 注意：修改此文件后，运行\"make\"以重新生成代码\n"
 
 #: src/quick-start.md:104
 msgid ""
@@ -17808,7 +17808,7 @@ msgid ""
 "See the License for the specific language governing permissions and\n"
 "limitations under the License.\n"
 "*/"
-msgstr "/*\n 版权 2025 The Kubernetes authors.\n 根据 Apache 许可证，版本 2.0（“许可证”）授权；\n 您只能在遵守该许可证的情况下使用此文件。\n 您可以在以下地址获得该许可证的副本：\n\n   http://www.apache.org/licenses/LICENSE-2.0 \n\n 除非适用法律要求或书面同意，否则根据该许可证分发的软件\n 是按“原样”基础分发的，\n 不提供任何形式的担保或条件，无论是明示还是否明示。\n有关许可证下的具体权限和限制，请参见许可证。\n*/"
+msgstr "/*\n 版权 2025 The Kubernetes authors.\n 根据 Apache 许可证，版本 2.0（\"许可证\"）授权；\n 您只能在遵守该许可证的情况下使用此文件。\n 您可以在以下地址获得该许可证的副本：\n\n   http://www.apache.org/licenses/LICENSE-2.0 \n\n 除非适用法律要求或书面同意，否则根据该许可证分发的软件\n 是按\"原样\"基础分发的，\n 不提供任何形式的担保或条件，无论是明示还是否明示。\n有关许可证下的具体权限和限制，请参见许可证。\n*/"
 
 #: src/getting-started.md:449
 msgid "\"context\""
@@ -17980,7 +17980,7 @@ msgid ""
 "\t\t// your changes to the latest version and try again\" which would re-"
 "trigger the reconciliation\n"
 "\t\t// if we try to update it again in the following operations\n"
-msgstr "// 在更新状态后，让我们重新获取 memcached 自定义资源\n\t\t// 这样我们就可以获得集群中资源的最新状态，避免\n\t\t// 引发错误“对象已被修改，请将\n\t\t// 您的更改应用于最新版本并重试”，这将在后续操作中\n\t\t// 如果我们再次尝试更新它，将重新触发对账过程\n"
+msgstr "// 在更新状态后，让我们重新获取 memcached 自定义资源\n\t\t// 这样我们就可以获得集群中资源的最新状态，避免\n\t\t// 引发错误\"对象已被修改，请将\n\t\t// 您的更改应用于最新版本并重试\"，这将在后续操作中\n\t\t// 如果我们再次尝试更新它，将重新触发对账过程\n"
 
 #: src/getting-started.md:536 src/getting-started.md:597
 msgid "\"Failed to re-fetch memcached\""
@@ -18038,7 +18038,7 @@ msgid ""
 "\t\t\t// raising the error \"the object has been modified, please apply\n"
 "\t\t\t// your changes to the latest version and try again\" which would re-"
 "trigger the reconciliation\n"
-msgstr "// 在更新状态之前重新获取 memcached 自定义资源，\n\t\t\t// 以便我们能够获得集群中资源的最新状态，并避免\n\t\t\t// 引发错误“对象已被修改，请将您的更改应用于\n\t\t\t// 最新版本并重试”，这将重新触发调整。\n"
+msgstr "// 在更新状态之前重新获取 memcached 自定义资源，\n\t\t\t// 以便我们能够获得集群中资源的最新状态，并避免\n\t\t\t// 引发错误\"对象已被修改，请将您的更改应用于\n\t\t\t// 最新版本并重试\"，这将重新触发调整。\n"
 
 #: src/getting-started.md:603
 msgid "\"Resizing\""
@@ -18059,7 +18059,7 @@ msgstr "// 现在我们更新了大小，我们想要重新排队对账\n\t\t// 
 #: src/getting-started.md:623
 msgid ""
 "\"Deployment for custom resource (%s) with %d replicas created successfully\""
-msgstr "“自定义资源（%s）部署成功，创建了 %d 个副本”"
+msgstr "\"自定义资源（%s）部署成功，创建了 %d 个副本\""
 
 #: src/getting-started.md:632
 msgid "// SetupWithManager sets up the controller with the Manager.\n"
@@ -18467,7 +18467,7 @@ msgstr ""
 msgid ""
 "\"Use :8443 for HTTPS or :8080 for HTTP, or leave as 0 to disable the "
 "metrics service.\""
-msgstr "“使用 :8443 进行 HTTPS，使用 :8080 进行 HTTP，或者保持为 0 以禁用指标服务。”"
+msgstr "\"使用 :8443 进行 HTTPS，使用 :8080 进行 HTTP，或者保持为 0 以禁用指标服务。\""
 
 #: src/getting-started.md:928
 msgid "\"health-probe-bind-address\""
@@ -18497,7 +18497,7 @@ msgstr ""
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:645
 msgid ""
 "\"Enabling this will ensure there is only one active controller manager.\""
-msgstr "“启用此功能将确保只有一个活动的控制管理器。”"
+msgstr "\"启用此功能将确保只有一个活动的控制管理器。\""
 
 #: src/getting-started.md:932
 msgid "\"metrics-secure\""
@@ -18507,7 +18507,7 @@ msgstr ""
 msgid ""
 "\"If set, the metrics endpoint is served securely via HTTPS. Use --metrics-"
 "secure=false to use HTTP instead.\""
-msgstr "“如果设置，指标端点将通过 HTTPS 安全提供。请使用 --metrics-secure=false 以改为使用 HTTP。”"
+msgstr "\"如果设置，指标端点将通过 HTTPS 安全提供。请使用 --metrics-secure=false 以改为使用 HTTP。\""
 
 #: src/getting-started.md:934 src/getting-started.md:974
 msgid "\"webhook-cert-path\""
@@ -18601,7 +18601,7 @@ msgstr "// 初始Webhook TLS选项\n"
 #: src/getting-started.md:973
 msgid ""
 "\"Initializing webhook certificate watcher using provided certificates\""
-msgstr "“使用提供的证书初始化 Webhook 证书监视器”"
+msgstr "\"使用提供的证书初始化 Webhook 证书监视器\""
 
 #: src/getting-started.md:982
 msgid "\"Failed to initialize webhook certificate watcher\""
@@ -18647,7 +18647,7 @@ msgstr "// 如果未指定证书，controller-runtime 将自动\n\t// 为指标�
 #: src/getting-started.md:1022
 msgid ""
 "\"Initializing metrics certificate watcher using provided certificates\""
-msgstr "“使用提供的证书初始化指标证书监视器”"
+msgstr "\"使用提供的证书初始化指标证书监视器\""
 
 #: src/getting-started.md:1031
 msgid "\"to initialize metrics certificate watcher\""
@@ -19844,7 +19844,7 @@ msgid ""
 "`M` and `K`), while Binary base is specified in \"mebi\" notation (e.g. `Mi` "
 "and `Ki`).  Think [megabytes vs mebibytes](https://en.wikipedia.org/wiki/"
 "Binary_prefix)."
-msgstr "支持两种进制：10 进制和 2 进制（分别称为十进制和二进制）。十进制使用“常规”国际单位制后缀表示（例如 `M` 和 `K`），而二进制使用“兆比特”（mebi）表示法（例如 `Mi` 和 `Ki`）。可以参考 [兆字节与兆比特](https://zh.wikipedia.org/wiki/%E5%85%83%E7%B4%A0%E9%87%8A%E8%A7%A3) 的区别。"
+msgstr "支持两种进制：10 进制和 2 进制（分别称为十进制和二进制）。十进制使用\"常规\"国际单位制后缀表示（例如 `M` 和 `K`），而二进制使用\"兆比特\"（mebi）表示法（例如 `Mi` 和 `Ki`）。可以参考 [兆字节与兆比特](https://zh.wikipedia.org/wiki/%E5%85%83%E7%B4%A0%E9%87%8A%E8%A7%A3) 的区别。"
 
 #: src/cronjob-tutorial/api-design.md:37
 msgid ""
@@ -20381,7 +20381,7 @@ msgid ""
 "namespace\n"
 "# field above.\n"
 "namePrefix"
-msgstr "# 此字段的值将作为前缀添加到所有资源的名称，例如，一个名为\n# “wordpress”的部署会变成“alices-wordpress”。\n# 请注意，它还应与上面命名空间字段中“-”之前的前缀匹配。\nnamePrefix"
+msgstr "# 此字段的值将作为前缀添加到所有资源的名称，例如，一个名为\n# \"wordpress\"的部署会变成\"alices-wordpress\"。\n# 请注意，它还应与上面命名空间字段中\"-\"之前的前缀匹配。\nnamePrefix"
 
 #: src/cronjob-tutorial/running-webhook.md:45
 msgid "project-"
@@ -21094,7 +21094,7 @@ msgid ""
 "Let's make it a bit more structured.  According to our [CronJob code](./"
 "multiversion-tutorial/testdata/project/api/v2/cronjob_types.go \"CronJob "
 "Code\"), we support \"standard\" Cron format."
-msgstr "我们把内容整理得更有结构一点。根据我们的[CronJob代码](./multiversion-tutorial/testdata/project/api/v2/cronjob_types.go \"CronJob 代码\"), 我们支持“标准”Cron格式。"
+msgstr "我们把内容整理得更有结构一点。根据我们的[CronJob代码](./multiversion-tutorial/testdata/project/api/v2/cronjob_types.go \"CronJob 代码\"), 我们支持\"标准\"Cron格式。"
 
 #: src/multiversion-tutorial/api-changes.md:18
 msgid ""
@@ -21194,7 +21194,7 @@ msgid ""
 "Instead, controller-runtime models conversion in terms of a \"hub and "
 "spoke\" model -- we mark one version as the \"hub\", and all other versions "
 "just define conversion to and from the hub:"
-msgstr "相反，controller-runtime 将转换建模为“中心与辐射”模型——我们将一个版本标记为“中心”，所有其他版本只定义与中心之间的转换："
+msgstr "相反，controller-runtime 将转换建模为\"中心与辐射\"模型——我们将一个版本标记为\"中心\"，所有其他版本只定义与中心之间的转换："
 
 #: src/multiversion-tutorial/conversion-concepts.md:129
 msgid ""
@@ -21752,7 +21752,7 @@ msgid ""
 "Next, we'll re-scaffold out the API types and controllers. Since we want "
 "both, we'll say yes to both the API and controller prompts when asked what "
 "parts we want to scaffold:"
-msgstr "接下来，我们将重新搭建 API 类型和控制器。由于我们都需要这两者，因此在被询问要搭建哪些部分时，我们将对 API 和控制器的提示都选择“是”。"
+msgstr "接下来，我们将重新搭建 API 类型和控制器。由于我们都需要这两者，因此在被询问要搭建哪些部分时，我们将对 API 和控制器的提示都选择\"是\"。"
 
 #: src/migration/legacy/migration_guide_v1tov2.md:85
 msgid ""
@@ -22713,7 +22713,7 @@ msgstr "审计注册"
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:139
 #: src/reference/using_an_external_resource.md:97
 msgid "apiextensions"
-msgstr "apiextensions 的中文翻译是“API 扩展”。"
+msgstr "apiextensions 的中文翻译是\"API 扩展\"。"
 
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:140
 #: src/reference/using_an_external_resource.md:98
@@ -23981,7 +23981,7 @@ msgid ""
 "Then, we'll move our existing APIs into a new subdirectory named after the "
 "group. Considering the [CronJob example](/cronjob-tutorial/cronjob-tutorial."
 "md \"Tutorial: Building CronJob\"), subdirectory name is \"batch\":"
-msgstr "然后，我们将把现有的 API 移动到一个新的子目录中，子目录名称将以该组的名称命名。考虑到[CronJob 示例](/cronjob-tutorial/cronjob-tutorial.md "教程：构建 CronJob")，子目录名称为“batch”："
+msgstr "然后，我们将把现有的 API 移动到一个新的子目录中，子目录名称将以该组的名称命名。考虑到[CronJob 示例](/cronjob-tutorial/cronjob-tutorial.md "教程：构建 CronJob")，子目录名称为\"batch\"："
 
 #: src/migration/multi-group.md:48
 msgid ""
@@ -24328,7 +24328,7 @@ msgid ""
 "packages.  In the case of CRDs, these are generally pulled from your `_types."
 "go` files.  For more information on markers, see the [marker reference docs]"
 "(./markers.md \"Markers for Config/Code Generation\")."
-msgstr "为此，它使用特殊的“标记注释”（以 `// +` 开头的注释）来指示有关字段、类型和包的附加信息。在自定义资源定义（CRD）的情况下，这些信息通常来自于你的 `_types.go` 文件。有关标记的更多信息，请参见 [标记参考文档](./markers.md "配置/代码生成的标记")。"
+msgstr "为此，它使用特殊的\"标记注释\"（以 `// +` 开头的注释）来指示有关字段、类型和包的附加信息。在自定义资源定义（CRD）的情况下，这些信息通常来自于你的 `_types.go` 文件。有关标记的更多信息，请参见 [标记参考文档](./markers.md "配置/代码生成的标记")。"
 
 #: src/reference/generating-crd.md:13
 msgid ""
@@ -24579,7 +24579,7 @@ msgid ""
 "gen, using the same syntax as markers. controller-gen also supports "
 "different output \"rules\" to control how and where output goes. Notice the "
 "`manifests` make rule (condensed slightly to only generate CRDs):"
-msgstr "每个 controller-gen 的“生成器”都由 controller-gen 的一个选项控制，使用与标记相同的语法。controller-gen 还支持不同的输出“规则”，以控制输出的方式和去向。请注意 `manifests` 制作规则（略微简化，仅生成 CRD）："
+msgstr "每个 controller-gen 的\"生成器\"都由 controller-gen 的一个选项控制，使用与标记相同的语法。controller-gen 还支持不同的输出\"规则\"，以控制输出的方式和去向。请注意 `manifests` 制作规则（略微简化，仅生成 CRD）："
 
 #: src/reference/generating-crd.md:188
 msgid "# Generate manifests for CRDs"
@@ -24629,7 +24629,7 @@ msgid ""
 "timestamp on the object indicates that it is being deleted. Otherwise, "
 "without finalizers, a delete shows up as a reconcile where the object is "
 "missing from the cache."
-msgstr "需要注意的关键点是，最终处理器导致对象的“删除”变成“更新”，以设置删除时间戳。对象上存在删除时间戳表明该对象正在被删除。否则，如果没有最终处理器，删除会表现为一个调整过程，其中对象在缓存中丢失。"
+msgstr "需要注意的关键点是，最终处理器导致对象的\"删除\"变成\"更新\"，以设置删除时间戳。对象上存在删除时间戳表明该对象正在被删除。否则，如果没有最终处理器，删除会表现为一个调整过程，其中对象在缓存中丢失。"
 
 #: src/reference/using-finalizers.md:16
 msgid "Highlights:"
@@ -25199,7 +25199,7 @@ msgstr "此外，如果删除了**主要资源**，Kubernetes 的垃圾回收机
 
 #: src/reference/watching-resources.md:67
 msgid "Which are NOT `Owned` by the Controller"
-msgstr "哪些不是由控制器“拥有”的？"
+msgstr "哪些不是由控制器\"拥有\"的？"
 
 #: src/reference/watching-resources.md:69
 msgid ""
@@ -25223,7 +25223,7 @@ msgid ""
 "In both scenarios, these resources are treated as **Secondary Resources**, "
 "even if they are not `Owned` (i.e., not created or managed) by the "
 "`MyAppController`."
-msgstr "在这两种情况下，这些资源都被视为**次级资源**，即使它们不是由`MyAppController`“拥有”（即没有被创建或管理）。"
+msgstr "在这两种情况下，这些资源都被视为**次级资源**，即使它们不是由`MyAppController`\"拥有\"（即没有被创建或管理）。"
 
 #: src/reference/watching-resources.md:80
 msgid ""
@@ -25327,7 +25327,7 @@ msgid ""
 "Without watching secondary resources, the controller may \"heal\" itself "
 "only upon restart or when specific events are triggered. This can cause "
 "unpredictable or delayed reactions to issues."
-msgstr "在没有查看二级资源的情况下，控制器可能只在重启后或在触发特定事件时“自我恢复”。这可能导致对问题的反应不可预测或延迟。"
+msgstr "在没有查看二级资源的情况下，控制器可能只在重启后或在触发特定事件时\"自我恢复\"。这可能导致对问题的反应不可预测或延迟。"
 
 #: src/reference/watching-resources.md:124
 msgid ""
@@ -25440,7 +25440,7 @@ msgstr "对于更复杂的使用场景，可以使用 [谓词](https://pkg.go.de
 
 #: src/reference/watching-resources/secondary-owned-resources.md:1
 msgid "Watching Secondary Resources `Owned` by the Controller"
-msgstr "查看控制器“拥有”的二级资源"
+msgstr "查看控制器\"拥有\"的二级资源"
 
 #: src/reference/watching-resources/secondary-owned-resources.md:3
 msgid ""
@@ -25454,7 +25454,7 @@ msgstr "在 Kubernetes 控制器中，通常会同时管理 **主资源** 和 **
 msgid ""
 "In this section, we will explain how to manage **Secondary Resources** which "
 "are `Owned` by the controller. This example shows how to:"
-msgstr "在本节中，我们将解释如何管理由控制器“拥有”的 **二级资源**。这个例子将展示如何："
+msgstr "在本节中，我们将解释如何管理由控制器\"拥有\"的 **二级资源**。这个例子将展示如何："
 
 #: src/reference/watching-resources/secondary-owned-resources.md:11
 msgid ""
@@ -25689,14 +25689,14 @@ msgstr "请注意，我们正在授予对资源的 `watch` 权限。"
 
 #: src/reference/watching-resources/secondary-resources-not-owned.md:1
 msgid "Watching Secondary Resources that are NOT `Owned`"
-msgstr "观看未“拥有”的辅助资源"
+msgstr "观看未\"拥有\"的辅助资源"
 
 #: src/reference/watching-resources/secondary-resources-not-owned.md:3
 msgid ""
 "In some scenarios, a controller may need to watch and respond to changes in "
 "resources that it does not `Own`, meaning those resources are created and "
 "managed by another controller."
-msgstr "在某些情况下，控制器可能需要监视并响应它并不“拥有”的资源的变化，这意味着这些资源是由另一个控制器创建和管理的。"
+msgstr "在某些情况下，控制器可能需要监视并响应它并不\"拥有\"的资源的变化，这意味着这些资源是由另一个控制器创建和管理的。"
 
 #: src/reference/watching-resources/secondary-resources-not-owned.md:7
 msgid ""
@@ -25705,7 +25705,7 @@ msgid ""
 "resource not `Owned` by the controller, including **Core Types** or **Custom "
 "Resources** managed by other controllers or projects and reconciled in "
 "separate processes."
-msgstr "以下示例演示了控制器如何监控和对账它不直接管理的资源。这适用于任何不是由控制器“拥有”的资源，包括由其他控制器或项目管理的**核心类型**或**自定义资源**，并在单独的流程中进行对账。"
+msgstr "以下示例演示了控制器如何监控和对账它不直接管理的资源。这适用于任何不是由控制器\"拥有\"的资源，包括由其他控制器或项目管理的**核心类型**或**自定义资源**，并在单独的流程中进行对账。"
 
 #: src/reference/watching-resources/secondary-resources-not-owned.md:12
 msgid ""
@@ -25830,7 +25830,7 @@ msgid "\"true\""
 msgid ""
 "// If the label is present and set to \"true\", trigger reconciliation for "
 "BackupBusybox\n"
-msgstr "// 如果标签存在并设置为“true”，则触发 BackupBusybox 的对账"
+msgstr "// 如果标签存在并设置为\"true\"，则触发 BackupBusybox 的对账"
 
 #: src/reference/watching-resources/secondary-resources-not-owned.md:83
 msgid ""
@@ -26330,7 +26330,7 @@ msgid ""
 "controller-gen.md) for generating utility code and Kubernetes YAML.  This "
 "code and config generation is controlled by the presence of special \"marker "
 "comments\" in Go code."
-msgstr "Kubebuilder 使用一个名为 [controller-gen](/reference/controller-gen.md) 的工具来生成实用代码和 Kubernetes YAML。此代码和配置的生成是通过在 Go 代码中添加特殊的“标记注释”来控制的。"
+msgstr "Kubebuilder 使用一个名为 [controller-gen](/reference/controller-gen.md) 的工具来生成实用代码和 Kubernetes YAML。此代码和配置的生成是通过在 Go 代码中添加特殊的\"标记注释\"来控制的。"
 
 #: src/reference/markers.md:9
 msgid ""
@@ -26978,14 +26978,14 @@ msgid ""
 "controller-tools/cmd/controller-gen) for generating utility code and "
 "Kubernetes YAML.  This code and config generation is controlled by the "
 "presence of special [\"marker comments\"](/reference/markers.md) in Go code."
-msgstr "Kubebuilder 使用一个名为 [controller-gen](https://sigs.k8s.io/controller-tools/cmd/controller-gen) 的工具来生成实用代码和 Kubernetes YAML。此代码和配置的生成通过 Go 代码中的特殊 [“标记注释”](/reference/markers.md) 来控制。"
+msgstr "Kubebuilder 使用一个名为 [controller-gen](https://sigs.k8s.io/controller-tools/cmd/controller-gen) 的工具来生成实用代码和 Kubernetes YAML。此代码和配置的生成通过 Go 代码中的特殊 [\"标记注释\"](/reference/markers.md) 来控制。"
 
 #: src/reference/controller-gen.md:9
 msgid ""
 "controller-gen is built out of different \"generators\" (which specify what "
 "to generate) and \"output rules\" (which specify how and where to write the "
 "results)."
-msgstr "controller-gen 是由不同的“生成器”（指定要生成的内容）和“输出规则”（指定如何以及在何处写入结果）构建而成的。"
+msgstr "controller-gen 是由不同的\"生成器\"（指定要生成的内容）和\"输出规则\"（指定如何以及在何处写入结果）构建而成的。"
 
 #: src/reference/controller-gen.md:13
 msgid ""
@@ -27028,7 +27028,7 @@ msgid ""
 "Output rules configure how a given generator outputs its results. There is "
 "always one global \"fallback\" output rule (specified as `output:<rule>`), "
 "plus per-generator overrides (specified as `output:<generator>:<rule>`)."
-msgstr "输出规则配置了给定生成器如何输出其结果。始终有一个全局的“回退”输出规则（指定为 `output:<rule>`），加上每个生成器的覆盖规则（指定为 `output:<generator>:<rule>`）。"
+msgstr "输出规则配置了给定生成器如何输出其结果。始终有一个全局的\"回退\"输出规则（指定为 `output:<rule>`），加上每个生成器的覆盖规则（指定为 `output:<generator>:<rule>`）。"
 
 #: src/reference/controller-gen.md:44
 msgid ""
@@ -27047,7 +27047,7 @@ msgstr "默认规则等价于 `output:<generator>:artifacts:config=config/<gener
 msgid ""
 "When a \"fallback\" rule is specified, that'll be used instead of the "
 "default rules."
-msgstr "当指定“后备”规则时，将使用该规则代替默认规则。"
+msgstr "当指定\"后备\"规则时，将使用该规则代替默认规则。"
 
 #: src/reference/controller-gen.md:55
 msgid ""
@@ -27105,7 +27105,7 @@ msgid ""
 msgstr "安装完成后，请在 `/etc/shells` 中添加路径 `/usr/local/bin/bash`。"
 
 #: src/reference/completion.md:15
-msgid "`echo “/usr/local/bin/bash” > /etc/shells`"
+msgid "`echo \"/usr/local/bin/bash\" > /etc/shells`"
 msgstr "`echo "/usr/local/bin/bash" > /etc/shells`"
 
 #: src/reference/completion.md:17
@@ -27794,7 +27794,7 @@ msgid ""
 "within a Kubebuilder project. Managers(\"Operators\") in Kubernetes can be "
 "scoped to either specific namespaces or the entire cluster, influencing how "
 "resources are watched and managed."
-msgstr "本节涵盖了在 Kubebuilder 项目中操作范围和资源范围的配置。Kubernetes 中的管理器（“操作员”）可以被限定在特定的名称空间或整个集群，从而影响资源的监视和管理方式。"
+msgstr "本节涵盖了在 Kubebuilder 项目中操作范围和资源范围的配置。Kubernetes 中的管理器（\"操作员\"）可以被限定在特定的名称空间或整个集群，从而影响资源的监视和管理方式。"
 
 #: src/reference/scopes.md:7
 msgid ""
@@ -28461,7 +28461,7 @@ msgid ""
 "will assume you follow the guide for [using an external Type](/reference/"
 "using_an_external_type.md). When you get to the step `Edit the API files` "
 "simply import the dependency with"
-msgstr "每当您想要在一个独立的 kubebuilder 中重用您的 API 模块时，我们会假设您遵循了 [使用外部类型](/reference/using_an_external_type.md) 的指南。当您到达“编辑 API 文件”这一步时，只需使用以下方式导入依赖项："
+msgstr "每当您想要在一个独立的 kubebuilder 中重用您的 API 模块时，我们会假设您遵循了 [使用外部类型](/reference/using_an_external_type.md) 的指南。当您到达\"编辑 API 文件\"这一步时，只需使用以下方式导入依赖项："
 
 #: src/reference/submodule-layouts.md:246
 msgid "and then use it as explained in the guide."
@@ -28787,7 +28787,7 @@ msgstr "注意：`ENVTEST_K8S_VERSION` 需要与您上面下载的 `setup-envtes
 
 #: src/reference/envtest.md:70
 msgid "'s on disk\n"
-msgstr "“在磁盘上”"
+msgstr "\"在磁盘上\""
 
 #: src/reference/envtest.md:75
 msgid "Using `envtest` in integration tests follows the general flow of:"
@@ -29017,7 +29017,7 @@ msgid ""
 "impact on how you write tests. One common example is garbage collection; "
 "because there are no controllers monitoring built-in resources, objects do "
 "not get deleted, even if an `OwnerReference` is set up."
-msgstr "除非您正在使用现有的集群，否则请记住，在测试上下文中没有运行内置控制器。在某些方面，测试控制平面将与“真实”集群表现不同，这可能会影响您编写测试的方式。一个常见的例子是垃圾收集；因为没有控制器监视内置资源，尽管设置了 `OwnerReference`，对象也不会被删除。"
+msgstr "除非您正在使用现有的集群，否则请记住，在测试上下文中没有运行内置控制器。在某些方面，测试控制平面将与\"真实\"集群表现不同，这可能会影响您编写测试的方式。一个常见的例子是垃圾收集；因为没有控制器监视内置资源，尽管设置了 `OwnerReference`，对象也不会被删除。"
 
 #: src/reference/envtest.md:192
 msgid ""
@@ -29060,7 +29060,7 @@ msgid ""
 "teardown of a namespace is difficult, it may be possible to wire the "
 "reconciler in such a way that it ignores reconcile requests that come from "
 "namespaces other than the one being tested:"
-msgstr "为了克服这一限制，您可以为每个测试创建一个新的命名空间。即便如此，当一个测试完成（例如在“namespace-1”中）而另一个测试开始（例如在“namespace-2”中）时，控制器仍会对“namespace-1”中的任何活动对象进行对账。通过确保所有测试在测试清理过程中进行自我清理，可以避免这种情况。如果命名空间的清理比较困难，可以考虑以某种方式配置对账器，使其忽略来自非测试命名空间的对账请求。"
+msgstr "为了克服这一限制，您可以为每个测试创建一个新的命名空间。即便如此，当一个测试完成（例如在\"namespace-1\"中）而另一个测试开始（例如在\"namespace-2\"中）时，控制器仍会对\"namespace-1\"中的任何活动对象进行对账。通过确保所有测试在测试清理过程中进行自我清理，可以避免这种情况。如果命名空间的清理比较困难，可以考虑以某种方式配置对账器，使其忽略来自非测试命名空间的对账请求。"
 
 #: src/reference/envtest.md:216
 msgid "// restrict namespaces to reconcile\n"
@@ -29717,7 +29717,7 @@ msgstr "此外，请确保在 config/default/kustomization.yaml 文件中取消�
 #: src/reference/metrics.md:233
 msgid ""
 "# to mount the \"metrics-server-cert\" secret in the Manager Deployment.\n"
-msgstr "# 将“metrics-server-cert”机密挂载到管理部署中。"
+msgstr "# 将\"metrics-server-cert\"机密挂载到管理部署中。"
 
 #: src/reference/metrics.md:235
 msgid "monitor_tls_patch.yaml"
@@ -30485,7 +30485,7 @@ msgstr "`resources.core`"
 msgid ""
 "It is `true` when  the group used is from Kubernetes API and the API "
 "resource is not defined on the project."
-msgstr "当使用的组来自Kubernetes API并且项目中未定义API资源时，它为“真”。"
+msgstr "当使用的组来自Kubernetes API并且项目中未定义API资源时，它为\"真\"。"
 
 #: src/reference/project-config.md:151
 msgid "`resources.external`"
@@ -31017,7 +31017,7 @@ msgid ""
 "Paste the JSON content to `Import via panel json`, then press `Load` button "
 "<img width=\"644\" src=\"https://user-images.githubusercontent."
 "com/18136486/176121955-1c4aec9c-0ba4-4271-9767-e8d1726d9d9a.png\">"
-msgstr "将 JSON 内容粘贴到“通过面板 JSON 导入”中，然后按“加载”按钮 <img width=\"644\" src=\"https://user-images.githubusercontent.com/18136486/176121955-1c4aec9c-0ba4-4271-9767-e8d1726d9d9a.png\">"
+msgstr "将 JSON 内容粘贴到\"通过面板 JSON 导入\"中，然后按\"加载\"按钮 <img width=\"644\" src=\"https://user-images.githubusercontent.com/18136486/176121955-1c4aec9c-0ba4-4271-9767-e8d1726d9d9a.png\">"
 
 #: src/plugins/available/grafana-v1-alpha.md:69
 msgid ""
@@ -31118,7 +31118,7 @@ msgstr "rate(process_cpu_seconds_total{job="$job", namespace="$namespace", pod="
 msgid ""
 "process_resident_memory_bytes{job=\"$job\", namespace=\"$namespace\", "
 "pod=\"$pod\"}"
-msgstr "process_resident_memory_bytes{job=“$job”, namespace=“$namespace”, pod=“$pod”}"
+msgstr "process_resident_memory_bytes{job=\"$job\", namespace=\"$namespace\", pod=\"$pod\"}"
 
 #: src/plugins/available/grafana-v1-alpha.md:97
 msgid "Per-second rate of CPU usage as measured over the last 5 minutes"
@@ -31238,7 +31238,7 @@ msgstr "使用中的工人数量"
 
 #: src/plugins/available/grafana-v1-alpha.md:144
 msgid "controller_runtime_active_workers"
-msgstr "controller_runtime_active_workers 的中文翻译是“控制器运行时活动工作者”。"
+msgstr "controller_runtime_active_workers 的中文翻译是\"控制器运行时活动工作者\"。"
 
 #: src/plugins/available/grafana-v1-alpha.md:146
 msgid ""
@@ -31283,7 +31283,7 @@ msgstr "未完成的秒数"
 
 #: src/plugins/available/grafana-v1-alpha.md:164
 msgid "workqueue_unfinished_work_seconds"
-msgstr "workqueue_unfinished_work_seconds 的翻译为“工作队列未完成工作秒数”。"
+msgstr "workqueue_unfinished_work_seconds 的翻译为\"工作队列未完成工作秒数\"。"
 
 #: src/plugins/available/grafana-v1-alpha.md:166
 msgid ""
@@ -31835,7 +31835,7 @@ msgid ""
 "default scaffold, removing the need for manual updates across multiple "
 "language plugins. This approach allows the creation of \"helper\" plugins "
 "that work with different projects and languages."
-msgstr "像 [Operator-sdk](https://github.com/operator-framework/operator-sdk) 这样的项目使用 Kubebuilder 项目作为库，并提供了与其他语言（如 Ansible 和 Helm）协作的选项。Kustomize 插件帮助它们在不同语言之间保持一致的配置。它还简化了在默认脚手架基础上执行更改的插件的创建，消除了在多个语言插件之间进行手动更新的需要。这种方法允许创建与不同项目和语言配合使用的“辅助”插件。"
+msgstr "像 [Operator-sdk](https://github.com/operator-framework/operator-sdk) 这样的项目使用 Kubebuilder 项目作为库，并提供了与其他语言（如 Ansible 和 Helm）协作的选项。Kustomize 插件帮助它们在不同语言之间保持一致的配置。它还简化了在默认脚手架基础上执行更改的插件的创建，消除了在多个语言插件之间进行手动更新的需要。这种方法允许创建与不同项目和语言配合使用的\"辅助\"插件。"
 
 #: src/plugins/available/kustomize-v2.md:22
 msgid ""
@@ -32211,7 +32211,7 @@ msgid ""
 "The integer denotes the current version of a plugin. Two different integer "
 "values between versions of plugins indicate that the two plugins are "
 "incompatible. The stage string denotes plugin stability:"
-msgstr "插件的 `Version()` 方法返回一个 [`plugin.Version`](https://pkg.go.dev/sigs.k8s.io/kubebuilder/v4/pkg/plugin#Version) 对象，包含一个整数值和可选的阶段字符串，它可以是“alpha”或“beta”。该整数表示插件的当前版本。两个不同的整数值表示插件版本之间的不兼容性。阶段字符串表示插件的稳定性："
+msgstr "插件的 `Version()` 方法返回一个 [`plugin.Version`](https://pkg.go.dev/sigs.k8s.io/kubebuilder/v4/pkg/plugin#Version) 对象，包含一个整数值和可选的阶段字符串，它可以是\"alpha\"或\"beta\"。该整数表示插件的当前版本。两个不同的整数值表示插件版本之间的不兼容性。阶段字符串表示插件的稳定性："
 
 #: src/plugins/extending/extending_cli_features_and_plugins.md:103
 msgid ""
@@ -32287,7 +32287,7 @@ msgid ""
 "See the License for the specific language governing permissions and\n"
 "limitations under the License.\n"
 "*/"
-msgstr "/*******************************************************************************\n版权所有 2022 Kubernetes 作者。\n\n根据 Apache 许可证，版本 2.0（“许可证”）授权；\n除非遵守许可证，否则您不得使用此文件。\n您可以在以下网址获取许可证的副本：\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\n除非适用法律要求或书面达成协议，否则根据许可证分发的软件是以“原样”基础分发的，\n不提供任何种类的保证或条件，明示或暗示。\n有关许可证的具体语言，请参见许可证以了解管理权限和\n根据许可证的限制。\n******************************************************************************/"
+msgstr "/*******************************************************************************\n版权所有 2022 Kubernetes 作者。\n\n根据 Apache 许可证，版本 2.0（\"许可证\"）授权；\n除非遵守许可证，否则您不得使用此文件。\n您可以在以下网址获取许可证的副本：\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\n除非适用法律要求或书面达成协议，否则根据许可证分发的软件是以\"原样\"基础分发的，\n不提供任何种类的保证或条件，明示或暗示。\n有关许可证的具体语言，请参见许可证以了解管理权限和\n根据许可证的限制。\n******************************************************************************/"
 
 #: src/plugins/extending/extending_cli_features_and_plugins.md:148
 msgid "\"sigs.k8s.io/kubebuilder/v4/pkg/machinery\""
@@ -32578,7 +32578,7 @@ msgstr "默认行为："
 msgid ""
 "# Initialize a project with the default Init plugin, \"go.example.com/v1\".\n"
 "# This key is automatically written to a PROJECT config file.\n"
-msgstr "# 使用默认的 Init 插件“go.example.com/v1”初始化项目。\n# 此密钥会自动写入 PROJECT 配置文件中。\n"
+msgstr "# 使用默认的 Init 插件\"go.example.com/v1\"初始化项目。\n# 此密钥会自动写入 PROJECT 配置文件中。\n"
 
 #: src/plugins/extending/extending_cli_features_and_plugins.md:371
 msgid ""
@@ -32777,7 +32777,7 @@ msgstr ""
 msgid ""
 "\"The `init` subcommand initializes a project via Kubebuilder. It scaffolds "
 "a single file: `initFile`.\""
-msgstr "“`init` 子命令通过 Kubebuilder 初始化一个项目。它会构建一个单独的文件：`initFile`。”"
+msgstr "\"`init` 子命令通过 Kubebuilder 初始化一个项目。它会构建一个单独的文件：`initFile`。\""
 
 #: src/plugins/extending/external-plugins.md:55
 msgid "\"examples\""
@@ -33322,7 +33322,7 @@ msgid ""
 "golang/v(X+1)` then updating version numbers and paths. All further breaking "
 "changes to the plugin should be made in this package; the `vX` plugin would "
 "then be frozen to breaking changes."
-msgstr "对插件所做的更改仅在发生导致与之前插件版本搭建的项目不兼容的更改时，才需要提高插件版本。一旦插件版本 `vX` 稳定（不带有 “alpha” 或 “beta” 后缀），应该创建一个新的插件包，其中包含版本 `v(X+1)-alpha` 的新插件。通常通过（语义上）执行 `cp -r pkg/plugins/golang/vX pkg/plugins/golang/v(X+1)`，然后更新版本号和路径来完成这一操作。所有后续对插件的破坏性更改都应在此包中进行；`vX` 插件将被冻结，不能再进行破坏性更改。"
+msgstr "对插件所做的更改仅在发生导致与之前插件版本搭建的项目不兼容的更改时，才需要提高插件版本。一旦插件版本 `vX` 稳定（不带有 \"alpha\" 或 \"beta\" 后缀），应该创建一个新的插件包，其中包含版本 `v(X+1)-alpha` 的新插件。通常通过（语义上）执行 `cp -r pkg/plugins/golang/vX pkg/plugins/golang/v(X+1)`，然后更新版本号和路径来完成这一操作。所有后续对插件的破坏性更改都应在此包中进行；`vX` 插件将被冻结，不能再进行破坏性更改。"
 
 #: src/plugins/plugins-versioning.md:27
 msgid ""
@@ -33410,7 +33410,7 @@ msgstr "与："
 msgid ""
 "After `make run`, I see errors like \"unable to find leader election "
 "namespace: not running in-cluster...\""
-msgstr "在执行 `make run` 后，我看到类似“无法找到领导者选举命名空间：未在集群内运行...”的错误。"
+msgstr "在执行 `make run` 后，我看到类似\"无法找到领导者选举命名空间：未在集群内运行...\"的错误。"
 
 #: src/faq.md:47
 msgid ""
@@ -33449,7 +33449,7 @@ msgid ""
 "I am facing the error \"open /var/run/secrets/kubernetes.io/serviceaccount/"
 "token: permission denied\" when I deploy my project against Kubernetes old "
 "versions. How to sort it out?"
-msgstr "当我在旧版本的 Kubernetes 上部署我的项目时，出现错误“open /var/run/secrets/kubernetes.io/serviceaccount/token: permission denied”。我该如何解决这个问题？"
+msgstr "当我在旧版本的 Kubernetes 上部署我的项目时，出现错误\"open /var/run/secrets/kubernetes.io/serviceaccount/token: permission denied\"。我该如何解决这个问题？"
 
 #: src/faq.md:84
 msgid "If you are facing the error:"
