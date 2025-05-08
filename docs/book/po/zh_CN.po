@@ -17112,7 +17112,7 @@ msgstr "annotations"
 
 #: src/getting-started.md:144
 msgid "controller-gen.kubebuilder.io/version"
-msgstr "controller-gen.kubebuilder.io/版本"
+msgstr "controller-gen.kubebuilder.io/version"
 
 #: src/getting-started.md:144 src/cronjob-tutorial/basic-project.md:300
 msgid "v0.17.2"
@@ -17430,7 +17430,7 @@ msgid ""
 "details about the transition.\n"
 "                        This may be an empty string.\n"
 "                      maxLength"
-msgstr "消息是一个可读的人类消息，指示有关过渡的详细信息。\n这可以是一个空字符串。\n最大长度"
+msgstr "消息是一个可读的人类消息，指示有关过渡的详细信息。\n这可以是一个空字符串。\nmaxLength"
 
 #: src/getting-started.md:210
 msgid "observedGeneration"
@@ -17466,7 +17466,7 @@ msgid ""
 "                        The value should be a CamelCase string.\n"
 "                        This field may not be empty.\n"
 "                      maxLength"
-msgstr "原因包含一个程序标识符，用于指示该条件最后一次转换的原因。\n                        特定条件类型的生产者可能会定义该字段的预期值和含义，\n                        以及这些值是否被视为保证的 API。\n                        该值应为 CamelCase 字符串。\n                        此字段不得为空。\n                      最大长度"
+msgstr "原因包含一个程序标识符，用于指示该条件最后一次转换的原因。\n                        特定条件类型的生产者可能会定义该字段的预期值和含义，\n                        以及这些值是否被视为保证的 API。\n                        该值应为 CamelCase 字符串。\n                        此字段不得为空。\n                      maxLength"
 
 #: src/getting-started.md:226
 msgid "minLength"
