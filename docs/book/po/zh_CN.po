@@ -17899,7 +17899,7 @@ msgstr ""
 
 #: src/getting-started.md:475
 msgid "// MemcachedReconciler reconciles a Memcached object\n"
-msgstr "// MemcachedReconciler 负责调整 Memcached 对象。"
+msgstr "// MemcachedReconciler 负责调整 Memcached 对象。\n"
 
 #: src/getting-started.md:481 src/getting-started.md:777
 msgid ""
@@ -18051,7 +18051,7 @@ msgid ""
 "\t\t\t// raising the error \"the object has been modified, please apply\n"
 "\t\t\t// your changes to the latest version and try again\" which would re-"
 "trigger the reconciliation\n"
-msgstr "在更新状态之前重新获取 memcached 自定义资源，\n\t\t\t// 以便我们能够获得集群中资源的最新状态，并避免\n\t\t\t// 引发错误“对象已被修改，请将您的更改应用于\n\t\t\t// 最新版本并重试”，这将重新触发调整。\n"
+msgstr "// 在更新状态之前重新获取 memcached 自定义资源，\n\t\t\t// 以便我们能够获得集群中资源的最新状态，并避免\n\t\t\t// 引发错误“对象已被修改，请将您的更改应用于\n\t\t\t// 最新版本并重试”，这将重新触发调整。\n"
 
 #: src/getting-started.md:603
 msgid "\"Resizing\""
@@ -18230,15 +18230,15 @@ msgstr "rbac.authorization.k8s.io/v1"
 
 #: src/getting-started.md:793
 msgid "ClusterRole"
-msgstr "集群角色"
+msgstr "ClusterRole"
 
 #: src/getting-started.md:795
 msgid "manager-role"
-msgstr "监控程序角色"
+msgstr "manager-role"
 
 #: src/getting-started.md:795
 msgid "rules"
-msgstr "规则"
+msgstr "rules"
 
 #: src/getting-started.md:797 src/getting-started.md:804
 #: src/getting-started.md:812 src/getting-started.md:824
@@ -18369,11 +18369,11 @@ msgstr ""
 
 #: src/getting-started.md:839
 msgid "memcacheds/finalizers"
-msgstr "memcacheds/最终处理程序"
+msgstr "memcacheds/finalizers"
 
 #: src/getting-started.md:845
 msgid "memcacheds/status"
-msgstr "memcacheds/状态"
+msgstr "memcacheds/status"
 
 #: src/getting-started.md:853
 msgid "Manager (main.go)"
@@ -18406,7 +18406,7 @@ msgstr ""
 msgid ""
 "// Import all Kubernetes client auth plugins (e.g. Azure, GCP, OIDC, etc.)\n"
 "\t// to ensure that exec-entrypoint and run can make use of them.\n"
-msgstr "// 导入所有 Kubernetes 客户端身份验证插件（例如 Azure、GCP、OIDC 等）\n\t// 确保 exec-entrypoint 和 run 可以使用它们。"
+msgstr "// 导入所有 Kubernetes 客户端身份验证插件（例如 Azure、GCP、OIDC 等）\n\t// 确保 exec-entrypoint 和 run 可以使用它们。\n"
 
 #: src/getting-started.md:886 src/reference/markers/scaffold.md:49
 msgid "\"k8s.io/client-go/plugin/pkg/client/auth\""
@@ -18593,7 +18593,7 @@ msgid ""
 "\t// Rapid Reset CVEs. For more information see:\n"
 "\t// - https://github.com/advisories/GHSA-qppj-fm5r-hxr3\n"
 "\t// - https://github.com/advisories/GHSA-4374-p667-p6c8\n"
-msgstr "如果 enable-http2 标志为 false（默认值），则应禁用 http/2\n由于其存在的漏洞。更具体地说，禁用 http/2 将\n防止受到 HTTP/2 流取消和\n快速重置 CVE 的漏洞影响。有关更多信息，请参见：\n- https://github.com/advisories/GHSA-qppj-fm5r-hxr3\n- https://github.com/advisories/GHSA-4374-p667-p6c8\n"
+msgstr " // 如果 enable-http2 标志为 false（默认值），则应禁用 http/2\n // 由于其存在的漏洞。更具体地说，禁用 http/2 将\n // 防止受到 HTTP/2 流取消和\n // 快速重置 CVE 的漏洞影响。有关更多信息，请参见：\n// - https://github.com/advisories/GHSA-qppj-fm5r-hxr3\n// - https://github.com/advisories/GHSA-4374-p667-p6c8\n"
 
 #: src/getting-started.md:958
 msgid "\"disabling http/2\""
