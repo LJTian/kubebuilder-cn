@@ -18580,7 +18580,7 @@ msgid ""
 "\t// Rapid Reset CVEs. For more information see:\n"
 "\t// - https://github.com/advisories/GHSA-qppj-fm5r-hxr3\n"
 "\t// - https://github.com/advisories/GHSA-4374-p667-p6c8\n"
-msgstr " // 如果 enable-http2 标志为 false（默认值），则应禁用 http/2\n // 由于其存在的漏洞。更具体地说，禁用 http/2 将\n // 防止受到 HTTP/2 流取消和\n // 快速重置 CVE 的漏洞影响。有关更多信息，请参见：\n// - https://github.com/advisories/GHSA-qppj-fm5r-hxr3\n// - https://github.com/advisories/GHSA-4374-p667-p6c8\n"
+msgstr "// 如果 enable-http2 标志为 false（默认值），则应禁用 http/2\n\t// 由于其存在的漏洞。更具体地说，禁用 http/2 将\n\t// 防止受到 HTTP/2 流取消和\n\t// 快速重置 CVE 的漏洞影响。有关更多信息，请参见：\n\t// - https://github.com/advisories/GHSA-qppj-fm5r-hxr3\n\t// - https://github.com/advisories/GHSA-4374-p667-p6c8\n"
 
 #: src/getting-started.md:958
 msgid "\"disabling http/2\""
