@@ -17303,7 +17303,7 @@ msgid ""
 "              More info: https://git.k8s.io/community/contributors/devel/sig-"
 "architecture/api-conventions.md#resources\n"
 "            type"
-msgstr "APIVersion 定义了对象表示的版本化架构。\n 服务器应将已识别的架构转换为最新的内部值，并且\n 可能会拒绝无法识别的值。\n 更多信息： https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources\n 类型"
+msgstr "APIVersion 定义了对象表示的版本化架构。\n 服务器应将已识别的架构转换为最新的内部值，并且\n 可能会拒绝无法识别的值。\n 更多信息： https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources\n type"
 
 #: src/getting-started.md:166 src/getting-started.md:174
 #: src/getting-started.md:203 src/getting-started.md:209
@@ -17323,7 +17323,7 @@ msgid ""
 "              More info: https://git.k8s.io/community/contributors/devel/sig-"
 "architecture/api-conventions.md#types-kinds\n"
 "            type"
-msgstr "Kind是一个字符串值，表示该对象所代表的REST资源。服务器可以从客户端提交请求的端点推断出这一点。不能被更新。采用驼峰命名法。更多信息： https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds  类型。"
+msgstr "Kind是一个字符串值，表示该对象所代表的REST资源。服务器可以从客户端提交请求的端点推断出这一点。不能被更新。采用驼峰命名法。更多信息： https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds\n  type"
 
 #: src/getting-started.md:176 src/getting-started.md:188
 #: src/getting-started.md:189 src/getting-started.md:203
@@ -17358,7 +17358,7 @@ msgid ""
 "                  More info: https://book.kubebuilder.io/reference/markers/"
 "crd-validation.html\n"
 "                format"
-msgstr "大小定义了 Memcached 实例的数量\n以下标记将使用 OpenAPI v3 架构来验证值\n更多信息： https://book.kubebuilder.io/reference/markers/crd-validation.html\n格式"
+msgstr "大小定义了 Memcached 实例的数量\n以下标记将使用 OpenAPI v3 架构来验证值\n更多信息： https://book.kubebuilder.io/reference/markers/crd-validation.html\n format"
 
 #: src/getting-started.md:185
 msgid "int32"
@@ -17414,7 +17414,7 @@ msgid ""
 "changed.  If that is not known, then using the time when the API field "
 "changed is acceptable.\n"
 "                      format"
-msgstr "lastTransitionTime 是条件从一种状态转换到另一种状态的最后时间。这应该是基础条件发生变化的时间。如果这未知，那么使用 API 字段变化的时间也是可以接受的。"
+msgstr "lastTransitionTime 是条件从一种状态转换到另一种状态的最后时间。这应该是基础条件发生变化的时间。如果这未知，那么使用 API 字段变化的时间也是可以接受的。\n format"
 
 #: src/getting-started.md:202
 msgid "date-time"
@@ -17430,7 +17430,7 @@ msgid ""
 "details about the transition.\n"
 "                        This may be an empty string.\n"
 "                      maxLength"
-msgstr "消息是一个可读的人类消息，指示有关过渡的详细信息。\n这可以是一个空字符串。\nmaxLength"
+msgstr "消息是一个可读的人类消息，指示有关过渡的详细信息。\n这可以是一个空字符串。\n maxLength"
 
 #: src/getting-started.md:210
 msgid "observedGeneration"
@@ -17445,7 +17445,7 @@ msgid ""
 "out of date\n"
 "                        with respect to the current state of the instance.\n"
 "                      format"
-msgstr "observedGeneration 表示设置条件时的 .metadata.generation 值。\n例如，如果 .metadata.generation 当前是 12，但 .status.conditions[x].observedGeneration 是 9，那么该条件相对于实例的当前状态是过时的。\n格式"
+msgstr "observedGeneration 表示设置条件时的 .metadata.generation 值。\n例如，如果 .metadata.generation 当前是 12，但 .status.conditions[x].observedGeneration 是 9，那么该条件相对于实例的当前状态是过时的。\n format"
 
 #: src/getting-started.md:215
 msgid "int64"
