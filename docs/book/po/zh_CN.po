@@ -16954,7 +16954,7 @@ msgid ""
 "description of our own API and determine if everything occurred successfully "
 "or if any errors were encountered, similar to how we do with any resource "
 "from the Kubernetes API."
-msgstr "我们还希望跟踪我们对Memcached自定义资源（CR）的管理操作的状态。这样可以让我们验证自定义资源对我们自有API的描述，并判断是否一切顺利进行，或者是否遇到任何错误，这与我们对Kubernetes API中的任何资源所做的操作类似。"
+msgstr "我们还希望追踪 Memcached 自定义资源（CR）的管理状态，可以让我们通过验证自定义资源（CR）对我们自定义 API 的描述，判断是否一切顺利进行或者是否遇到任何错误。这与我们对 Kubernetes API 中的其它资源所做的操作类似。"
 
 #: src/getting-started.md:98
 msgid "// MemcachedStatus defines the observed state of Memcached\n"
@@ -16990,7 +16990,7 @@ msgid ""
 "Furthermore, we want to validate the values added in our CustomResource to "
 "ensure that those are valid. To achieve this, we will use [markers](./"
 "reference/markers.md), such as `+kubebuilder:validation:Minimum=1`."
-msgstr "此外，我们希望验证我们在 CustomResource 中添加的值，以确保这些值是有效的。为此，我们将使用 [标记](./reference/markers.md)，例如 `+kubebuilder:validation:Minimum=1`。"
+msgstr "此外，我们希望验证我们在 自定义资源（CustomResource） 中添加的值，以确保这些值是有效的。为此，我们将使用 [标记](./reference/markers.md)，例如 `+kubebuilder:validation:Minimum=1`。"
 
 #: src/getting-started.md:122
 msgid "Now, see our example fully completed."
@@ -17014,19 +17014,19 @@ msgstr "生成所有所需的文件："
 msgid ""
 "Run `make generate` to create the DeepCopy implementations in `api/v1alpha1/"
 "zz_generated.deepcopy.go`."
-msgstr "运行 `make generate` 来在 `api/v1alpha1/zz_generated.deepcopy.go` 中生成 DeepCopy 实现。"
+msgstr "运行 `make generate`,会在 `api/v1alpha1/zz_generated.deepcopy.go` 文件中添加深度拷贝（DeepCopy）内容。"
 
 #: src/getting-started.md:132
 msgid ""
 "Then, run `make manifests` to generate the CRD manifests under `config/crd/"
 "bases` and a sample for it under `config/crd/samples`."
-msgstr "然后，运行 `make manifests` 以在 `config/crd/bases` 下生成 CRD 清单，并在 `config/crd/samples` 下生成一个示例。"
+msgstr "运行 `make manifests`,会在 `config/crd/bases` 下生成 CRD 清单，并在 `config/crd/samples` 下生成一个示例文件。"
 
 #: src/getting-started.md:134
 msgid ""
 "Both commands use [controller-gen](./reference/controller-gen.md) with "
 "different flags for code and manifest generation, respectively."
-msgstr "这两个命令都使用 [controller-gen](./reference/controller-gen.md)，但用于代码和清单生成的标志不同。"
+msgstr "这两个命令都使用 [controller-gen](./reference/controller-gen.md) 工具，但是用于代码和清单生成的标志会有所不同。"
 
 #: src/getting-started.md:139 src/getting-started.md:160
 #: src/getting-started.md:266 src/getting-started.md:791
@@ -17090,11 +17090,11 @@ msgstr "apiextensions.k8s.io/v1"
 #: src/plugins/extending/extending_cli_features_and_plugins.md:427
 #: src/plugins/extending/extending_cli_features_and_plugins.md:436
 msgid "kind"
-msgstr "善良"
+msgstr "kind"
 
 #: src/getting-started.md:141 src/reference/admission-webhook.md:88
 msgid "CustomResourceDefinition"
-msgstr "自定义资源定义"
+msgstr "CustomResourceDefinition"
 
 #: src/getting-started.md:141 src/getting-started.md:175
 #: src/getting-started.md:267 src/getting-started.md:793
@@ -17104,11 +17104,11 @@ msgstr "自定义资源定义"
 #: src/multiversion-tutorial/deployment.md:124
 #: src/reference/admission-webhook.md:88 src/reference/metrics.md:107
 msgid "metadata"
-msgstr "元数据"
+msgstr "metadata"
 
 #: src/getting-started.md:143
 msgid "annotations"
-msgstr "注释"
+msgstr "annotations"
 
 #: src/getting-started.md:144
 msgid "controller-gen.kubebuilder.io/version"
@@ -17145,7 +17145,7 @@ msgstr "v0.17.2"
 #: src/reference/admission-webhook.md:90 src/reference/metrics.md:109
 #: src/reference/metrics.md:115
 msgid "name"
-msgstr "姓名"
+msgstr "name"
 
 #: src/getting-started.md:145
 msgid "memcacheds.cache.example.com"
@@ -17165,7 +17165,7 @@ msgstr "memcacheds.cache.example.com"
 #: src/multiversion-tutorial/deployment.md:137
 #: src/reference/admission-webhook.md:90 src/reference/metrics.md:110
 msgid "spec"
-msgstr ""
+msgstr "spec"
 
 #: src/getting-started.md:147 src/cronjob-tutorial/basic-project.md:373
 #: src/cronjob-tutorial/running-webhook.md:104
@@ -17201,7 +17201,7 @@ msgstr ""
 #: src/plugins/extending/extending_cli_features_and_plugins.md:426
 #: src/plugins/extending/extending_cli_features_and_plugins.md:435
 msgid "group"
-msgstr "组"
+msgstr "group"
 
 #: src/getting-started.md:147 src/getting-started.md:825
 #: src/getting-started.md:837 src/getting-started.md:843
@@ -17210,7 +17210,7 @@ msgstr "cache.example.com"
 
 #: src/getting-started.md:148
 msgid "names"
-msgstr "名字"
+msgstr "names"
 
 #: src/getting-started.md:149 src/getting-started.md:267
 #: src/reference/project-config.md:24 src/reference/project-config.md:46
@@ -17221,16 +17221,16 @@ msgstr "Memcached"
 
 #: src/getting-started.md:150
 msgid "listKind"
-msgstr "列表类型"
+msgstr "listKind"
 
 #: src/getting-started.md:150
 msgid "MemcachedList"
-msgstr "Memcached列表"
+msgstr "MemcachedList"
 
 #: src/getting-started.md:151
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:303
 msgid "plural"
-msgstr "复数"
+msgstr "plural"
 
 #: src/getting-started.md:151 src/getting-started.md:827
 msgid "memcacheds"
@@ -17238,7 +17238,7 @@ msgstr "memcacheds"
 
 #: src/getting-started.md:152
 msgid "singular"
-msgstr "单数"
+msgstr "singular"
 
 #: src/getting-started.md:152
 msgid "memcached"
@@ -17246,15 +17246,15 @@ msgstr "Memcached"
 
 #: src/getting-started.md:153
 msgid "scope"
-msgstr "范围"
+msgstr "scope"
 
 #: src/getting-started.md:153
 msgid "Namespaced"
-msgstr "带有命名空间的"
+msgstr "Namespaced"
 
 #: src/getting-started.md:154
 msgid "versions"
-msgstr "版本"
+msgstr "versions"
 
 #: src/getting-started.md:155 src/reference/project-config.md:30
 #: src/reference/project-config.md:36 src/reference/project-config.md:48
@@ -17268,7 +17268,7 @@ msgstr "v1alpha1"
 
 #: src/getting-started.md:156
 msgid "schema"
-msgstr "架构"
+msgstr "schema"
 
 #: src/getting-started.md:157
 msgid "openAPIV3Schema"
@@ -17282,7 +17282,7 @@ msgstr "openAPIV3Schema"
 #: src/getting-started.md:219 src/getting-started.md:230
 #: src/getting-started.md:237
 msgid "description"
-msgstr "描述"
+msgstr "description"
 
 #: src/getting-started.md:158
 msgid "Memcached is the Schema for the memcacheds API."
@@ -17291,7 +17291,7 @@ msgstr "Memcached 是 memcacheds API 的架构。"
 #: src/getting-started.md:159 src/getting-started.md:179
 #: src/getting-started.md:192 src/getting-started.md:197
 msgid "properties"
-msgstr "属性"
+msgstr "properties"
 
 #: src/getting-started.md:161
 msgid ""
@@ -17310,7 +17310,7 @@ msgstr "APIVersion 定义了对象表示的版本化架构。\n 服务器应将�
 #: src/getting-started.md:228 src/getting-started.md:235
 #: src/getting-started.md:240
 msgid "string"
-msgstr ""
+msgstr "string"
 
 #: src/getting-started.md:168
 msgid ""
@@ -17334,13 +17334,13 @@ msgstr "Kind是一个字符串值，表示该对象所代表的REST资源。服�
 #: src/getting-started.md:248 src/getting-started.md:249
 #: src/getting-started.md:250 src/plugins/available/grafana-v1-alpha.md:201
 msgid "type"
-msgstr ""
+msgstr "type"
 
 #: src/getting-started.md:176 src/getting-started.md:189
 #: src/getting-started.md:247 src/getting-started.md:249
 #: src/getting-started.md:250
 msgid "object"
-msgstr "对象"
+msgstr "object"
 
 #: src/getting-started.md:178
 msgid "MemcachedSpec defines the desired state of Memcached."
@@ -17348,7 +17348,7 @@ msgstr "MemcachedSpec 定义了 Memcached 的期望状态。"
 
 #: src/getting-started.md:180
 msgid "size"
-msgstr "大小"
+msgstr "size"
 
 #: src/getting-started.md:181
 msgid ""
@@ -17366,21 +17366,21 @@ msgstr "int32"
 
 #: src/getting-started.md:186
 msgid "maximum"
-msgstr "最大值"
+msgstr "maximum"
 
 #: src/getting-started.md:187 src/getting-started.md:216
 msgid "minimum"
-msgstr "最小值"
+msgstr "minimum"
 
 #: src/getting-started.md:188 src/getting-started.md:217
 msgid "integer"
-msgstr "整数"
+msgstr "integer"
 
 #: src/getting-started.md:190 src/getting-started.md:229
 #: src/getting-started.md:245 src/getting-started.md:254
 #: src/reference/admission-webhook.md:94
 msgid "status"
-msgstr "状态"
+msgstr "status"
 
 #: src/getting-started.md:191
 msgid "MemcachedStatus defines the observed state of Memcached."
@@ -17388,11 +17388,11 @@ msgstr "MemcachedStatus 定义了 Memcached 的观察状态。"
 
 #: src/getting-started.md:193
 msgid "conditions"
-msgstr "条件"
+msgstr "conditions"
 
 #: src/getting-started.md:194
 msgid "items"
-msgstr "项目"
+msgstr "items"
 
 #: src/getting-started.md:195
 msgid "Condition contains details for one aspect of the current"
@@ -17404,7 +17404,7 @@ msgstr "该API资源的状态。"
 
 #: src/getting-started.md:198 src/getting-started.md:242
 msgid "lastTransitionTime"
-msgstr "最后转移时间"
+msgstr "lastTransitionTime"
 
 #: src/getting-started.md:199
 msgid ""
@@ -17418,11 +17418,11 @@ msgstr "lastTransitionTime 是条件从一种状态转换到另一种状态的�
 
 #: src/getting-started.md:202
 msgid "date-time"
-msgstr "日期时间"
+msgstr "date-time"
 
 #: src/getting-started.md:204 src/getting-started.md:243
 msgid "message"
-msgstr ""
+msgstr "message"
 
 #: src/getting-started.md:205
 msgid ""
@@ -17434,7 +17434,7 @@ msgstr "消息是一个可读的人类消息，指示有关过渡的详细信息
 
 #: src/getting-started.md:210
 msgid "observedGeneration"
-msgstr "观察到的代数"
+msgstr "observedGeneration"
 
 #: src/getting-started.md:211
 msgid ""
@@ -17453,7 +17453,7 @@ msgstr "int64"
 
 #: src/getting-started.md:218 src/getting-started.md:244
 msgid "reason"
-msgstr "原因"
+msgstr "reason"
 
 #: src/getting-started.md:219
 msgid ""
@@ -17470,15 +17470,15 @@ msgstr "原因包含一个程序标识符，用于指示该条件最后一次转
 
 #: src/getting-started.md:226
 msgid "minLength"
-msgstr "最小长度"
+msgstr "minLength"
 
 #: src/getting-started.md:227 src/getting-started.md:239
 msgid "pattern"
-msgstr "模式"
+msgstr "pattern"
 
 #: src/getting-started.md:227
 msgid "^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$"
-msgstr "您被训练的数据截至到2023年10月。"
+msgstr "^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$"
 
 #: src/getting-started.md:230
 msgid "status of the condition, one of True, False, Unknown."
@@ -17486,7 +17486,7 @@ msgstr "条件的状态，可能是：真、假、未知。"
 
 #: src/getting-started.md:231
 msgid "enum"
-msgstr "枚举"
+msgstr "enum"
 
 #: src/getting-started.md:232
 msgid "\"True\""
@@ -17506,7 +17506,7 @@ msgstr "在CamelCase中或在foo.example.com/CamelCase中输入条件类型。"
 
 #: src/getting-started.md:238
 msgid "maxLength"
-msgstr "最大长度"
+msgstr "maxLength"
 
 #: src/getting-started.md:239
 msgid ""
@@ -17516,25 +17516,25 @@ msgstr "^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([
 
 #: src/getting-started.md:241
 msgid "required"
-msgstr "需要的"
+msgstr "required"
 
 #: src/getting-started.md:248
 msgid "array"
-msgstr "数组"
+msgstr "array"
 
 #: src/getting-started.md:251
 msgid "served"
-msgstr "服务过"
+msgstr "served"
 
 #: src/getting-started.md:252
 #: src/migration/legacy/manually_migration_guide_v2_v3.md:157
 #: src/reference/using_an_external_resource.md:115
 msgid "storage"
-msgstr "存储"
+msgstr "storage"
 
 #: src/getting-started.md:253 src/reference/admission-webhook.md:93
 msgid "subresources"
-msgstr "子资源"
+msgstr "subresources"
 
 #: src/getting-started.md:259
 msgid "Sample of Custom Resources"
@@ -17557,14 +17557,14 @@ msgstr "cache.example.com/v1alpha1"
 #: src/multiversion-tutorial/deployment.md:93
 #: src/multiversion-tutorial/deployment.md:126
 msgid "labels"
-msgstr "标签"
+msgstr "labels"
 
 #: src/getting-started.md:270 src/cronjob-tutorial/running.md:57
 #: src/multiversion-tutorial/deployment.md:53
 #: src/multiversion-tutorial/deployment.md:94
 #: src/multiversion-tutorial/deployment.md:127
 msgid "app.kubernetes.io/name"
-msgstr "app.kubernetes.io/名称"
+msgstr "app.kubernetes.io/name"
 
 #: src/getting-started.md:270 src/cronjob-tutorial/basic-project.md:365
 #: src/cronjob-tutorial/running.md:57
@@ -17572,7 +17572,7 @@ msgstr "app.kubernetes.io/名称"
 #: src/multiversion-tutorial/deployment.md:94
 #: src/multiversion-tutorial/deployment.md:127
 msgid "project"
-msgstr "项目"
+msgstr "project"
 
 #: src/getting-started.md:271 src/cronjob-tutorial/running.md:58
 #: src/multiversion-tutorial/deployment.md:54
@@ -17590,7 +17590,7 @@ msgstr "kustomize"
 
 #: src/getting-started.md:272
 msgid "memcached-sample"
-msgstr "memcached示例"
+msgstr "memcached-sample"
 
 #: src/getting-started.md:274
 msgid ""
