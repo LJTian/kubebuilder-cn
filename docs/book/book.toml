@@ -12,7 +12,8 @@ extra-watch-dirs = ["translation"]
 
 [output.html]
 curly-quotes = true
-additional-css = ["theme/css/markers.css", "theme/css/custom.css", "theme/css/version-dropdown.css"]
+additional-css = ["theme/css/markers.css", "theme/css/custom.css", "theme/css/version-dropdown.css", "theme/css/global-banner.css"]
+additional-js = ["theme/js/inject.js"]
 git-repository-url = "https://github.com/LJTian/kubebuilder-cn"
 edit-url-template = "https://github.com/LJTian/kubebuilder-cn/edit/master/docs/book/{path}"
 
