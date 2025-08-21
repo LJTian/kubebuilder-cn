@@ -2,7 +2,7 @@
 authors = ["The Kubebuilder Maintainers"]
 multilingual = true
 src = "src"
-title = "Kubebuilder 指南"
+title = "Kubebuilder 中文指南"
 
 [preprocessor.gettext]
 after = ["links"]

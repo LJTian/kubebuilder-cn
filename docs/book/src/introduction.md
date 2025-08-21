@@ -1,5 +1,3 @@
-kubebuilder 中文档
-
 **Note:** Impatient readers may head straight to [Quick Start](quick-start.md).
 
 **Using previous version of Kubebuilder v1 or v2?**

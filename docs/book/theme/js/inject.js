@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const banner = document.createElement('div');
     banner.id = 'global-banner';
     banner.setAttribute('role', 'note');
-    banner.innerHTML = '欢迎阅读 Kubebuilder 中文文档（试运行），内容仍在完善中。';
+    banner.innerHTML = '欢迎阅读 Kubebuilder 中文文档, 如果方便的麻烦给个 star 吧。' +
+      ' <a id="global-banner-github" href="https://github.com/LJTian/kubebuilder-cn" target="_blank" rel="noopener noreferrer">前往 GitHub</a>';
 
     // 插入到正文区域顶部
     main.prepend(banner);
