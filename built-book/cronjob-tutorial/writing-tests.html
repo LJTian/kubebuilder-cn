@@ -1,0 +1,539 @@
+<!DOCTYPE HTML>
+<html lang="zh_CN" class="sidebar-visible no-js light">
+    <head>
+        <!-- This file is modified just to include the logo on the menu bar and the right favicon -->
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>编写测试 - Kubebuilder 中文指南</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="..//logos/favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/css/markers.css">
+        <link rel="stylesheet" href="../theme/css/custom.css">
+        <link rel="stylesheet" href="../theme/css/version-dropdown.css">
+        <link rel="stylesheet" href="../theme/css/global-banner.css">
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">介绍</a></li><li class="chapter-item expanded affix "><a href="../architecture.html">架构</a></li><li class="chapter-item expanded affix "><a href="../quick-start.html">快速开始</a></li><li class="chapter-item expanded affix "><a href="../getting-started.html">入门</a></li><li class="chapter-item expanded affix "><a href="../versions_compatibility_supportability.html">版本兼容性和支持性</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/cronjob-tutorial.html"><strong aria-hidden="true">1.</strong> 教程：构建 CronJob</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../cronjob-tutorial/basic-project.html"><strong aria-hidden="true">1.1.</strong> 一个基本项目都包含了什么？</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/empty-main.html"><strong aria-hidden="true">1.2.</strong> 每个旅程都需要一个开始，每个程序都需要一个主函数</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/gvks.html"><strong aria-hidden="true">1.3.</strong> 组、版本和种类，真是让人头大！</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/new-api.html"><strong aria-hidden="true">1.4.</strong> 添加一个新 API</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/api-design.html"><strong aria-hidden="true">1.5.</strong> 设计一个 API</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../cronjob-tutorial/other-api-files.html"><strong aria-hidden="true">1.5.1.</strong> 简短的插曲：这些其他东西是什么？</a></li></ol></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/controller-overview.html"><strong aria-hidden="true">1.6.</strong> 控制器中包含什么？</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/controller-implementation.html"><strong aria-hidden="true">1.7.</strong> 实现控制器</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../cronjob-tutorial/main-revisited.html"><strong aria-hidden="true">1.7.1.</strong> 你提到过主吗？</a></li></ol></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/webhook-implementation.html"><strong aria-hidden="true">1.8.</strong> 实现默认值/验证的 Webhook</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/running.html"><strong aria-hidden="true">1.9.</strong> 运行和部署控制器</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../cronjob-tutorial/cert-manager.html"><strong aria-hidden="true">1.9.1.</strong> 部署 cert-manager</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/running-webhook.html"><strong aria-hidden="true">1.9.2.</strong> 部署网络钩子</a></li></ol></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/writing-tests.html" class="active"><strong aria-hidden="true">1.10.</strong> 编写测试</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/epilogue.html"><strong aria-hidden="true">1.11.</strong> 尾声</a></li></ol></li><li class="chapter-item expanded "><a href="../multiversion-tutorial/tutorial.html"><strong aria-hidden="true">2.</strong> 教程：多版本 API</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../multiversion-tutorial/api-changes.html"><strong aria-hidden="true">2.1.</strong> 改变现状</a></li><li class="chapter-item expanded "><a href="../multiversion-tutorial/conversion-concepts.html"><strong aria-hidden="true">2.2.</strong> 中心、辐条以及其他轮子隐喻</a></li><li class="chapter-item expanded "><a href="../multiversion-tutorial/conversion.html"><strong aria-hidden="true">2.3.</strong> 实施转换</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../multiversion-tutorial/webhooks.html"><strong aria-hidden="true">2.3.1.</strong> 并设置 webhooks</a></li></ol></li><li class="chapter-item expanded "><a href="../multiversion-tutorial/deployment.html"><strong aria-hidden="true">2.4.</strong> 部署与测试</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded "><a href="../migrations.html"><strong aria-hidden="true">3.</strong> 迁移</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../migration/legacy.html"><strong aria-hidden="true">3.1.</strong> 遗留版本（在版本 \&lt;= v3.0.0 之前）</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../migration/legacy/v1vsv2.html"><strong aria-hidden="true">3.1.1.</strong> Kubebuilder v1 vs v2</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../migration/legacy/migration_guide_v1tov2.html"><strong aria-hidden="true">3.1.1.1.</strong> 迁移指南</a></li></ol></li><li class="chapter-item expanded "><a href="../migration/legacy/v2vsv3.html"><strong aria-hidden="true">3.1.2.</strong> Kubebuilder v2 与 v3 的比较</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../migration/legacy/migration_guide_v2tov3.html"><strong aria-hidden="true">3.1.2.1.</strong> 迁移指南</a></li><li class="chapter-item expanded "><a href="../migration/legacy/manually_migration_guide_v2_v3.html"><strong aria-hidden="true">3.1.2.2.</strong> 通过更新文件进行迁移</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../migration/v3-plugins.html"><strong aria-hidden="true">3.2.</strong> 从 v3.0.0 版本开始支持插件。</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../migration/v3vsv4.html"><strong aria-hidden="true">3.2.1.</strong> go/v3 与 go/v4 的比较</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../migration/migration_guide_gov3_to_gov4.html"><strong aria-hidden="true">3.2.1.1.</strong> 迁移指南</a></li><li class="chapter-item expanded "><a href="../migration/manually_migration_guide_gov3_to_gov4.html"><strong aria-hidden="true">3.2.1.2.</strong> 通过更新文件进行迁移</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../migration/multi-group.html"><strong aria-hidden="true">3.3.</strong> 单组到多组</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/rescaffold.html"><strong aria-hidden="true">4.</strong> 项目升级助手</a></li><li class="chapter-item expanded affix "><li class="spacer"></li><li class="chapter-item expanded "><a href="../reference/reference.html"><strong aria-hidden="true">5.</strong> 参考</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/generating-crd.html"><strong aria-hidden="true">5.1.</strong> 生成 CRD（自定义资源定义）</a></li><li class="chapter-item expanded "><a href="../reference/using-finalizers.html"><strong aria-hidden="true">5.2.</strong> 使用终结器</a></li><li class="chapter-item expanded "><a href="../reference/good-practices.html"><strong aria-hidden="true">5.3.</strong> 良好实践</a></li><li class="chapter-item expanded "><a href="../reference/raising-events.html"><strong aria-hidden="true">5.4.</strong> 筹款活动</a></li><li class="chapter-item expanded "><a href="../reference/watching-resources.html"><strong aria-hidden="true">5.5.</strong> 观看资源</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/watching-resources/secondary-owned-resources.html"><strong aria-hidden="true">5.5.1.</strong> 拥有的资源</a></li><li class="chapter-item expanded "><a href="../reference/watching-resources/secondary-resources-not-owned.html"><strong aria-hidden="true">5.5.2.</strong> 未拥有的资源</a></li><li class="chapter-item expanded "><a href="../reference/watching-resources/predicates-with-watch.html"><strong aria-hidden="true">5.5.3.</strong> 使用谓词</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/kind.html"><strong aria-hidden="true">5.6.</strong> Kind for Dev & CI</a></li><li class="chapter-item expanded "><a href="../reference/webhook-overview.html"><strong aria-hidden="true">5.7.</strong> What's a webhook?</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/admission-webhook.html"><strong aria-hidden="true">5.7.1.</strong> 入场webhook</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/markers.html"><strong aria-hidden="true">5.8.</strong> 配置/代码生成标记</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/markers/crd.html"><strong aria-hidden="true">5.8.1.</strong> CRD 生成</a></li><li class="chapter-item expanded "><a href="../reference/markers/crd-validation.html"><strong aria-hidden="true">5.8.2.</strong> CRD 验证</a></li><li class="chapter-item expanded "><a href="../reference/markers/crd-processing.html"><strong aria-hidden="true">5.8.3.</strong> CRD处理</a></li><li class="chapter-item expanded "><a href="../reference/markers/webhook.html"><strong aria-hidden="true">5.8.4.</strong> Webhook（网络钩子）</a></li><li class="chapter-item expanded "><a href="../reference/markers/object.html"><strong aria-hidden="true">5.8.5.</strong> 对象/深拷贝</a></li><li class="chapter-item expanded "><a href="../reference/markers/rbac.html"><strong aria-hidden="true">5.8.6.</strong> RBAC</a></li><li class="chapter-item expanded "><a href="../reference/markers/scaffold.html"><strong aria-hidden="true">5.8.7.</strong> 脚手架</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/controller-gen.html"><strong aria-hidden="true">5.9.</strong> controller-gen 命令行工具</a></li><li class="chapter-item expanded "><a href="../reference/completion.html"><strong aria-hidden="true">5.10.</strong> completion</a></li><li class="chapter-item expanded "><a href="../reference/artifacts.html"><strong aria-hidden="true">5.11.</strong> 文物</a></li><li class="chapter-item expanded "><a href="../reference/platform.html"><strong aria-hidden="true">5.12.</strong> 平台支持</a></li><li class="chapter-item expanded "><a href="../reference/pprof-tutorial.html"><strong aria-hidden="true">5.13.</strong> 使用 Pprof 进行监控</a></li><li class="chapter-item expanded "><a href="../reference/scopes.html"><strong aria-hidden="true">5.14.</strong> 监控程序和自定义资源（CRDs）的职责范围</a></li><li class="chapter-item expanded "><a href="../reference/submodule-layouts.html"><strong aria-hidden="true">5.15.</strong> 子模块布局</a></li><li class="chapter-item expanded "><a href="../reference/using_an_external_resource.html"><strong aria-hidden="true">5.16.</strong> 使用外部资源 / API</a></li><li class="chapter-item expanded "><a href="../reference/envtest.html"><strong aria-hidden="true">5.17.</strong> 配置 EnvTest</a></li><li class="chapter-item expanded "><a href="../reference/metrics.html"><strong aria-hidden="true">5.18.</strong> 指标</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/metrics-reference.html"><strong aria-hidden="true">5.18.1.</strong> 参考</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/project-config.html"><strong aria-hidden="true">5.19.</strong> 项目配置</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded "><a href="../plugins/plugins.html"><strong aria-hidden="true">6.</strong> 插件</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../plugins/available-plugins.html"><strong aria-hidden="true">6.1.</strong> 可用插件</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../plugins/available/go-v4-plugin.html"><strong aria-hidden="true">6.1.1.</strong> go/v4</a></li><li class="chapter-item expanded "><a href="../plugins/available/grafana-v1-alpha.html"><strong aria-hidden="true">6.1.2.</strong> grafana/v1-alpha</a></li><li class="chapter-item expanded "><a href="../plugins/available/deploy-image-plugin-v1-alpha.html"><strong aria-hidden="true">6.1.3.</strong> deploy-image/v1-alpha</a></li><li class="chapter-item expanded "><a href="../plugins/available/helm-v1-alpha.html"><strong aria-hidden="true">6.1.4.</strong> helm/v1-alpha</a></li><li class="chapter-item expanded "><a href="../plugins/available/kustomize-v2.html"><strong aria-hidden="true">6.1.5.</strong> kustomize/v2</a></li></ol></li><li class="chapter-item expanded "><a href="../plugins/extending.html"><strong aria-hidden="true">6.2.</strong> 扩展</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../plugins/extending/extending_cli_features_and_plugins.html"><strong aria-hidden="true">6.2.1.</strong> 命令行界面和插件</a></li><li class="chapter-item expanded "><a href="../plugins/extending/external-plugins.html"><strong aria-hidden="true">6.2.2.</strong> 外部插件</a></li><li class="chapter-item expanded "><a href="../plugins/extending/testing-plugins.html"><strong aria-hidden="true">6.2.3.</strong> 端到端测试</a></li></ol></li><li class="chapter-item expanded "><a href="../plugins/plugins-versioning.html"><strong aria-hidden="true">6.3.</strong> 插件版本管理</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded affix "><a href="../faq.html">FAQ</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                         <!-- custom code for adding release version dropdown menu -->
+                        <div class="version-dropdown">
+                            <button id="release-version" class="icon-button" type="button" title="Release version" aria-label="Release version" aria-haspopup="true" aria-expanded="false" aria-controls="release-versions">
+                            <i class="fa fa-book"></i>
+                            </button>
+                            <div class="version-dropdown-content">
+                                <a href="https://book.kubebuilder.io/"target="_blank" rel="noopener noreferrer">latest (v4-book)</a>
+                                <a href="https://book-v3.book.kubebuilder.io/"target="_blank" rel="noopener noreferrer">v3-book</a>
+                                <a href="https://book-v2.book.kubebuilder.io/"target="_blank" rel="noopener noreferrer">v2-book</a>
+                                <a href="https://book-v1.book.kubebuilder.io/"target="_blank" rel="noopener noreferrer">v1-book</a>
+                            </div>
+                        </div>     
+                    </div>
+
+                    <h1 class="menu-title"><img alt="Kubebuilder 中文指南" src="..//logos/logo-single-line.png"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/LJTian/kubebuilder-cn" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                            <a href="https://github.com/LJTian/kubebuilder-cn/edit/master/docs/book/src/" title="Suggest an edit" aria-label="Suggest an edit">
+                                <i id="git-edit-button" class="fa fa-edit"></i>
+                            </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="编写控制器测试"><a class="header" href="#编写控制器测试">编写控制器测试</a></h1>
+<p>测试 Kubernetes 控制器是一个大主题，而 kubebuilder 为您生成的样板测试文件相对较少。</p>
+<p>为了引导您了解用于 Kubebuilder 生成的控制器的集成测试模式，我们将重新审视在首个教程中构建的 CronJob，并为其编写一个简单的测试。</p>
+<p>基本的方法是，在您生成的 <code>suite_test.go</code> 文件中，您将使用 envtest 创建一个本地 Kubernetes API 服务器，实例化并运行您的控制器，然后编写额外的 <code>*_test.go</code> 文件，通过 <a href="http://onsi.github.io/ginkgo">Ginkgo</a> 来进行测试。</p>
+<p>如果您想要调整您的 envtest 集群的配置，请参阅<a href="../reference/envtest.html">为集成测试配置 envtest</a>一节，以及<a href="https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/envtest?tab=doc"><code>envtest 文档</code></a>。</p>
+<h2 id="测试环境设置"><a class="header" href="#测试环境设置">测试环境设置</a></h2>
+<div class="literate"><cite class="literate-source"><a href="https://sigs.k8s.io/kubebuilder/docs/book/src/cronjob-tutorial/testdata/project/internal/controller/suite_test.go">../../cronjob-tutorial/testdata/project/internal/controller/suite_test.go</a></cite><details class="collapse-code"><summary class="hljs"><pre class="hljs"><span class="hljs-comment">Apache License</span></pre></summary>
+<p>Copyright 2025 The Kubernetes authors.</p>
+<p>Licensed under the Apache License, Version 2.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at</p>
+<pre><code>http://www.apache.org/licenses/LICENSE-2.0
+</code></pre>
+<p>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an “AS IS” BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</p>
+</details><details class="collapse-code"><summary class="hljs"><pre class="hljs"><span class="hljs-comment">Imports</span></pre></summary>
+<p>When we created the CronJob API with <code>kubebuilder create api</code> in a <a href="/cronjob-tutorial/new-api.html">previous chapter</a>, Kubebuilder already did some test work for you. Kubebuilder scaffolded a <code>internal/controller/suite_test.go</code> file that does the bare bones of setting up a test environment.</p>
+<p>First, it will contain the necessary imports.</p>
+<pre><code class="language-go">package controller
+
+import (
+	"context"
+	"os"
+	"path/filepath"
+	"testing"
+
+	ctrl "sigs.k8s.io/controller-runtime"
+
+	. "github.com/onsi/ginkgo/v2"
+	. "github.com/onsi/gomega"
+
+	"k8s.io/client-go/kubernetes/scheme"
+	"k8s.io/client-go/rest"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/envtest"
+	logf "sigs.k8s.io/controller-runtime/pkg/log"
+	"sigs.k8s.io/controller-runtime/pkg/log/zap"
+
+	batchv1 "tutorial.kubebuilder.io/project/api/v1"
+	// +kubebuilder:scaffold:imports
+)
+
+// These tests use Ginkgo (BDD-style Go testing framework). Refer to
+// http://onsi.github.io/ginkgo/ to learn more about Ginkgo.
+</code></pre>
+</details>
+<p>Now, let’s go through the code generated.</p>
+<pre><code class="language-go">var (
+	ctx       context.Context
+	cancel    context.CancelFunc
+	testEnv   *envtest.Environment
+	cfg       *rest.Config
+	k8sClient client.Client // You'll be using this client in your tests.
+)
+
+func TestControllers(t *testing.T) {
+	RegisterFailHandler(Fail)
+
+	RunSpecs(t, "Controller Suite")
+}
+
+var _ = BeforeSuite(func() {
+	logf.SetLogger(zap.New(zap.WriteTo(GinkgoWriter), zap.UseDevMode(true)))
+
+	ctx, cancel = context.WithCancel(context.TODO())
+
+	var err error
+</code></pre>
+<p>The CronJob Kind is added to the runtime scheme used by the test environment. This ensures that the CronJob API is registered with the scheme, allowing the test controller to recognize and interact with CronJob resources.</p>
+<pre><code class="language-go">	err = batchv1.AddToScheme(scheme.Scheme)
+	Expect(err).NotTo(HaveOccurred())
+</code></pre>
+<p>After the schemas, you will see the following marker. This marker is what allows new schemas to be added here automatically when a new API is added to the project.</p>
+<pre><code class="language-go">	// +kubebuilder:scaffold:scheme
+</code></pre>
+<p>The envtest environment is configured to load Custom Resource Definitions (CRDs) from the specified directory. This setup enables the test environment to recognize and interact with the custom resources defined by these CRDs.</p>
+<pre><code class="language-go">	By("bootstrapping test environment")
+	testEnv = &amp;envtest.Environment{
+		CRDDirectoryPaths:     []string{filepath.Join("..", "..", "config", "crd", "bases")},
+		ErrorIfCRDPathMissing: true,
+	}
+
+	// Retrieve the first found binary directory to allow running tests from IDEs
+	if getFirstFoundEnvTestBinaryDir() != "" {
+		testEnv.BinaryAssetsDirectory = getFirstFoundEnvTestBinaryDir()
+	}
+</code></pre>
+<p>Then, we start the envtest cluster.</p>
+<pre><code class="language-go">	// cfg is defined in this file globally.
+	cfg, err = testEnv.Start()
+	Expect(err).NotTo(HaveOccurred())
+	Expect(cfg).NotTo(BeNil())
+</code></pre>
+<p>A client is created for our test CRUD operations.</p>
+<pre><code class="language-go">	k8sClient, err = client.New(cfg, client.Options{Scheme: scheme.Scheme})
+	Expect(err).NotTo(HaveOccurred())
+	Expect(k8sClient).NotTo(BeNil())
+</code></pre>
+<p>One thing that this autogenerated file is missing, however, is a way to actually start your controller. The code above will set up a client for interacting with your custom Kind, but will not be able to test your controller behavior. If you want to test your custom controller logic, you’ll need to add some familiar-looking manager logic to your BeforeSuite() function, so you can register your custom controller to run on this test cluster.</p>
+<p>You may notice that the code below runs your controller with nearly identical logic to your CronJob project’s main.go! The only difference is that the manager is started in a separate goroutine so it does not block the cleanup of envtest when you’re done running your tests.</p>
+<p>Note that we set up both a “live” k8s client and a separate client from the manager. This is because when making assertions in tests, you generally want to assert against the live state of the API server. If you use the client from the manager (<code>k8sManager.GetClient</code>), you’d end up asserting against the contents of the cache instead, which is slower and can introduce flakiness into your tests. We could use the manager’s <code>APIReader</code> to accomplish the same thing, but that would leave us with two clients in our test assertions and setup (one for reading, one for writing), and it’d be easy to make mistakes.</p>
+<p>Note that we keep the reconciler running against the manager’s cache client, though – we want our controller to behave as it would in production, and we use features of the cache (like indices) in our controller which aren’t available when talking directly to the API server.</p>
+<pre><code class="language-go">	k8sManager, err := ctrl.NewManager(cfg, ctrl.Options{
+		Scheme: scheme.Scheme,
+	})
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&amp;CronJobReconciler{
+		Client: k8sManager.GetClient(),
+		Scheme: k8sManager.GetScheme(),
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	go func() {
+		defer GinkgoRecover()
+		err = k8sManager.Start(ctx)
+		Expect(err).ToNot(HaveOccurred(), "failed to run manager")
+	}()
+})
+</code></pre>
+<p>Kubebuilder also generates boilerplate functions for cleaning up envtest and actually running your test files in your controllers/ directory. You won’t need to touch these.</p>
+<pre><code class="language-go">var _ = AfterSuite(func() {
+	By("tearing down the test environment")
+	cancel()
+	err := testEnv.Stop()
+	Expect(err).NotTo(HaveOccurred())
+})
+</code></pre>
+<p>Now that you have your controller running on a test cluster and a client ready to perform operations on your CronJob, we can start writing integration tests!</p>
+<pre><code class="language-go">// getFirstFoundEnvTestBinaryDir locates the first binary in the specified path.
+// ENVTEST-based tests depend on specific binaries, usually located in paths set by
+// controller-runtime. When running tests directly (e.g., via an IDE) without using
+// Makefile targets, the 'BinaryAssetsDirectory' must be explicitly configured.
+//
+// This function streamlines the process by finding the required binaries, similar to
+// setting the 'KUBEBUILDER_ASSETS' environment variable. To ensure the binaries are
+// properly set up, run 'make setup-envtest' beforehand.
+func getFirstFoundEnvTestBinaryDir() string {
+	basePath := filepath.Join("..", "..", "bin", "k8s")
+	entries, err := os.ReadDir(basePath)
+	if err != nil {
+		logf.Log.Error(err, "Failed to read directory", "path", basePath)
+		return ""
+	}
+	for _, entry := range entries {
+		if entry.IsDir() {
+			return filepath.Join(basePath, entry.Name())
+		}
+	}
+	return ""
+}
+</code></pre>
+</div>
+<h2 id="测试您的控制器行为"><a class="header" href="#测试您的控制器行为">测试您的控制器行为</a></h2>
+<div class="literate"><cite class="literate-source"><a href="https://sigs.k8s.io/kubebuilder/docs/book/src/cronjob-tutorial/testdata/project/internal/controller/cronjob_controller_test.go">../../cronjob-tutorial/testdata/project/internal/controller/cronjob_controller_test.go</a></cite><details class="collapse-code"><summary class="hljs"><pre class="hljs"><span class="hljs-comment">Apache License</span></pre></summary>
+<p>Licensed under the Apache License, Version 2.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at</p>
+<pre><code>http://www.apache.org/licenses/LICENSE-2.0
+</code></pre>
+<p>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an “AS IS” BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</p>
+</details>
+<p>Ideally, we should have one <code>&lt;kind&gt;_controller_test.go</code> for each controller scaffolded and called in the <code>suite_test.go</code>. So, let’s write our example test for the CronJob controller (<code>cronjob_controller_test.go.</code>)</p>
+<details class="collapse-code"><summary class="hljs"><pre class="hljs"><span class="hljs-comment">Imports</span></pre></summary>
+<p>As usual, we start with the necessary imports. We also define some utility variables.</p>
+<pre><code class="language-go">package controller
+
+import (
+	"context"
+	"reflect"
+	"time"
+
+	. "github.com/onsi/ginkgo/v2"
+	. "github.com/onsi/gomega"
+	batchv1 "k8s.io/api/batch/v1"
+	v1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/types"
+
+	cronjobv1 "tutorial.kubebuilder.io/project/api/v1"
+)
+</code></pre>
+</details>
+<p>The first step to writing a simple integration test is to actually create an instance of CronJob you can run tests against. Note that to create a CronJob, you’ll need to create a stub CronJob struct that contains your CronJob’s specifications.</p>
+<p>Note that when we create a stub CronJob, the CronJob also needs stubs of its required downstream objects. Without the stubbed Job template spec and the Pod template spec below, the Kubernetes API will not be able to create the CronJob.</p>
+<pre><code class="language-go">var _ = Describe("CronJob controller", func() {
+
+	// Define utility constants for object names and testing timeouts/durations and intervals.
+	const (
+		CronjobName      = "test-cronjob"
+		CronjobNamespace = "default"
+		JobName          = "test-job"
+
+		timeout  = time.Second * 10
+		duration = time.Second * 10
+		interval = time.Millisecond * 250
+	)
+
+	Context("When updating CronJob Status", func() {
+		It("Should increase CronJob Status.Active count when new Jobs are created", func() {
+			By("By creating a new CronJob")
+			ctx := context.Background()
+			cronJob := &amp;cronjobv1.CronJob{
+				TypeMeta: metav1.TypeMeta{
+					APIVersion: "batch.tutorial.kubebuilder.io/v1",
+					Kind:       "CronJob",
+				},
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      CronjobName,
+					Namespace: CronjobNamespace,
+				},
+				Spec: cronjobv1.CronJobSpec{
+					Schedule: "1 * * * *",
+					JobTemplate: batchv1.JobTemplateSpec{
+						Spec: batchv1.JobSpec{
+							// For simplicity, we only fill out the required fields.
+							Template: v1.PodTemplateSpec{
+								Spec: v1.PodSpec{
+									// For simplicity, we only fill out the required fields.
+									Containers: []v1.Container{
+										{
+											Name:  "test-container",
+											Image: "test-image",
+										},
+									},
+									RestartPolicy: v1.RestartPolicyOnFailure,
+								},
+							},
+						},
+					},
+				},
+			}
+			Expect(k8sClient.Create(ctx, cronJob)).To(Succeed())
+
+		
+</code></pre>
+<p>After creating this CronJob, let’s check that the CronJob’s Spec fields match what we passed in. Note that, because the k8s apiserver may not have finished creating a CronJob after our <code>Create()</code> call from earlier, we will use Gomega’s Eventually() testing function instead of Expect() to give the apiserver an opportunity to finish creating our CronJob.</p>
+<p><code>Eventually()</code> will repeatedly run the function provided as an argument every interval seconds until (a) the assertions done by the passed-in <code>Gomega</code> succeed, or (b) the number of attempts * interval period exceed the provided timeout value.</p>
+<p>In the examples below, timeout and interval are Go Duration values of our choosing.</p>
+<pre><code class="language-go">			cronjobLookupKey := types.NamespacedName{Name: CronjobName, Namespace: CronjobNamespace}
+			createdCronjob := &amp;cronjobv1.CronJob{}
+
+			// We'll need to retry getting this newly created CronJob, given that creation may not immediately happen.
+			Eventually(func(g Gomega) {
+				g.Expect(k8sClient.Get(ctx, cronjobLookupKey, createdCronjob)).To(Succeed())
+			}, timeout, interval).Should(Succeed())
+			// Let's make sure our Schedule string value was properly converted/handled.
+			Expect(createdCronjob.Spec.Schedule).To(Equal("1 * * * *"))
+		
+</code></pre>
+<p>Now that we’ve created a CronJob in our test cluster, the next step is to write a test that actually tests our CronJob controller’s behavior. Let’s test the CronJob controller’s logic responsible for updating CronJob.Status.Active with actively running jobs. We’ll verify that when a CronJob has a single active downstream Job, its CronJob.Status.Active field contains a reference to this Job.</p>
+<p>First, we should get the test CronJob we created earlier, and verify that it currently does not have any active jobs. We use Gomega’s <code>Consistently()</code> check here to ensure that the active job count remains 0 over a duration of time.</p>
+<pre><code class="language-go">			By("By checking the CronJob has zero active Jobs")
+			Consistently(func(g Gomega) {
+				g.Expect(k8sClient.Get(ctx, cronjobLookupKey, createdCronjob)).To(Succeed())
+				g.Expect(createdCronjob.Status.Active).To(BeEmpty())
+			}, duration, interval).Should(Succeed())
+		
+</code></pre>
+<p>Next, we actually create a stubbed Job that will belong to our CronJob, as well as its downstream template specs. We set the Job’s status’s “Active” count to 2 to simulate the Job running two pods, which means the Job is actively running.</p>
+<p>We then take the stubbed Job and set its owner reference to point to our test CronJob. This ensures that the test Job belongs to, and is tracked by, our test CronJob. Once that’s done, we create our new Job instance.</p>
+<pre><code class="language-go">			By("By creating a new Job")
+			testJob := &amp;batchv1.Job{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      JobName,
+					Namespace: CronjobNamespace,
+				},
+				Spec: batchv1.JobSpec{
+					Template: v1.PodTemplateSpec{
+						Spec: v1.PodSpec{
+							// For simplicity, we only fill out the required fields.
+							Containers: []v1.Container{
+								{
+									Name:  "test-container",
+									Image: "test-image",
+								},
+							},
+							RestartPolicy: v1.RestartPolicyOnFailure,
+						},
+					},
+				},
+			}
+
+			// Note that your CronJob’s GroupVersionKind is required to set up this owner reference.
+			kind := reflect.TypeOf(cronjobv1.CronJob{}).Name()
+			gvk := cronjobv1.GroupVersion.WithKind(kind)
+
+			controllerRef := metav1.NewControllerRef(createdCronjob, gvk)
+			testJob.SetOwnerReferences([]metav1.OwnerReference{*controllerRef})
+			Expect(k8sClient.Create(ctx, testJob)).To(Succeed())
+			// Note that you can not manage the status values while creating the resource.
+			// The status field is managed separately to reflect the current state of the resource.
+			// Therefore, it should be updated using a PATCH or PUT operation after the resource has been created.
+			// Additionally, it is recommended to use StatusConditions to manage the status. For further information see:
+			// https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
+			testJob.Status.Active = 2
+			Expect(k8sClient.Status().Update(ctx, testJob)).To(Succeed())
+		
+</code></pre>
+<p>Adding this Job to our test CronJob should trigger our controller’s reconciler logic. After that, we can write a test that evaluates whether our controller eventually updates our CronJob’s Status field as expected!</p>
+<pre><code class="language-go">			By("By checking that the CronJob has one active Job")
+			Eventually(func(g Gomega) {
+				g.Expect(k8sClient.Get(ctx, cronjobLookupKey, createdCronjob)).To(Succeed(), "should GET the CronJob")
+				g.Expect(createdCronjob.Status.Active).To(HaveLen(1), "should have exactly one active job")
+				g.Expect(createdCronjob.Status.Active[0].Name).To(Equal(JobName), "the wrong job is active")
+			}, timeout, interval).Should(Succeed(), "should list our active job %s in the active jobs list in status", JobName)
+		})
+	})
+
+})
+</code></pre>
+<p>After writing all this code, you can run <code>go test ./...</code> in your <code>controllers/</code> directory again to run your new test!</p>
+</div>
+<p>以上的状态更新示例展示了一种针对自定义 Kind 及其下游对象的一般测试策略。到目前为止，希望您已经学习了以下测试控制器行为的方法：</p>
+<ul>
+<li>在 envtest 集群上设置您的控制器</li>
+<li>为创建测试对象编写存根</li>
+<li>将变化孤立到一个对象，以测试特定控制器的行为</li>
+</ul>
+<aside class="note">
+<h1 id="examples"><a class="header" href="#examples">Examples</a></h1>
+<p>您可以使用插件 <a href="../plugins/available/deploy-image-plugin-v1-alpha.html">DeployImage</a> 来查看示例。该插件允许用户搭建 API/控制器，以便在集群上根据指南和最佳实践部署和管理一个 Operand（镜像）。它抽象了实现这一目标的复杂性，同时允许用户自定义生成的代码。</p>
+<p>因此，您可以检查使用 ENV TEST 生成的测试，该测试的目的是确保成功创建 Deployment。您可以在 <code>testdata</code> 目录下看到其代码实现的示例，具体在 <a href="../plugins/available/deploy-image-plugin-v1-alpha.html">DeployImage</a> 的示例可在 <a href="https://github.com/kubernetes-sigs/kubebuilder/blob/v3.7.0/testdata/project-v4-with-plugins/controllers/busybox_controller_test.go">此处</a> 查看。</p>
+</aside>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../cronjob-tutorial/running-webhook.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../cronjob-tutorial/epilogue.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../cronjob-tutorial/running-webhook.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../cronjob-tutorial/epilogue.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../theme/js/inject.js"></script>
+
+
+    </body>
+</html>

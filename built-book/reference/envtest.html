@@ -1,0 +1,454 @@
+<!DOCTYPE HTML>
+<html lang="zh_CN" class="sidebar-visible no-js light">
+    <head>
+        <!-- This file is modified just to include the logo on the menu bar and the right favicon -->
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>配置 EnvTest - Kubebuilder 中文指南</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="..//logos/favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/css/markers.css">
+        <link rel="stylesheet" href="../theme/css/custom.css">
+        <link rel="stylesheet" href="../theme/css/version-dropdown.css">
+        <link rel="stylesheet" href="../theme/css/global-banner.css">
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">介绍</a></li><li class="chapter-item expanded affix "><a href="../architecture.html">架构</a></li><li class="chapter-item expanded affix "><a href="../quick-start.html">快速开始</a></li><li class="chapter-item expanded affix "><a href="../getting-started.html">入门</a></li><li class="chapter-item expanded affix "><a href="../versions_compatibility_supportability.html">版本兼容性和支持性</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/cronjob-tutorial.html"><strong aria-hidden="true">1.</strong> 教程：构建 CronJob</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../cronjob-tutorial/basic-project.html"><strong aria-hidden="true">1.1.</strong> 一个基本项目都包含了什么？</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/empty-main.html"><strong aria-hidden="true">1.2.</strong> 每个旅程都需要一个开始，每个程序都需要一个主函数</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/gvks.html"><strong aria-hidden="true">1.3.</strong> 组、版本和种类，真是让人头大！</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/new-api.html"><strong aria-hidden="true">1.4.</strong> 添加一个新 API</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/api-design.html"><strong aria-hidden="true">1.5.</strong> 设计一个 API</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../cronjob-tutorial/other-api-files.html"><strong aria-hidden="true">1.5.1.</strong> 简短的插曲：这些其他东西是什么？</a></li></ol></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/controller-overview.html"><strong aria-hidden="true">1.6.</strong> 控制器中包含什么？</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/controller-implementation.html"><strong aria-hidden="true">1.7.</strong> 实现控制器</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../cronjob-tutorial/main-revisited.html"><strong aria-hidden="true">1.7.1.</strong> 你提到过主吗？</a></li></ol></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/webhook-implementation.html"><strong aria-hidden="true">1.8.</strong> 实现默认值/验证的 Webhook</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/running.html"><strong aria-hidden="true">1.9.</strong> 运行和部署控制器</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../cronjob-tutorial/cert-manager.html"><strong aria-hidden="true">1.9.1.</strong> 部署 cert-manager</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/running-webhook.html"><strong aria-hidden="true">1.9.2.</strong> 部署网络钩子</a></li></ol></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/writing-tests.html"><strong aria-hidden="true">1.10.</strong> 编写测试</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/epilogue.html"><strong aria-hidden="true">1.11.</strong> 尾声</a></li></ol></li><li class="chapter-item expanded "><a href="../multiversion-tutorial/tutorial.html"><strong aria-hidden="true">2.</strong> 教程：多版本 API</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../multiversion-tutorial/api-changes.html"><strong aria-hidden="true">2.1.</strong> 改变现状</a></li><li class="chapter-item expanded "><a href="../multiversion-tutorial/conversion-concepts.html"><strong aria-hidden="true">2.2.</strong> 中心、辐条以及其他轮子隐喻</a></li><li class="chapter-item expanded "><a href="../multiversion-tutorial/conversion.html"><strong aria-hidden="true">2.3.</strong> 实施转换</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../multiversion-tutorial/webhooks.html"><strong aria-hidden="true">2.3.1.</strong> 并设置 webhooks</a></li></ol></li><li class="chapter-item expanded "><a href="../multiversion-tutorial/deployment.html"><strong aria-hidden="true">2.4.</strong> 部署与测试</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded "><a href="../migrations.html"><strong aria-hidden="true">3.</strong> 迁移</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../migration/legacy.html"><strong aria-hidden="true">3.1.</strong> 遗留版本（在版本 \&lt;= v3.0.0 之前）</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../migration/legacy/v1vsv2.html"><strong aria-hidden="true">3.1.1.</strong> Kubebuilder v1 vs v2</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../migration/legacy/migration_guide_v1tov2.html"><strong aria-hidden="true">3.1.1.1.</strong> 迁移指南</a></li></ol></li><li class="chapter-item expanded "><a href="../migration/legacy/v2vsv3.html"><strong aria-hidden="true">3.1.2.</strong> Kubebuilder v2 与 v3 的比较</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../migration/legacy/migration_guide_v2tov3.html"><strong aria-hidden="true">3.1.2.1.</strong> 迁移指南</a></li><li class="chapter-item expanded "><a href="../migration/legacy/manually_migration_guide_v2_v3.html"><strong aria-hidden="true">3.1.2.2.</strong> 通过更新文件进行迁移</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../migration/v3-plugins.html"><strong aria-hidden="true">3.2.</strong> 从 v3.0.0 版本开始支持插件。</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../migration/v3vsv4.html"><strong aria-hidden="true">3.2.1.</strong> go/v3 与 go/v4 的比较</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../migration/migration_guide_gov3_to_gov4.html"><strong aria-hidden="true">3.2.1.1.</strong> 迁移指南</a></li><li class="chapter-item expanded "><a href="../migration/manually_migration_guide_gov3_to_gov4.html"><strong aria-hidden="true">3.2.1.2.</strong> 通过更新文件进行迁移</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../migration/multi-group.html"><strong aria-hidden="true">3.3.</strong> 单组到多组</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/rescaffold.html"><strong aria-hidden="true">4.</strong> 项目升级助手</a></li><li class="chapter-item expanded affix "><li class="spacer"></li><li class="chapter-item expanded "><a href="../reference/reference.html"><strong aria-hidden="true">5.</strong> 参考</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/generating-crd.html"><strong aria-hidden="true">5.1.</strong> 生成 CRD（自定义资源定义）</a></li><li class="chapter-item expanded "><a href="../reference/using-finalizers.html"><strong aria-hidden="true">5.2.</strong> 使用终结器</a></li><li class="chapter-item expanded "><a href="../reference/good-practices.html"><strong aria-hidden="true">5.3.</strong> 良好实践</a></li><li class="chapter-item expanded "><a href="../reference/raising-events.html"><strong aria-hidden="true">5.4.</strong> 筹款活动</a></li><li class="chapter-item expanded "><a href="../reference/watching-resources.html"><strong aria-hidden="true">5.5.</strong> 观看资源</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/watching-resources/secondary-owned-resources.html"><strong aria-hidden="true">5.5.1.</strong> 拥有的资源</a></li><li class="chapter-item expanded "><a href="../reference/watching-resources/secondary-resources-not-owned.html"><strong aria-hidden="true">5.5.2.</strong> 未拥有的资源</a></li><li class="chapter-item expanded "><a href="../reference/watching-resources/predicates-with-watch.html"><strong aria-hidden="true">5.5.3.</strong> 使用谓词</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/kind.html"><strong aria-hidden="true">5.6.</strong> Kind for Dev & CI</a></li><li class="chapter-item expanded "><a href="../reference/webhook-overview.html"><strong aria-hidden="true">5.7.</strong> What's a webhook?</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/admission-webhook.html"><strong aria-hidden="true">5.7.1.</strong> 入场webhook</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/markers.html"><strong aria-hidden="true">5.8.</strong> 配置/代码生成标记</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/markers/crd.html"><strong aria-hidden="true">5.8.1.</strong> CRD 生成</a></li><li class="chapter-item expanded "><a href="../reference/markers/crd-validation.html"><strong aria-hidden="true">5.8.2.</strong> CRD 验证</a></li><li class="chapter-item expanded "><a href="../reference/markers/crd-processing.html"><strong aria-hidden="true">5.8.3.</strong> CRD处理</a></li><li class="chapter-item expanded "><a href="../reference/markers/webhook.html"><strong aria-hidden="true">5.8.4.</strong> Webhook（网络钩子）</a></li><li class="chapter-item expanded "><a href="../reference/markers/object.html"><strong aria-hidden="true">5.8.5.</strong> 对象/深拷贝</a></li><li class="chapter-item expanded "><a href="../reference/markers/rbac.html"><strong aria-hidden="true">5.8.6.</strong> RBAC</a></li><li class="chapter-item expanded "><a href="../reference/markers/scaffold.html"><strong aria-hidden="true">5.8.7.</strong> 脚手架</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/controller-gen.html"><strong aria-hidden="true">5.9.</strong> controller-gen 命令行工具</a></li><li class="chapter-item expanded "><a href="../reference/completion.html"><strong aria-hidden="true">5.10.</strong> completion</a></li><li class="chapter-item expanded "><a href="../reference/artifacts.html"><strong aria-hidden="true">5.11.</strong> 文物</a></li><li class="chapter-item expanded "><a href="../reference/platform.html"><strong aria-hidden="true">5.12.</strong> 平台支持</a></li><li class="chapter-item expanded "><a href="../reference/pprof-tutorial.html"><strong aria-hidden="true">5.13.</strong> 使用 Pprof 进行监控</a></li><li class="chapter-item expanded "><a href="../reference/scopes.html"><strong aria-hidden="true">5.14.</strong> 监控程序和自定义资源（CRDs）的职责范围</a></li><li class="chapter-item expanded "><a href="../reference/submodule-layouts.html"><strong aria-hidden="true">5.15.</strong> 子模块布局</a></li><li class="chapter-item expanded "><a href="../reference/using_an_external_resource.html"><strong aria-hidden="true">5.16.</strong> 使用外部资源 / API</a></li><li class="chapter-item expanded "><a href="../reference/envtest.html" class="active"><strong aria-hidden="true">5.17.</strong> 配置 EnvTest</a></li><li class="chapter-item expanded "><a href="../reference/metrics.html"><strong aria-hidden="true">5.18.</strong> 指标</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/metrics-reference.html"><strong aria-hidden="true">5.18.1.</strong> 参考</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/project-config.html"><strong aria-hidden="true">5.19.</strong> 项目配置</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded "><a href="../plugins/plugins.html"><strong aria-hidden="true">6.</strong> 插件</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../plugins/available-plugins.html"><strong aria-hidden="true">6.1.</strong> 可用插件</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../plugins/available/go-v4-plugin.html"><strong aria-hidden="true">6.1.1.</strong> go/v4</a></li><li class="chapter-item expanded "><a href="../plugins/available/grafana-v1-alpha.html"><strong aria-hidden="true">6.1.2.</strong> grafana/v1-alpha</a></li><li class="chapter-item expanded "><a href="../plugins/available/deploy-image-plugin-v1-alpha.html"><strong aria-hidden="true">6.1.3.</strong> deploy-image/v1-alpha</a></li><li class="chapter-item expanded "><a href="../plugins/available/helm-v1-alpha.html"><strong aria-hidden="true">6.1.4.</strong> helm/v1-alpha</a></li><li class="chapter-item expanded "><a href="../plugins/available/kustomize-v2.html"><strong aria-hidden="true">6.1.5.</strong> kustomize/v2</a></li></ol></li><li class="chapter-item expanded "><a href="../plugins/extending.html"><strong aria-hidden="true">6.2.</strong> 扩展</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../plugins/extending/extending_cli_features_and_plugins.html"><strong aria-hidden="true">6.2.1.</strong> 命令行界面和插件</a></li><li class="chapter-item expanded "><a href="../plugins/extending/external-plugins.html"><strong aria-hidden="true">6.2.2.</strong> 外部插件</a></li><li class="chapter-item expanded "><a href="../plugins/extending/testing-plugins.html"><strong aria-hidden="true">6.2.3.</strong> 端到端测试</a></li></ol></li><li class="chapter-item expanded "><a href="../plugins/plugins-versioning.html"><strong aria-hidden="true">6.3.</strong> 插件版本管理</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded affix "><a href="../faq.html">FAQ</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                         <!-- custom code for adding release version dropdown menu -->
+                        <div class="version-dropdown">
+                            <button id="release-version" class="icon-button" type="button" title="Release version" aria-label="Release version" aria-haspopup="true" aria-expanded="false" aria-controls="release-versions">
+                            <i class="fa fa-book"></i>
+                            </button>
+                            <div class="version-dropdown-content">
+                                <a href="https://book.kubebuilder.io/"target="_blank" rel="noopener noreferrer">latest (v4-book)</a>
+                                <a href="https://book-v3.book.kubebuilder.io/"target="_blank" rel="noopener noreferrer">v3-book</a>
+                                <a href="https://book-v2.book.kubebuilder.io/"target="_blank" rel="noopener noreferrer">v2-book</a>
+                                <a href="https://book-v1.book.kubebuilder.io/"target="_blank" rel="noopener noreferrer">v1-book</a>
+                            </div>
+                        </div>     
+                    </div>
+
+                    <h1 class="menu-title"><img alt="Kubebuilder 中文指南" src="..//logos/logo-single-line.png"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/LJTian/kubebuilder-cn" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                            <a href="https://github.com/LJTian/kubebuilder-cn/edit/master/docs/book/src/" title="Suggest an edit" aria-label="Suggest an edit">
+                                <i id="git-edit-button" class="fa fa-edit"></i>
+                            </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="配置-envtest-以进行集成测试"><a class="header" href="#配置-envtest-以进行集成测试">配置 envtest 以进行集成测试</a></h1>
+<p><a href="https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/envtest"><code>controller-runtime/pkg/envtest</code></a> Go 库帮助您通过设置和启动 etcd 和 Kubernetes API 服务器的实例来编写控制器的集成测试，而无需 kubelet、controller-manager 或其他组件。</p>
+<h2 id="安装"><a class="header" href="#安装">安装</a></h2>
+<p>安装二进制文件的过程非常简单，只需运行 <code>make envtest</code>。默认情况下，<code>envtest</code> 会将 Kubernetes API 服务器的二进制文件下载到您项目中的 <code>bin/</code> 文件夹。<code>make test</code> 是一个一条龙的解决方案，用于下载二进制文件、设置测试环境和运行测试。</p>
+<p>您可以参考 Kubebuilder 脚手架的 Makefile，观察到 envtest 的设置在所有 controller-runtime 版本中始终保持一致。从 <code>release-0.19</code> 开始，它被配置为自动从正确的位置下载工件，<strong>确保 kubebuilder 用户不受影响。</strong></p>
+<pre><code class="language-shel"></code></pre>
+<h2 id="在隔离断网环境中的安装"><a class="header" href="#在隔离断网环境中的安装">在隔离/断网环境中的安装</a></h2>
+<p>如果您想下载包含二进制文件的 tarball，以便在不联网的环境中使用，可以使用 <a href="https://pkg.go.dev/sigs.k8s.io/controller-runtime/tools/setup-envtest"><code>setup-envtest</code></a> 来本地下载所需的二进制文件。有很多方法可以配置 <code>setup-envtest</code> 以避免连接互联网，您可以在 <a href="https://github.com/kubernetes-sigs/controller-runtime/tree/master/tools/setup-envtest#what-if-i-dont-want-to-talk-to-the-internet">这里</a> 阅读相关内容。以下示例将展示如何使用 <code>setup-envtest</code> 设置的大多数默认值来安装 Kubernetes API 二进制文件。</p>
+<h3 id="下载二进制文件"><a class="header" href="#下载二进制文件">下载二进制文件</a></h3>
+<p><code>make envtest</code> 将会把 <code>setup-envtest</code> 二进制文件下载到 <code>./bin/</code> 目录。</p>
+<pre><code class="language-shell">make envtest
+</code></pre>
+<p>使用 <code>setup-envtest</code> 安装二进制文件时，会将其存储在特定于操作系统的位置，您可以在 <a href="https://github.com/kubernetes-sigs/controller-runtime/tree/master/tools/setup-envtest#where-does-it-put-all-those-binaries">这里</a> 阅读更多相关信息。</p>
+<pre><code class="language-sh">./bin/setup-envtest use 1.31.0
+</code></pre>
+<h3 id="更新测试目标"><a class="header" href="#更新测试目标">更新测试目标</a></h3>
+<p>一旦这些二进制文件安装完成，修改 <code>test</code> make 目标，加入 <code>-i</code>，如下所示。<code>-i</code> 只会检查本地安装的二进制文件，而不会访问远程资源。你也可以设置 <code>ENVTEST_INSTALLED_ONLY</code> 环境变量。</p>
+<pre><code class="language-makefile">test: manifests generate fmt vet
+    KUBEBUILDER_ASSETS="$(shell $(ENVTEST) 使用 $(ENVTEST_K8S_VERSION) -i --bin-dir $(LOCALBIN) -p path)" go test ./... -coverprofile cover.out
+</code></pre>
+<p>注意：<code>ENVTEST_K8S_VERSION</code> 需要与您上面下载的 <code>setup-envtest</code> 匹配。否则，您将看到如下错误。</p>
+<pre><code class="language-sh">no such version (1.24.5) exists on disk for this architecture (darwin/amd64) -- try running `list -i` to see what"在磁盘上"
+</code></pre>
+<h2 id="编写测试"><a class="header" href="#编写测试">编写测试</a></h2>
+<p>在集成测试中使用 <code>envtest</code> 的一般流程如下：</p>
+<pre><code class="language-go">import sigs.k8s.io/controller-runtime/pkg/envtest
+
+//指定 testEnv 配置
+testEnv = &amp;envtest.Environment{
+	CRDDirectoryPaths: []string{filepath.Join("..", "config", "crd", "bases")},
+}
+
+//开始测试环境
+cfg, err = testEnv.Start()
+
+//编写测试逻辑
+
+//停止测试环境
+err = testEnv.Stop()
+</code></pre>
+<p><code>kubebuilder</code> 在它生成的 <code>/controllers</code> 目录下的 ginkgo 测试套件中，为您处理测试环境的样板代码的设置和拆卸。</p>
+<p>测试运行的日志以 <code>test-env</code> 为前缀。</p>
+<aside class="note">
+<h1 id="examples"><a class="header" href="#examples">Examples</a></h1>
+<p>您可以使用插件 <a href="../plugins/available/deploy-image-plugin-v1-alpha.html">DeployImage</a> 来查看示例。该插件允许用户搭建 API/控制器，以便在集群上根据指南和最佳实践部署和管理一个 Operand（镜像）。它抽象了实现这一目标的复杂性，同时允许用户自定义生成的代码。</p>
+<p>因此，您可以检查使用 ENV TEST 生成的测试，该测试的目的是确保成功创建 Deployment。您可以在 <code>testdata</code> 目录下看到其代码实现的示例，具体在 <a href="../plugins/available/deploy-image-plugin-v1-alpha.html">DeployImage</a> 的示例可在 <a href="https://github.com/kubernetes-sigs/kubebuilder/blob/v3.7.0/testdata/project-v4-with-plugins/controllers/busybox_controller_test.go">此处</a> 查看。</p>
+</aside>
+<h3 id="配置您的测试控制平面"><a class="header" href="#配置您的测试控制平面">配置您的测试控制平面</a></h3>
+<p>Controller-runtime 的 <a href="https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/envtest">envtest</a> 框架需要本地有 <code>kubectl</code>、<code>kube-apiserver</code> 和 <code>etcd</code> 可执行文件，以模拟真实集群的 API 部分。</p>
+<p><code>make test</code> 命令将把这些二进制文件安装到 <code>bin/</code> 目录，并在运行使用 <code>envtest</code> 的测试时使用它们。即，</p>
+<pre><code class="language-shell">./bin/k8s/
+└── 1.25.0-darwin-amd64
+    ├── etcd
+    ├── kube-apiserver
+    └── kubectl
+</code></pre>
+<p>您可以使用环境变量和/或标志来指定在集成测试中 <code>kubectl</code>、<code>api-server</code> 和 <code>etcd</code> 的设置。</p>
+<h3 id="环境变量"><a class="header" href="#环境变量">环境变量</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>变量名</th><th style="text-align: left">Type</th><th style="text-align: left">何时使用</th></tr></thead><tbody>
+<tr><td><code>使用现有集群</code></td><td style="text-align: left">布尔值</td><td style="text-align: left">与其建立一个本地控制平面，不如指向现有集群的控制平面。</td></tr>
+<tr><td><code>KUBEBUILDER_ASSETS</code></td><td style="text-align: left">目录路径</td><td style="text-align: left">将集成测试指向一个包含所有二进制文件的目录（api-server、etcd 和 kubectl）。</td></tr>
+<tr><td><code>TEST_ASSET_KUBE_APISERVER</code>，<code>TEST_ASSET_ETCD</code>，<code>TEST_ASSET_KUBECTL</code></td><td style="text-align: left">分别指向 api-server、etcd 和 kubectl 二进制文件的路径</td><td style="text-align: left">类似于 <code>KUBEBUILDER_ASSETS</code>，但更为细化。指向集成测试使用除了默认二进制文件以外的其他二进制文件。这些环境变量还可以用来确保特定测试使用期望版本的这些二进制文件运行。</td></tr>
+<tr><td><code>KUBEBUILDER_CONTROLPLANE_START_TIMEOUT</code> 和 <code>KUBEBUILDER_CONTROLPLANE_STOP_TIMEOUT</code></td><td style="text-align: left">支持 <a href="https://golang.org/pkg/time/#ParseDuration"><code>time.ParseDuration</code></a> 的格式的持续时间。</td><td style="text-align: left">为测试控制平面指定不同于默认值的超时时间，以便（分别）启动和停止；任何超出这些时间的测试运行将失败。</td></tr>
+<tr><td><code>KUBEBUILDER_ATTACH_CONTROL_PLANE_OUTPUT</code></td><td style="text-align: left">布尔值</td><td style="text-align: left">将其设置为 <code>true</code> 以将控制平面的 stdout 和 stderr 附加到 os.Stdout 和 os.Stderr。当调试测试失败时，这可能很有用，因为输出将包括来自控制平面的输出。</td></tr>
+</tbody></table>
+</div>
+<p>请注意，<code>test</code> 这个 Makefile 目标将确保在使用它时所有设置都正确。不过，如果您想在不使用 Makefile 目标的情况下运行测试，例如通过 IDE，则可以直接在您的 <code>suite_test.go</code> 代码中设置环境变量：</p>
+<pre><code class="language-go">var _ = BeforeSuite(func(done Done) {
+	Expect(os.Setenv("TEST_ASSET_KUBE_APISERVER", "../bin/k8s/1.25.0-darwin-amd64/kube-apiserver")).To(Succeed())
+	Expect(os.Setenv("TEST_ASSET_ETCD", "../bin/k8s/1.25.0-darwin-amd64/etcd")).To(Succeed())
+	Expect(os.Setenv("TEST_ASSET_KUBECTL", "../bin/k8s/1.25.0-darwin-amd64/kubectl")).To(Succeed())
+	// OR
+	Expect(os.Setenv("KUBEBUILDER_ASSETS", "../bin/k8s/1.25.0-darwin-amd64")).To(Succeed())
+
+	logf.SetLogger(zap.New(zap.WriteTo(GinkgoWriter), zap.UseDevMode(true)))
+	testenv = &amp;envtest.Environment{}
+
+	_, err := testenv.Start()
+	Expect(err).NotTo(HaveOccurred())
+
+	close(done)
+}, 60)
+
+var _ = AfterSuite(func() {
+	Expect(testenv.Stop()).To(Succeed())
+
+	Expect(os.Unsetenv("TEST_ASSET_KUBE_APISERVER")).To(Succeed())
+	Expect(os.Unsetenv("TEST_ASSET_ETCD")).To(Succeed())
+	Expect(os.Unsetenv("TEST_ASSET_KUBECTL")).To(Succeed())
+
+})
+</code></pre>
+<aside class="note">
+<h1 id="env-test-config-options"><a class="header" href="#env-test-config-options">ENV TEST Config Options</a></h1>
+<p>您可以查看 controller-runtime 文档以了解更多关于其配置选项的信息，见 <a href="https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/envtest#Environment">这里</a>。此外，如果您希望使用 ENV TEST 来测试您的 Webhook，那么您可能需要查看它的安装 <a href="https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/envtest#WebhookInstallOptions">选项</a>。</p>
+</aside>
+<h3 id="旗帜"><a class="header" href="#旗帜">旗帜</a></h3>
+<p>这是一个示例，展示了在你的集成测试中修改启动 API 服务器的标志，与 <code>envtest.DefaultKubeAPIServerFlags</code> 中的默认值进行对比。</p>
+<pre><code class="language-go">customApiServerFlags := []string{
+	"--secure-port=6884",
+	"--admission-control=MutatingAdmissionWebhook",
+}
+
+apiServerFlags := append([]string(nil), envtest.DefaultKubeAPIServerFlags...)
+apiServerFlags = append(apiServerFlags, customApiServerFlags...)
+
+testEnv = &amp;envtest.Environment{
+	CRDDirectoryPaths: []string{filepath.Join("..", "config", "crd", "bases")},
+	KubeAPIServerFlags: apiServerFlags,
+}
+</code></pre>
+<h2 id="测试考虑事项"><a class="header" href="#测试考虑事项">测试考虑事项</a></h2>
+<p>除非您正在使用现有的集群，否则请记住，在测试上下文中没有运行内置控制器。在某些方面，测试控制平面将与“真实“集群表现不同，这可能会影响您编写测试的方式。一个常见的例子是垃圾收集；因为没有控制器监视内置资源，尽管设置了 <code>OwnerReference</code>，对象也不会被删除。</p>
+<p>为了测试删除生命周期是否正常工作，请测试所有权，而不是仅仅断言存在性。例如：</p>
+<pre><code class="language-go">expectedOwnerReference := v1.OwnerReference{
+	Kind:       "MyCoolCustomResource",
+	APIVersion: "my.api.example.com/v1beta1",
+	UID:        "d9607e19-f88f-11e6-a518-42010a800195",
+	Name:       "userSpecifiedResourceName",
+}
+Expect(deployment.ObjectMeta.OwnerReferences).To(ContainElement(expectedOwnerReference))
+</code></pre>
+<aside class="warning">
+<h2 id="namespace-usage-limitation"><a class="header" href="#namespace-usage-limitation">Namespace usage limitation</a></h2>
+<p>EnvTest不支持命名空间的删除。删除命名空间看似成功，但实际情况是该命名空间会处于终止状态，并且永远不会被回收。尝试重新创建该命名空间将会失败。这将导致您的调整器继续调整任何遗留的对象，除非它们被删除。</p>
+<p>为了克服这一限制，您可以为每个测试创建一个新的命名空间。即便如此，当一个测试完成（例如在“namespace-1“中）而另一个测试开始（例如在“namespace-2“中）时，控制器仍会对“namespace-1“中的任何活动对象进行对账。通过确保所有测试在测试清理过程中进行自我清理，可以避免这种情况。如果命名空间的清理比较困难，可以考虑以某种方式配置对账器，使其忽略来自非测试命名空间的对账请求。</p>
+<pre><code class="language-go">type MyCoolReconciler struct {
+	client.Client
+	...
+	Namespace     string  // 限制命名空间以进行调整
+}
+func (r *MyCoolReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+	_ = r.Log.WithValues("myreconciler", req.NamespacedName)
+	// 忽略其他命名空间的请求，如果有指定的话
+	if r.Namespace != "" &amp;&amp; req.Namespace != r.Namespace {
+		return ctrl.Result{}, nil
+	}
+</code></pre>
+<p>每当你的测试创建一个新的命名空间时，它会修改 reconciler.Namespace 的值。reconciler 将有效地忽略之前的命名空间。有关更多信息，请参阅在 controller-runtime 中提出的问题 <a href="https://github.com/kubernetes-sigs/controller-runtime/issues/880">controller-runtime/issues/880</a>，以添加此支持。</p>
+</aside>
+<h2 id="cert-manager-和-prometheus-选项"><a class="header" href="#cert-manager-和-prometheus-选项">Cert-Manager 和 Prometheus 选项</a></h2>
+<p>使用 Kubebuilder 创建的项目可以启用 <a href="https://book.kubebuilder.io/reference/metrics.html"><code>metrics</code></a> 和 <a href="https://book.kubebuilder.io/cronjob-tutorial/cert-manager.html"><code>cert-manager</code></a> 选项。请注意，当我们使用 ENV TEST 时，我们旨在测试控制器及其调整过程。这被视为集成测试，因为 ENV TEST API 会在集群中进行测试，因此会下载并使用二进制文件来配置其前置要求。然而，其主要目的是对控制器进行 <code>单元</code> 测试。</p>
+<p>因此，在常见情况下，测试对账时您不需要关注这些选项。但是，如果您希望在安装了 Prometheus 和 Cert-manager 的情况下进行测试，可以在运行测试之前添加安装它们所需的步骤。以下是一个示例。</p>
+<pre><code class="language-go">    // 在测试之前添加安装 Prometheus operator 和 cert-manager 的操作。    BeforeEach(func() {
+        By("installing prometheus operator")
+        Expect(utils.InstallPrometheusOperator()).To(Succeed())
+
+        By("installing the cert-manager")
+        Expect(utils.InstallCertManager()).To(Succeed())
+    })
+
+    // 您也可以在测试后将它们移除::
+    AfterEach(func() {
+        By("uninstalling the Prometheus manager bundle")
+        utils.UninstallPrometheusOperManager()
+
+        By("uninstalling the cert-manager bundle")
+        utils.UninstallCertManager()
+    })
+</code></pre>
+<p>请检查以下示例，了解如何实现上述操作：</p>
+<pre><code class="language-go">const (
+	prometheusOperatorVersion = "0.51"
+	prometheusOperatorURL     = "https://raw.githubusercontent.com/prometheus-operator/" + "prometheus-operator/release-%s/bundle.yaml"
+	certmanagerVersion = "v1.5.3"
+	certmanagerURLTmpl = "https://github.com/cert-manager/cert-manager/releases/download/%s/cert-manager.yaml"
+)
+
+func warnError(err error) {
+	_, _ = fmt.Fprintf(GinkgoWriter, "warning: %v\n", err)
+}
+
+// InstallPrometheusOperator 安装 prometheus 操作器，用于导出启用的指标。func InstallPrometheusOperator() error {
+	url := fmt.Sprintf(prometheusOperatorURL, prometheusOperatorVersion)
+	cmd := exec.Command("kubectl", "apply", "-f", url)
+	_, err := Run(cmd)
+	return err
+}
+
+// UninstallPrometheusOperator 卸载 Prometheusfunc UninstallPrometheusOperator() {
+	url := fmt.Sprintf(prometheusOperatorURL, prometheusOperatorVersion)
+	cmd := exec.Command("kubectl", "delete", "-f", url)
+	if _, err := Run(cmd); err != nil {
+		warnError(err)
+	}
+}
+
+// UninstallCertManager 卸载证书管理器func UninstallCertManager() {
+	url := fmt.Sprintf(certmanagerURLTmpl, certmanagerVersion)
+	cmd := exec.Command("kubectl", "delete", "-f", url)
+	if _, err := Run(cmd); err != nil {
+		warnError(err)
+	}
+}
+
+// InstallCertManager 安装证书管理器包。func InstallCertManager() error {
+	url := fmt.Sprintf(certmanagerURLTmpl, certmanagerVersion)
+	cmd := exec.Command("kubectl", "apply", "-f", url)
+	if _, err := Run(cmd); err != nil {
+		return err
+	}
+	// 等待 cert-manager-webhook 准备就绪，如果在集群上卸载后重新安装 cert-manager，可能需要一些时间。	cmd = exec.Command("kubectl", "wait", "deployment.apps/cert-manager-webhook",
+		"--for", "condition=Available",
+		"--namespace", "cert-manager",
+		"--timeout", "5m",
+		)
+
+	_, err := Run(cmd)
+	return err
+}
+
+// LoadImageToKindClusterWithName 将本地 Docker 镜像加载到 Kind 集群中func LoadImageToKindClusterWithName(name string) error {
+	cluster := "kind"
+	if v, ok := os.LookupEnv("KIND_CLUSTER"); ok {
+		cluster = v
+	}
+
+	kindOptions := []string{"load", "docker-image", name, "--name", cluster}
+	cmd := exec.Command("kind", kindOptions...)
+	_, err := Run(cmd)
+	return err
+}
+</code></pre>
+<p>然而，请注意，对于指标和cert-manager的测试可能更适合作为端到端（e2e）测试，而不是在使用ENV TEST进行控制器测试时进行的测试。您可以查看在<a href="https://github.com/operator-framework/operator-sdk">Operator-SDK</a> 仓库中实施的<a href="https://github.com/operator-framework/operator-sdk/tree/master/testdata/go/v4/memcached-operator/test/e2e">示例示例</a>，了解如何编写e2e测试以确保您项目的基本工作流程。此外，请注意，您可以在已配置集群上运行测试，使用现有集群进行测试的选项。</p>
+<pre><code class="language-go">testEnv = &amp;envtest.Environment{
+	UseExistingCluster: true,
+}
+</code></pre>
+<aside class="note">
+<h1 id="setup-env-test-tool"><a class="header" href="#setup-env-test-tool">Setup ENV TEST tool</a></h1>
+To know more about the tooling used to configure ENVTEST which is used in the setup-envtest target in the Makefile
+of the projects build with Kubebuilder see the [README][readme]
+of its tooling.
+</aside>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../reference/using_an_external_resource.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../reference/metrics.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../reference/using_an_external_resource.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../reference/metrics.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../theme/js/inject.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE HTML>
+<html lang="zh_CN" class="sidebar-visible no-js light">
+    <head>
+        <!-- This file is modified just to include the logo on the menu bar and the right favicon -->
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>子模块布局 - Kubebuilder 中文指南</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="..//logos/favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/css/markers.css">
+        <link rel="stylesheet" href="../theme/css/custom.css">
+        <link rel="stylesheet" href="../theme/css/version-dropdown.css">
+        <link rel="stylesheet" href="../theme/css/global-banner.css">
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">介绍</a></li><li class="chapter-item expanded affix "><a href="../architecture.html">架构</a></li><li class="chapter-item expanded affix "><a href="../quick-start.html">快速开始</a></li><li class="chapter-item expanded affix "><a href="../getting-started.html">入门</a></li><li class="chapter-item expanded affix "><a href="../versions_compatibility_supportability.html">版本兼容性和支持性</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/cronjob-tutorial.html"><strong aria-hidden="true">1.</strong> 教程：构建 CronJob</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../cronjob-tutorial/basic-project.html"><strong aria-hidden="true">1.1.</strong> 一个基本项目都包含了什么？</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/empty-main.html"><strong aria-hidden="true">1.2.</strong> 每个旅程都需要一个开始，每个程序都需要一个主函数</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/gvks.html"><strong aria-hidden="true">1.3.</strong> 组、版本和种类，真是让人头大！</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/new-api.html"><strong aria-hidden="true">1.4.</strong> 添加一个新 API</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/api-design.html"><strong aria-hidden="true">1.5.</strong> 设计一个 API</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../cronjob-tutorial/other-api-files.html"><strong aria-hidden="true">1.5.1.</strong> 简短的插曲：这些其他东西是什么？</a></li></ol></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/controller-overview.html"><strong aria-hidden="true">1.6.</strong> 控制器中包含什么？</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/controller-implementation.html"><strong aria-hidden="true">1.7.</strong> 实现控制器</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../cronjob-tutorial/main-revisited.html"><strong aria-hidden="true">1.7.1.</strong> 你提到过主吗？</a></li></ol></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/webhook-implementation.html"><strong aria-hidden="true">1.8.</strong> 实现默认值/验证的 Webhook</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/running.html"><strong aria-hidden="true">1.9.</strong> 运行和部署控制器</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../cronjob-tutorial/cert-manager.html"><strong aria-hidden="true">1.9.1.</strong> 部署 cert-manager</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/running-webhook.html"><strong aria-hidden="true">1.9.2.</strong> 部署网络钩子</a></li></ol></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/writing-tests.html"><strong aria-hidden="true">1.10.</strong> 编写测试</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/epilogue.html"><strong aria-hidden="true">1.11.</strong> 尾声</a></li></ol></li><li class="chapter-item expanded "><a href="../multiversion-tutorial/tutorial.html"><strong aria-hidden="true">2.</strong> 教程：多版本 API</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../multiversion-tutorial/api-changes.html"><strong aria-hidden="true">2.1.</strong> 改变现状</a></li><li class="chapter-item expanded "><a href="../multiversion-tutorial/conversion-concepts.html"><strong aria-hidden="true">2.2.</strong> 中心、辐条以及其他轮子隐喻</a></li><li class="chapter-item expanded "><a href="../multiversion-tutorial/conversion.html"><strong aria-hidden="true">2.3.</strong> 实施转换</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../multiversion-tutorial/webhooks.html"><strong aria-hidden="true">2.3.1.</strong> 并设置 webhooks</a></li></ol></li><li class="chapter-item expanded "><a href="../multiversion-tutorial/deployment.html"><strong aria-hidden="true">2.4.</strong> 部署与测试</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded "><a href="../migrations.html"><strong aria-hidden="true">3.</strong> 迁移</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../migration/legacy.html"><strong aria-hidden="true">3.1.</strong> 遗留版本（在版本 \&lt;= v3.0.0 之前）</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../migration/legacy/v1vsv2.html"><strong aria-hidden="true">3.1.1.</strong> Kubebuilder v1 vs v2</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../migration/legacy/migration_guide_v1tov2.html"><strong aria-hidden="true">3.1.1.1.</strong> 迁移指南</a></li></ol></li><li class="chapter-item expanded "><a href="../migration/legacy/v2vsv3.html"><strong aria-hidden="true">3.1.2.</strong> Kubebuilder v2 与 v3 的比较</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../migration/legacy/migration_guide_v2tov3.html"><strong aria-hidden="true">3.1.2.1.</strong> 迁移指南</a></li><li class="chapter-item expanded "><a href="../migration/legacy/manually_migration_guide_v2_v3.html"><strong aria-hidden="true">3.1.2.2.</strong> 通过更新文件进行迁移</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../migration/v3-plugins.html"><strong aria-hidden="true">3.2.</strong> 从 v3.0.0 版本开始支持插件。</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../migration/v3vsv4.html"><strong aria-hidden="true">3.2.1.</strong> go/v3 与 go/v4 的比较</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../migration/migration_guide_gov3_to_gov4.html"><strong aria-hidden="true">3.2.1.1.</strong> 迁移指南</a></li><li class="chapter-item expanded "><a href="../migration/manually_migration_guide_gov3_to_gov4.html"><strong aria-hidden="true">3.2.1.2.</strong> 通过更新文件进行迁移</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../migration/multi-group.html"><strong aria-hidden="true">3.3.</strong> 单组到多组</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/rescaffold.html"><strong aria-hidden="true">4.</strong> 项目升级助手</a></li><li class="chapter-item expanded affix "><li class="spacer"></li><li class="chapter-item expanded "><a href="../reference/reference.html"><strong aria-hidden="true">5.</strong> 参考</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/generating-crd.html"><strong aria-hidden="true">5.1.</strong> 生成 CRD（自定义资源定义）</a></li><li class="chapter-item expanded "><a href="../reference/using-finalizers.html"><strong aria-hidden="true">5.2.</strong> 使用终结器</a></li><li class="chapter-item expanded "><a href="../reference/good-practices.html"><strong aria-hidden="true">5.3.</strong> 良好实践</a></li><li class="chapter-item expanded "><a href="../reference/raising-events.html"><strong aria-hidden="true">5.4.</strong> 筹款活动</a></li><li class="chapter-item expanded "><a href="../reference/watching-resources.html"><strong aria-hidden="true">5.5.</strong> 观看资源</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/watching-resources/secondary-owned-resources.html"><strong aria-hidden="true">5.5.1.</strong> 拥有的资源</a></li><li class="chapter-item expanded "><a href="../reference/watching-resources/secondary-resources-not-owned.html"><strong aria-hidden="true">5.5.2.</strong> 未拥有的资源</a></li><li class="chapter-item expanded "><a href="../reference/watching-resources/predicates-with-watch.html"><strong aria-hidden="true">5.5.3.</strong> 使用谓词</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/kind.html"><strong aria-hidden="true">5.6.</strong> Kind for Dev & CI</a></li><li class="chapter-item expanded "><a href="../reference/webhook-overview.html"><strong aria-hidden="true">5.7.</strong> What's a webhook?</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/admission-webhook.html"><strong aria-hidden="true">5.7.1.</strong> 入场webhook</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/markers.html"><strong aria-hidden="true">5.8.</strong> 配置/代码生成标记</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/markers/crd.html"><strong aria-hidden="true">5.8.1.</strong> CRD 生成</a></li><li class="chapter-item expanded "><a href="../reference/markers/crd-validation.html"><strong aria-hidden="true">5.8.2.</strong> CRD 验证</a></li><li class="chapter-item expanded "><a href="../reference/markers/crd-processing.html"><strong aria-hidden="true">5.8.3.</strong> CRD处理</a></li><li class="chapter-item expanded "><a href="../reference/markers/webhook.html"><strong aria-hidden="true">5.8.4.</strong> Webhook（网络钩子）</a></li><li class="chapter-item expanded "><a href="../reference/markers/object.html"><strong aria-hidden="true">5.8.5.</strong> 对象/深拷贝</a></li><li class="chapter-item expanded "><a href="../reference/markers/rbac.html"><strong aria-hidden="true">5.8.6.</strong> RBAC</a></li><li class="chapter-item expanded "><a href="../reference/markers/scaffold.html"><strong aria-hidden="true">5.8.7.</strong> 脚手架</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/controller-gen.html"><strong aria-hidden="true">5.9.</strong> controller-gen 命令行工具</a></li><li class="chapter-item expanded "><a href="../reference/completion.html"><strong aria-hidden="true">5.10.</strong> completion</a></li><li class="chapter-item expanded "><a href="../reference/artifacts.html"><strong aria-hidden="true">5.11.</strong> 文物</a></li><li class="chapter-item expanded "><a href="../reference/platform.html"><strong aria-hidden="true">5.12.</strong> 平台支持</a></li><li class="chapter-item expanded "><a href="../reference/pprof-tutorial.html"><strong aria-hidden="true">5.13.</strong> 使用 Pprof 进行监控</a></li><li class="chapter-item expanded "><a href="../reference/scopes.html"><strong aria-hidden="true">5.14.</strong> 监控程序和自定义资源（CRDs）的职责范围</a></li><li class="chapter-item expanded "><a href="../reference/submodule-layouts.html" class="active"><strong aria-hidden="true">5.15.</strong> 子模块布局</a></li><li class="chapter-item expanded "><a href="../reference/using_an_external_resource.html"><strong aria-hidden="true">5.16.</strong> 使用外部资源 / API</a></li><li class="chapter-item expanded "><a href="../reference/envtest.html"><strong aria-hidden="true">5.17.</strong> 配置 EnvTest</a></li><li class="chapter-item expanded "><a href="../reference/metrics.html"><strong aria-hidden="true">5.18.</strong> 指标</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/metrics-reference.html"><strong aria-hidden="true">5.18.1.</strong> 参考</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/project-config.html"><strong aria-hidden="true">5.19.</strong> 项目配置</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded "><a href="../plugins/plugins.html"><strong aria-hidden="true">6.</strong> 插件</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../plugins/available-plugins.html"><strong aria-hidden="true">6.1.</strong> 可用插件</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../plugins/available/go-v4-plugin.html"><strong aria-hidden="true">6.1.1.</strong> go/v4</a></li><li class="chapter-item expanded "><a href="../plugins/available/grafana-v1-alpha.html"><strong aria-hidden="true">6.1.2.</strong> grafana/v1-alpha</a></li><li class="chapter-item expanded "><a href="../plugins/available/deploy-image-plugin-v1-alpha.html"><strong aria-hidden="true">6.1.3.</strong> deploy-image/v1-alpha</a></li><li class="chapter-item expanded "><a href="../plugins/available/helm-v1-alpha.html"><strong aria-hidden="true">6.1.4.</strong> helm/v1-alpha</a></li><li class="chapter-item expanded "><a href="../plugins/available/kustomize-v2.html"><strong aria-hidden="true">6.1.5.</strong> kustomize/v2</a></li></ol></li><li class="chapter-item expanded "><a href="../plugins/extending.html"><strong aria-hidden="true">6.2.</strong> 扩展</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../plugins/extending/extending_cli_features_and_plugins.html"><strong aria-hidden="true">6.2.1.</strong> 命令行界面和插件</a></li><li class="chapter-item expanded "><a href="../plugins/extending/external-plugins.html"><strong aria-hidden="true">6.2.2.</strong> 外部插件</a></li><li class="chapter-item expanded "><a href="../plugins/extending/testing-plugins.html"><strong aria-hidden="true">6.2.3.</strong> 端到端测试</a></li></ol></li><li class="chapter-item expanded "><a href="../plugins/plugins-versioning.html"><strong aria-hidden="true">6.3.</strong> 插件版本管理</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded affix "><a href="../faq.html">FAQ</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                         <!-- custom code for adding release version dropdown menu -->
+                        <div class="version-dropdown">
+                            <button id="release-version" class="icon-button" type="button" title="Release version" aria-label="Release version" aria-haspopup="true" aria-expanded="false" aria-controls="release-versions">
+                            <i class="fa fa-book"></i>
+                            </button>
+                            <div class="version-dropdown-content">
+                                <a href="https://book.kubebuilder.io/"target="_blank" rel="noopener noreferrer">latest (v4-book)</a>
+                                <a href="https://book-v3.book.kubebuilder.io/"target="_blank" rel="noopener noreferrer">v3-book</a>
+                                <a href="https://book-v2.book.kubebuilder.io/"target="_blank" rel="noopener noreferrer">v2-book</a>
+                                <a href="https://book-v1.book.kubebuilder.io/"target="_blank" rel="noopener noreferrer">v1-book</a>
+                            </div>
+                        </div>     
+                    </div>
+
+                    <h1 class="menu-title"><img alt="Kubebuilder 中文指南" src="..//logos/logo-single-line.png"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/LJTian/kubebuilder-cn" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                            <a href="https://github.com/LJTian/kubebuilder-cn/edit/master/docs/book/src/" title="Suggest an edit" aria-label="Suggest an edit">
+                                <i id="git-edit-button" class="fa fa-edit"></i>
+                            </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="子模块布局"><a class="header" href="#子模块布局">子模块布局</a></h1>
+<p>这部分描述了如何修改一个脚手架项目，以便与多个 <code>go.mod</code> 文件一起使用，用于 API 和控制器。</p>
+<p>子模块布局（可以称之为 <a href="https://en.wikipedia.org/wiki/Monorepo">Monorepo</a> 的一种特殊形式）是一个特殊的用例，可以在涉及重用 API 的场景中提供帮助，而不会引入不应在外部调用 API 的项目中出现的间接依赖。</p>
+<aside class="note">
+<h1 id="using-external-resourcesapis"><a class="header" href="#using-external-resourcesapis">Using External Resources/APIs</a></h1>
+<p>如果您希望通过控制器对属于另一个项目或由 Kubernetes API 拥有的 Type（CRD）进行操作和对账，请参阅 <a href="/reference/using_an_external_type.html">使用外部资源/API</a> 以获取更多信息。</p>
+</aside>
+<h2 id="概述"><a class="header" href="#概述">概述</a></h2>
+<p>为 APIs 和 Controllers 使用分开的 <code>go.mod</code> 模块可以帮助解决以下情况：</p>
+<ul>
+<li>有一个企业版的 Operator 可用，它希望重用社区版的 API。</li>
+<li>有许多（可能是外部的）模块依赖于该 API，您希望对传递依赖关系进行更严格的分离。</li>
+<li>如果您想减少传递依赖对您的 API 被其他项目包含的影响</li>
+<li>如果您希望将 API 发布过程的生命周期与控制器发布过程分开管理。</li>
+<li>如果您希望在不将代码分割到多个代码库的情况下对代码库进行模块化。</li>
+</ul>
+<p>然而，他们在典型项目中引入了多个警告，这是使它们在通用用例或插件中难以推荐的主要因素之一：</p>
+<ul>
+<li>多个 <code>go.mod</code> 模块并不被推荐作为 Go 的最佳实践，并且 <a href="https://github.com/golang/go/wiki/Modules#faqs--multi-module-repositories">多个模块大多是不鼓励的</a>。</li>
+<li>你总是可以将你的API提取到一个新的代码库中，并且在一个跨多个代码库、依赖于相同API类型的项目中，可能会对发布过程有更多的控制。</li>
+<li>它至少需要一个 <a href="https://go.dev/ref/mod#go-mod-file-replace">替换指令</a>，要么通过 <code>go.work</code>（这至少需要两个以上的文件以及一个用于没有 GO_WORK 的构建环境的环境变量），要么通过 <code>go.mod</code> 替换，这需要在每次发布时手动添加和移除。</li>
+</ul>
+<aside class="note warning">
+<h1 id="implications-on-maintenance-efforts"><a class="header" href="#implications-on-maintenance-efforts">Implications on Maintenance efforts</a></h1>
+<p>当决定偏离标准的 kubebuilder <code>PROJECT</code> 设置或其插件所提供的扩展布局时，可能会导致维护成本增加，因为上游可能会出现破坏性变化，这可能会与此处描述的自定义模块结构不兼容。</p>
+<p>将代码库拆分为多个仓库和/或多个模块会带来成本，并且这些成本会随着时间的推移而增加。你需要在自己的模块之间定义清晰的版本依赖关系，谨慎进行分阶段升级等。特别是对于小型到中型项目，一个仓库和一个模块是最佳选择。</p>
+<p>请记住，除非您知道自己在做什么，否则不建议偏离建议的布局。否则，您可能会失去使用某些 CLI 功能和助手的能力。有关项目布局的更多信息，请参阅文档 <a href="./../cronjob-tutorial/basic-project.html">基础项目包含哪些内容？</a></p>
+</aside>
+<h2 id="调整您的项目"><a class="header" href="#调整您的项目">调整您的项目</a></h2>
+<p>为了实现正确的子模块布局，我们将以生成的 API 作为起点。</p>
+<p>对于以下步骤，我们将假设您在您的 <code>GOPATH</code> 中创建了您的项目。</p>
+<pre><code class="language-shell">kubebuilder init
+</code></pre>
+<p>并创建了一个 API 和控制器，带有</p>
+<pre><code class="language-shell">kubebuilder create api --group operator --version v1alpha1 --kind Sample --resource --controller --make
+</code></pre>
+<h3 id="为您的-api-创建第二个模块"><a class="header" href="#为您的-api-创建第二个模块">为您的 API 创建第二个模块</a></h3>
+<p>现在我们有了基本布局，我们将为您启用多个模块。</p>
+<ol>
+<li>导航到 <code>api/v1alpha1</code></li>
+<li>运行 <code>go mod init</code> 来创建一个新的子模块。</li>
+<li>运行 <code>go mod tidy</code> 以解决依赖关系。</li>
+</ol>
+<p>您的 API go.mod 文件现在可能如下所示：</p>
+<pre><code class="language-go.mo"></code></pre>
+<p>如您所见，它仅包括 apimachinery 和 controller-runtime 作为依赖项，而您在控制器中声明的任何依赖项都不会被间接导入。</p>
+<h3 id="在开发中使用替换指令"><a class="header" href="#在开发中使用替换指令">在开发中使用替换指令</a></h3>
+<p>当尝试在 Operator 的根文件夹中解析主模块时，如果使用 VCS 路径，您会注意到一个错误：</p>
+<pre><code class="language-shel"></code></pre>
+<p>原因是您可能尚未将您的模块推送到版本控制系统，因此解析主模块将失败，因为它不再能以包的形式直接访问 API 类型，而只能作为模块访问。</p>
+<p>为了解决这个问题，我们需要告诉 Go 工具正确地将 API 模块替换为对您路径的本地引用。</p>
+<p>您可以通过两种不同的方法来实现这一点：Go 模块和 Go 工作区。</p>
+<h4 id="使用-go-模块"><a class="header" href="#使用-go-模块">使用 Go 模块</a></h4>
+<p>对于 Go 模块，您需要编辑项目的主 <code>go.mod</code> 文件并发出一个替换指令。</p>
+<p>您可以通过编辑 <code>go.mod</code> 来完成此操作，使用 ``</p>
+<pre><code class="language-shell">go mod edit -require YOUR_GO_PATH/test-operator/api/v1alpha1@v0.0.0 # Only if you didn't already resolve the module
+go mod edit -replace YOUR_GO_PATH/test-operator/api/v1alpha1@v0.0.0=./api/v1alpha1
+go mod tidy
+</code></pre>
+<p>请注意，我们使用了 API 模块的占位符版本 <code>v0.0.0</code>。如果您已经发布过一次您的 API 模块，您也可以使用真实版本。然而，这仅在 API 模块已经在版本控制系统中可用的情况下有效。</p>
+<aside class="note warning">
+<h1 id="implications-on-controller-releases"><a class="header" href="#implications-on-controller-releases">Implications on controller releases</a></h1>
+<p>由于主 <code>go.mod</code> 文件现在包含了一个替换指令，因此在发布你的控制器模块之前，重要的是将其删除。为此，你可以简单地运行</p>
+<pre><code class="language-shell">go mod edit -dropreplace YOUR_GO_PATH/test-operator/api/v1alpha1
+go mod tidy
+</code></pre>
+</aside>
+<h4 id="使用-go-工作区"><a class="header" href="#使用-go-工作区">使用 Go 工作区</a></h4>
+<p>对于 Go 工作区，您将不会自己编辑 <code>go.mod</code> 文件，而是依赖 Go 中的工作区支持。</p>
+<p>要为您的项目初始化工作空间，请在项目根目录中运行 <code>go work init</code>。</p>
+<p>现在让我们将这两个模块包含到我们的工作区中：</p>
+<pre><code class="language-shell">go work use . # This includes the main module with the controller
+go work use api/v1alpha1 # This is the API submodule
+go work sync
+</code></pre>
+<p>这将导致像 <code>go run</code> 或 <code>go build</code> 这样的命令尊重工作区，并确保使用本地解析。</p>
+<p>您可以在本地进行此操作，而无需构建您的模块。</p>
+<p>在使用 <code>go.work</code> 文件时，建议不要将它们提交到版本库，并将其添加到 <code>.gitignore</code> 中。</p>
+<pre><code class="language-gitignore">go.work
+go.work.sum
+</code></pre>
+<p>在发布时，请确保将环境变量 <code>GOWORK=off</code> 设置为关闭（可通过 <code>go env GOWORK</code> 验证），以确保发布过程不受可能已提交的 <code>go.work</code> 文件的影响。</p>
+<h4 id="调整-dockerfile"><a class="header" href="#调整-dockerfile">调整 Dockerfile</a></h4>
+<p>在构建您的控制器镜像时，kubebuilder 默认无法处理多个模块。您需要手动将新的 API 模块添加到依赖项的下载中：</p>
+<pre><code class="language-dockerfil"></code></pre>
+<h3 id="创建一个新的-api-和控制器版本"><a class="header" href="#创建一个新的-api-和控制器版本">创建一个新的 API 和控制器版本</a></h3>
+<p>因为你调整了默认布局，所以在发布你的操作员的第一个版本之前，请确保熟悉 <a href="https://github.com/golang/go/wiki/Modules#faqs--multi-module-repositories">mono-repo/multi-module 发布</a>，涉及多个不同子目录中的 <code>go.mod</code> 文件。</p>
+<p>假设创建了一个单一的API，发布流程可能如下所示：</p>
+<pre><code class="language-sh">git commit
+git tag v1.0.0 # 这是你的主要模块发布git tag api/v1.0.0 # 这是您的 API 发布版本
+go mod edit -require YOUR_GO_PATH/test-operator/api@v1.0.0 # 现在我们在主模块中依赖于 API 模块。go mod edit -dropreplace YOUR_GO_PATH/test-operator/api/v1alpha1 # 这将移除本地开发中针对 Go 模块的替换指令，这意味着将使用来自版本控制系统的源代码，而不是您本地检出的单一代码库中的源代码。git push origin main v1.0.0 api/v1.0.0
+</code></pre>
+<p>在此之后，您的模块将在 VCS 中可用，您不再需要本地替换。然而，如果您进行本地更改，请确保根据 <code>replace</code> 指令调整您的行为。</p>
+<h3 id="重用您提取的-api-模块"><a class="header" href="#重用您提取的-api-模块">重用您提取的 API 模块</a></h3>
+<p>每当您想要在一个独立的 kubebuilder 中重用您的 API 模块时，我们会假设您遵循了 <a href="/reference/using_an_external_type.html">使用外部类型</a> 的指南。当您到达“编辑 API 文件“这一步时，只需使用以下方式导入依赖项：</p>
+<pre><code class="language-shell">go get YOUR_GO_PATH/test-operator/api@v1.0.0
+</code></pre>
+<p>然后按照指南中的说明使用它。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../reference/scopes.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../reference/using_an_external_resource.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../reference/scopes.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../reference/using_an_external_resource.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../theme/js/inject.js"></script>
+
+
+    </body>
+</html>

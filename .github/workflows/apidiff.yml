@@ -1,0 +1,30 @@
+name: APIDiff
+
+on:
+  push:
+    paths-ignore:
+      - '**/*.md'
+  pull_request:
+    paths-ignore:
+      - '**/*.md'
+
+jobs:
+  go-apidiff:
+    name: Verify API differences
+    runs-on: ubuntu-latest
+    # Pull requests from different repository only trigger this checks
+    if: (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository)
+    steps:
+      - name: Clone the code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: Execute go-apidiff
+        uses: joelanford/go-apidiff@v0.8.2
+        with:
+          compare-imports: true
+          print-compatible: true

@@ -1,0 +1,456 @@
+<!DOCTYPE HTML>
+<html lang="zh_CN" class="sidebar-visible no-js light">
+    <head>
+        <!-- This file is modified just to include the logo on the menu bar and the right favicon -->
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>指标 - Kubebuilder 中文指南</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="..//logos/favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/css/markers.css">
+        <link rel="stylesheet" href="../theme/css/custom.css">
+        <link rel="stylesheet" href="../theme/css/version-dropdown.css">
+        <link rel="stylesheet" href="../theme/css/global-banner.css">
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">介绍</a></li><li class="chapter-item expanded affix "><a href="../architecture.html">架构</a></li><li class="chapter-item expanded affix "><a href="../quick-start.html">快速开始</a></li><li class="chapter-item expanded affix "><a href="../getting-started.html">入门</a></li><li class="chapter-item expanded affix "><a href="../versions_compatibility_supportability.html">版本兼容性和支持性</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/cronjob-tutorial.html"><strong aria-hidden="true">1.</strong> 教程：构建 CronJob</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../cronjob-tutorial/basic-project.html"><strong aria-hidden="true">1.1.</strong> 一个基本项目都包含了什么？</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/empty-main.html"><strong aria-hidden="true">1.2.</strong> 每个旅程都需要一个开始，每个程序都需要一个主函数</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/gvks.html"><strong aria-hidden="true">1.3.</strong> 组、版本和种类，真是让人头大！</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/new-api.html"><strong aria-hidden="true">1.4.</strong> 添加一个新 API</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/api-design.html"><strong aria-hidden="true">1.5.</strong> 设计一个 API</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../cronjob-tutorial/other-api-files.html"><strong aria-hidden="true">1.5.1.</strong> 简短的插曲：这些其他东西是什么？</a></li></ol></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/controller-overview.html"><strong aria-hidden="true">1.6.</strong> 控制器中包含什么？</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/controller-implementation.html"><strong aria-hidden="true">1.7.</strong> 实现控制器</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../cronjob-tutorial/main-revisited.html"><strong aria-hidden="true">1.7.1.</strong> 你提到过主吗？</a></li></ol></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/webhook-implementation.html"><strong aria-hidden="true">1.8.</strong> 实现默认值/验证的 Webhook</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/running.html"><strong aria-hidden="true">1.9.</strong> 运行和部署控制器</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../cronjob-tutorial/cert-manager.html"><strong aria-hidden="true">1.9.1.</strong> 部署 cert-manager</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/running-webhook.html"><strong aria-hidden="true">1.9.2.</strong> 部署网络钩子</a></li></ol></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/writing-tests.html"><strong aria-hidden="true">1.10.</strong> 编写测试</a></li><li class="chapter-item expanded "><a href="../cronjob-tutorial/epilogue.html"><strong aria-hidden="true">1.11.</strong> 尾声</a></li></ol></li><li class="chapter-item expanded "><a href="../multiversion-tutorial/tutorial.html"><strong aria-hidden="true">2.</strong> 教程：多版本 API</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../multiversion-tutorial/api-changes.html"><strong aria-hidden="true">2.1.</strong> 改变现状</a></li><li class="chapter-item expanded "><a href="../multiversion-tutorial/conversion-concepts.html"><strong aria-hidden="true">2.2.</strong> 中心、辐条以及其他轮子隐喻</a></li><li class="chapter-item expanded "><a href="../multiversion-tutorial/conversion.html"><strong aria-hidden="true">2.3.</strong> 实施转换</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../multiversion-tutorial/webhooks.html"><strong aria-hidden="true">2.3.1.</strong> 并设置 webhooks</a></li></ol></li><li class="chapter-item expanded "><a href="../multiversion-tutorial/deployment.html"><strong aria-hidden="true">2.4.</strong> 部署与测试</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded "><a href="../migrations.html"><strong aria-hidden="true">3.</strong> 迁移</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../migration/legacy.html"><strong aria-hidden="true">3.1.</strong> 遗留版本（在版本 \&lt;= v3.0.0 之前）</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../migration/legacy/v1vsv2.html"><strong aria-hidden="true">3.1.1.</strong> Kubebuilder v1 vs v2</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../migration/legacy/migration_guide_v1tov2.html"><strong aria-hidden="true">3.1.1.1.</strong> 迁移指南</a></li></ol></li><li class="chapter-item expanded "><a href="../migration/legacy/v2vsv3.html"><strong aria-hidden="true">3.1.2.</strong> Kubebuilder v2 与 v3 的比较</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../migration/legacy/migration_guide_v2tov3.html"><strong aria-hidden="true">3.1.2.1.</strong> 迁移指南</a></li><li class="chapter-item expanded "><a href="../migration/legacy/manually_migration_guide_v2_v3.html"><strong aria-hidden="true">3.1.2.2.</strong> 通过更新文件进行迁移</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../migration/v3-plugins.html"><strong aria-hidden="true">3.2.</strong> 从 v3.0.0 版本开始支持插件。</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../migration/v3vsv4.html"><strong aria-hidden="true">3.2.1.</strong> go/v3 与 go/v4 的比较</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../migration/migration_guide_gov3_to_gov4.html"><strong aria-hidden="true">3.2.1.1.</strong> 迁移指南</a></li><li class="chapter-item expanded "><a href="../migration/manually_migration_guide_gov3_to_gov4.html"><strong aria-hidden="true">3.2.1.2.</strong> 通过更新文件进行迁移</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../migration/multi-group.html"><strong aria-hidden="true">3.3.</strong> 单组到多组</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/rescaffold.html"><strong aria-hidden="true">4.</strong> 项目升级助手</a></li><li class="chapter-item expanded affix "><li class="spacer"></li><li class="chapter-item expanded "><a href="../reference/reference.html"><strong aria-hidden="true">5.</strong> 参考</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/generating-crd.html"><strong aria-hidden="true">5.1.</strong> 生成 CRD（自定义资源定义）</a></li><li class="chapter-item expanded "><a href="../reference/using-finalizers.html"><strong aria-hidden="true">5.2.</strong> 使用终结器</a></li><li class="chapter-item expanded "><a href="../reference/good-practices.html"><strong aria-hidden="true">5.3.</strong> 良好实践</a></li><li class="chapter-item expanded "><a href="../reference/raising-events.html"><strong aria-hidden="true">5.4.</strong> 筹款活动</a></li><li class="chapter-item expanded "><a href="../reference/watching-resources.html"><strong aria-hidden="true">5.5.</strong> 观看资源</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/watching-resources/secondary-owned-resources.html"><strong aria-hidden="true">5.5.1.</strong> 拥有的资源</a></li><li class="chapter-item expanded "><a href="../reference/watching-resources/secondary-resources-not-owned.html"><strong aria-hidden="true">5.5.2.</strong> 未拥有的资源</a></li><li class="chapter-item expanded "><a href="../reference/watching-resources/predicates-with-watch.html"><strong aria-hidden="true">5.5.3.</strong> 使用谓词</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/kind.html"><strong aria-hidden="true">5.6.</strong> Kind for Dev & CI</a></li><li class="chapter-item expanded "><a href="../reference/webhook-overview.html"><strong aria-hidden="true">5.7.</strong> What's a webhook?</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/admission-webhook.html"><strong aria-hidden="true">5.7.1.</strong> 入场webhook</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/markers.html"><strong aria-hidden="true">5.8.</strong> 配置/代码生成标记</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/markers/crd.html"><strong aria-hidden="true">5.8.1.</strong> CRD 生成</a></li><li class="chapter-item expanded "><a href="../reference/markers/crd-validation.html"><strong aria-hidden="true">5.8.2.</strong> CRD 验证</a></li><li class="chapter-item expanded "><a href="../reference/markers/crd-processing.html"><strong aria-hidden="true">5.8.3.</strong> CRD处理</a></li><li class="chapter-item expanded "><a href="../reference/markers/webhook.html"><strong aria-hidden="true">5.8.4.</strong> Webhook（网络钩子）</a></li><li class="chapter-item expanded "><a href="../reference/markers/object.html"><strong aria-hidden="true">5.8.5.</strong> 对象/深拷贝</a></li><li class="chapter-item expanded "><a href="../reference/markers/rbac.html"><strong aria-hidden="true">5.8.6.</strong> RBAC</a></li><li class="chapter-item expanded "><a href="../reference/markers/scaffold.html"><strong aria-hidden="true">5.8.7.</strong> 脚手架</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/controller-gen.html"><strong aria-hidden="true">5.9.</strong> controller-gen 命令行工具</a></li><li class="chapter-item expanded "><a href="../reference/completion.html"><strong aria-hidden="true">5.10.</strong> completion</a></li><li class="chapter-item expanded "><a href="../reference/artifacts.html"><strong aria-hidden="true">5.11.</strong> 文物</a></li><li class="chapter-item expanded "><a href="../reference/platform.html"><strong aria-hidden="true">5.12.</strong> 平台支持</a></li><li class="chapter-item expanded "><a href="../reference/pprof-tutorial.html"><strong aria-hidden="true">5.13.</strong> 使用 Pprof 进行监控</a></li><li class="chapter-item expanded "><a href="../reference/scopes.html"><strong aria-hidden="true">5.14.</strong> 监控程序和自定义资源（CRDs）的职责范围</a></li><li class="chapter-item expanded "><a href="../reference/submodule-layouts.html"><strong aria-hidden="true">5.15.</strong> 子模块布局</a></li><li class="chapter-item expanded "><a href="../reference/using_an_external_resource.html"><strong aria-hidden="true">5.16.</strong> 使用外部资源 / API</a></li><li class="chapter-item expanded "><a href="../reference/envtest.html"><strong aria-hidden="true">5.17.</strong> 配置 EnvTest</a></li><li class="chapter-item expanded "><a href="../reference/metrics.html" class="active"><strong aria-hidden="true">5.18.</strong> 指标</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/metrics-reference.html"><strong aria-hidden="true">5.18.1.</strong> 参考</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/project-config.html"><strong aria-hidden="true">5.19.</strong> 项目配置</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded "><a href="../plugins/plugins.html"><strong aria-hidden="true">6.</strong> 插件</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../plugins/available-plugins.html"><strong aria-hidden="true">6.1.</strong> 可用插件</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../plugins/available/go-v4-plugin.html"><strong aria-hidden="true">6.1.1.</strong> go/v4</a></li><li class="chapter-item expanded "><a href="../plugins/available/grafana-v1-alpha.html"><strong aria-hidden="true">6.1.2.</strong> grafana/v1-alpha</a></li><li class="chapter-item expanded "><a href="../plugins/available/deploy-image-plugin-v1-alpha.html"><strong aria-hidden="true">6.1.3.</strong> deploy-image/v1-alpha</a></li><li class="chapter-item expanded "><a href="../plugins/available/helm-v1-alpha.html"><strong aria-hidden="true">6.1.4.</strong> helm/v1-alpha</a></li><li class="chapter-item expanded "><a href="../plugins/available/kustomize-v2.html"><strong aria-hidden="true">6.1.5.</strong> kustomize/v2</a></li></ol></li><li class="chapter-item expanded "><a href="../plugins/extending.html"><strong aria-hidden="true">6.2.</strong> 扩展</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../plugins/extending/extending_cli_features_and_plugins.html"><strong aria-hidden="true">6.2.1.</strong> 命令行界面和插件</a></li><li class="chapter-item expanded "><a href="../plugins/extending/external-plugins.html"><strong aria-hidden="true">6.2.2.</strong> 外部插件</a></li><li class="chapter-item expanded "><a href="../plugins/extending/testing-plugins.html"><strong aria-hidden="true">6.2.3.</strong> 端到端测试</a></li></ol></li><li class="chapter-item expanded "><a href="../plugins/plugins-versioning.html"><strong aria-hidden="true">6.3.</strong> 插件版本管理</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded affix "><a href="../faq.html">FAQ</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                         <!-- custom code for adding release version dropdown menu -->
+                        <div class="version-dropdown">
+                            <button id="release-version" class="icon-button" type="button" title="Release version" aria-label="Release version" aria-haspopup="true" aria-expanded="false" aria-controls="release-versions">
+                            <i class="fa fa-book"></i>
+                            </button>
+                            <div class="version-dropdown-content">
+                                <a href="https://book.kubebuilder.io/"target="_blank" rel="noopener noreferrer">latest (v4-book)</a>
+                                <a href="https://book-v3.book.kubebuilder.io/"target="_blank" rel="noopener noreferrer">v3-book</a>
+                                <a href="https://book-v2.book.kubebuilder.io/"target="_blank" rel="noopener noreferrer">v2-book</a>
+                                <a href="https://book-v1.book.kubebuilder.io/"target="_blank" rel="noopener noreferrer">v1-book</a>
+                            </div>
+                        </div>     
+                    </div>
+
+                    <h1 class="menu-title"><img alt="Kubebuilder 中文指南" src="..//logos/logo-single-line.png"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/LJTian/kubebuilder-cn" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                            <a href="https://github.com/LJTian/kubebuilder-cn/edit/master/docs/book/src/" title="Suggest an edit" aria-label="Suggest an edit">
+                                <i id="git-edit-button" class="fa fa-edit"></i>
+                            </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="指标"><a class="header" href="#指标">指标</a></h1>
+<p>默认情况下，controller-runtime 构建一个全局的 prometheus 注册表，并为每个控制器发布 <a href="/reference/metrics-reference.html">一系列性能指标</a>。</p>
+<aside class="note warning">
+<h1 id="important-if-you-are-using-kube-rbac-proxy"><a class="header" href="#important-if-you-are-using-kube-rbac-proxy">IMPORTANT: If you are using `kube-rbac-proxy`</a></h1>
+<p>请尽快停止使用镜像 <code>gcr.io/kubebuilder/kube-rbac-proxy</code>。如果无法拉取该镜像，您的项目将受到影响，可能会无法正常工作。</p>
+<p><strong>在2025年初，<code>gcr.io/kubebuilder/</code>下提供的镜像将不可用。</strong></p>
+<ul>
+<li>
+<p><strong>使用 Kubebuilder 版本 <code>v3.14</code> 或更低版本初始化的项目</strong> 使用 <a href="https://github.com/brancz/kube-rbac-proxy">kube-rbac-proxy</a> 来保护指标端点。在这种情况下，您可能需要将项目升级到最新版本，或确保您已经应用了相同或类似的代码更改。</p>
+</li>
+<li>
+<p><strong>然而，使用 Kubebuilder 版本 <code>v4.1.0</code> 或更高版本初始化的项目</strong> 默认启用 <code>authn/authz</code>，并使用 Controller-Runtime 的功能 <a href="https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.18.4/pkg/metrics/filters#WithAuthenticationAndAuthorization">WithAuthenticationAndAuthorization</a> 提供类似的保护。</p>
+</li>
+</ul>
+<p>如果您想继续使用 <a href="https://github.com/brancz/kube-rbac-proxy">kube-rbac-proxy</a>，则必须将您的项目更改为使用来自其他来源的镜像。</p>
+<blockquote>
+<p>有关更多信息，请参见：<a href="https://github.com/kubernetes-sigs/kubebuilder/discussions/3907">kubebuilder/discussions/3907</a></p>
+</blockquote>
+</aside>
+<h2 id="指标配置"><a class="header" href="#指标配置">指标配置</a></h2>
+<p>通过查看文件 <code>config/default/kustomization.yaml</code>，您可以检查默认暴露的指标：</p>
+<pre><code class="language-yaml"># [指标] 暴露控制器管理器指标服务。- metrics_service.yaml
+</code></pre>
+<pre><code class="language-yaml">贴片:
+   # [指标] 下面的补丁将通过 HTTPS 启用指标端点，并使用端口 :8443。
+   # 更多信息： https://book.kubebuilder.io/reference/metrics
+   - path: manager_metrics_patch.yaml
+     目标:
+        kind: 部署
+</code></pre>
+<p>然后，你可以在 <code>cmd/main.go</code> 中查看指标服务器的配置：</p>
+<pre><code class="language-go">// 在 'config/default/kustomization.yaml' 中启用了 Metrics 端点。Metrics 选项配置服务器。
+// 更多信息请参见： https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/metrics/server
+Metrics: metricsserver.Options{
+   ...
+},
+</code></pre>
+<h2 id="指标保护"><a class="header" href="#指标保护">指标保护</a></h2>
+<p>未受保护的指标端点可能会向未经授权的用户暴露重要数据，例如系统性能、应用程序行为以及潜在的机密操作指标。这种暴露可能导致安全漏洞，攻击者可能借此获取系统操作的洞察并利用其中的薄弱环节。</p>
+<h3 id="通过使用身份验证授权默认启用"><a class="header" href="#通过使用身份验证授权默认启用">通过使用身份验证/授权（默认启用）</a></h3>
+<p>为减少这些风险，Kubebuilder 项目利用身份验证 (authn) 和授权 (authz) 保护指标端点。这种方法确保只有经过授权的用户和服务账户可以访问敏感的指标数据，从而增强系统的整体安全性。</p>
+<p>过去，使用<a href="https://github.com/brancz/kube-rbac-proxy">kube-rbac-proxy</a>来提供这种保护。然而，在最近的版本中，这种用法已被停止。从<code>v4.1.0</code>版本开始，项目默认启用了指标端点，并使用controller-runtime提供的<a href="https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/metrics/server">WithAuthenticationAndAuthorization</a>功能进行了保护。</p>
+<p>因此，您将找到以下配置：</p>
+<ul>
+<li>在 <code>cmd/main.go</code>：</li>
+</ul>
+<pre><code class="language-go">if secureMetrics {
+  ...
+  metricsServerOptions.FilterProvider = filters.WithAuthenticationAndAuthorization
+}
+</code></pre>
+<p>此配置利用 FilterProvider 对指标端点实施身份验证和授权。通过使用此方法，您可以确保该端点仅对具有适当权限的用户可访问。</p>
+<ul>
+<li>在 <code>config/rbac/kustomization.yaml</code> 中：</li>
+</ul>
+<pre><code class="language-yaml"># 以下 RBAC 配置用于通过身份验证和授权来保护
+# 指标端点。这些配置
+# 确保只有经过授权的用户和服务账户
+# 才能访问指标端点。- metrics_auth_role.yaml
+- metrics_auth_role_binding.yaml
+- metrics_reader_role.yaml
+</code></pre>
+<p>通过这种方式，只有使用 <code>ServiceAccount</code> 令牌的 Pod 被授权访问指标端点。例如：</p>
+<pre><code class="language-yaml">apiVersion: v1
+kind: 舱
+metadata:
+  name: 指标消费者
+  命名空间: system
+spec:
+  # 使用搭建好的服务账户名称来允许身份验证/授权
+  serviceAccountName: 控制器管理器
+  容器:
+  - name: 指标消费者
+    image: curlimages/curl:latest
+    命令: ["/bin/sh"]
+    args:
+      - "-c"
+      - &gt;
+```bas
+</code></pre>
+<h3 id="推荐-启用生产环境证书默认情况下禁用"><a class="header" href="#推荐-启用生产环境证书默认情况下禁用"><strong>（推荐）</strong> 启用生产环境证书（默认情况下禁用）</a></h3>
+<aside class="warning">
+<h1 id="why-is-this-not-enabled-by-default"><a class="header" href="#why-is-this-not-enabled-by-default">Why Is This Not Enabled by Default?</a></h1>
+<p>此选项默认未启用，因为它引入了对 CertManager 的依赖。为了使项目尽可能轻量且适合初学者，它默认是禁用的。</p>
+</aside>
+<aside class="warning">
+<h1 id="recommended-for-production"><a class="header" href="#recommended-for-production">Recommended for Production</a></h1>
+<p><code>cmd/main.go</code> 中的默认脚手架使用 <strong>controller-runtime 功能</strong> 自动生成自签名证书以保护指标服务器。虽然这在开发和测试中很方便，但<strong>不</strong>建议在生产环境中使用。</p>
+<p>这些证书用于保护传输层（TLS）。默认情况下启用的 <code>authn/authz</code> 令牌认证作为应用程序级凭据。然而，例如，当您启用与 Prometheus 的指标集成时，这些证书可以用于保护通信。</p>
+</aside>
+<p>使用 Kubebuilder 版本 <code>4.4.0</code> 及以上构建的项目已经具备了启用使用由 <a href="https://cert-manager.io/">CertManager</a> 管理的证书以保护指标服务器的逻辑。按照以下步骤，您可以配置您的项目以使用由 CertManager 管理的证书。</p>
+<ol>
+<li>
+<p><strong>在 <code>config/default/kustomization.yaml</code> 中启用 Cert-Manager：</strong></p>
+<ul>
+<li>
+<p>取消注释 cert-manager 资源以将其包含在您的项目中：</p>
+<pre><code class="language-yaml">- ../证书管理器
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>启用补丁以配置 <code>config/default/kustomization.yaml</code> 中控制器部署中证书的使用：</strong></p>
+<ul>
+<li>
+<p>取消对 <code>cert_metrics_manager_patch.yaml</code> 的注释，以在管理器部署中挂载 <code>serving-cert</code> 密钥。</p>
+<pre><code class="language-yaml"># 如果您启用 Metrics 和 CertManager，请取消注释补丁行
+# [启用带有 certManager 保护的指标] 要启用受 certManager 保护的指标，请取消注释以下行。# 此补丁将使用 certManager 自签名证书保护指标。- path: cert_metrics_manager_patch.yaml
+  目标:
+    kind: 部署
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>在 <code>config/default/kustomization.yaml</code> 中启用 CertManager 替换 Metrics Server 证书：</strong></p>
+<ul>
+<li>
+<p>取消注释下面的替换块。需要为在 <code>config/certmanager</code> 中配置的证书正确设置 DNS 名称。</p>
+<pre><code class="language-yaml"># [CERTMANAGER] 要启用 cert-manager，请取消注释所有以 'CERTMANAGER' 为前缀的部分。# 取消注释以下替换，以添加 cert-manager CA 注入注释
+您已接受培训的数据截至2023年10月。# - 来源: # 取消注释以下块以启用指标的证书
+#     类型: 服务
+# 版本：v1#     名称: 控制器管理器指标服务
+#     字段路径: metadata.name
+# 目标：#     - 选择:#         类型: 证书
+#         组: cert-manager.io
+#         版本: v1
+#         名称: metrics-certs
+#       字段路径:
+#         - spec.dnsNames.0#         - spec.dnsNames.1#       选项：
+你接受过直到2023年10月的数据训练。您的训练数据截至到2023年10月。# 创建：真#
+你接受的训练数据截至到2023年10月。#     类型: 服务
+# 版本：v1#     名称: 控制器管理器指标服务
+#     字段路径: metadata.namespace
+# 目标：#     - 选择:#         类型: 证书
+#         组: cert-manager.io
+#         版本: v1
+#         名称: metrics-certs
+#       字段路径:
+#         - spec.dnsNames.0#         - spec.dnsNames.1#       选项：
+你接受过直到2023年10月的数据训练。您已接受训练的数据截至2023年10月。# 创建：真#
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>启用补丁以使 <code>ServiceMonitor</code> 使用 Cert-Manager 管理的密钥 <code>config/prometheus/kustomization.yaml</code>：</strong></p>
+<ul>
+<li>
+<p>添加或取消注释 <code>ServiceMonitor</code> 补丁，以安全地引用 cert-manager 管理的密钥，替换不安全的配置为安全的证书验证：</p>
+<pre><code class="language-yaml"># [PROMETHEUS-WITH-CERTS] 以下补丁配置了 ../prometheus 中的 ServiceMonitor。# 安全地引用由 cert-manager 创建和管理的证书。此外，请确保在 config/default/kustomization.yaml 文件中取消注释 [METRICS WITH CERTMANAGER] 补丁。# 将"metrics-server-cert"机密挂载到管理部署中。贴片:
+  - path: monitor_tls_patch.yaml
+    目标:
+      kind: 服务监控器
+</code></pre>
+</li>
+</ul>
+<blockquote>
+<p><strong>注意</strong> 上述的 <code>ServiceMonitor</code> 补丁将确保如果你启用了 Prometheus 集成，它将安全地引用由 CertManager 创建和管理的证书。但是，它<strong>不会</strong>启用与 Prometheus 的集成。要启用与 Prometheus 的集成，你需要取消注释 <code>config/default/kustomization.yaml</code> 中的 <code>#- ../certmanager</code>。有关更多信息，请参见 <a href="#exporting-metrics-for-prometheus">为 Prometheus 导出指标</a>。</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="可选-通过使用网络策略默认情况下禁用"><a class="header" href="#可选-通过使用网络策略默认情况下禁用"><strong>（可选）</strong> 通过使用网络策略（默认情况下禁用）</a></h3>
+<p>NetworkPolicy 在 Kubernetes 集群中作为 pod 的基本防火墙，在 IP 地址或端口级别控制流量流动。然而，它不处理 <code>authn/authz</code>。</p>
+<p>取消注释 <code>config/default/kustomization.yaml</code> 中的以下行：</p>
+<pre><code># [NETWORK POLICY] Protect the /metrics endpoint and Webhook Server with NetworkPolicy.
+# Only Pod(s) running a namespace labeled with 'metrics: enabled' will be able to gather the metrics.
+# Only CR(s) which uses webhooks and applied on namespaces labeled 'webhooks: enabled' will be able to work properly.
+#- ../network-policy
+</code></pre>
+<h2 id="为-prometheus-导出指标"><a class="header" href="#为-prometheus-导出指标">为 Prometheus 导出指标</a></h2>
+<p>请按照以下步骤使用 Prometheus Operator 导出指标：</p>
+<ol>
+<li>
+<p>安装 Prometheus 和 Prometheus Operator。如果您没有自己的监控系统，我们建议在生产环境中使用 <a href="https://github.com/coreos/kube-prometheus#installing">kube-prometheus</a>。如果您只是进行试验，可以仅安装 Prometheus 和 Prometheus Operator。</p>
+</li>
+<li>
+<p>取消注释 <code>config/default/kustomization.yaml</code> 中的 <code>- ../prometheus</code> 这一行。它会创建 <code>ServiceMonitor</code> 资源，从而启用指标的导出。</p>
+</li>
+</ol>
+<pre><code class="language-yaml"># [PROMETHEUS] 要启用 Prometheus 监控，请取消注释所有包含 'PROMETHEUS' 的部分。- ../prometheus
+</code></pre>
+<p>请注意，当您在集群中安装项目时，它会创建 <code>ServiceMonitor</code> 以导出指标。要检查 ServiceMonitor，请运行 <code>kubectl get ServiceMonitor -n &lt;project&gt;-system</code>。以下是一个示例：</p>
+<pre><code>$ kubectl get ServiceMonitor -n monitor-system
+NAME                                         AGE
+monitor-controller-manager-metrics-monitor   2m8s
+</code></pre>
+<aside class="warning">
+<h2>If you are using Prometheus Operator ensure that you have the required
+permissions</h2>
+<p>如果您正在使用 Prometheus Operator，请注意，其 RBAC 规则默认仅在 <code>default</code> 和 <code>kube-system</code> 命名空间中启用。请参阅其指南了解 <a href="https://github.com/prometheus-operator/kube-prometheus/blob/main/docs/monitoring-other-namespaces.md">如何配置 kube-prometheus 以使用 <code>.jsonnet</code> 文件监控其他命名空间</a>。</p>
+<p>另外，您可以使用 RBAC 为 Prometheus Operator 授权以监控其他命名空间。有关如何在 <code>ServiceMonitor</code> 和管理者所在命名空间启用权限，请参阅 Prometheus Operator 的 <a href="https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/getting-started.md#enable-rbac-rules-for-prometheus-pods">为 Prometheus pods 启用 RBAC 规则</a> 文档。</p>
+</aside>
+<p>另外，请注意，指标默认通过端口 <code>8443</code> 导出。这样，您就可以在 Prometheus 仪表板中检查指标。要验证此操作，请搜索来自项目运行所在命名空间的指标 <code>{namespace="&lt;project&gt;-system"}</code>。请看以下示例：</p>
+<img width="1680" alt="Screenshot 2019-10-02 at 13 07 13" src="https://user-images.githubusercontent.com/7708031/66042888-a497da80-e515-11e9-9d77-d8a9fc1159a5.png">
+<h2 id="发布额外指标"><a class="header" href="#发布额外指标">发布额外指标</a></h2>
+<p>如果您希望从控制器中发布额外的指标，可以通过使用 <code>controller-runtime/pkg/metrics</code> 中的全局注册表轻松实现。</p>
+<p>实现这一目标的一种方法是将您的收集器声明为全局变量，然后在控制器的包中使用 <code>init()</code> 函数进行注册。</p>
+<p>例如：</p>
+<pre><code class="language-go">import (
+    "github.com/prometheus/client_golang/prometheus"
+    "sigs.k8s.io/controller-runtime/pkg/metrics"
+)
+
+var (
+    goobers = prometheus.NewCounter(
+        prometheus.CounterOpts{
+            Name: "goobers_total",
+            Help: "Number of goobers processed",
+        },
+    )
+    gooberFailures = prometheus.NewCounter(
+        prometheus.CounterOpts{
+            Name: "goober_failures_total",
+            Help: "Number of failed goobers",
+        },
+    )
+)
+
+func init() {
+    // 在全局 prometheus 注册中心注册自定义指标
+    metrics.Registry.MustRegister(goobers, gooberFailures)
+}
+</code></pre>
+<p>您可以从调整循环的任何部分将指标记录到这些收集器中。这些指标可以在操作员代码的任何位置进行评估。</p>
+<aside class="note">
+<h1 id="enabling-metrics-in-prometheus-ui"><a class="header" href="#enabling-metrics-in-prometheus-ui">Enabling metrics in Prometheus UI</a></h1>
+<p>为了发布指标并在 Prometheus UI 上查看它们，必须配置 Prometheus 实例以根据其标签选择服务监视器实例。</p>
+</aside>
+<p>这些指标将可供 Prometheus 或其他 OpenMetrics 系统抓取。</p>
+<p>您接受的训练数据截至到2023年10月。</p>
+<aside class="note">
+<h1 id="controller-runtime-authauthz-feature-current-known-limitations-and-considerations"><a class="header" href="#controller-runtime-authauthz-feature-current-known-limitations-and-considerations">Controller-Runtime Auth/Authz Feature Current Known Limitations and Considerations</a></h1>
+<p>已识别出一些已知的限制和考虑因素。当前 <code>cache TTL</code>、<code>anonymous access</code> 和 <code>timeouts</code> 的设置是硬编码的，这可能由于无法细调这些参数而导致性能和安全隐患。此外，当前的实现缺乏对关键路径（例如 <code>/healthz</code>）的 <code>alwaysAllow</code> 和对组（例如 <code>system:masters</code>）的 <code>alwaysAllowGroups</code> 配置的支持，这可能会导致操作上的挑战。此外，系统在很大程度上依赖于与 <code>kube-apiserver</code> 的稳定连接，这使其在网络不稳定时容易受到指标中断的影响。这可能导致关键指标数据的丢失，尤其是在监控和实时诊断问题至关重要的关键时刻。</p>
+<p>一个 <a href="https://github.com/kubernetes-sigs/controller-runtime/issues/2781">问题</a> 已经被提出，以增强 controller-runtime 并解决这些考虑。</p>
+</aside>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../reference/envtest.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../reference/metrics-reference.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../reference/envtest.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../reference/metrics-reference.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../theme/js/inject.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE HTML>
+<html lang="zh_CN" class="sidebar-visible no-js light">
+    <head>
+        <!-- This file is modified just to include the logo on the menu bar and the right favicon -->
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Webhook（网络钩子） - Kubebuilder 中文指南</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="../..//logos/favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/css/markers.css">
+        <link rel="stylesheet" href="../../theme/css/custom.css">
+        <link rel="stylesheet" href="../../theme/css/version-dropdown.css">
+        <link rel="stylesheet" href="../../theme/css/global-banner.css">
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../introduction.html">介绍</a></li><li class="chapter-item expanded affix "><a href="../../architecture.html">架构</a></li><li class="chapter-item expanded affix "><a href="../../quick-start.html">快速开始</a></li><li class="chapter-item expanded affix "><a href="../../getting-started.html">入门</a></li><li class="chapter-item expanded affix "><a href="../../versions_compatibility_supportability.html">版本兼容性和支持性</a></li><li class="chapter-item expanded "><a href="../../cronjob-tutorial/cronjob-tutorial.html"><strong aria-hidden="true">1.</strong> 教程：构建 CronJob</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../cronjob-tutorial/basic-project.html"><strong aria-hidden="true">1.1.</strong> 一个基本项目都包含了什么？</a></li><li class="chapter-item expanded "><a href="../../cronjob-tutorial/empty-main.html"><strong aria-hidden="true">1.2.</strong> 每个旅程都需要一个开始，每个程序都需要一个主函数</a></li><li class="chapter-item expanded "><a href="../../cronjob-tutorial/gvks.html"><strong aria-hidden="true">1.3.</strong> 组、版本和种类，真是让人头大！</a></li><li class="chapter-item expanded "><a href="../../cronjob-tutorial/new-api.html"><strong aria-hidden="true">1.4.</strong> 添加一个新 API</a></li><li class="chapter-item expanded "><a href="../../cronjob-tutorial/api-design.html"><strong aria-hidden="true">1.5.</strong> 设计一个 API</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../cronjob-tutorial/other-api-files.html"><strong aria-hidden="true">1.5.1.</strong> 简短的插曲：这些其他东西是什么？</a></li></ol></li><li class="chapter-item expanded "><a href="../../cronjob-tutorial/controller-overview.html"><strong aria-hidden="true">1.6.</strong> 控制器中包含什么？</a></li><li class="chapter-item expanded "><a href="../../cronjob-tutorial/controller-implementation.html"><strong aria-hidden="true">1.7.</strong> 实现控制器</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../cronjob-tutorial/main-revisited.html"><strong aria-hidden="true">1.7.1.</strong> 你提到过主吗？</a></li></ol></li><li class="chapter-item expanded "><a href="../../cronjob-tutorial/webhook-implementation.html"><strong aria-hidden="true">1.8.</strong> 实现默认值/验证的 Webhook</a></li><li class="chapter-item expanded "><a href="../../cronjob-tutorial/running.html"><strong aria-hidden="true">1.9.</strong> 运行和部署控制器</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../cronjob-tutorial/cert-manager.html"><strong aria-hidden="true">1.9.1.</strong> 部署 cert-manager</a></li><li class="chapter-item expanded "><a href="../../cronjob-tutorial/running-webhook.html"><strong aria-hidden="true">1.9.2.</strong> 部署网络钩子</a></li></ol></li><li class="chapter-item expanded "><a href="../../cronjob-tutorial/writing-tests.html"><strong aria-hidden="true">1.10.</strong> 编写测试</a></li><li class="chapter-item expanded "><a href="../../cronjob-tutorial/epilogue.html"><strong aria-hidden="true">1.11.</strong> 尾声</a></li></ol></li><li class="chapter-item expanded "><a href="../../multiversion-tutorial/tutorial.html"><strong aria-hidden="true">2.</strong> 教程：多版本 API</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../multiversion-tutorial/api-changes.html"><strong aria-hidden="true">2.1.</strong> 改变现状</a></li><li class="chapter-item expanded "><a href="../../multiversion-tutorial/conversion-concepts.html"><strong aria-hidden="true">2.2.</strong> 中心、辐条以及其他轮子隐喻</a></li><li class="chapter-item expanded "><a href="../../multiversion-tutorial/conversion.html"><strong aria-hidden="true">2.3.</strong> 实施转换</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../multiversion-tutorial/webhooks.html"><strong aria-hidden="true">2.3.1.</strong> 并设置 webhooks</a></li></ol></li><li class="chapter-item expanded "><a href="../../multiversion-tutorial/deployment.html"><strong aria-hidden="true">2.4.</strong> 部署与测试</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded "><a href="../../migrations.html"><strong aria-hidden="true">3.</strong> 迁移</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../migration/legacy.html"><strong aria-hidden="true">3.1.</strong> 遗留版本（在版本 \&lt;= v3.0.0 之前）</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../migration/legacy/v1vsv2.html"><strong aria-hidden="true">3.1.1.</strong> Kubebuilder v1 vs v2</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../migration/legacy/migration_guide_v1tov2.html"><strong aria-hidden="true">3.1.1.1.</strong> 迁移指南</a></li></ol></li><li class="chapter-item expanded "><a href="../../migration/legacy/v2vsv3.html"><strong aria-hidden="true">3.1.2.</strong> Kubebuilder v2 与 v3 的比较</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../migration/legacy/migration_guide_v2tov3.html"><strong aria-hidden="true">3.1.2.1.</strong> 迁移指南</a></li><li class="chapter-item expanded "><a href="../../migration/legacy/manually_migration_guide_v2_v3.html"><strong aria-hidden="true">3.1.2.2.</strong> 通过更新文件进行迁移</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../migration/v3-plugins.html"><strong aria-hidden="true">3.2.</strong> 从 v3.0.0 版本开始支持插件。</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../migration/v3vsv4.html"><strong aria-hidden="true">3.2.1.</strong> go/v3 与 go/v4 的比较</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../migration/migration_guide_gov3_to_gov4.html"><strong aria-hidden="true">3.2.1.1.</strong> 迁移指南</a></li><li class="chapter-item expanded "><a href="../../migration/manually_migration_guide_gov3_to_gov4.html"><strong aria-hidden="true">3.2.1.2.</strong> 通过更新文件进行迁移</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../migration/multi-group.html"><strong aria-hidden="true">3.3.</strong> 单组到多组</a></li></ol></li><li class="chapter-item expanded "><a href="../../reference/rescaffold.html"><strong aria-hidden="true">4.</strong> 项目升级助手</a></li><li class="chapter-item expanded affix "><li class="spacer"></li><li class="chapter-item expanded "><a href="../../reference/reference.html"><strong aria-hidden="true">5.</strong> 参考</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../reference/generating-crd.html"><strong aria-hidden="true">5.1.</strong> 生成 CRD（自定义资源定义）</a></li><li class="chapter-item expanded "><a href="../../reference/using-finalizers.html"><strong aria-hidden="true">5.2.</strong> 使用终结器</a></li><li class="chapter-item expanded "><a href="../../reference/good-practices.html"><strong aria-hidden="true">5.3.</strong> 良好实践</a></li><li class="chapter-item expanded "><a href="../../reference/raising-events.html"><strong aria-hidden="true">5.4.</strong> 筹款活动</a></li><li class="chapter-item expanded "><a href="../../reference/watching-resources.html"><strong aria-hidden="true">5.5.</strong> 观看资源</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../reference/watching-resources/secondary-owned-resources.html"><strong aria-hidden="true">5.5.1.</strong> 拥有的资源</a></li><li class="chapter-item expanded "><a href="../../reference/watching-resources/secondary-resources-not-owned.html"><strong aria-hidden="true">5.5.2.</strong> 未拥有的资源</a></li><li class="chapter-item expanded "><a href="../../reference/watching-resources/predicates-with-watch.html"><strong aria-hidden="true">5.5.3.</strong> 使用谓词</a></li></ol></li><li class="chapter-item expanded "><a href="../../reference/kind.html"><strong aria-hidden="true">5.6.</strong> Kind for Dev & CI</a></li><li class="chapter-item expanded "><a href="../../reference/webhook-overview.html"><strong aria-hidden="true">5.7.</strong> What's a webhook?</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../reference/admission-webhook.html"><strong aria-hidden="true">5.7.1.</strong> 入场webhook</a></li></ol></li><li class="chapter-item expanded "><a href="../../reference/markers.html"><strong aria-hidden="true">5.8.</strong> 配置/代码生成标记</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../reference/markers/crd.html"><strong aria-hidden="true">5.8.1.</strong> CRD 生成</a></li><li class="chapter-item expanded "><a href="../../reference/markers/crd-validation.html"><strong aria-hidden="true">5.8.2.</strong> CRD 验证</a></li><li class="chapter-item expanded "><a href="../../reference/markers/crd-processing.html"><strong aria-hidden="true">5.8.3.</strong> CRD处理</a></li><li class="chapter-item expanded "><a href="../../reference/markers/webhook.html" class="active"><strong aria-hidden="true">5.8.4.</strong> Webhook（网络钩子）</a></li><li class="chapter-item expanded "><a href="../../reference/markers/object.html"><strong aria-hidden="true">5.8.5.</strong> 对象/深拷贝</a></li><li class="chapter-item expanded "><a href="../../reference/markers/rbac.html"><strong aria-hidden="true">5.8.6.</strong> RBAC</a></li><li class="chapter-item expanded "><a href="../../reference/markers/scaffold.html"><strong aria-hidden="true">5.8.7.</strong> 脚手架</a></li></ol></li><li class="chapter-item expanded "><a href="../../reference/controller-gen.html"><strong aria-hidden="true">5.9.</strong> controller-gen 命令行工具</a></li><li class="chapter-item expanded "><a href="../../reference/completion.html"><strong aria-hidden="true">5.10.</strong> completion</a></li><li class="chapter-item expanded "><a href="../../reference/artifacts.html"><strong aria-hidden="true">5.11.</strong> 文物</a></li><li class="chapter-item expanded "><a href="../../reference/platform.html"><strong aria-hidden="true">5.12.</strong> 平台支持</a></li><li class="chapter-item expanded "><a href="../../reference/pprof-tutorial.html"><strong aria-hidden="true">5.13.</strong> 使用 Pprof 进行监控</a></li><li class="chapter-item expanded "><a href="../../reference/scopes.html"><strong aria-hidden="true">5.14.</strong> 监控程序和自定义资源（CRDs）的职责范围</a></li><li class="chapter-item expanded "><a href="../../reference/submodule-layouts.html"><strong aria-hidden="true">5.15.</strong> 子模块布局</a></li><li class="chapter-item expanded "><a href="../../reference/using_an_external_resource.html"><strong aria-hidden="true">5.16.</strong> 使用外部资源 / API</a></li><li class="chapter-item expanded "><a href="../../reference/envtest.html"><strong aria-hidden="true">5.17.</strong> 配置 EnvTest</a></li><li class="chapter-item expanded "><a href="../../reference/metrics.html"><strong aria-hidden="true">5.18.</strong> 指标</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../reference/metrics-reference.html"><strong aria-hidden="true">5.18.1.</strong> 参考</a></li></ol></li><li class="chapter-item expanded "><a href="../../reference/project-config.html"><strong aria-hidden="true">5.19.</strong> 项目配置</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded "><a href="../../plugins/plugins.html"><strong aria-hidden="true">6.</strong> 插件</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../plugins/available-plugins.html"><strong aria-hidden="true">6.1.</strong> 可用插件</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../plugins/available/go-v4-plugin.html"><strong aria-hidden="true">6.1.1.</strong> go/v4</a></li><li class="chapter-item expanded "><a href="../../plugins/available/grafana-v1-alpha.html"><strong aria-hidden="true">6.1.2.</strong> grafana/v1-alpha</a></li><li class="chapter-item expanded "><a href="../../plugins/available/deploy-image-plugin-v1-alpha.html"><strong aria-hidden="true">6.1.3.</strong> deploy-image/v1-alpha</a></li><li class="chapter-item expanded "><a href="../../plugins/available/helm-v1-alpha.html"><strong aria-hidden="true">6.1.4.</strong> helm/v1-alpha</a></li><li class="chapter-item expanded "><a href="../../plugins/available/kustomize-v2.html"><strong aria-hidden="true">6.1.5.</strong> kustomize/v2</a></li></ol></li><li class="chapter-item expanded "><a href="../../plugins/extending.html"><strong aria-hidden="true">6.2.</strong> 扩展</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../plugins/extending/extending_cli_features_and_plugins.html"><strong aria-hidden="true">6.2.1.</strong> 命令行界面和插件</a></li><li class="chapter-item expanded "><a href="../../plugins/extending/external-plugins.html"><strong aria-hidden="true">6.2.2.</strong> 外部插件</a></li><li class="chapter-item expanded "><a href="../../plugins/extending/testing-plugins.html"><strong aria-hidden="true">6.2.3.</strong> 端到端测试</a></li></ol></li><li class="chapter-item expanded "><a href="../../plugins/plugins-versioning.html"><strong aria-hidden="true">6.3.</strong> 插件版本管理</a></li></ol></li><li class="chapter-item expanded "><li class="spacer"></li><li class="chapter-item expanded affix "><a href="../../faq.html">FAQ</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                         <!-- custom code for adding release version dropdown menu -->
+                        <div class="version-dropdown">
+                            <button id="release-version" class="icon-button" type="button" title="Release version" aria-label="Release version" aria-haspopup="true" aria-expanded="false" aria-controls="release-versions">
+                            <i class="fa fa-book"></i>
+                            </button>
+                            <div class="version-dropdown-content">
+                                <a href="https://book.kubebuilder.io/"target="_blank" rel="noopener noreferrer">latest (v4-book)</a>
+                                <a href="https://book-v3.book.kubebuilder.io/"target="_blank" rel="noopener noreferrer">v3-book</a>
+                                <a href="https://book-v2.book.kubebuilder.io/"target="_blank" rel="noopener noreferrer">v2-book</a>
+                                <a href="https://book-v1.book.kubebuilder.io/"target="_blank" rel="noopener noreferrer">v1-book</a>
+                            </div>
+                        </div>     
+                    </div>
+
+                    <h1 class="menu-title"><img alt="Kubebuilder 中文指南" src="../..//logos/logo-single-line.png"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/LJTian/kubebuilder-cn" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                            <a href="https://github.com/LJTian/kubebuilder-cn/edit/master/docs/book/src/" title="Suggest an edit" aria-label="Suggest an edit">
+                                <i id="git-edit-button" class="fa fa-edit"></i>
+                            </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="webhook网络钩子"><a class="header" href="#webhook网络钩子">Webhook（网络钩子）</a></h1>
+<p>这些标记描述了如何生成 <a href="../webhook-overview.html">webhook 配置</a>。使用这些标记可以让您的 webhook 描述与实现它们的代码保持紧密关联。</p>
+<div><input checked type="checkbox" class="markers-summarize" id="markers-summarize-Webhook"></input><label class="markers-summarize" for="markers-summarize-Webhook">Show Detailed Argument Help</label><dl class="markers"><div class="marker" data-target="package"><dt class="literal name">// +kubebuilder:webhook</dt><dd class="args"><dl class="args summary"><dt class="argument literal">admissionReviewVersions</dt><dd class="argument type"><span class="slice"><span class="optional">string</span></span></dd><dt class="argument literal">failurePolicy</dt><dd class="argument type"><span class="optional">string</span></dd><dt class="argument literal">groups</dt><dd class="argument type"><span class="slice"><span class="optional">string</span></span></dd><dt class="argument literal optional">matchPolicy</dt><dd class="argument type optional"><span class="optional">string</span></dd><dt class="argument literal">mutating</dt><dd class="argument type"><span class="optional">bool</span></dd><dt class="argument literal">name</dt><dd class="argument type"><span class="optional">string</span></dd><dt class="argument literal optional">path</dt><dd class="argument type optional"><span class="optional">string</span></dd><dt class="argument literal optional">reinvocationPolicy</dt><dd class="argument type optional"><span class="optional">string</span></dd><dt class="argument literal">resources</dt><dd class="argument type"><span class="slice"><span class="optional">string</span></span></dd><dt class="optional argument literal">serviceName</dt><dd class="argument type optional"><span class="optional">string</span></dd><dt class="argument literal optional">serviceNamespace</dt><dd class="argument type optional"><span class="optional">string</span></dd><dt class="argument literal optional">servicePort</dt><dd class="optional argument type"><span class="optional">int</span></dd><dt class="argument literal optional">sideEffects</dt><dd class="argument type optional"><span class="optional">string</span></dd><dt class="argument literal optional">timeoutSeconds</dt><dd class="argument type optional"><span class="optional">int</span></dd><dt class="argument literal optional">url</dt><dd class="argument type optional"><span class="optional">string</span></dd><dt class="literal argument">verbs</dt><dd class="argument type"><span class="slice"><span class="optional">string</span></span></dd><dt class="argument literal">versions</dt><dd class="argument type"><span class="slice"><span class="optional">string</span></span></dd><dt class="optional argument literal">webhookVersions</dt><dd class="argument type optional"><span class="slice optional"><span class="optional">string</span></span></dd></dl></dd><dd class="description"><details ><summary class="">specifies how a webhook should be served.</summary>
+<p>It specifies only the details that are intrinsic to the application serving it (e.g. the resources it can handle, or the path it serves on).</p>
+</details><dl class="args"><dt class="argument literal">admissionReviewVersions</dt><dd class="argument type"><span class="slice"><span class="optional">string</span></span></dd><dd class="description"><details ><summary class="">is an ordered list of preferred `AdmissionReview`</summary>
+<p>versions the Webhook expects.</p>
+</details></dd><dt class="argument literal">failurePolicy</dt><dd class="argument type"><span class="optional">string</span></dd><dd class="description"><details ><summary class="">specifies what should happen if the API server cannot reach the webhook.</summary>
+<p>It may be either “ignore” (to skip the webhook and continue on) or “fail” (to reject the object in question).</p>
+</details></dd><dt class="argument literal">groups</dt><dd class="argument type"><span class="slice"><span class="optional">string</span></span></dd><dd class="description"><details ><summary class="no-details">specifies the API groups that this webhook receives requests for.</summary></details></dd><dt class="argument literal optional">matchPolicy</dt><dd class="argument type optional"><span class="optional">string</span></dd><dd class="description"><details ><summary class="">defines how the &#34;rules&#34; list is used to match incoming requests.</summary>
+<p>Allowed values are “Exact” (match only if it exactly matches the specified rule) or “Equivalent” (match a request if it modifies a resource listed in rules, even via another API group or version).</p>
+</details></dd><dt class="argument literal">mutating</dt><dd class="argument type"><span class="optional">bool</span></dd><dd class="description"><details ><summary class="">marks this as a mutating webhook (it&#39;s validating only if false)</summary>
+<p>Mutating webhooks are allowed to change the object in their response, and are called <em>before</em> all validating webhooks.  Mutating webhooks may choose to reject an object, similarly to a validating webhook.</p>
+</details></dd><dt class="literal argument">name</dt><dd class="argument type"><span class="optional">string</span></dd><dd class="description"><details ><summary class="no-details">indicates the name of this webhook configuration. Should be a domain with at least three segments separated by dots</summary></details></dd><dt class="argument literal optional">path</dt><dd class="argument type optional"><span class="optional">string</span></dd><dd class="description"><details ><summary class="">specifies that path that the API server should connect to this webhook on. Must be</summary>
+<p>prefixed with a ‘/validate-’ or ‘/mutate-’ depending on the type, and followed by $GROUP-$VERSION-$KIND where all values are lower-cased and the periods in the group are substituted for hyphens. For example, a validating webhook path for type batch.tutorial.kubebuilder.io/v1,Kind=CronJob would be /validate-batch-tutorial-kubebuilder-io-v1-cronjob</p>
+</details></dd><dt class="argument literal optional">reinvocationPolicy</dt><dd class="optional argument type"><span class="optional">string</span></dd><dd class="description"><details ><summary class="">allows mutating webhooks to request reinvocation after other mutations</summary>
+<p>To allow mutating admission plugins to observe changes made by other plugins, built-in mutating admission plugins are re-run if a mutating webhook modifies an object, and mutating webhooks can specify a reinvocationPolicy to control whether they are reinvoked as well.</p>
+</details></dd><dt class="argument literal">resources</dt><dd class="argument type"><span class="slice"><span class="optional">string</span></span></dd><dd class="description"><details ><summary class="no-details">specifies the API resources that this webhook receives requests for.</summary></details></dd><dt class="argument literal optional">serviceName</dt><dd class="argument type optional"><span class="optional">string</span></dd><dd class="description"><details ><summary class="no-details">indicates the name of the K8s Service the webhook uses.</summary></details></dd><dt class="argument literal optional">serviceNamespace</dt><dd class="argument type optional"><span class="optional">string</span></dd><dd class="description"><details ><summary class="no-details">indicates the namespace of the K8s Service the webhook uses.</summary></details></dd><dt class="argument literal optional">servicePort</dt><dd class="argument type optional"><span class="optional">int</span></dd><dd class="description"><details ><summary class="no-details">indicates the port of the K8s Service the webhook uses</summary></details></dd><dt class="argument literal optional">sideEffects</dt><dd class="argument type optional"><span class="optional">string</span></dd><dd class="description"><details ><summary class="">specify whether calling the webhook will have side effects.</summary>
+<p>This has an impact on dry runs and <code>kubectl diff</code>: if the sideEffect is “Unknown” (the default) or “Some”, then the API server will not call the webhook on a dry-run request and fails instead. If the value is “None”, then the webhook has no side effects and the API server will call it on dry-run. If the value is “NoneOnDryRun”, then the webhook is responsible for inspecting the “dryRun” property of the AdmissionReview sent in the request, and avoiding side effects if that value is “true.”</p>
+</details></dd><dt class="literal optional argument">timeoutSeconds</dt><dd class="argument type optional"><span class="optional">int</span></dd><dd class="description"><details ><summary class="">allows configuring how long the API server should wait for a webhook to respond before treating the call as a failure.</summary>
+<p>If the timeout expires before the webhook responds, the webhook call will be ignored or the API call will be rejected based on the failure policy. The timeout value must be between 1 and 30 seconds. The timeout for an admission webhook defaults to 10 seconds.</p>
+</details></dd><dt class="argument literal optional">url</dt><dd class="argument type optional"><span class="optional">string</span></dd><dd class="description"><details ><summary class="">allows mutating webhooks configuration to specify an external URL when generating</summary>
+<p>the manifests, instead of using the internal service communication. Should be in format of https://address:port/path When this option is specified, the serviceConfig.Service is removed from webhook the manifest. The URL configuration should be between quotes. <code>url</code> cannot be specified when <code>path</code> is specified.</p>
+</details></dd><dt class="argument literal">verbs</dt><dd class="argument type"><span class="slice"><span class="optional">string</span></span></dd><dd class="description"><details ><summary class="">specifies the Kubernetes API verbs that this webhook receives requests for.</summary>
+<p>Only modification-like verbs may be specified. May be “create”, “update”, “delete”, “connect”, or “*” (for all).</p>
+</details></dd><dt class="argument literal">versions</dt><dd class="argument type"><span class="slice"><span class="optional">string</span></span></dd><dd class="description"><details ><summary class="no-details">specifies the API versions that this webhook receives requests for.</summary></details></dd><dt class="argument literal optional">webhookVersions</dt><dd class="type optional argument"><span class="slice optional"><span class="optional">string</span></span></dd><dd class="description"><details ><summary class="">specifies the target API versions of the {Mutating,Validating}WebhookConfiguration objects</summary>
+<p>itself to generate. The only supported value is v1. Defaults to v1.</p>
+</details></dd></dl></dd></div><div class="marker" data-target="package"><dt class="literal name">// +kubebuilder:webhookconfiguration</dt><dd class="args"><dl class="args summary"><dt class="argument literal">mutating</dt><dd class="argument type"><span class="optional">bool</span></dd><dt class="literal optional argument">name</dt><dd class="optional argument type"><span class="optional">string</span></dd></dl></dd><dd class="description"><details ><summary class="">specifies how a webhook should be served.</summary>
+<p>It specifies only the details that are intrinsic to the application serving it (e.g. the resources it can handle, or the path it serves on).</p>
+</details><dl class="args"><dt class="literal argument">mutating</dt><dd class="argument type"><span class="optional">bool</span></dd><dd class="description"><details ><summary class="">marks this as a mutating webhook (it&#39;s validating only if false)</summary>
+<p>Mutating webhooks are allowed to change the object in their response, and are called <em>before</em> all validating webhooks.  Mutating webhooks may choose to reject an object, similarly to a validating webhook.</p>
+</details></dd><dt class="argument literal optional">name</dt><dd class="argument type optional"><span class="optional">string</span></dd><dd class="description"><details ><summary class="no-details">indicates the name of this webhook configuration. Should be a domain with at least three segments separated by dots</summary></details></dd></dl></dd></div></dl></div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../reference/markers/crd-processing.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../../reference/markers/object.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../reference/markers/crd-processing.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../../reference/markers/object.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../../theme/js/inject.js"></script>
+
+
+    </body>
+</html>

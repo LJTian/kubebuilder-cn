@@ -1,0 +1,11 @@
+#global-banner {
+	background: #fff7e6;
+	color: #7a4d00;
+	border: 1px solid #ffd28c;
+	border-radius: 6px;
+	padding: 10px 12px;
+	margin: 8px 0 16px 0;
+	font-size: 14px;
+	line-height: 1.5;
+}
+
