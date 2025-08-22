@@ -313,7 +313,7 @@ msgstr "grafana/v1-alpha"
 
 #: src/SUMMARY.md:122
 msgid "deploy-image/v1-alpha"
-msgstr "部署图像/v1-alpha"
+msgstr "deploy-image/v1-alpha"
 
 #: src/SUMMARY.md:123
 msgid "helm/v1-alpha"
@@ -351,7 +351,7 @@ msgstr ""
 msgid ""
 "**Note:** Impatient readers may head straight to [Quick Start](quick-start."
 "md)."
-msgstr "**注意：** 不耐烦的读者可以直接跳到 [快速开始](quick-start.md)。"
+msgstr "**注意：** 需要快速使用的可以直接跳到 [快速开始](quick-start.md)。"
 
 #: src/introduction.md:3
 msgid ""
@@ -366,7 +366,7 @@ msgstr "这适合谁"
 
 #: src/introduction.md:8
 msgid "Users of Kubernetes"
-msgstr "Kubernetes的用户"
+msgstr "Kubernetes 的用户"
 
 #: src/introduction.md:10
 msgid ""
@@ -387,7 +387,7 @@ msgstr "Kubernetes API 和资源的结构"
 
 #: src/introduction.md:18
 msgid "API versioning semantics"
-msgstr "API版本控制语义"
+msgstr "API 版本控制语义"
 
 #: src/introduction.md:19
 msgid "Self-healing"
@@ -439,7 +439,7 @@ msgstr "何时使用列出缓存与实时查找"
 
 #: src/introduction.md:37
 msgid "Garbage Collection vs Finalizers"
-msgstr "垃圾回收与终结器"
+msgstr "垃圾回收（Garbage Collection）与终结器（Finalizers）"
 
 #: src/introduction.md:38
 msgid "How to use Declarative vs Webhook Validation"
