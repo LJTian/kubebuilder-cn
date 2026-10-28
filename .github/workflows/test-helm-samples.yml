@@ -1,0 +1,198 @@
+name: Helm Testdata Sample
+
+on:
+  push:
+    paths:
+      - "testdata/project-v4-with-plugins/**"
+      - ".github/workflows/test-helm-samples.yml"
+  pull_request:
+    paths:
+      - "testdata/project-v4-with-plugins/**"
+      - ".github/workflows/test-helm-samples.yml"
+
+permissions: {}
+
+jobs:
+  helm-test-project-v4-with-plugins:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Enable Prometheus in kustomize (testdata sample)
+        run: |
+          sed -i 's/^#- \.\.\/prometheus/- ..\/prometheus/' testdata/project-v4-with-plugins/config/default/kustomization.yaml
+
+      - name: Build kubebuilder CLI
+        run: make build
+
+      - name: Setup Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+
+      - name: Prepare project-v4-with-plugins
+        run: |
+          cd testdata/project-v4-with-plugins/
+          go mod tidy
+          make all
+
+      - name: Rebuild installer and regenerate Helm chart (v2-alpha)
+        working-directory: testdata/project-v4-with-plugins
+        run: |
+          make build-installer
+          ../../bin/kubebuilder edit --plugins=helm/v2-alpha --force
+
+      - name: Install the latest version of kind
+        run: |
+          curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-$(go env GOARCH)
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
+
+      - name: Verify kind installation
+        run: kind version
+
+      - name: Create kind cluster
+        run: kind create cluster
+
+      - name: Install Helm
+        run: make install-helm
+
+      - name: Lint Helm chart for project-v4-with-plugins
+        run: |
+          helm lint testdata/project-v4-with-plugins/dist/chart
+
+      - name: Build project-v4-with-plugins
+        run: |
+          cd testdata/project-v4-with-plugins/
+          go mod tidy
+          make docker-build IMG=controller:latest
+          kind load docker-image controller:latest
+
+      - name: Install Prometheus Operator CRDs
+        run: |
+          helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+          helm repo update
+          helm install prometheus-crds prometheus-community/prometheus-operator-crds
+
+      - name: Install cert-manager via Helm (wait for readiness)
+        run: |
+          helm repo add jetstack https://charts.jetstack.io
+          helm repo update
+          helm install cert-manager jetstack/cert-manager \
+            --namespace cert-manager \
+            --create-namespace \
+            --set crds.enabled=true \
+            --wait \
+            --timeout 300s
+
+      - name: Render Helm chart for project-v4-with-plugins
+        run: |
+          helm template testdata/project-v4-with-plugins/dist/chart --namespace=project-v4-with-plugins-system
+
+      - name: Deploy manager via Helm
+        working-directory: testdata/project-v4-with-plugins
+        run: |
+          make helm-deploy IMG=controller:latest HELM_EXTRA_ARGS="--set prometheus.enabled=true"
+
+      - name: Check Helm release status
+        working-directory: testdata/project-v4-with-plugins
+        run: |
+          make helm-status
+
+      - name: Run Helm tests
+        run: |
+          helm test project-v4-with-plugins --namespace project-v4-with-plugins-system
+
+      - name: Delete kind cluster
+        if: always()
+        run: |
+          kind delete cluster || true
+
+  # Test scenario: 
+  # - scaffold project without creating webhooks, 
+  # - deploy helm chart without installing cert manager;
+  # - check that deployment has been deployed;
+  #
+  # Command to use to scaffold project without creating webhooks and so no need to install cert manager:
+  # - kubebuilder init
+  # - kubebuilder create api --group example.com --version v1 --kind App --controller=true --resource=true
+  # - kubebuilder edit --plugins=helm.kubebuilder.io/v2-alpha
+  test-helm-no-webhooks:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+
+      - name: Install the latest version of kind
+        run: |
+          curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-$(go env GOARCH)
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
+
+      - name: Create kind cluster
+        run: kind create cluster
+
+      - name: Install Helm
+        run: make install-helm
+
+      - name: Install kubebuilder binary
+        run: make install
+
+      - name: Create test directory
+        run: mkdir -p test-helm-no-webhooks
+
+      - name: Scaffold project with kubebuilder commands
+        working-directory: test-helm-no-webhooks
+        run: |
+          go mod init test-helm-no-webhooks
+          kubebuilder init
+          kubebuilder create api --group example.com --version v1 --kind App --controller=true --resource=true
+          kubebuilder edit --plugins=helm.kubebuilder.io/v2-alpha
+
+      - name: Build and load Docker image
+        working-directory: test-helm-no-webhooks
+        run: |
+          make docker-build IMG=controller:latest
+          kind load docker-image controller:latest
+
+      - name: Lint Helm chart
+        working-directory: test-helm-no-webhooks
+        run: helm lint ./dist/chart
+
+      - name: Deploy manager via Helm
+        working-directory: test-helm-no-webhooks
+        run: |
+          make helm-deploy IMG=controller:latest
+
+      - name: Verify deployment is working
+        working-directory: test-helm-no-webhooks
+        run: |
+          make helm-status
+
+      - name: Run Helm tests
+        working-directory: test-helm-no-webhooks
+        run: |
+          helm test test-helm-no-webhooks --namespace test-helm-no-webhooks-system
+
+      - name: Delete kind cluster
+        if: always()
+        run: |
+          kind delete cluster || true

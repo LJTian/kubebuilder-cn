@@ -1,0 +1,58 @@
+name: Lint GitHub Actions Workflows
+on:
+  pull_request:
+    paths: 
+     - '**/workflows/*.yml'
+
+permissions: {}
+
+jobs:
+  zizmor:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Run zizmor on kubebuilder GitHub Actions workflows
+        uses: zizmorcore/zizmor-action@70fb788f84895a7701f5643d103d587e460b5c99 # v0.6.3
+        with:
+          advanced-security: false
+  
+  pinact:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          
+      - name: Set up Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: '1.26'
+
+      - name: Install pinact
+        run: |
+          go install github.com/suzuki-shunsuke/pinact/v3/cmd/pinact@v3.5.0
+
+      - name: Display changed workflows in PR
+        run: |
+          git diff --name-only --diff-filter=d origin/${GITHUB_BASE_REF} HEAD
+
+      - name: Run pinact on changed workflow files
+        env:
+          # Authenticate pinact's GitHub REST calls (tag/commit resolution and
+          # --verify) so they use the 5,000 req/hr limit instead of the 60 req/hr
+          # unauthenticated limit. Only contents:read is granted to this job.
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          git diff --name-only --diff-filter=d origin/${GITHUB_BASE_REF} HEAD \
+          | grep -E 'workflows/.*\.ya?ml$' \
+          | xargs -r pinact run --diff --check --verify              

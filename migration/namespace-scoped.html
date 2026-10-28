@@ -1,0 +1,684 @@
+<!DOCTYPE HTML>
+<html lang="zh_CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>从集群作用域到命名空间作用域 - Kubebuilder 中文指南</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../logos/favicon.svg">
+        <link rel="shortcut icon" href="../logos/favicon.png">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/css/markers-0bcf2cc9.css">
+        <link rel="stylesheet" href="../theme/css/custom-265d96b0.css">
+        <link rel="stylesheet" href="../theme/css/version-dropdown-e6742374.css">
+        <link rel="stylesheet" href="../theme/css/global-banner-a2f85a7e.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex-a3608051.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc-675883bf.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"><img alt="Kubebuilder 中文指南" class="large-logo-img" src="..//logos/kb-logo-one-line.svg"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/LJTian/kubebuilder-cn" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/LJTian/kubebuilder-cn/edit/cn-book-v4/docs/book/src/" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="迁移到命名空间作用域-manager"><a class="header" href="#迁移到命名空间作用域-manager">迁移到命名空间作用域 Manager</a></h1>
+<p>本指南介绍如何将<strong>现有集群作用域项目</strong>转换为 Namespace 作用域部署。</p>
+<aside class="note" role="note">
+<p class="note-title">Creating New Namespace-Scoped Projects</p>
+
+<p>如果正在创建<strong>新项目</strong>，只需使用：</p>
+<pre><code class="language-bash">kubebuilder init --domain example.com --namespaced
+</code></pre>
+<p>包括 <code>cmd/main.go</code> 与 RBAC 配置在内的所有文件都会正确脚手架。用 <code>kubebuilder create api</code> 创建的所有 controllers 会在 RBAC markers 中自动带有 <code>namespace=</code> 参数。无需手动更改或迁移步骤。</p>
+</aside>
+<p>默认情况下，Kubebuilder 脚手架集群作用域的 managers，可监视并管理所有 namespaces 中的资源。本指南说明如何将现有集群作用域项目转换为 Namespace 作用域部署，使 manager 仅监视特定 namespace(s)。</p>
+<h2 id="何时使用命名空间作用域"><a class="header" href="#何时使用命名空间作用域">何时使用命名空间作用域</a></h2>
+<p><strong>在以下情况使用命名空间作用域：</strong></p>
+<ul>
+<li>在多租户集群中构建租户专用 managers</li>
+<li>安全策略要求最小权限（无集群范围权限）</li>
+<li>需要在不同 namespaces 中运行多个 manager 实例</li>
+<li>仅管理 Namespace 作用域资源（Deployments、Services、ConfigMaps 等）</li>
+</ul>
+<p><strong>在以下情况使用集群作用域（默认）：</strong></p>
+<ul>
+<li>管理集群作用域资源（Nodes、ClusterRoles、Namespaces 等）</li>
+<li>单个 manager 实例管理所有 namespaces 中的资源</li>
+</ul>
+<aside class="note" role="note">
+<p class="note-title">AI-Assisted Migration</p>
+
+<p>此迁移涉及更新多个 controller 文件中的 RBAC markers。若使用 AI 编码助手，参见 <a href="#ai-assisted-migration">AI 辅助迁移</a> 获取即用说明。</p>
+</aside>
+<h2 id="迁移"><a class="header" href="#迁移">迁移</a></h2>
+<p><strong>快速摘要：</strong></p>
+<ol>
+<li>运行 <code>kubebuilder edit --namespaced --force</code> — 脚手架 Role/RoleBinding 并更新 manager.yaml</li>
+<li>更新 cmd/main.go 以配置 Namespace 作用域缓存</li>
+<li>在现有 controller 文件的 RBAC markers 中添加 <code>namespace=</code> 参数</li>
+<li>运行 <code>make manifests</code> — 根据更新后的 markers 重新生成 RBAC</li>
+<li>验证并部署</li>
+</ol>
+<aside class="warning" role="note">
+<p class="note-title">Manual Steps Required</p>
+
+<p><code>edit</code> 命令会自动脚手架 RBAC 文件并更新 manager.yaml（配合 <code>--force</code>），但<strong>无法</strong>更新现有 controller 文件或 cmd/main.go。</p>
+<p>你必须手动更新：</p>
+<ul>
+<li>cmd/main.go 命名空间作用域缓存配置</li>
+<li>现有控制器的 RBAC 标记</li>
+</ul>
+<p><strong>注意：</strong> 启用 namespaced 模式后创建的新 controllers 会自动带有正确的 RBAC markers。</p>
+</aside>
+<h2 id="详细步骤"><a class="header" href="#详细步骤">详细步骤</a></h2>
+<h3 id="1-启用命名空间作用域模式"><a class="header" href="#1-启用命名空间作用域模式">1. 启用命名空间作用域模式</a></h3>
+<pre><code class="language-bash">kubebuilder edit --namespaced --force
+</code></pre>
+<p>该命令会自动：</p>
+<ul>
+<li>在 PROJECT 文件中设置 <code>namespaced: true</code></li>
+<li>脚手架 <code>kind: Role</code>（Namespace 作用域）的 <code>config/rbac/role.yaml</code></li>
+<li>脚手架 <code>kind: RoleBinding</code> 的 <code>config/rbac/role_binding.yaml</code></li>
+<li>重新生成带有 WATCH_NAMESPACE 环境变量的 <code>config/manager/manager.yaml</code></li>
+<li>为所有现有 API 重新生成 <code>kind: Role</code>（Namespace 作用域）的 admin/editor/viewer roles</li>
+</ul>
+<p><strong>注意：</strong> <code>--force</code> 标志会重新生成 config/manager/manager.yaml。不带 <code>--force</code> 时，必须手动添加 WATCH_NAMESPACE（见下文）。</p>
+<h3 id="2-更新-cmdmaingo必需的手动步骤"><a class="header" href="#2-更新-cmdmaingo必需的手动步骤">2. 更新 cmd/main.go（必需的手动步骤）</a></h3>
+<p>edit 命令无法自动更新 cmd/main.go。你必须手动添加 Namespace 作用域配置。</p>
+<p><strong>a. 添加 import：</strong></p>
+<pre><code class="language-go">import (
+    // ... 现有导入 ...
+    "sigs.k8s.io/controller-runtime/pkg/cache"
+)
+</code></pre>
+<p><strong>b. 添加辅助函数（在 <code>init()</code> 之后、<code>main()</code> 之前）：</strong></p>
+<pre><code class="language-go">// getWatchNamespace 返回 Manager 应监视变更的命名空间。
+// 它从 WATCH_NAMESPACE 环境变量读取该值。
+func getWatchNamespace() (string, error) {
+    watchNamespaceEnvVar := "WATCH_NAMESPACE"
+    ns, found := os.LookupEnv(watchNamespaceEnvVar)
+    if !found {
+        return "", fmt.Errorf("%s must be set", watchNamespaceEnvVar)
+    }
+    return ns, nil
+}
+
+// setupCacheNamespaces 配置缓存以监视特定命名空间。
+func setupCacheNamespaces(namespaces string) cache.Options {
+    defaultNamespaces := make(map[string]cache.Config)
+    for _, ns := range strings.Split(namespaces, ",") {
+        defaultNamespaces[strings.TrimSpace(ns)] = cache.Config{}
+    }
+    return cache.Options{
+        DefaultNamespaces: defaultNamespaces,
+    }
+}
+</code></pre>
+<p><strong>c. 在 <code>main()</code> 函数中，于 <code>ctrl.NewManager()</code> 之前添加：</strong></p>
+<pre><code class="language-go">// 从 WATCH_NAMESPACE 环境变量获取命名空间作用域模式的命名空间。
+watchNamespace, err := getWatchNamespace()
+if err != nil {
+    setupLog.Error(err, "Unable to get WATCH_NAMESPACE")
+    os.Exit(1)
+}
+</code></pre>
+<p><strong>d. 更新 manager 创建以使用 Namespace 作用域缓存：</strong></p>
+<pre><code class="language-go">mgrOptions := ctrl.Options{
+    Scheme:                 scheme,
+    Metrics:                metricsServerOptions,
+    WebhookServer:          webhookServer,
+    HealthProbeBindAddress: probeAddr,
+    LeaderElection:         enableLeaderElection,
+    LeaderElectionID:       "your-leader-election-id",
+    // ... other existing options ...
+}
+
+// 配置缓存以监视 WATCH_NAMESPACE 中指定的命名空间
+mgrOptions.Cache = setupCacheNamespaces(watchNamespace)
+setupLog.Info("Watching namespace(s)", "namespaces", watchNamespace)
+
+mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), mgrOptions)
+if err != nil {
+    setupLog.Error(err, "Failed to start manager")
+    os.Exit(1)
+}
+</code></pre>
+<aside class="note" role="note">
+<p class="note-title">If You Didn't Use --force</p>
+
+<p>若运行 <code>kubebuilder edit --namespaced</code> 时未加 <code>--force</code>，请手动将 WATCH_NAMESPACE 添加到 <code>config/manager/manager.yaml</code>：</p>
+<pre><code class="language-yaml">spec:
+  template:
+    spec:
+      容器:
+      - name: manager
+        env:
+        - name: WATCH_NAMESPACE
+          valueFrom:
+            fieldRef:
+              字段路径: metadata.namespace
+</code></pre>
+<p>使用 <code>--force</code> 时会自动完成。若已用 <code>--force</code> 可跳过。</p>
+</aside>
+<h3 id="3-更新现有控制器中的-rbac-标记"><a class="header" href="#3-更新现有控制器中的-rbac-标记">3. 更新现有控制器中的 RBAC 标记</a></h3>
+<p>对每个<strong>现有 controller 文件</strong>，在 RBAC markers 中添加 <code>namespace=</code> 参数。</p>
+<p><strong>查找控制器文件：</strong></p>
+<ul>
+<li>查找包含 <code>func (r *SomeReconciler) Reconcile(</code> 的文件</li>
+<li>常见位置：<code>internal/controller/*_controller.go</code></li>
+</ul>
+<p>在 <code>internal/controller/cronjob_controller.go</code> 中：</p>
+<p><strong>之前（集群作用域）：</strong></p>
+<pre><code class="language-go">// +kubebuilder:rbac:groups=batch.tutorial.kubebuilder.io,resources=cronjobs,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=batch.tutorial.kubebuilder.io,resources=cronjobs/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=batch.tutorial.kubebuilder.io,resources=cronjobs/finalizers,verbs=update
+
+// Reconcile 是主 Kubernetes 协调循环的一部分
+func (r *CronJobReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+</code></pre>
+<p><strong>之后（命名空间作用域）：</strong></p>
+<pre><code class="language-go">// +kubebuilder:rbac:groups=batch.tutorial.kubebuilder.io,namespace=&lt;project-name&gt;-system,resources=cronjobs,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=batch.tutorial.kubebuilder.io,namespace=&lt;project-name&gt;-system,resources=cronjobs/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=batch.tutorial.kubebuilder.io,namespace=&lt;project-name&gt;-system,resources=cronjobs/finalizers,verbs=update
+
+// Reconcile 是主 Kubernetes 协调循环的一部分
+func (r *CronJobReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+</code></pre>
+<p>将 <code>project-system</code> 替换为你的 namespace（在 <code>config/default/kustomization.yaml</code> 的 <code>namespace:</code> 字段中）。</p>
+<aside class="note" role="note">
+<p class="note-title">New Controllers Get This Automatically</p>
+
+<p>运行 <code>kubebuilder edit --namespaced --force</code> 后，新创建的 controllers 会自动带有 <code>namespace=</code> 参数：</p>
+<pre><code class="language-bash">kubebuilder create api --group myapp --version v1 --kind MyNewKind --controller=true --resource=true
+</code></pre>
+<p>生成的控制器将包含：</p>
+<pre><code class="language-go">// +kubebuilder:rbac:groups=myapp.example.com,namespace=&lt;project-name&gt;-system,resources=mynewkinds,verbs=...
+</code></pre>
+<p>只有现有控制器需要手动更新！</p>
+</aside>
+<h3 id="4-重新生成-rbac-清单"><a class="header" href="#4-重新生成-rbac-清单">4. 重新生成 RBAC 清单</a></h3>
+<p>在步骤 3 更新 RBAC markers 后，重新生成 RBAC manifests：</p>
+<pre><code class="language-bash">make manifests      # Regenerate RBAC from updated controller markers
+</code></pre>
+<p>确认生成的文件显示 <code>kind: Role</code> 而非 <code>kind: ClusterRole</code>：</p>
+<p><strong>config/rbac/role.yaml:</strong></p>
+<pre><code class="language-yaml">kind: Role
+metadata:
+  name: manager-role
+  # 注意：命名空间由 kustomize 在构建时添加，不在源文件中
+</code></pre>
+<p>**config/rbac/*_editor_role.yaml, <em>_viewer_role.yaml, <em>_admin_role.yaml:</em></em></p>
+<pre><code class="language-yaml">kind: Role
+metadata:
+  name: cronjob-editor-role
+  # 注意：命名空间由 kustomize 在构建时添加，不在源文件中
+</code></pre>
+<aside class="note" role="note">
+<p class="note-title">Metrics Auth Role Stays Cluster-Scoped</p>
+
+<p><code>config/rbac/metrics_auth_role.yaml</code> 将保持为 <code>kind: ClusterRole</code> — 这是正确的。Metrics 认证使用集群作用域 API（TokenReview、SubjectAccessReview），即使在 Namespace 作用域项目中也必须保持集群作用域。</p>
+</aside>
+<h3 id="5-验证并部署"><a class="header" href="#5-验证并部署">5. 验证并部署</a></h3>
+<p>运行测试以验证一切正常：</p>
+<pre><code class="language-bash">make generate       # Regenerate code
+make test           # Run tests
+</code></pre>
+<p>部署并验证：</p>
+<pre><code class="language-bash">make deploy IMG=&lt;your-image&gt;
+
+# Verify RBAC is namespace-scoped (not cluster-scoped)
+kubectl get role,rolebinding -n &lt;manager-namespace&gt;
+
+# Test: Create a resource in the manager's 命名空间 - 应被协调
+kubectl apply -f config/samples/ -n &lt;manager-namespace&gt;
+
+# 测试：在不同命名空间中创建资源 - 不应被协调
+kubectl apply -f config/samples/ -n other-namespace
+</code></pre>
+<aside class="warning" role="note">
+<p class="note-title">Webhooks and Namespace-Scoped Mode</p>
+
+<p>若项目有 webhooks，manager 缓存受限于 <code>WATCH_NAMESPACE</code>，但 webhooks 默认仍接收来自所有 namespaces 的请求。</p>
+<p><strong>问题：</strong></p>
+<p>Webhook 服务器会接收来自所有 namespaces 的 admission 请求，但缓存仅有 <code>WATCH_NAMESPACE</code> 的数据。若 webhook handler 查询监视范围外对象的缓存，查找会失败。</p>
+<p><strong>Solution:</strong></p>
+<p>在 webhooks 上配置 <code>namespaceSelector</code> 或 <code>objectSelector</code>，使 webhook 作用域与缓存一致。目前 controller-gen 尚无对应 markers。必须用 Kustomize patches 手动添加。</p>
+<p>创建并应用 namespace selector patches 的详细步骤见 <a href="../reference/webhook-bootstrap-problem.html">Webhook Bootstrap 问题</a> 指南。</p>
+</aside>
+<h2 id="ai-辅助迁移"><a class="header" href="#ai-辅助迁移">AI 辅助迁移</a></h2>
+<p>若使用 AI 编码助手（Cursor、GitHub Copilot 等），可自动化手动迁移步骤。</p>
+<aside class="note" role="note">
+<p class="note-title">AI Migration Instructions</p>
+
+<p><strong>提供给 AI 助手的说明：</strong></p>
+<pre><code class="language-text">I need to migrate this Kubebuilder project from cluster-scoped to namespace-scoped.
+
+First, get the namespace value:
+- Read config/default/kustomization.yaml and find the "namespace:" field
+- Use that value for all namespace= parameters in RBAC markers
+
+Context:
+By default, Kubebuilder projects are cluster-scoped. Namespace-scoped projects watch only
+specific namespace(s) via the WATCH_NAMESPACE environment variable.
+
+References:
+- Kubebuilder Book: ../reference/manager-scope.md
+
+Steps to execute:
+
+1. Enable namespace-scoped mode:
+   Run: kubebuilder edit --namespaced
+
+   This automatically:
+   - Updates PROJECT file with namespaced: true
+   - Scaffolds Role/RoleBinding (instead of ClusterRole/ClusterRoleBinding)
+   - Regenerates admin/editor/viewer roles with kind: Role
+
+2. Add WATCH_NAMESPACE to config/manager/manager.yaml:
+
+   Find the manager container under spec.template.spec.containers (name: manager)
+   and add the env section:
+
+   spec:
+     template:
+       spec:
+         containers:
+         - name: manager
+           env:
+           - name: WATCH_NAMESPACE
+             valueFrom:
+               fieldRef:
+                 fieldPath: metadata.namespace
+
+3. Update cmd/main.go:
+
+   a. Add import:
+
+   import (
+       // ... existing imports ...
+       "sigs.k8s.io/controller-runtime/pkg/cache"
+   )
+
+   b. Add these two helper functions after init() and before main():
+
+   // getWatchNamespace returns the namespace(s) the manager should watch for changes.
+   // It reads the value from the WATCH_NAMESPACE environment variable.
+   func getWatchNamespace() (string, error) {
+       watchNamespaceEnvVar := "WATCH_NAMESPACE"
+       ns, found := os.LookupEnv(watchNamespaceEnvVar)
+       if !found {
+           return "", fmt.Errorf("%s must be set", watchNamespaceEnvVar)
+       }
+       return ns, nil
+   }
+
+   // setupCacheNamespaces configures the cache to watch specific namespace(s).
+   func setupCacheNamespaces(namespaces string) cache.Options {
+       defaultNamespaces := make(map[string]cache.Config)
+       for _, ns := range strings.Split(namespaces, ",") {
+           defaultNamespaces[strings.TrimSpace(ns)] = cache.Config{}
+       }
+       return cache.Options{
+           DefaultNamespaces: defaultNamespaces,
+       }
+   }
+
+   c. In main() function, find ctrl.SetLogger() and add right after it:
+
+   // Get the namespace(s) for namespace-scoped mode from WATCH_NAMESPACE environment variable.
+   watchNamespace, err := getWatchNamespace()
+   if err != nil {
+       setupLog.Error(err, "Unable to get WATCH_NAMESPACE")
+       os.Exit(1)
+   }
+
+   d. Find the ctrl.NewManager() call and replace it with:
+
+   mgrOptions := ctrl.Options{
+       Scheme:                 scheme,
+       Metrics:                metricsServerOptions,
+       WebhookServer:          webhookServer,
+       HealthProbeBindAddress: probeAddr,
+       LeaderElection:         enableLeaderElection,
+       LeaderElectionID:       "your-leader-election-id",
+       // ... keep all other existing options from the original ctrl.NewManager call ...
+   }
+
+   // Configure cache to watch namespace(s) specified in WATCH_NAMESPACE
+   mgrOptions.Cache = setupCacheNamespaces(watchNamespace)
+   setupLog.Info("Watching namespace(s)", "namespaces", watchNamespace)
+
+   mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), mgrOptions)
+   if err != nil {
+       setupLog.Error(err, "Failed to start manager")
+       os.Exit(1)
+   }
+
+5. Update RBAC markers in existing controller files:
+
+   Important: Only update RBAC markers in controller files (files containing "Reconcile" function).
+   Do not modify webhook files (files in internal/webhook/ or api/*/webhook.go).
+
+   How to find controller files in this project:
+   - Search for all Go files containing "func (r *" and "Reconcile("
+   - Common locations: internal/controller/, internal/controller/*/, controllers/
+   - File pattern: *_controller.go (but verify by checking for Reconcile function)
+
+   For EACH controller file found:
+   - Locate ALL +kubebuilder:rbac markers in that file
+   - Add namespace=&lt;value-from-kustomization&gt; parameter to each marker
+
+   Example transformation:
+
+   Before:
+   // +kubebuilder:rbac:groups=myapp.example.com,resources=mykinds,verbs=get;list;watch;create;update;patch;delete
+   // +kubebuilder:rbac:groups=myapp.example.com,resources=mykinds/status,verbs=get;update;patch
+   // +kubebuilder:rbac:groups=myapp.example.com,resources=mykinds/finalizers,verbs=update
+   // +kubebuilder:rbac:groups=core,resources=events,verbs=create;patch
+   // +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
+
+   After:
+   // +kubebuilder:rbac:groups=myapp.example.com,namespace=&lt;value-from-kustomization&gt;,resources=mykinds,verbs=get;list;watch;create;update;patch;delete
+   // +kubebuilder:rbac:groups=myapp.example.com,namespace=&lt;value-from-kustomization&gt;,resources=mykinds/status,verbs=get;update;patch
+   // +kubebuilder:rbac:groups=myapp.example.com,namespace=&lt;value-from-kustomization&gt;,resources=mykinds/finalizers,verbs=update
+   // +kubebuilder:rbac:groups=core,namespace=&lt;value-from-kustomization&gt;,resources=events,verbs=create;patch
+   // +kubebuilder:rbac:groups=apps,namespace=&lt;value-from-kustomization&gt;,resources=deployments,verbs=get;list;watch;create;update;patch;delete
+
+   Important rules:
+   - Add namespace= after the groups= parameter
+   - Use the namespace value from config/default/kustomization.yaml
+   - Update all +kubebuilder:rbac markers in each controller file
+   - Do not modify webhook files - webhooks use certificate-based auth, not RBAC
+   - Do not add namespace= to metrics-auth-role markers (those stay cluster-scoped)
+
+6. Regenerate RBAC manifests:
+   Run: make manifests
+
+   This regenerates config/rbac/role.yaml from the updated controller markers.
+   Verify it shows kind: Role (not ClusterRole).
+
+7. Verify the migration:
+   Run: make generate
+
+   Verify files were updated correctly:
+   - config/rbac/role.yaml - should be kind: Role
+   - config/manager/manager.yaml - should have WATCH_NAMESPACE env var
+   - cmd/main.go - should have getWatchNamespace() and setupCacheNamespaces() functions
+   - All controller files - should have namespace= in RBAC markers
+
+Done! After this migration:
+- The project is now namespace-scoped
+- Existing controllers have been updated with namespace= RBAC markers
+- Future controllers created with `kubebuilder create api` will automatically include
+  namespace= in their RBAC markers - no manual updates needed!
+
+</code></pre>
+</aside>
+<h2 id="多命名空间支持"><a class="header" href="#多命名空间支持">多命名空间支持</a></h2>
+<p><code>WATCH_NAMESPACE</code> 环境变量支持逗号分隔的值，以监视多个特定 namespaces：</p>
+<pre><code class="language-yaml">env:
+- name: WATCH_NAMESPACE
+  value: "namespace-1,namespace-2,namespace-3"
+</code></pre>
+<p>注意：需要在每个 namespace 中创建 Role/RoleBinding 才能有正确的 RBAC。</p>
+<h2 id="恢复为集群作用域"><a class="header" href="#恢复为集群作用域">恢复为集群作用域</a></h2>
+<p>恢复为集群作用域：</p>
+<pre><code class="language-bash">kubebuilder edit --namespaced=false --force
+</code></pre>
+<p>该命令会自动：</p>
+<ul>
+<li>在 PROJECT 文件中设置 <code>namespaced: false</code></li>
+<li>脚手架 <code>kind: ClusterRole</code> 的 <code>config/rbac/role.yaml</code></li>
+<li>脚手架 <code>kind: ClusterRoleBinding</code> 的 <code>config/rbac/role_binding.yaml</code></li>
+<li>使用 <code>--force</code>：重新生成不含 WATCH_NAMESPACE 环境变量的 <code>config/manager/manager.yaml</code></li>
+</ul>
+<p><strong>需要手动执行的步骤：</strong></p>
+<ol>
+<li>从所有 controller 文件的 RBAC markers 中移除 <code>namespace=</code> 参数</li>
+<li>运行 <code>make manifests</code> 重新生成集群作用域 RBAC</li>
+<li>从 <code>cmd/main.go</code> 中移除命名空间作用域代码：
+<ul>
+<li>移除 <code>getWatchNamespace()</code> 函数</li>
+<li>移除 <code>setupCacheNamespaces()</code> 函数</li>
+<li>移除命名空间获取与缓存配置</li>
+<li>若别处未使用，移除新增的 imports（<code>fmt</code>、<code>strings</code>、<code>cache</code>）</li>
+</ul>
+</li>
+<li>若未使用 <code>--force</code>，请手动从 <code>config/manager/manager.yaml</code> 移除 <code>WATCH_NAMESPACE</code></li>
+</ol>
+<h2 id="重要说明"><a class="header" href="#重要说明">重要说明</a></h2>
+<ul>
+<li><strong>仅 controllers 需要更新 RBAC</strong>：只更新 controller 文件（含 <code>Reconcile</code> 函数的文件）中的 <code>+kubebuilder:rbac</code> markers。Webhook 文件不使用 RBAC markers——webhooks 使用基于证书的认证与 API server 通信。</li>
+<li><strong>RBAC markers 控制作用域</strong>：controller RBAC markers 中的 <code>namespace=</code> 参数决定 controller-gen 生成 <code>Role</code>（Namespace 作用域）还是 <code>ClusterRole</code>（集群作用域）。没有 <code>namespace=</code> 参数时，controller-gen 始终生成 <code>ClusterRole</code>。</li>
+<li><strong>Controller-gen 会重新生成 role.yaml</strong>：运行 <code>make manifests</code> 后，controller-gen 会根据 controller RBAC markers 重新生成 <code>config/rbac/role.yaml</code>。<code>kubebuilder edit --namespaced=true</code> 初始脚手架的 <code>Role</code> 作为模板，但实际内容由 controller-gen 管理。</li>
+<li><strong>Namespace 参数格式</strong>：在 controller RBAC markers 中使用 <code>namespace=&lt;your-namespace&gt;</code>，通常为 <code>namespace=&lt;project-name&gt;-system</code> 以匹配部署 namespace。</li>
+<li><strong>Metrics auth role 保持集群作用域</strong>：<code>metrics-auth-role</code> 使用集群作用域 API（TokenReview、SubjectAccessReview），正确地保持为无 namespace 参数的 ClusterRole。</li>
+<li><strong>Webhooks 需要手动配置</strong>：目前 controller-gen 不支持 webhooks 的 <code>namespaceSelector</code> 或 <code>objectSelector</code> markers。详见上文 webhook 部分。</li>
+</ul>
+<h2 id="另见"><a class="header" href="#另见">另见</a></h2>
+<ul>
+<li><a href="../reference/manager-scope.html">Manager 作用域</a> — Manager 作用域概念详解</li>
+<li><a href="../reference/project-config.html">项目配置</a> — PROJECT 文件配置参考</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../migration/multi-group.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../reference/alpha_commands.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../migration/multi-group.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../reference/alpha_commands.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-c2a407aa.js"></script>
+
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-abc7f01d.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../theme/js/inject-2360f38b.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

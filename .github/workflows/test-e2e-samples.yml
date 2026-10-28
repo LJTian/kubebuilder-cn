@@ -1,0 +1,181 @@
+name: E2E Testdata Sample
+
+on:
+  push:
+    paths:
+      - 'testdata/**'
+      - '.github/workflows/test-e2e-samples.yml'
+  pull_request:
+    paths:
+      - 'testdata/**'
+      - '.github/workflows/test-e2e-samples.yml'
+
+permissions: {}
+
+jobs:
+  e2e-tests-project-v4:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+
+      - name: Install the latest version of kind
+        run: |
+          curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-$(go env GOARCH)
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
+
+      - name: Verify kind installation
+        run: kind version
+
+      - name: Create kind cluster
+        run: kind create cluster
+
+      - name: Prepare project-v4
+        run: |
+          # Enable [METRICS-WITH-CERTS] by uncommenting the lines in kustomization.yaml
+          KUSTOMIZATION_FILE_PATH="testdata/project-v4/config/default/kustomization.yaml"
+          sed -i '46,48s/^#//' "$KUSTOMIZATION_FILE_PATH"
+          cd testdata/project-v4/
+          go mod tidy
+
+      - name: Testing make test-e2e for project-v4
+        working-directory: testdata/project-v4/
+        run: |
+          make test-e2e
+
+  e2e-tests-project-v4-with-plugins:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+
+      - name: Install the latest version of kind
+        run: |
+          curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-$(go env GOARCH)
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
+
+      - name: Verify kind installation
+        run: kind version
+
+      - name: Create kind cluster
+        run: kind create cluster
+
+      - name: Prepare project-v4-with-plugins
+        run: |
+          cd testdata/project-v4-with-plugins/
+          go mod tidy
+
+      - name: Testing make test-e2e for project-v4-with-plugins
+        working-directory: testdata/project-v4-with-plugins/
+        run: |
+          make test-e2e
+
+  e2e-tests-project-v4-multigroup:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+
+      - name: Install the latest version of kind
+        run: |
+          curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-$(go env GOARCH)
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
+
+      - name: Verify kind installation
+        run: kind version
+
+      - name: Create kind cluster
+        run: kind create cluster
+
+      - name: Prepare project-v4-multigroup
+        run: |
+          cd testdata/project-v4-multigroup
+          go mod tidy
+
+      - name: Testing make test-e2e for project-v4-multigroup
+        working-directory: testdata/project-v4-multigroup/
+        run: |
+          make test-e2e
+
+  # Test to validate e2e integration when no APIs are scaffolded
+  e2e-test-basic-project:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+
+      - name: Install the latest version of kind
+        run: |
+          curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-$(go env GOARCH)
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
+
+      - name: Verify kind installation
+        run: kind version
+
+      - name: Create kind cluster
+        run: kind create cluster
+
+      - name: Build kubebuilder CLI from this repo
+        run: make install
+
+      - name: Scaffold empty go/v4 project
+        run: |
+          mkdir -p /tmp/basic-project-v4
+          cd /tmp/basic-project-v4
+          kubebuilder init --plugins go/v4 --domain example.com --repo example.com/empty-operator
+          go mod tidy
+          make
+
+      - name: Run make test-e2e on empty project
+        working-directory: /tmp/basic-project-v4
+        run: make test-e2e

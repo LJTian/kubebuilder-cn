@@ -1,0 +1,785 @@
+<!DOCTYPE HTML>
+<html lang="zh_CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>helm/v2-alpha - Kubebuilder 中文指南</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../logos/favicon.svg">
+        <link rel="shortcut icon" href="../../logos/favicon.png">
+        <link rel="stylesheet" href="../../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/css/markers-0bcf2cc9.css">
+        <link rel="stylesheet" href="../../theme/css/custom-265d96b0.css">
+        <link rel="stylesheet" href="../../theme/css/version-dropdown-e6742374.css">
+        <link rel="stylesheet" href="../../theme/css/global-banner-a2f85a7e.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex-a3608051.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc-675883bf.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"><img alt="Kubebuilder 中文指南" class="large-logo-img" src="../..//logos/kb-logo-one-line.svg"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/LJTian/kubebuilder-cn" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/LJTian/kubebuilder-cn/edit/cn-book-v4/docs/book/src/" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="helm-插件helmv1-alpha"><a class="header" href="#helm-插件helmv1-alpha">Helm 插件（<code>helm/v1-alpha</code>）</a></h1>
+<p><code>helm/v2-alpha</code> 插件根据项目的 kustomize 输出生成 Helm Chart，让你可以将 operator 以 bundle 或 Helm Chart 形式分发。</p>
+<p>该插件根据 <code>make build-installer</code> 输出动态构建 Chart，并保留你的自定义内容，如环境变量、标签、注解和安全上下文。</p>
+<h2 id="为何使用-helm"><a class="header" href="#为何使用-helm">为何使用 Helm</a></h2>
+<p>默认情况下，Kubebuilder 会创建一份清单 bundle：</p>
+<pre><code class="language-bash">make build-installer IMG=&lt;registry&gt;/&lt;project-name:tag&gt;
+</code></pre>
+<p>用户通过以下方式安装：</p>
+<pre><code class="language-bash">kubectl apply -f https://raw.githubusercontent.com/&lt;org&gt;/project-v4/&lt;tag-or-branch&gt;/dist/install.yaml
+</code></pre>
+<p>许多用户更偏好用 Helm 进行打包与升级。该插件将 <code>dist/install.yaml</code> 转换为镜像你项目的 Helm Chart。</p>
+<h2 id="features"><a class="header" href="#features">Features</a></h2>
+<ul>
+<li>根据 kustomize 输出生成 Chart，而非样板代码</li>
+<li>保留环境变量、标签、注解和补丁</li>
+<li>按 <code>config/</code> 目录布局组织模板</li>
+<li>仅在 <code>values.yaml</code> 中包含可配置参数</li>
+<li>永不覆盖 <code>Chart.yaml</code>；除非使用 <code>--force</code>，否则保留 <code>values.yaml</code>、<code>NOTES.txt</code>、<code>_helpers.tpl</code>、<code>.helmignore</code>、<code>test-chart.yml</code>、<code>network-policy/allow-metrics-traffic.yaml</code> 和 <code>network-policy/allow-webhook-traffic.yaml</code></li>
+<li>当 kustomize 输出未提供时，添加默认的 <code>ServiceMonitor</code> 和 <code>NetworkPolicy</code> 模板</li>
+<li>将自定义资源放在带有 Helm 模板的 <code>templates/extras/</code> 中</li>
+</ul>
+<h2 id="usage"><a class="header" href="#usage">Usage</a></h2>
+<h3 id="基本工作流"><a class="header" href="#基本工作流">基本工作流</a></h3>
+<p>创建项目并构建安装器捆绑包：</p>
+<pre><code class="language-bash">kubebuilder init
+make build-installer IMG=&lt;registry&gt;/&lt;project:tag&gt;
+</code></pre>
+<p>从 kustomize 输出生成 Helm Chart：</p>
+<pre><code class="language-bash">kubebuilder edit --plugins=helm/v2-alpha
+</code></pre>
+<p>要重新生成被保留的文件（<code>Chart.yaml</code> 除外），请使用 <code>--force</code>：</p>
+<pre><code class="language-bash">kubebuilder edit --plugins=helm/v2-alpha --force
+</code></pre>
+<h3 id="高级选项"><a class="header" href="#高级选项">高级选项</a></h3>
+<p>使用自定义清单文件：</p>
+<pre><code class="language-bash">kubebuilder edit --plugins=helm/v2-alpha --manifests=manifests/custom-install.yaml
+</code></pre>
+<p>将 Chart 写入自定义输出目录：</p>
+<pre><code class="language-bash">kubebuilder edit --plugins=helm/v2-alpha --output-dir=charts
+</code></pre>
+<p>组合自定义清单与输出目录：</p>
+<pre><code class="language-bash">kubebuilder edit --plugins=helm/v2-alpha \
+  --manifests=manifests/install.yaml \
+  --output-dir=helm-charts
+</code></pre>
+<h2 id="chart-结构"><a class="header" href="#chart-结构">Chart 结构</a></h2>
+<p>该插件生成的 Chart 布局会镜像你的 <code>config/</code> 目录：</p>
+<pre><code class="language-text">&lt;output-dir&gt;/chart/
+├── Chart.yaml
+├── values.yaml
+├── .helmignore
+└── templates/
+    ├── NOTES.txt
+    ├── _helpers.tpl
+    ├── rbac/                    # Individual RBAC files (examples)
+    │   ├── controller-manager.yaml
+    │   ├── leader-election-role.yaml
+    │   ├── leader-election-rolebinding.yaml
+    │   ├── manager-role.yaml
+    │   ├── manager-rolebinding.yaml
+    │   ├── metrics-auth-role.yaml
+    │   ├── metrics-auth-rolebinding.yaml
+    │   ├── metrics-reader.yaml
+    │   └── ...
+    ├── crd/                     # Individual CRD files (examples)
+    │   ├── busyboxes.example.com.testproject.org.yaml
+    │   └── ...
+    ├── cert-manager/
+    │   ├── metrics-certs.yaml
+    │   ├── selfsigned-issuer.yaml
+    │   └── serving-cert.yaml
+    ├── manager/
+    │   └── manager.yaml
+    ├── metrics/
+    │   └── controller-manager-metrics-service.yaml
+    ├── webhook/
+    │   ├── validating-webhook-configuration.yaml
+    │   └── webhook-service.yaml
+    ├── monitoring/
+    │   └── servicemonitor.yaml
+    ├── network-policy/
+    │   ├── allow-metrics-traffic.yaml
+    │   └── allow-webhook-traffic.yaml  # If webhooks are configured
+    └── extras/                  # Custom resources (if any)
+        ├── my-service.yaml
+        └── my-config.yaml
+</code></pre>
+<aside class="note" role="note">
+<p class="note-title">What is templates/extras/</p>
+
+<p>标准资源（RBAC、manager、webhook、CRD）使用专用模板目录。其他资源放入 <code>templates/extras/</code>。</p>
+<p>不会包含来自 <code>config/samples/</code> 的自定义资源实例。即使你将 CR 实例加入 kustomize 输出，插件也会忽略它们。</p>
+</aside>
+<aside class="note" role="note">
+<p class="note-title">Why CRDs are in templates/</p>
+
+<p>尽管 <a href="https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#method-1-let-helm-do-it-for-you">Helm 最佳实践</a> 建议将 CRD 放在顶层 <code>crds/</code> 目录下，但 Kubebuilder Helm 插件有意将它们放在 <code>templates/crd</code> 下。</p>
+<p>理由与 Helm 自身处理 CRD 的方式有关。默认情况下，Helm 会在首次发布时安装一次 CRD，但在后续升级时会<strong>忽略 CRD 变更</strong>。</p>
+<p>这可能导致令人惊讶的行为：Chart 升级会静默跳过 CRD 更新，使集群不同步。</p>
+<p>为避免认可这种行为，Kubebuilder 插件采用将 CRD 打包在 <code>templates/</code> 内的方式。在此模式下，Helm 会像对待其他资源一样对待 CRD，确保它们按预期被应用和升级。虽然这会阻止在单个 Chart 中混合同类型的 CRD 与 CR（因为 Helm 无法在创建步骤之间等待），但它确保了对 CRD 可预测且明确的生命周期管理。</p>
+<p>简而言之：</p>
+<ul>
+<li><strong>Helm <code>crds/</code> 目录</strong>：仅一次性安装，不升级。</li>
+<li><strong>Kubebuilder <code>templates/crd</code></strong>：CRD 像其他清单一样管理，包含升级。</li>
+</ul>
+<p>该设计选择优先考虑正确性与可维护性，而非 Helm 的默认约定，同时为未来改进留出空间（例如为 API 和控制器分别脚手架生成独立 Chart）。</p>
+</aside>
+<h2 id="values-配置"><a class="header" href="#values-配置">Values 配置</a></h2>
+<p>生成的 <code>values.yaml</code> 提供从实际部署中提取的配置选项。命名空间创建不由 Chart 管理；安装时请使用 Helm 的 <code>--namespace</code> 和 <code>--create-namespace</code> 标志。</p>
+<h3 id="values-如何格式化"><a class="header" href="#values-如何格式化">values 如何格式化</a></h3>
+<p>在以下情况取消 values 注释：</p>
+<ul>
+<li>从 kustomize 源清单提取</li>
+<li>标准 Helm 字段（replicas、image、资源名称）</li>
+</ul>
+<p>在以下情况 values 保持注释：</p>
+<ul>
+<li>未使用的可选 Kubernetes 功能（imagePullSecrets、priorityClassName）</li>
+<li>基础用法不需要的高级配置（topology spread、pod disruption budget）</li>
+<li>用户自定义字段（名称覆盖、自定义标签）</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><code class="language-yaml">## 用于部分覆盖 chart.fullname 模板的字符串（将保留 release 名称）
+##
+# nameOverride: ""
+
+## 用于完全覆盖 chart.fullname 模板的字符串
+##
+# fullnameOverride: ""
+
+## 配置控制器 manager 的 Deployment
+##
+manager:
+  ## 设为 false 以跳过 Manager 安装
+  ##
+  enabled: true
+
+  replicas: 1
+
+  image:
+    repository: controller
+    ## 镜像标签（未设置时默认为 Chart.appVersion）
+    ##
+    # tag: ""
+    pullPolicy: IfNotPresent
+
+  ## Arguments
+  ##
+  args:
+    - --leader-elect
+
+  ## 健康探针。
+  ## Manager 在此端口上提供存活（/healthz）与就绪（/readyz）端点。
+  ##
+  healthProbe:
+    # Health probe server port
+    port: 8081
+
+  ## 镜像拉取密钥
+  ##
+  # imagePullSecrets:
+  #   - name: myregistrykey
+
+  ## Pod 级安全设置
+  ##
+  podSecurityContext:
+    以非root用户身份运行: true
+    seccompProfile:
+      type: RuntimeDefault
+
+  ## 容器级安全设置
+  ##
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+      - ALL
+    readOnlyRootFilesystem: true
+
+  ## 资源限制与请求
+  ##
+  resources:
+    limits:
+      cpu: 500m
+      memory: 128Mi
+    requests:
+      cpu: 10m
+      memory: 64Mi
+
+  ## Manager pod's affinity
+  ##
+  affinity: {}
+
+  ## Manager pod 的节点选择器
+  ##
+  nodeSelector: {}
+
+  ## Manager pod's tolerations
+  ##
+  tolerations: []
+
+  ## Deployment 策略
+  ##
+  # strategy:
+  #   type: RollingUpdate
+  #   rollingUpdate:
+  #     maxSurge: 25%
+  #     maxUnavailable: 25%
+
+  ## Priority class 名称
+  ##
+  # priorityClassName: ""
+
+  ## Topology spread 约束
+  ##
+  # topologySpreadConstraints: []
+
+  ## 终止宽限期（秒）
+  ##
+  terminationGracePeriodSeconds: 10
+
+  ## Custom Deployment labels
+  ##
+  # labels: {}
+
+  ## 自定义 Deployment 注解
+  ##
+  # annotations: {}
+
+  ## 自定义 Pod 标签与注解
+  ##
+  # pod:
+  #   labels: {}
+  #   annotations: {}
+
+## RBAC 配置
+##
+rbac:
+  ## RBAC 资源作用域
+  ## - false（默认）：ClusterRole/ClusterRoleBinding（所有命名空间）
+  ## - true：Role/RoleBinding（仅 release 命名空间）
+  ##
+  namespaced: false
+
+  ## 用于 CRD 管理的辅助角色（admin/editor/viewer）
+  ##
+  helpers:
+    ## 为 CRD 安装便捷的 admin/editor/viewer 角色
+    ##
+    enabled: false
+
+## ServiceAccount 配置
+##
+serviceAccount:
+  # 安装所提供的默认 ServiceAccount
+  enabled: true
+
+  ## 已有 ServiceAccount 名称（enabled=false 时必填）
+  ## 设为 "default" 以使用命名空间默认 ServiceAccount
+  ## 注意：当 enabled=true 时，会尊重 nameOverride/fullnameOverride
+  ##
+  # name: ""
+
+  ## 自定义 ServiceAccount 注解
+  ##
+  # annotations: {}
+
+  ## 自定义 ServiceAccount 标签
+  ##
+  # labels: {}
+
+## CustomResourceDefinition
+##
+crd:
+  # Install CRDs with the chart
+  enabled: true
+  # Keep CRDs when uninstalling
+  keep: true
+
+## 控制器 metrics 端点。
+## 启用以暴露 /metrics 端点
+##
+指标:
+  enabled: true
+  # Metrics server port
+  port: 8443
+  # 启用安全 metrics：带证书/认证的 HTTPS（true）或 HTTP（false）。
+  # 注意：Metrics authn/authz 需要 ClusterRole 访问权限。
+  secure: true
+
+## 用于 TLS 证书的 cert-manager 集成。
+## Webhook 证书和 metrics 端点证书所必需。
+##
+certManager:
+  enabled: false
+
+## Webhook 服务器配置
+##
+webhook:
+  enabled: false
+  # Webhook server port
+  port: 9443
+
+## 用于抓取 metrics 的 Prometheus ServiceMonitor。
+## 需要集群中已安装 prometheus-operator。
+##
+prometheus:
+  enabled: false
+
+  ## 自定义 ServiceMonitor 标签
+  ##
+  # labels: {}
+
+  ## 自定义 ServiceMonitor 注解
+  ##
+  # annotations: {}
+
+## 用于控制流量的网络策略。
+## 启用以限制进入控制器 Manager 的入站流量。
+##
+networkPolicy:
+  enabled: false
+
+</code></pre>
+<h3 id="安装"><a class="header" href="#安装">安装</a></h3>
+<p>该插件会向你的 <code>Makefile</code> 添加 Helm 目标：</p>
+<pre><code class="language-bash">make helm-deploy IMG=&lt;registry&gt;/&lt;project:tag&gt;
+make helm-status
+</code></pre>
+<p>手动安装并启用全部功能：</p>
+<pre><code class="language-bash">$ helm install my-release ./dist/chart --namespace my-project-system --create-namespace
+</code></pre>
+<p>对于没有转换 Webhook 的 Chart，可通过将以下所有 values 设为 <code>false</code> 来禁用 Manager 及所有可选组件：</p>
+<pre><code class="language-bash">$ helm install my-release ./dist/chart \
+  --set manager.enabled=false \
+  --set metrics.enabled=false \
+  --set webhook.enabled=false \
+  --set prometheus.enabled=false \
+  --set certManager.enabled=false \
+  --set networkPolicy.enabled=false
+</code></pre>
+<p>对于没有转换 Webhook 的 Chart，可在不启用 Webhook 的情况下安装：</p>
+<pre><code class="language-bash">$ helm install my-release ./dist/chart --set webhook.enabled=false --set certManager.enabled=false
+</code></pre>
+<p><code>webhook.enabled=false</code> 会跳过 webhook Service、webhook 配置、webhook NetworkPolicy 以及 <code>webhook-server</code> 容器端口。还会设置 <code>--webhook-port=-1</code> 以禁用 Webhook 服务器。这与 <code>metrics.enabled=false</code>（传入 <code>--metrics-bind-address=0</code>）类似。</p>
+<aside class="note warning" role="note">
+<p class="note-title">Requires controller-runtime v0.25.0 or later</p>
+
+<p>较旧的 controller-runtime 发行版会将 <code>--webhook-port=-1</code> 视为默认值 <code>9443</code>。随后 Manager 会在没有证书的情况下尝试启动 Webhook 服务器并失败。参见<a href="../../reference/webhook-overview.html#disabling-the-webhook-server">禁用 Webhook 服务器</a>。</p>
+</aside>
+<p>带有 CR 版本转换的 Chart 会拒绝 <code>webhook.enabled=false</code>。API 服务器需要 Webhook Service 来转换自定义资源。</p>
+<p>安装并包含 NetworkPolicy 资源：</p>
+<pre><code class="language-bash">$ helm install my-release ./dist/chart --set networkPolicy.enabled=true
+</code></pre>
+<h3 id="额外卷"><a class="header" href="#额外卷">额外卷</a></h3>
+<p>向 Manager 部署添加 Webhook 与 metrics 证书之外的卷和卷挂载。</p>
+<p>kustomize 配置（<code>config/manager/manager.yaml</code> 或补丁）中的卷会写入 Chart 模板。当 Manager 有额外卷时，<code>values.yaml</code> 会包含 <code>manager.extraVolumes</code> 和 <code>manager.extraVolumeMounts</code> 字段。可用它们在安装时添加更多卷。</p>
+<p>Webhook 与 metrics 证书（<code>webhook-certs</code>、<code>metrics-certs</code>）单独管理，由 <code>certManager.enabled</code> 以及（针对 metrics TLS）<code>metrics.enabled</code> + <code>metrics.secure</code> 控制。</p>
+<h3 id="指标配置"><a class="header" href="#指标配置">指标配置</a></h3>
+<h4 id="metricsport"><a class="header" href="#metricsport"><code>metrics.port</code></a></h4>
+<p>设置 <code>metrics.port</code> 可更改 metrics 端点使用的端口。Chart 会将该值同时应用于 Manager 的 <code>--metrics-bind-address</code> 参数、metrics Service 的 port 与 targetPort，以及 metrics NetworkPolicy。</p>
+<p>例如，将 Chart 安装为在端口 <code>8444</code> 上提供 metrics 端点：</p>
+<pre><code class="language-bash">helm install my-operator ./dist/chart --set metrics.port=8444
+</code></pre>
+<p>默认值为 <code>8443</code>，从项目配置中检测得出。</p>
+<h4 id="metricssecure"><a class="header" href="#metricssecure"><code>metrics.secure</code></a></h4>
+<p>控制 metrics 端点的传输安全与身份认证（默认：<code>true</code>）。</p>
+<p>当为 <code>true</code> 时：</p>
+<ul>
+<li>使用带 TLS 证书的 HTTPS（当 <code>certManager.enabled=true</code> 时）</li>
+<li>创建用于身份认证的 <code>metrics-auth-role</code> ClusterRole</li>
+<li>ServiceMonitor 使用 HTTPS</li>
+</ul>
+<p>当为 <code>false</code> 时：</p>
+<ul>
+<li>使用无认证的 HTTP</li>
+<li>无 TLS 证书</li>
+<li>ServiceMonitor 使用 HTTP</li>
+</ul>
+<aside class="note" role="note">
+<p class="note-title">Metrics roles are always cluster-scoped</p>
+
+<p>即使 <code>rbac.namespaced=true</code>，<code>metrics-auth-role</code> 和 <code>metrics-reader</code> 也始终是 ClusterRole。Metrics 身份认证使用集群作用域 API 来认证像 Prometheus 这样的抓取器。</p>
+</aside>
+<h3 id="webhook-端口配置"><a class="header" href="#webhook-端口配置">Webhook 端口配置</a></h3>
+<p>设置 <code>webhook.port</code> 可更改 Manager 参数、容器端口、Service target port 和 NetworkPolicy。Service 对外暴露的端口保持不变（默认清单中为 <code>443</code>）。</p>
+<p>例如，将 Chart 安装为在端口 <code>9444</code> 上运行 Webhook 服务器：</p>
+<pre><code class="language-bash">helm install my-operator ./dist/chart --set webhook.port=9444
+</code></pre>
+<p>默认值为 <code>9443</code>，从项目配置中检测得出。要禁用 Webhook 服务器，请设置 <code>webhook.enabled=false</code>，而不是更改端口。</p>
+<h3 id="健康探针端口配置"><a class="header" href="#健康探针端口配置">健康探针端口配置</a></h3>
+<p>设置 <code>manager.healthProbe.port</code> 可更改 Manager 提供健康探针的端口。存活（<code>/healthz</code>）与就绪（<code>/readyz</code>）端点绑定到该端口。Chart 会将该值同时应用于 <code>--health-probe-bind-address</code> 参数、<code>health</code> 容器端口，以及两个探针的 <code>httpGet</code> 端口。</p>
+<p>例如，将 Chart 安装为在端口 <code>8082</code> 上提供健康探针：</p>
+<pre><code class="language-bash">helm install my-operator ./dist/chart --set manager.healthProbe.port=8082
+</code></pre>
+<p>默认值为 <code>8081</code>，从项目配置中检测得出。</p>
+<h3 id="为-manager-传递参数"><a class="header" href="#为-manager-传递参数">为 manager 传递参数</a></h3>
+<p>在 <code>values.yaml</code> 中使用 <code>manager.args</code>，向 Chart 未作为独立 values 暴露的 Manager 容器传递额外标志。Chart 通过 Helm 的 <code>tpl</code> 函数渲染每个条目，并对照 Chart 的根上下文求值，因此参数可以引用其他 values、release 信息或 Chart 模板函数，而不仅是静态字符串。</p>
+<p>例如，从 release 命名空间设置 leader election 命名空间，并添加一个普通标志：</p>
+<pre><code class="language-yaml">manager:
+  args:
+  - --leader-election-namespace={{ .Release.Namespace }}
+  - --leader-elect
+</code></pre>
+<p>Helm 在渲染时求值 <code>{{ .Release.Namespace }}</code>，因此 Manager 容器会收到 <code>--leader-election-namespace=&lt;release-namespace&gt;</code>。<code>--leader-elect</code> 标志没有模板语法，因此会原样渲染。</p>
+<aside class="note" role="note">
+<p class="note-title">Do not set the metrics, webhook, or health probe flags in manager.args</p>
+
+<p>Chart 已将 <code>--metrics-bind-address</code>、<code>--webhook-port</code> 和 <code>--health-probe-bind-address</code> 分别暴露为 <code>metrics.port</code>、<code>webhook.port</code> 和 <code>manager.healthProbe.port</code>。请设置这些 values，而不是把标志加入 <code>manager.args</code>。插件在生成 Chart 时会从提取的参数中移除这些标志，因此无论是否模板化，通过 <code>manager.args</code> 再加回去都会与由 values 驱动的标志重复。Service、NetworkPolicy 和探针仍使用已配置的端口，导致流量与探针指向错误端口。</p>
+</aside>
+<h3 id="networkpolicy-配置"><a class="header" href="#networkpolicy-配置">NetworkPolicy 配置</a></h3>
+<p>设置 <code>networkPolicy.enabled: true</code> 可为 Manager Pod 安装 NetworkPolicy 资源。</p>
+<p>当 kustomize 输出包含 <code>NetworkPolicy</code> 资源时，插件会转换并启用它们。否则，它会生成默认的 metrics 策略，并在检测到 admission 或 CRD 转换 Webhook 时生成默认的 webhook 策略。</p>
+<p>除非传入 <code>--force</code>，否则插件会保留默认 NetworkPolicy 模板。来自 kustomize 输出的策略总会重新生成，因此请在 <code>config/network-policy/</code> 中编辑它们。</p>
+<p>仅当 <code>networkPolicy.enabled</code> 与 <code>metrics.enabled</code> 均为 <code>true</code> 时，才会渲染生成的 metrics 策略。仅当 <code>networkPolicy.enabled</code> 与 <code>webhook.enabled</code> 均为 <code>true</code> 时，才会渲染生成的 webhook 策略。</p>
+<p>metrics 策略仅允许来自带有 <code>metrics: enabled</code> 标签的命名空间中的 Pod 的入站流量。请为应抓取 metrics 的每个命名空间打标签：</p>
+<pre><code class="language-bash">$ kubectl label namespace &lt;namespace&gt; metrics=enabled
+</code></pre>
+<p>默认 webhook 策略允许所有来源访问 Manager Pod 的 webhook 端口。API 服务器通过 webhook Service 到达该端口，用于 admission 与 CRD 转换 Webhook。若要按命名空间限制 admission 请求，请在 <code>MutatingWebhookConfiguration</code> 或 <code>ValidatingWebhookConfiguration</code> 上设置 <code>namespaceSelector</code>。该设置控制哪些请求会调用 admission Webhook；它不会限制 NetworkPolicy 流量。</p>
+<h3 id="自定义标签与注解"><a class="header" href="#自定义标签与注解">自定义标签与注解</a></h3>
+<p>使用 <code>manager.labels</code>、<code>manager.annotations</code>、<code>manager.pod.labels</code> 和 <code>manager.pod.annotations</code> 添加自定义标签与注解。来自 kustomize 的重复键会自动过滤。</p>
+<p>ServiceAccount 与 ServiceMonitor 资源通过 <code>serviceAccount.labels</code>、<code>serviceAccount.annotations</code>、<code>prometheus.labels</code> 和 <code>prometheus.annotations</code> 支持相同模式。</p>
+<h3 id="serviceaccount-配置"><a class="header" href="#serviceaccount-配置">ServiceAccount 配置</a></h3>
+<p>设置 <code>serviceAccount.enabled: true</code>（默认）以创建 ServiceAccount。设置 <code>serviceAccount.enabled: false</code> 以使用已有账户：</p>
+<pre><code class="language-yaml">serviceAccount:
+  enabled: false
+  name: my-existing-sa
+</code></pre>
+<p>Chart 默认启用该开关：</p>
+<pre><code class="language-yaml">serviceAccount:
+  enabled: true
+</code></pre>
+<p>Helm 会将该默认值合并到省略该节的任何 values 文件中，因此省略它仍会创建账户。</p>
+<p>当 <code>serviceAccount.enabled: false</code> 时，<code>serviceAccount.name</code> 为必填，未设置时 Chart 渲染会失败。显式设置 <code>name: default</code> 以使用命名空间默认 ServiceAccount。</p>
+<p>解析后的名称会一致地用于 Deployment 以及所有 RBAC 绑定，适用于集群作用域与命名空间作用域的 RBAC 模式：</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th><code>serviceAccount.enabled</code></th><th><code>serviceAccount.name</code></th><th>已创建 ServiceAccount</th><th>使用的名称（Deployment + RBAC 绑定）</th></tr>
+</thead>
+<tbody>
+<tr><td><code>true</code> (default)</td><td>any</td><td>Yes</td><td>生成的（<code>&lt;fullname&gt;-controller-manager</code>，name 被忽略）</td></tr>
+<tr><td><code>false</code></td><td>set</td><td>No</td><td>所提供的名称</td></tr>
+<tr><td><code>false</code></td><td><code>default</code></td><td>No</td><td>命名空间默认 ServiceAccount</td></tr>
+<tr><td><code>false</code></td><td>unset</td><td>No</td><td>渲染失败并给出明确错误</td></tr>
+</tbody>
+</table>
+</div>
+<p>生成的名称由 Chart fullname 构建，通常为 <code>&lt;release&gt;-&lt;chart&gt;</code>，再加上 <code>-controller-manager</code> 后缀，并截断到 Kubernetes 的 63 字符限制。它会尊重 <code>nameOverride</code> 与 <code>fullnameOverride</code>。</p>
+<aside class="note warning" role="note">
+<p class="note-title">Why an explicit name is required</p>
+
+<p>若静默回退到命名空间默认 ServiceAccount，会将 operator 的 RBAC 权限绑定到共享身份。要求设置 <code>serviceAccount.name</code> 可使该选择显式化，并在渲染时捕获错误配置。</p>
+</aside>
+<p>为云提供商集成添加注解：</p>
+<pre><code class="language-yaml">serviceAccount:
+  enabled: true
+  annotations:
+    iam.gke.io/gcp-service-account: my-operator@project.iam.gserviceaccount.com
+</code></pre>
+<p>外部 ServiceAccount 名称按原样使用，并忽略 <code>nameOverride</code> 或 <code>fullnameOverride</code>。</p>
+<h3 id="rbac-配置"><a class="header" href="#rbac-配置">RBAC 配置</a></h3>
+<h4 id="rbacnamespaced"><a class="header" href="#rbacnamespaced"><code>rbac.namespaced</code></a></h4>
+<p>设置 RBAC 权限作用域：</p>
+<ul>
+<li><code>false</code>（默认）：针对所有命名空间的 ClusterRole 与 ClusterRoleBinding</li>
+<li><code>true</code>：仅针对 release 命名空间的 Role 与 RoleBinding</li>
+</ul>
+<aside class="note" role="note">
+<p class="note-title">What rbac.namespaced controls</p>
+
+<p>这仅控制 RBAC 权限。要控制监视作用域，请使用 <code>WATCH_NAMESPACE</code>（<a href="../../reference/manager-scope.html">Manager 作用域</a>）。<code>metrics-auth-role</code> 始终是 ClusterRole，<code>leader-election-role</code> 始终是 Role。</p>
+</aside>
+<h4 id="rbacrolenamespaces"><a class="header" href="#rbacrolenamespaces"><code>rbac.roleNamespaces</code></a></h4>
+<p>当你的 kustomize 输出包含针对特定命名空间（非 Manager 命名空间）的 Role 与 RoleBinding 时，插件会自动检测并为它们创建 <code>roleNamespaces</code> 条目。</p>
+<p>为控制器添加命名空间特定的 RBAC 标记：</p>
+<pre><code class="language-go">// +kubebuilder:rbac:groups=apps,namespace=infrastructure,resources=deployments,verbs=get;list;watch
+// +kubebuilder:rbac:groups="",namespace=users,resources=secrets,verbs=get;list;watch
+</code></pre>
+<p>运行 <code>make manifests</code> 生成 RBAC 清单，然后运行该插件。生成的 <code>values.yaml</code> 包含：</p>
+<pre><code class="language-yaml">rbac:
+  namespaced: false
+
+  ## 部署到与 Manager 命名空间不同的命名空间的 Role 的命名空间配置
+  ## 键为资源名称后缀（不含项目前缀）
+  ##
+  roleNamespaces:
+    # RBAC 资源 manager-role-infrastructure 部署到命名空间 infrastructure
+    "manager-role-infrastructure": "infrastructure"
+    # RBAC 资源 manager-rolebinding-infrastructure 部署到命名空间 infrastructure
+    "manager-rolebinding-infrastructure": "infrastructure"
+    # RBAC 资源 manager-role-users 部署到命名空间 users
+    "manager-role-users": "users"
+    # RBAC 资源 manager-rolebinding-users 部署到命名空间 users
+    "manager-rolebinding-users": "users"
+
+  helpers:
+    enabled: false
+</code></pre>
+<p>使用 values 文件在部署时覆盖命名空间：</p>
+<pre><code class="language-yaml"># custom-values.yaml
+rbac:
+  roleNamespaces:
+    "manager-role-infrastructure": "prod-infra"
+    "manager-rolebinding-infrastructure": "prod-infra"
+    "manager-role-users": "prod-users"
+    "manager-rolebinding-users": "prod-users"
+</code></pre>
+<p>使用自定义命名空间安装：</p>
+<pre><code class="language-bash">helm install my-operator ./dist/chart -f custom-values.yaml
+</code></pre>
+<p>或使用 <code>--set</code>：</p>
+<pre><code class="language-bash">helm install my-operator ./dist/chart \
+  --set 'rbac.roleNamespaces[manager-role-infrastructure]=prod-infra' \
+  --set 'rbac.roleNamespaces[manager-role-users]=prod-users'
+</code></pre>
+<aside class="note" role="note">
+<p class="note-title">Helper roles and optional values</p>
+
+<p>设置 <code>rbac.helpers.enabled: true</code> 可为自定义资源创建 admin、editor 和 viewer 角色。</p>
+<p><code>values.yaml</code> 中的可选字段使用 Helm 条件。注释掉它们即可从已部署清单中排除。</p>
+</aside>
+<h2 id="旗帜"><a class="header" href="#旗帜">旗帜</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Flag</th><th>描述</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>--manifests</strong></td><td>包含 Kubernetes 清单的 YAML 文件路径（默认：<code>dist/install.yaml</code>）</td></tr>
+<tr><td><strong>--output-dir</strong> string</td><td>Chart 的输出目录（默认：<code>dist</code>）</td></tr>
+<tr><td><strong>--force</strong></td><td>重新生成除 <code>Chart.yaml</code> 外被保留的文件（<code>values.yaml</code>、<code>NOTES.txt</code>、<code>_helpers.tpl</code>、<code>.helmignore</code>、<code>test-chart.yml</code>、<code>network-policy/allow-metrics-traffic.yaml</code>、<code>network-policy/allow-webhook-traffic.yaml</code>）</td></tr>
+</tbody>
+</table>
+</div>
+<aside class="note" role="note">
+<p class="note-title"> Examples </p>
+
+<p>你可以在 <a href="https://github.com/kubernetes-sigs/kubebuilder/tree/master/testdata/project-v4-with-plugins">testdata/project-v4-with-plugins</a> 中找到示例项目。</p>
+</aside>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../plugins/available/helm-v1-alpha.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../plugins/available/kustomize-v2.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../plugins/available/helm-v1-alpha.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../plugins/available/kustomize-v2.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-c2a407aa.js"></script>
+
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../theme/js/inject-2360f38b.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

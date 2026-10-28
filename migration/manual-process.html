@@ -1,0 +1,756 @@
+<!DOCTYPE HTML>
+<html lang="zh_CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>手动迁移流程 - Kubebuilder 中文指南</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../logos/favicon.svg">
+        <link rel="shortcut icon" href="../logos/favicon.png">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/css/markers-0bcf2cc9.css">
+        <link rel="stylesheet" href="../theme/css/custom-265d96b0.css">
+        <link rel="stylesheet" href="../theme/css/version-dropdown-e6742374.css">
+        <link rel="stylesheet" href="../theme/css/global-banner-a2f85a7e.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex-a3608051.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc-675883bf.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"><img alt="Kubebuilder 中文指南" class="large-logo-img" src="..//logos/kb-logo-one-line.svg"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/LJTian/kubebuilder-cn" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/LJTian/kubebuilder-cn/edit/cn-book-v4/docs/book/src/" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="手动迁移流程"><a class="header" href="#手动迁移流程">手动迁移流程</a></h1>
+<p>请确保你已按照<a href="../quick-start.html">安装指南</a>安装所需组件，并且所需版本的 Kubebuilder CLI 已位于你的 <code>PATH</code> 中。</p>
+<p>本指南概述了将现有 Kubebuilder 项目迁移到较新版本 Kubebuilder 框架的手动步骤。此过程包括重新搭建项目脚手架，并手动移植你的自定义代码和配置。</p>
+<p>从 Kubebuilder <code>v3.0.0</code> 起，Kubebuilder 使用的所有输入都会记录在 <a href="../reference/project-config.html">PROJECT</a> 文件中。请检查当前项目中的该文件，以核对已记录的配置和元数据。请参阅 <a href="../reference/project-config.html">PROJECT 文件文档</a> 以更好地理解。</p>
+<p>另外，在开始之前，建议查阅<a href="../cronjob-tutorial/basic-project.html">基础项目包含什么？</a>，以便更好地理解项目布局和结构。</p>
+<aside class="warning" role="note">
+<p class="note-title">About Manual Migration</p>
+
+<p>手动迁移比自动化方法更复杂，但能让你拥有完全控制权。在以下情况下使用手动迁移：</p>
+<ul>
+<li>你的项目有大量自定义内容</li>
+<li>你的版本尚无可用的自动化工具</li>
+</ul>
+<p><strong>两阶段方法（推荐用于旧布局）：</strong></p>
+<ol>
+<li><strong>重组布局</strong> - 将文件移到新结构（controllers → internal/controller，webhooks → internal/webhook，main.go → cmd），更新导入，测试，提交</li>
+<li><strong>迁移到最新版本</strong> - 用最新版本重新搭建脚手架，移植代码</li>
+</ol>
+<p>这样可以让项目在每一步都保持可用，并简化移植。提供了 AI 迁移助手来自动化重复任务。参见<a href="./ai-helpers.html">AI 迁移助手</a>，其中包含可自动化两个阶段的 AI 说明。</p>
+<p><strong>关于后续更新：</strong> 迁移完成后，可使用 <a href="../plugins/available/autoupdate-v1-alpha.html">AutoUpdate 插件</a> 或 <a href="../reference/commands/alpha_update.html">alpha update</a> 命令，通过三方合并自动更新脚手架，同时保留自定义内容。</p>
+</aside>
+<h2 id="阶段-1reorganize-to-new-layout-required-only-for-legacy-layouts"><a class="header" href="#阶段-1reorganize-to-new-layout-required-only-for-legacy-layouts">阶段 1：Reorganize to New Layout (Required only for Legacy Layouts)</a></h2>
+<p><strong>仅在以下任一条件为真时需要：</strong></p>
+<ul>
+<li>控制器不在 <code>internal/controller/</code> 中</li>
+<li>Webhook 不在 <code>internal/webhook/</code> 中</li>
+<li>main 不在 <code>cmd/</code> 中</li>
+</ul>
+<p><strong>如果</strong>你的项目已使用 <code>internal/controller/</code>、<code>internal/webhook/</code> 和 <code>cmd/main.go</code>，<strong>可跳过此阶段</strong>。</p>
+<h3 id="11-创建重组分支"><a class="header" href="#11-创建重组分支">1.1 创建重组分支</a></h3>
+<pre><code class="language-bash">git checkout -b reorganize
+</code></pre>
+<h3 id="12-重组文件位置"><a class="header" href="#12-重组文件位置">1.2 重组文件位置</a></h3>
+<aside class="note" role="note">
+<p class="note-title">Skip if Using AI Migration Helper</p>
+
+<p>如果你已使用 <a href="./reorganize-layout.html">步骤 1：重组到新布局</a> AI 迁移助手，项目已完成重组。请跳到<a href="#phase-2-migrate-to-latest-version">阶段 2</a>。</p>
+</aside>
+<p>将文件移到新布局：</p>
+<pre><code class="language-bash"># If you have controllers/ directory
+mkdir -p internal/controller
+mv controllers/* internal/controller/
+rmdir controllers
+
+# OR if you have pkg/controllers/ directory
+mkdir -p internal/controller
+mv pkg/controllers/* internal/controller/
+
+# If you have webhooks in api/v1/ or apis/v1/
+mkdir -p internal/webhook/v1
+mv api/v1/*_webhook* internal/webhook/v1/ 2&gt;/dev/null || mv apis/v1/*_webhook* internal/webhook/v1/ 2&gt;/dev/null || echo "未找到可移动的 webhook 文件（如果项目没有 webhook，这是预期行为）"
+
+# If main.go is in root
+mkdir -p cmd
+mv main.go cmd/
+</code></pre>
+<h3 id="13-更新-package-声明"><a class="header" href="#13-更新-package-声明">1.3 更新 package 声明</a></h3>
+<p>移动文件后，更新 package 声明：</p>
+<p><strong>控制器：</strong> 在所有 <code>*_controller.go</code> 和 <code>*_controller_test.go</code> 文件中，将 <code>package controllers</code> → <code>package controller</code>。</p>
+<p><strong>Webhook：</strong> 保持版本作为包名（例如，在 <code>internal/webhook/v1/</code> 中 <code>package v1</code> 仍为 <code>package v1</code>）。</p>
+<h3 id="14-更新-import-路径"><a class="header" href="#14-更新-import-路径">1.4 更新 import 路径</a></h3>
+<p>查找并更新所有 import：</p>
+<pre><code class="language-bash">grep -r "pkg/controllers\|/controllers\"" --include="*.go"
+</code></pre>
+<p>在找到的每个文件中更新：</p>
+<ul>
+<li>导入：<code>&lt;module&gt;/controllers</code> 或 <code>&lt;module&gt;/pkg/controllers</code> → <code>&lt;module&gt;/internal/controller</code></li>
+<li>引用：<code>controllers.TypeName</code> → <code>controller.TypeName</code></li>
+</ul>
+<h3 id="15-更新-dockerfile如需要"><a class="header" href="#15-更新-dockerfile如需要">1.5 更新 Dockerfile（如需要）</a></h3>
+<p>如果你的 Dockerfile 对已移动路径有显式 COPY 语句，请更新它们以反映新结构，或简化为 <code>COPY . .</code> 并使用 <code>.dockerignore</code> 排除不需要的文件。</p>
+<h3 id="16-验证并提交"><a class="header" href="#16-验证并提交">1.6 验证并提交</a></h3>
+<p>构建并测试重组后的项目：</p>
+<pre><code class="language-bash">make generate manifests
+make build &amp;&amp; make test
+</code></pre>
+<p>如果成功，提交布局更改。你的项目现在使用新布局。继续进入阶段 2。</p>
+<h2 id="阶段-2migrate-to-latest-version"><a class="header" href="#阶段-2migrate-to-latest-version">阶段 2：Migrate to Latest Version</a></h2>
+<h3 id="步骤-1prepare-your-current-project"><a class="header" href="#步骤-1prepare-your-current-project">步骤 1：Prepare Your Current Project</a></h3>
+<h3 id="11-创建迁移分支"><a class="header" href="#11-创建迁移分支">1.1 创建迁移分支</a></h3>
+<p>从当前代码库创建分支：</p>
+<pre><code class="language-bash">git checkout -b migration
+</code></pre>
+<h3 id="12-创建备份"><a class="header" href="#12-创建备份">1.2 创建备份</a></h3>
+<pre><code class="language-bash">mkdir ../migration-backup
+cp -r . ../migration-backup/
+</code></pre>
+<h3 id="13-清理项目目录"><a class="header" href="#13-清理项目目录">1.3 清理项目目录</a></h3>
+<p>删除除 <code>.git</code> 外的所有文件：</p>
+<pre><code class="language-bash">find . -not -path './.git*' -not -name '.' -not -name '..' -delete
+</code></pre>
+<h2 id="步骤-2initialize-the-new-project"><a class="header" href="#步骤-2initialize-the-new-project">步骤 2：Initialize the New Project</a></h2>
+<p><strong>关于 PROJECT 文件：</strong> 从 v3.0.0+ 起，<code>PROJECT</code> 文件跟踪所有脚手架元数据。如果你有该文件且所有资源都通过 CLI 创建，请先尝试 <code>kubebuilder alpha generate</code>。否则，按下面的手动步骤识别并重新搭建所有资源的脚手架。</p>
+<h3 id="21-识别你的-module-与-domain"><a class="header" href="#21-识别你的-module-与-domain">2.1 识别你的 module 与 domain</a></h3>
+<p>从备份中识别初始化所需的信息。</p>
+<aside class="note" role="note">
+<p class="note-title">Skip if Using AI Migration Helper</p>
+
+<p>如果你已使用 <a href="./discovery-commands.html">步骤 2：发现 CLI 命令</a> AI 迁移助手，你已有包含所有命令的完整脚本。执行它并跳到<a href="#step-4-port-your-custom-code">步骤 4：移植自定义代码</a>。</p>
+</aside>
+<p><strong>Module 路径</strong> - 检查备份中的 <code>go.mod</code> 文件：</p>
+<pre><code class="language-bash">cat ../migration-backup/go.mod
+</code></pre>
+<p>查找 module 行：</p>
+<pre><code class="language-go">module tutorial.kubebuilder.io/migration-project
+</code></pre>
+<p><strong>Domain</strong> - 检查备份的 <code>PROJECT</code> 文件：</p>
+<pre><code class="language-bash">cat ../migration-backup/PROJECT
+</code></pre>
+<p>查找 domain 行：</p>
+<pre><code class="language-yaml">domain: tutorial.kubebuilder.io
+</code></pre>
+<p>如果你没有 <code>PROJECT</code> 文件（版本 &lt; <code>v3.0.0</code>），请检查 <code>config/crd/bases/</code> 下的 CRD 文件，或查看 API group 名称。domain 是 API group 中 group 名称之后的部分。</p>
+<h3 id="22-初始化-go-module"><a class="header" href="#22-初始化-go-module">2.2 初始化 Go module</a></h3>
+<p>使用原项目中相同的 module 路径初始化新的 Go module：</p>
+<pre><code class="language-bash">go mod init tutorial.kubebuilder.io/migration-project
+</code></pre>
+<p>将 <code>tutorial.kubebuilder.io/migration-project</code> 替换为你的实际 module 路径。</p>
+<h3 id="23-初始化-kubebuilder-项目"><a class="header" href="#23-初始化-kubebuilder-项目">2.3 初始化 Kubebuilder 项目</a></h3>
+<p>使用 Kubebuilder 初始化项目：</p>
+<pre><code class="language-bash">kubebuilder init --domain tutorial.kubebuilder.io --repo tutorial.kubebuilder.io/migration-project
+</code></pre>
+<p>替换为你的实际 domain 和 repository（module 路径）。</p>
+<aside class="note" role="note">
+<p class="note-title">Understanding init options</p>
+
+<ul>
+<li><code>--domain</code>：API group 的域名（例如 <code>tutorial.kubebuilder.io</code>）。完整 API group 为 <code>&lt;group&gt;.&lt;domain&gt;</code>。</li>
+<li><code>--repo</code>：你的 Go module 路径（与 <code>go.mod</code> 中相同）</li>
+</ul>
+</aside>
+<h3 id="24-启用多-group-支持如需要"><a class="header" href="#24-启用多-group-支持如需要">2.4 启用多 group 支持（如需要）</a></h3>
+<p>多 group 项目将 API 组织到不同的 group 中，每个 group 位于自己的目录。当你有用于不同目的或领域的 API 时，这很有用。</p>
+<p><strong>通过检查备份的目录结构，确认项目是否使用多 group 布局</strong>：</p>
+<ul>
+<li>
+<p><strong>单 group 布局：</strong> 所有 API 在一个 group 中</p>
+<ul>
+<li><code>api/v1/cronjob_types.go</code></li>
+<li><code>api/v1/job_types.go</code></li>
+<li><code>api/v2/cronjob_types.go</code></li>
+</ul>
+</li>
+<li>
+<p><strong>多 group 布局：</strong> API 按 group 组织</p>
+<ul>
+<li><code>api/batch/v1/cronjob_types.go</code></li>
+<li><code>api/crew/v1/captain_types.go</code></li>
+<li><code>api/sea/v1/ship_types.go</code></li>
+</ul>
+</li>
+</ul>
+<p>你也可以在备份的 <code>PROJECT</code> 文件中检查是否有 <code>multigroup: true</code>。</p>
+<p><strong>如果你的项目使用多 group 布局</strong>，请在创建 API 之前启用它：</p>
+<pre><code class="language-bash">kubebuilder edit --multigroup=true
+</code></pre>
+<aside class="warning" role="note">
+<p class="note-title">Important</p>
+
+<p>必须在创建任何 API 之前完成此操作，以确保它们按多 group 结构搭建脚手架。</p>
+</aside>
+<p>按本指南操作时，你会自动获得新布局，因为你是用最新版本创建全新项目，并将代码移植进去。</p>
+<h2 id="步骤-3re-scaffold-apis-and-controllers"><a class="header" href="#步骤-3re-scaffold-apis-and-controllers">步骤 3：Re-scaffold APIs and Controllers</a></h2>
+<p>对原项目中的每个 API 资源，在新项目中重新搭建脚手架。</p>
+<h3 id="31-识别你的全部-api"><a class="header" href="#31-识别你的全部-api">3.1 识别你的全部 API</a></h3>
+<p>查看备份项目（<code>../migration-backup/</code>）以识别所有 API。<strong>无论是否有 <code>PROJECT</code> 文件，都建议检查备份目录</strong>，因为并非所有资源都可能通过 CLI 创建。</p>
+<p><strong>检查备份中的目录结构</strong>，确保不会遗漏任何手动创建的资源：</p>
+<ul>
+<li>
+<p>在 <code>api/</code> 目录（或较旧 Kubebuilder 版本生成的项目中的 <code>apis/</code>）中查找 <code>*_types.go</code> 文件：</p>
+<ul>
+<li>单 group：<code>api/v1/cronjob_types.go</code> - 提取：version <code>v1</code>，kind <code>CronJob</code>，group 来自导入</li>
+<li>多 group：<code>api/batch/v1/cronjob_types.go</code> - 提取：group <code>batch</code>，version <code>v1</code>，kind <code>CronJob</code></li>
+</ul>
+</li>
+<li>
+<p>在这些位置检查控制器：</p>
+<ul>
+<li><strong>当前：</strong> <code>internal/controller/cronjob_controller.go</code> 或 <code>internal/controller/&lt;group&gt;/cronjob_controller.go</code></li>
+<li><strong>旧版：</strong> <code>controllers/cronjob_controller.go</code> 或 <code>pkg/controllers/cronjob_controller.go</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>如果你从 Kubebuilder <code>v3.0.0+</code> 起使用 CLI 创建了所有 API，它们应出现在 <code>PROJECT</code> 文件的 <code>resources</code> 部分</strong>，例如：</p>
+<pre><code class="language-yaml">resources:
+  - api:
+      crdVersion: v1
+      namespaced: true
+    controller: true
+    group: batch
+    kind: CronJob
+    version: v1
+</code></pre>
+<aside class="note" role="note">
+<p class="note-title">Tip</p>
+
+<p>列出所有 API 及其 group、version、kind，以及是否有控制器。这将帮助你系统地重新搭建所有脚手架。</p>
+</aside>
+<h3 id="32-创建每个-api-和控制器"><a class="header" href="#32-创建每个-api-和控制器">3.2 创建每个 API 和控制器</a></h3>
+<p>对步骤 3.1 中识别的每个 API，重新搭建脚手架：</p>
+<pre><code class="language-bash">kubebuilder create api --group batch --version v1 --kind CronJob
+</code></pre>
+<p>出现提示时：</p>
+<ul>
+<li>对 “Create Resource [y/n]” 回答 <strong>yes</strong> 以生成 API 类型</li>
+<li>如果你的原项目对此 API 有控制器，对 “Create Controller [y/n]” 回答 <strong>yes</strong></li>
+</ul>
+<p><strong>创建每个 API 后</strong>，更新生成的清单和代码：</p>
+<pre><code class="language-bash">make manifests  # Generate CRD, RBAC, and other config files
+make generate   # Generate code (e.g., DeepCopy methods)
+</code></pre>
+<p>然后验证一切可以编译：</p>
+<pre><code class="language-bash">make build
+</code></pre>
+<p>这些步骤确保新搭建的 API 正确集成。有关 API 创建工作流的详细演练，请参见<a href="../quick-start.html">快速开始</a>指南。</p>
+<p>对项目中的<strong>所有</strong> API 重复此过程。</p>
+<aside class="note" role="note">
+<p class="note-title">Using External Types (controllers for types not defined in your project)</p>
+
+<p>如果你的项目有针对 Kubernetes 内置类型（如 <code>Deployment</code>、<code>Pod</code>）或其他项目类型的控制器：</p>
+<pre><code class="language-bash">kubebuilder create api --group apps --version v1 --kind Deployment --resource=false --controller=true
+</code></pre>
+<p>或者针对其他项目的 CRD，例如 <code>cert-manager</code> 的 <code>Certificate</code> 类型：</p>
+<pre><code class="language-bash">kubebuilder create api --group "cert-manager" --version v1 --kind Certificate --controller=true --resource=false --make=false --external-api-path=github.com/cert-manager/cert-manager/pkg/apis/certmanager/v1 --external-api-domain=io --external-api-module=github.com/cert-manager/cert-manager@v1.18.2
+</code></pre>
+<p>使用 <code>--resource=false</code> 跳过创建 API 定义，仅搭建控制器脚手架。</p>
+<p>请确保查看<a href="../reference/using_an_external_resource.html">使用外部类型</a>以获取更多详细信息。</p>
+</aside>
+<p>创建所有资源后，重新生成清单：</p>
+<pre><code class="language-bash">make manifests
+make generate
+</code></pre>
+<h3 id="33-重新脚手架生成-webhook如适用"><a class="header" href="#33-重新脚手架生成-webhook如适用">3.3 重新脚手架生成 Webhook（如适用）</a></h3>
+<p>如果原项目有 webhook，你需要重新搭建它们的脚手架。</p>
+<p><strong>识别备份项目中的 Webhook：</strong></p>
+<ol>
+<li>
+<p><strong>从目录结构</strong>查找 webhook 文件：</p>
+<ul>
+<li>旧位置（v3 及更早）：<code>api/v1/&lt;kind&gt;_webhook.go</code> 或 <code>api/&lt;group&gt;/&lt;version&gt;/&lt;kind&gt;_webhook.go</code></li>
+<li>当前位置（单 group）：<code>internal/webhook/&lt;version&gt;/&lt;kind&gt;_webhook.go</code></li>
+<li>当前位置（多 group）：<code>internal/webhook/&lt;group&gt;/&lt;version&gt;/&lt;kind&gt;_webhook.go</code></li>
+</ul>
+</li>
+<li>
+<p><strong>从 <code>PROJECT</code> 文件</strong>（如可用）检查每个资源的 webhooks 部分：</p>
+</li>
+</ol>
+<pre><code class="language-yaml">resources:
+  - api:
+      ...
+    webhooks:
+      defaulting: true
+      validation: true
+      webhookVersion: v1
+</code></pre>
+<p><strong>重新脚手架生成 Webhook：</strong></p>
+<p>对每个带有 Webhook 的资源运行：</p>
+<pre><code class="language-bash">kubebuilder create webhook --group batch --version v1 --kind CronJob --defaulting --programmatic-validation
+</code></pre>
+<p><strong>Webhook 选项：</strong></p>
+<ul>
+<li><code>--defaulting</code> - 创建默认值 Webhook（设置默认值）</li>
+<li><code>--programmatic-validation</code> - 创建校验 Webhook（校验创建/更新/删除操作）</li>
+<li><code>--conversion</code> - 创建转换 Webhook（用于多版本 API，见下一节）</li>
+</ul>
+<h3 id="34-重新脚手架生成转换-webhook如适用"><a class="header" href="#34-重新脚手架生成转换-webhook如适用">3.4 重新脚手架生成转换 Webhook（如适用）</a></h3>
+<p>如果你的项目有带 conversion webhook 的多版本 API，需要设置 hub-spoke 转换模式。</p>
+<aside class="note" role="note">
+<p class="note-title">Understanding Hub-Spoke Conversion</p>
+
+<p>在 Kubernetes 多版本 API 中，<strong>hub</strong> 是所有其他版本（spoke）与之相互转换的版本：</p>
+<ul>
+<li><strong>Hub 版本</strong>：通常是最完整/稳定的版本（往往是存储版本）</li>
+<li><strong>Spoke 版本</strong>：通过 hub 进行转换的所有其他版本</li>
+</ul>
+<p>hub 实现 <code>Hub()</code> 标记接口，而 spoke 实现 <code>ConvertTo()</code> 和 <code>ConvertFrom()</code> 方法以与 hub 相互转换。</p>
+</aside>
+<p><strong>设置转换 Webhook：</strong></p>
+<p>为 <strong>hub</strong> 版本创建 conversion webhook，并使用 <code>--spoke</code> 标志指定 spoke 版本。</p>
+<p><strong>注意：</strong> 下面示例中使用 <code>v1</code> 作为 hub 仅作说明。请选择项目中应作为中心转换点的版本——通常是功能最完整且稳定的存储版本，不一定是最旧或最新的版本。</p>
+<pre><code class="language-bash">kubebuilder create webhook --group batch --version v1 --kind CronJob --conversion --spoke v2
+</code></pre>
+<p>该命令：</p>
+<ul>
+<li>为作为 <strong>hub</strong> 版本的 <code>v1</code> 创建 conversion webhook</li>
+<li>将 <code>v2</code> 配置为与 hub <code>v1</code> 相互转换的 <strong>spoke</strong></li>
+<li>生成带有转换方法存根的 <code>*_conversion.go</code> 文件</li>
+</ul>
+<p><strong>对于多个 spoke</strong>，将它们指定为逗号分隔的列表：</p>
+<pre><code class="language-bash">kubebuilder create webhook --group batch --version v1 --kind CronJob --conversion --spoke v2,v1alpha1
+</code></pre>
+<p>这将 <code>v1</code> 设为 <strong>hub</strong>，并将 <code>v2</code> 和 <code>v1alpha1</code> 都设为 <strong>spoke</strong>。</p>
+<p><strong>你需要实现的内容：</strong></p>
+<p>该命令会生成方法存根，你将在步骤 4 中填写：</p>
+<ul>
+<li><strong>Hub 版本</strong>：实现 <code>Hub()</code> 方法（通常只是一个标记）</li>
+<li><strong>Spoke 版本</strong>：实现带有转换逻辑的 <code>ConvertTo(hub)</code> 和 <code>ConvertFrom(hub)</code> 方法</li>
+</ul>
+<p>有关实现转换逻辑的全面指导，请参见<a href="../multiversion-tutorial/tutorial.html">多版本教程</a>。</p>
+<aside class="note" role="note">
+<p class="note-title"> Forget a type of webhook ? </p>
+
+<p>如果忘记了某种 webhook 类型，使用 <code>--force</code> 重新运行命令：</p>
+<pre><code class="language-bash">kubebuilder create webhook --group batch --version v1 --kind CronJob --defaulting --force
+</code></pre>
+</aside>
+<aside class="note" role="note">
+<p class="note-title">Webhook for External Types</p>
+
+<p><strong>对于外部类型</strong>，你也可以创建 webhook：</p>
+<pre><code class="language-bash">kubebuilder create webhook --group apps --version v1 --kind Deployment --defaulting --programmatic-validation
+</code></pre>
+<p>更多信息：<a href="../reference/webhook-overview.html">Webhook 概览</a>、<a href="../reference/admission-webhook.html">准入 Webhook</a> 以及<a href="../reference/using_an_external_resource.html#creating-a-webhook-to-manage-an-external-type">为外部类型创建 Webhook</a>。</p>
+</aside>
+<p>搭建所有 webhook 脚手架后，验证一切可以编译：</p>
+<pre><code class="language-bash">make manifests &amp;&amp; make build
+</code></pre>
+<h2 id="步骤-4port-your-custom-code"><a class="header" href="#步骤-4port-your-custom-code">步骤 4：Port Your Custom Code</a></h2>
+<aside class="note" role="note">
+<p class="note-title">Using AI Migration Helper</p>
+
+<p>如果你已使用 <a href="./port-code.html">步骤 3：移植自定义代码</a> AI 迁移助手，代码已移植完成。</p>
+<p>你可以跳到<a href="#step-5-test-and-verify">步骤 5</a>。不过仍建议至少审阅以下步骤并做手动验证，确保所有代码都已正确移植。</p>
+</aside>
+<p>将自定义业务逻辑和配置从备份手动移植到新项目。</p>
+<aside class="note" role="note">
+<p class="note-title">Use diff tools</p>
+
+<p>使用 IDE 差异工具或类似 <code>diff -r ../migration-backup/ .</code> 的命令比较目录，识别需要移植的所有自定义内容。大多数现代 IDE 支持目录级比较，这会使过程容易得多。</p>
+</aside>
+<h3 id="41-移植-api-定义"><a class="header" href="#41-移植-api-定义">4.1 移植 API 定义</a></h3>
+<p>比较并合并备份项目中的自定义 API 字段和标记。</p>
+<p><strong>需要对比的文件：</strong></p>
+<ul>
+<li><strong>单 group：</strong> <code>api/v1/&lt;kind&gt;_types.go</code></li>
+<li><strong>多 group：</strong> <code>api/&lt;group&gt;/&lt;version&gt;/&lt;kind&gt;_types.go</code></li>
+</ul>
+<p><strong>需要移植的内容：</strong></p>
+<ol>
+<li>Spec 与 Status 结构体中的<strong>自定义字段</strong></li>
+<li><strong>验证标记</strong> - 例如 <code>+kubebuilder:validation:Minimum=0</code>、<code>+kubebuilder:validation:Pattern=...</code></li>
+<li><strong>CRD 生成标记</strong> - 例如 <code>+kubebuilder:printcolumn</code>、<code>+kubebuilder:resource:scope=Cluster</code></li>
+<li><strong>子资源（SubResources）</strong> - 例如 <code>+kubebuilder:subresource:status</code>、<code>+kubebuilder:subresource:scale</code></li>
+<li><strong>文档注释</strong> - 用于 CRD 描述</li>
+</ol>
+<p>有关所有可用标记，请参见 <a href="../reference/generating-crd.html">CRD 生成</a>、<a href="../reference/markers/crd-validation.html">CRD 验证</a> 和<a href="../reference/markers.html">标记</a>。</p>
+<p><strong>如果你的 API 引用了父包</strong>（例如 <code>scheduling.GroupName</code>），请移植它：</p>
+<pre><code class="language-bash">mkdir -p api/&lt;group&gt;/
+cp ../migration-backup/apis/&lt;group&gt;/groupversion_info.go api/&lt;group&gt;/
+</code></pre>
+<p>移植 API 定义后，重新生成并验证：</p>
+<pre><code class="language-bash">make manifests  # Generate CRD manifests from your types
+make generate   # Generate DeepCopy methods
+</code></pre>
+<p>这可确保在继续之前正确生成 API 类型和 CRD 清单。</p>
+<h3 id="42-移植控制器逻辑"><a class="header" href="#42-移植控制器逻辑">4.2 移植控制器逻辑</a></h3>
+<p><strong>需要对比的文件：</strong></p>
+<ul>
+<li><strong>当前单 group：</strong> <code>internal/controller/&lt;kind&gt;_controller.go</code></li>
+<li><strong>当前多 group：</strong> <code>internal/controller/&lt;group&gt;/&lt;kind&gt;_controller.go</code></li>
+</ul>
+<p><strong>需要移植的内容：</strong></p>
+<ol>
+<li><strong>Reconcile 函数实现</strong> - 你的核心业务逻辑</li>
+<li><strong>辅助函数</strong> - 控制器文件中的任何额外函数</li>
+<li><strong>RBAC 标记</strong> - <code>+kubebuilder:rbac:groups=...,resources=...,verbs=...</code></li>
+<li><strong>额外的 watch</strong> - <code>SetupWithManager</code> 中的自定义 watch 配置</li>
+<li><strong>导入</strong> - 控制器需要的任何额外包</li>
+<li><strong>结构体字段</strong> - 添加到 Reconciler 结构体的自定义字段</li>
+</ol>
+<p>有关权限标记的详细信息，请参见 <a href="../reference/markers/rbac.html">RBAC 标记</a>。</p>
+<p>移植控制器逻辑后，重新生成清单并验证编译：</p>
+<pre><code class="language-bash">make generate
+make manifests
+make build
+</code></pre>
+<h3 id="43-移植-webhook-实现"><a class="header" href="#43-移植-webhook-实现">4.3 移植 Webhook 实现</a></h3>
+<p>Webhook 在不同 Kubebuilder 版本之间位置有变化。请注意路径差异：</p>
+<p><strong>旧版 webhook 位置</strong>（Kubebuilder v3 及更早）：</p>
+<ul>
+<li><code>api/v1/&lt;kind&gt;_webhook.go</code></li>
+<li><code>api/&lt;group&gt;/&lt;version&gt;/&lt;kind&gt;_webhook.go</code></li>
+</ul>
+<p><strong>当前 Webhook 位置：</strong></p>
+<ul>
+<li>单 group：<code>internal/webhook/&lt;version&gt;/&lt;kind&gt;_webhook.go</code></li>
+<li>多 group：<code>internal/webhook/&lt;group&gt;/&lt;version&gt;/&lt;kind&gt;_webhook.go</code></li>
+</ul>
+<p><strong>需要移植的内容：</strong></p>
+<ol>
+<li><strong>Defaulting webhook</strong> - <code>Default()</code> 方法实现</li>
+<li><strong>Validation webhook</strong> - <code>ValidateCreate()</code>、<code>ValidateUpdate()</code>、<code>ValidateDelete()</code> 方法</li>
+<li><strong>Conversion webhook</strong> - <code>ConvertTo()</code> 和 <code>ConvertFrom()</code> 方法（用于多版本 API）</li>
+<li><strong>辅助函数</strong> - 任何验证或默认值辅助函数</li>
+<li><strong>Webhook 标记</strong> - 通常自动生成，但请验证它们符合你的需求</li>
+</ol>
+<aside class="note" role="note">
+<p class="note-title">Important</p>
+
+<p>即使 webhook 文件位于不同位置，实现逻辑大体相同。复制方法实现，而不是整个文件。</p>
+</aside>
+<p>有关详细信息，请参见 <a href="../reference/webhook-overview.html">Webhook 概览</a>、<a href="../reference/admission-webhook.html">准入 Webhook</a> 和<a href="../multiversion-tutorial/tutorial.html">多版本教程</a>。</p>
+<p><strong>针对转换 Webhook：</strong></p>
+<p>如果你有 conversion webhook，请确保在步骤 3.4 中使用了 <code>create webhook --conversion --spoke &lt;version&gt;</code> 命令。这会自动设置 hub-spoke 基础设施。你只需在 spoke 版本的 <code>ConvertTo()</code> 和 <code>ConvertFrom()</code> 方法以及 hub 版本的 <code>Hub()</code> 方法中填写转换逻辑。</p>
+<p>该命令会创建所有必要的样板代码——你只需实现版本之间字段转换的业务逻辑。</p>
+<p>移植 Webhook 后，重新生成并验证：</p>
+<pre><code class="language-bash">make generate
+make manifests
+make build
+</code></pre>
+<h3 id="44-移植-maingo-自定义内容如有"><a class="header" href="#44-移植-maingo-自定义内容如有">4.4 移植 main.go 自定义内容（如有）</a></h3>
+<p><strong>文件：</strong> <code>cmd/main.go</code></p>
+<p>大多数项目不需要自定义 <code>main.go</code>，因为 Kubebuilder 会自动处理所有标准设置（注册 API、设置控制器和 webhook、Manager 初始化、metrics 等）。</p>
+<p>仅移植不属于标准脚手架的自定义内容。将备份的 <code>main.go</code> 与新搭建的文件比较，识别你添加的任何自定义逻辑。</p>
+<h3 id="45-配置-kustomize-清单"><a class="header" href="#45-配置-kustomize-清单">4.5 配置 Kustomize 清单</a></h3>
+<p><code>config/</code> 目录包含用于部署 operator 的 Kustomize 清单。与备份比较，确保所有配置都已正确设置。</p>
+<p><strong>审查并更新这些目录：</strong></p>
+<ol>
+<li>
+<p><strong><code>config/default/kustomization.yaml</code></strong> - 主 kustomization 文件</p>
+<ul>
+<li>如果你有 webhook，确保启用了 webhook 配置（取消注释与 webhook 相关的 patches）</li>
+<li>如果使用 webhook，确保启用了 cert-manager（取消注释 certmanager 资源）</li>
+<li>根据原始配置启用或禁用 metrics 端点</li>
+<li>审查命名空间与名称前缀设置</li>
+</ul>
+</li>
+<li>
+<p><strong><code>config/manager/</code></strong> - 控制器 Manager 部署</p>
+<ul>
+<li>除非有自定义，通常无需更改。如有自定义，请将资源 limits 和 requests 与备份比较，并检查环境变量</li>
+</ul>
+</li>
+<li>
+<p><strong><code>config/rbac/</code></strong> - RBAC 配置</p>
+<ul>
+<li>通常由标记自动生成——无需手动更改</li>
+<li>仅在有标记未覆盖的自定义 role binding 或 service account 配置时检查</li>
+</ul>
+</li>
+<li>
+<p><strong><code>config/webhook/</code></strong> - Webhook 配置（如适用）</p>
+<ul>
+<li>通常自动生成 - 无需手动更改</li>
+<li>仅在有自定义 webhook service 或证书配置时检查</li>
+</ul>
+</li>
+<li>
+<p><strong><code>config/samples/</code></strong> - 示例 CR 清单</p>
+<ul>
+<li>从备份复制你的示例资源</li>
+</ul>
+</li>
+</ol>
+<p>配置 Kustomize 后，验证清单能正确构建：</p>
+<pre><code class="language-bash">make all
+make build-installer
+</code></pre>
+<h3 id="46-移植额外自定义内容"><a class="header" href="#46-移植额外自定义内容">4.6 移植额外自定义内容</a></h3>
+<p>从备份移植任何额外的包、依赖和自定义内容：</p>
+<p><strong>额外包</strong>（例如 <code>pkg/util</code>）：</p>
+<pre><code class="language-bash">cp -r ../migration-backup/pkg/&lt;package-name&gt; pkg/
+# 更新导入路径（适用于 macOS 和 Linux）
+find pkg/ -name "*.go" -exec sed -i.bak 's|&lt;module&gt;/apis/|&lt;module&gt;/api/|g' {} \;
+find pkg/ -name "*.go.bak" -delete
+</code></pre>
+<p>对于依赖，运行 <code>go mod tidy</code>，或对复杂项目从备份复制 <code>go.mod</code>/<code>go.sum</code>。</p>
+<p>检查其他自定义内容（Makefile、Dockerfile、测试文件）。使用 diff 工具与备份比较，识别遗漏的文件。</p>
+<aside class="note" role="note">
+<p class="note-title">Using diff tools</p>
+
+<p>使用 IDE 的 diff 工具将当前目录与备份（<code>../migration-backup/</code>）比较，或使用 git 将当前分支与 main 分支比较。这有助于识别可能遗漏的任何文件。</p>
+</aside>
+<p>移植所有自定义内容后，验证一切可以构建：</p>
+<pre><code class="language-bash">make all
+</code></pre>
+<h2 id="步骤-5test-and-verify"><a class="header" href="#步骤-5test-and-verify">步骤 5：Test and Verify</a></h2>
+<p>与备份比较，确保所有自定义内容都已正确移植，例如：</p>
+<pre><code class="language-bash">diff -r --brief ../migration-backup/ . | grep "Only in ../migration-backup"
+</code></pre>
+<p>运行测试并验证功能：</p>
+<pre><code class="language-bash">make test &amp;&amp; make lint-fix
+</code></pre>
+<p>部署到测试集群（例如 <a href="../reference/kind.html">kind</a>）并验证更改（即验证预期行为、运行回归检查、确认完整 CI 流水线仍能通过，并执行 e2e 测试）。</p>
+<aside class="note" role="note">
+<p class="note-title">If You Have a Helm Chart</p>
+
+<p>如果你有用于分发项目的 Helm chart，可能希望用 <a href="../plugins/available/helm-v2-alpha.html">helm/v2-alpha 插件</a> 重新生成，然后应用你的自定义内容。</p>
+<pre><code class="language-bash">kubebuilder edit --plugins=helm/v2-alpha
+</code></pre>
+<p>将备份中的 <code>chart/values.yaml</code> 和自定义模板与新生成的 chart 比较，应用你的自定义内容，并确保一切仍像以前一样工作。</p>
+</aside>
+<h2 id="其他资源"><a class="header" href="#其他资源">其他资源</a></h2>
+<ul>
+<li><a href="../migrations.html">迁移概览</a> - 所有迁移选项的概览</li>
+<li><a href="../reference/project-config.html">PROJECT 文件参考</a> - 理解 PROJECT 文件</li>
+<li><a href="../cronjob-tutorial/basic-project.html">基础项目包含什么？</a> - 理解项目结构</li>
+<li><a href="../reference/commands/alpha_generate.html">Alpha Generate 命令</a> - 自动重新搭建脚手架</li>
+<li><a href="../reference/commands/alpha_update.html">Alpha Update 命令</a> - 自动迁移</li>
+<li><a href="../reference/using_an_external_resource.html">使用外部类型</a> - 针对非本项目定义类型的控制器</li>
+<li><a href="../reference/generating-crd.html">CRD 生成</a> - 从 Go 类型生成 CRD</li>
+<li><a href="../reference/markers/crd-validation.html">CRD 验证</a> - 为 API 添加验证</li>
+<li><a href="../reference/markers.html">标记</a> - 代码生成的所有可用标记</li>
+<li><a href="../reference/markers/rbac.html">RBAC 标记</a> - 生成 RBAC 清单</li>
+<li><a href="../reference/webhook-overview.html">Webhook 概览</a> - 理解 webhook</li>
+<li><a href="../reference/admission-webhook.html">准入 Webhook</a> - 实现准入 webhook</li>
+<li><a href="../multiversion-tutorial/tutorial.html">多版本教程</a> - 处理多个 API 版本</li>
+<li><a href="../cronjob-tutorial/cert-manager.html">部署 cert-manager</a> - webhook 所需</li>
+<li><a href="../reference/envtest.html">配置 EnvTest</a> - 使用 EnvTest 进行测试</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../migrations.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../migration/ai-helpers.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../migrations.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../migration/ai-helpers.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-c2a407aa.js"></script>
+
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-abc7f01d.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../theme/js/inject-2360f38b.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

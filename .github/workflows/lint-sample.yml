@@ -1,0 +1,57 @@
+name: Lint Samples
+
+on:
+  push:
+    paths:
+      - 'testdata/**'
+      - 'docs/book/src/**/testdata/**'
+      - '.github/workflows/lint-sample.yml'
+  pull_request:
+    paths:
+      - 'testdata/**'
+      - 'docs/book/src/**/testdata/**'
+      - '.github/workflows/lint-sample.yml'
+
+permissions: {}
+
+jobs:
+  lint-samples:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        folder: [
+          "testdata/project-v4",
+          "testdata/project-v4-with-plugins",
+          "testdata/project-v4-multigroup",
+          "docs/book/src/cronjob-tutorial/testdata/project",
+          "docs/book/src/getting-started/testdata/project",
+          "docs/book/src/multiversion-tutorial/testdata/project"
+        ]
+    if: (github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository)
+    steps:
+      - name: Clone the code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Setup Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+      - name: Prepare ${{ matrix.folder }}
+        working-directory: ${{ matrix.folder }}
+        run: go mod tidy
+      - name: Check linter configuration
+        working-directory: ${{ matrix.folder }}
+        run: make lint-config
+      - name: Run linter
+        uses: golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a # v9.3.0
+        with:
+          version: v2.13.1
+          working-directory: ${{ matrix.folder }}
+      - name: Run linter via makefile target
+        working-directory: ${{ matrix.folder }}
+        run: make lint
+

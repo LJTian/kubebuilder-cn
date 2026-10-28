@@ -1,0 +1,37 @@
+.idea/
+.vscode/
+WORKSPACE
+.DS_Store
+# don't check in the build output of the book
+docs/book/book/
+
+# ignore auto-generated dir by `mdbook serve`
+docs/book/src/docs
+
+# Editor temp files
+*~
+\#*#
+*.swp
+
+# skip kubebuilder binary when running go build in root
+kubebuilder
+
+# skip bin dirs
+**/bin
+**/testbin
+
+# skip GoReleaser dist directory (root level only, not testdata)
+/dist
+
+# skip .out files (coverage tests)
+*.out
+
+# skip testdata go.sum, since it may have
+# different result depending on go version
+/testdata/**/go.sum
+/docs/book/src/simple-external-plugin-tutorial/testdata/sampleexternalplugin/v1/bin
+
+## Skip testdata files that generate by tests using TestContext
+**/e2e-*/**
+# Optional rendered chart output (e.g. from make yamllint-helm when debugging)
+testdata/.helm-rendered.yaml

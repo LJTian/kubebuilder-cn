@@ -1,0 +1,1295 @@
+<!DOCTYPE HTML>
+<html lang="zh_CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>入门 - Kubebuilder 中文指南</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="logos/favicon.svg">
+        <link rel="shortcut icon" href="logos/favicon.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/css/markers-0bcf2cc9.css">
+        <link rel="stylesheet" href="theme/css/custom-265d96b0.css">
+        <link rel="stylesheet" href="theme/css/version-dropdown-e6742374.css">
+        <link rel="stylesheet" href="theme/css/global-banner-a2f85a7e.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-a3608051.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-675883bf.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"><img alt="Kubebuilder 中文指南" class="large-logo-img" src="/logos/kb-logo-one-line.svg"></h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/LJTian/kubebuilder-cn" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/LJTian/kubebuilder-cn/edit/cn-book-v4/docs/book/src/" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="入门"><a class="header" href="#入门">入门</a></h1>
+<p>本指南创建一个示例项目以演示其工作方式。该示例：</p>
+<ul>
+<li>对 Memcached CR 进行调整 - 该 CR 表示在集群上部署/管理的 Memcached 实例</li>
+<li>使用 Memcached 镜像创建一个部署</li>
+<li>不允许超过 CR 中定义的 size 的实例数</li>
+<li>更新 Memcached CR 状态</li>
+</ul>
+<aside class="note" role="note">
+<p class="note-title">Why Operators?</p>
+
+<p>通过遵循 <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/operator/"> Operator 模式</a>，不仅可以提供所有预期的资源，还可以动态地、以编程的方式和在执行时对其进行管理。为了说明这个想法，设想一下如果有人意外更改了配置或错误地移除了某个资源；在这种情况下，Operator 可以在没有任何人工干预的情况下进行修复。</p>
+</aside>
+<aside class="note" role="note">
+<p class="note-title">Following Along vs Jumping Ahead</p>
+
+<p>请注意，本教程的大部分内容是从可运行项目的文档化 Go 文件生成的，这些文件位于书籍源代码目录中：<a href="https://github.com/kubernetes-sigs/kubebuilder/tree/master/docs/book/src/cronjob-tutorial/testdata/project">docs/book/src/getting-started/testdata/project</a>。</p>
+</aside>
+<h2 id="创建一个项目"><a class="header" href="#创建一个项目">创建一个项目</a></h2>
+<p>首先，创建并导航到你的项目目录。然后，使用 <code>kubebuilder</code> 初始化它：</p>
+<pre><code class="language-shell">mkdir $GOPATH/memcached-operator
+cd $GOPATH/memcached-operator
+kubebuilder init --domain=example.com
+</code></pre>
+<aside class="note" role="note">
+<p class="note-title">Developing in $GOPATH</p>
+
+<p>若在 <a href="https://golang.org/doc/code.html#GOPATH"><code>GOPATH</code></a> 内初始化项目，隐式调用的 <code>go mod init</code> 会为您推导模块路径。否则必须设置 <code>--repo=&lt;module path&gt;</code>。</p>
+<p>如果对模块系统不熟悉，请阅读 <a href="https://blog.golang.org/using-go-modules">Go模块博客</a>。</p>
+</aside>
+<h2 id="创建-memcached-apicrd"><a class="header" href="#创建-memcached-apicrd">创建 Memcached API（CRD）</a></h2>
+<p>接下来，创建负责在集群上部署并管理 Memcached 实例的 API。</p>
+<pre><code class="language-shell">kubebuilder create api --group cache --version v1alpha1 --kind Memcached
+</code></pre>
+<h3 id="理解api"><a class="header" href="#理解api">理解API</a></h3>
+<p>该命令的主要目的是为 Memcached Kind 生成自定义资源（CR）与自定义资源定义（CRD）。它创建 group 为 <code>cache.example.com</code>、version 为 <code>v1alpha1</code> 的 API，唯一标识 Memcached Kind 的新 CRD。借助 Kubebuilder，您可以定义代表这些平台上解决方案的 API 与对象。</p>
+<p>本示例只添加一种 Kind 资源，但您可以按需拥有任意数量的 <code>Groups</code> 与 <code>Kinds</code>。为便于理解，可将 CRD 视为自定义对象的定义，而 CR 是它们的实例。</p>
+<aside class="note" role="note">
+<p class="note-title"> Please ensure that you check </p>
+
+<p><a href="./cronjob-tutorial/gvks.html">组、版本和种类，真是让人头大！</a>。</p>
+</aside>
+<h3 id="定义我们的-api"><a class="header" href="#定义我们的-api">定义我们的 API</a></h3>
+<h4 id="定义-spec"><a class="header" href="#定义-spec">定义 Spec</a></h4>
+<p>现在定义集群上每个 Memcached 资源实例可取的值。本例中，配置允许用如下方式设置实例数量：</p>
+<pre><code class="language-go">type MemcachedSpec struct {
+	...
+	// +kubebuilder:validation:Minimum=0
+	// +required
+	Size *int32 `json:"size,omitempty"`
+}
+</code></pre>
+<h4 id="创建-status-定义"><a class="header" href="#创建-status-定义">创建 Status 定义</a></h4>
+<p>控制器还需要跟踪为管理 Memcached CR 所执行操作的状态。这样可以核验自定义资源对 API 的描述，并判断是否全部成功或是否遇到错误，方式与处理任何 Kubernetes API 资源相同。</p>
+<pre><code class="language-go">// MemcachedStatus 定义了 Memcached 的观察状态
+type MemcachedStatus struct {
+    // +listType=map
+    // +listMapKey=type
+    // +optional
+    Conditions []metav1.Condition `json:"conditions,omitempty"`
+}
+</code></pre>
+<aside class="note" role="note">
+<p class="note-title"> Status Conditions </p>
+
+<p>Kubernetes 已有约定，因此这里使用 Status Conditions。自定义 API 与控制器应表现得像 Kubernetes 资源及其控制器一样，遵循这些标准以确保一致且直观的体验。</p>
+<p>请确保您查看以下内容：<a href="https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#typical-status-properties">Kubernetes API 约定</a></p>
+</aside>
+<h4 id="标记和验证"><a class="header" href="#标记和验证">标记和验证</a></h4>
+<p>此外，应对 CustomResource 中的取值进行校验以确保有效。为此可使用<a href="./reference/markers.html">标记</a>，例如 <code>+kubebuilder:validation:Minimum=1</code>。</p>
+<p>现在，请查看我们完全完成的示例。</p>
+<div class="literate"><cite class="literate-source"><a href="https://sigs.k8s.io/kubebuilder/docs/book/src/getting-started/testdata/project/api/v1alpha1/memcached_types.go">../getting-started/testdata/project/api/v1alpha1/memcached_types.go</a></cite><details class="collapse-code collapse-hide"><summary class="hljs">
+<pre class="hljs"><span class="collapse-summary">Apache License</span></pre>
+</summary>
+<p>Copyright 2026 The Kubernetes authors.</p>
+<p>Licensed under the Apache License, Version 2.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at</p>
+<pre><code>http://www.apache.org/licenses/LICENSE-2.0
+</code></pre>
+<p>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an “AS IS” BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</p>
+</details><details class="collapse-code collapse-hide"><summary class="hljs">
+<pre class="hljs"><span class="collapse-summary">Imports</span></pre>
+</summary>
+<pre><code class="language-go">package v1alpha1
+
+import (
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
+)
+
+// 请编辑本文件！这是供您拥有的脚手架代码！
+// 注意：需要 json 标签。新增字段必须带有 json 标签才能被序列化。
+</code></pre>
+</details>
+<pre><code class="language-go">// MemcachedSpec 定义 Memcached 的期望状态
+type MemcachedSpec struct {
+	// 在此插入额外 SPEC 字段 — 集群期望状态
+	// 重要：修改本文件后请运行 "make" 重新生成代码
+	// 下列标记将使用 OpenAPI v3 schema 校验取值
+	// 更多信息： https://book.kubebuilder.io/reference/markers/crd-validation.html
+
+	// size 定义 Memcached 实例数量
+	// 下列标记将使用 OpenAPI v3 schema 校验取值
+	// 更多信息： https://book.kubebuilder.io/reference/markers/crd-validation.html
+	// +kubebuilder:validation:Minimum=1
+	// +kubebuilder:validation:Maximum=3
+	// +kubebuilder:validation:ExclusiveMaximum=false
+	// +optional
+	Size *int32 `json:"size,omitempty"`
+}
+
+// MemcachedStatus 定义 Memcached 的观测状态.
+type MemcachedStatus struct {
+	// 插入额外的状态字段 - 定义集群的观察状态
+	// 重要：在修改此文件后，请运行 "make" 以重新生成代码
+
+	// Kubernetes API 约定参见：
+	// https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#typical-status-properties
+
+	// conditions 表示 Memcached 资源的当前状态。
+	// 每个 condition 有唯一类型，反映资源某一方面的状态。
+	//
+	// Standard condition types include:
+	// - "Available": the resource is fully functional
+	// - "Progressing": the resource is being created or updated
+	// - "Degraded": the resource failed to reach or maintain its desired state
+	//
+	// The status of each condition is one of True, False, or Unknown.
+	// +listType=map
+	// +listMapKey=type
+	// +optional
+	Conditions []metav1.Condition `json:"conditions,omitempty"`
+}
+
+// +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+
+// Memcached 是 memcacheds API 的 Schema
+type Memcached struct {
+	metav1.TypeMeta `json:",inline"`
+
+	// metadata 是标准对象元数据
+	// +optional
+	metav1.ObjectMeta `json:"metadata,omitzero"`
+
+	// spec 定义 Memcached 的期望状态
+	// +required
+	Spec MemcachedSpec `json:"spec"`
+
+	// status 定义 Memcached 的观测状态
+	// +optional
+	Status MemcachedStatus `json:"status,omitzero"`
+}
+
+// +kubebuilder:object:root=true
+
+// MemcachedList 包含 Memcached 的列表
+type MemcachedList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitzero"`
+	Items           []Memcached `json:"items"`
+}
+
+func init() {
+	SchemeBuilder.Register(func(s *runtime.Scheme) error {
+		s.AddKnownTypes(SchemeGroupVersion, &amp;Memcached{}, &amp;MemcachedList{})
+		return nil
+	})
+}
+</code></pre>
+</div>
+
+<h4 id="生成具有规格和验证的清单"><a class="header" href="#生成具有规格和验证的清单">生成具有规格和验证的清单</a></h4>
+<p>生成所有所需的文件：</p>
+<ol>
+<li>
+<p>运行 <code>make generate</code>,会在 <code>api/v1alpha1/zz_generated.deepcopy.go</code> 文件中添加深度拷贝（DeepCopy）内容。</p>
+</li>
+<li>
+<p>然后运行 <code>make manifests</code>，在 <code>config/crd/bases</code> 下生成 CRD 清单，并在 <code>config/samples</code> 下生成示例。</p>
+</li>
+</ol>
+<p>这两个命令都使用 <a href="./reference/controller-gen.html">controller-gen</a> 工具，但是用于代码和清单生成的标志会有所不同。</p>
+<details><summary><code>config/crd/bases/cache.example.com_memcacheds.yaml</code>: Our Memcached CRD</summary>
+<pre><code class="language-yaml">---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.22.0
+  name: memcacheds.cache.example.com
+spec:
+  group: cache.example.com
+  names:
+    kind: Memcached
+    listKind: MemcachedList
+    plural: memcacheds
+    singular: Memcached
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Memcached 是 memcacheds API 的 Schema
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: spec defines the desired state of Memcached
+            properties:
+              size:
+                description: |-
+                  size defines the number of Memcached instances
+                  The following markers will use OpenAPI v3 schema to validate the value
+                  More info: https://book.kubebuilder.io/reference/markers/crd-validation.html
+                format: int32
+                maximum: 3
+                minimum: 1
+                type: integer
+            type: object
+          status:
+            description: status defines the observed state of Memcached
+            properties:
+              conditions:
+                description: |-
+                  conditions represent the current state of the Memcached resource.
+                  Each condition has a unique type and reflects the status of a specific aspect of the resource.
+
+                  Standard condition types include:
+                  - "Available": the resource is fully functional
+                  - "Progressing": the resource is being created or updated
+                  - "Degraded": the resource failed to reach or maintain its desired state
+
+                  The status of each condition is one of True, False, or Unknown.
+                items:
+                  description: Condition contains details for one aspect of the current
+                    state of this API Resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        lastTransitionTime is the last time the condition transitioned from one status to another.
+                        This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        message is a human readable message indicating details about the transition.
+                        This may be an empty string.
+                      maxLength: 32768
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        observedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      minimum: 0
+                      type: integer
+                    reason:
+                      description: |-
+                        reason contains a programmatic identifier indicating the reason for the condition's last transition.
+                        Producers of specific condition types may define expected values and meanings for this field,
+                        and whether the values are considered a guaranteed API.
+                        The value should be a CamelCase string.
+                        This field may not be empty.
+                      maxLength: 1024
+                      minLength: 1
+                      pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$
+                      type: string
+                    status:
+                      description: status of the condition, one of True, False, Unknown.
+                      enum:
+                      - "True"
+                      - "False"
+                      - Unknown
+                      type: string
+                    type:
+                      description: type of condition in CamelCase or in foo.example.com/CamelCase.
+                      maxLength: 316
+                      pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - message
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+</code></pre>
+</details>
+<h4 id="自定义资源示例"><a class="header" href="#自定义资源示例">自定义资源示例</a></h4>
+<p>在 <code>config/samples</code> 目录下的清单,可以应用于集群的自定义资源示例。在这个例子中，通过将给定的资源应用于集群，我们将生成一个实例大小为1的部署（请参见 <code>size: 1</code>）。</p>
+<pre><code class="language-yaml">apiVersion: cache.example.com/v1alpha1
+kind: Memcached
+metadata:
+  labels:
+    app.kubernetes.io/name: project
+    app.kubernetes.io/managed-by: kustomize
+  name: memcached-sample
+spec:
+  # TODO(用户)：编辑以下值以确保您的操作数在集群中的 Pod/实例数量
+ size: 1
+</code></pre>
+<h3 id="协调过程"><a class="header" href="#协调过程">协调过程</a></h3>
+<p>简单来说，Kubernetes 允许声明系统期望状态，控制器持续观察集群并采取行动，使实际状态与期望状态一致。自定义 API 与控制器的过程类似。请记住，您是在扩展 Kubernetes 行为及其 API 以满足特定需求。</p>
+<p>在控制器中，我们实现协调过程。</p>
+<p>本质上， reconciliation 过程作为一个循环运行，不断检查条件并执行必要的操作，直到达到所需的状态。该过程将持续运行，直到系统中的所有条件与我们实施中定义的所需状态一致。</p>
+<p>这是一个伪代码示例来说明这一点：</p>
+<pre><code class="language-go">reconcile App {
+
+  // 检查应用的 Deployment 是否存在，若不存在则创建
+  // 若出错，则从协调过程开头重新开始
+  if err != nil {
+    return reconcile.Result{}, err
+  }
+
+  // 检查应用的 Service 是否存在，若不存在则创建
+  // 若出错，则从协调过程开头重新开始
+  if err != nil {
+    return reconcile.Result{}, err
+  }
+
+  // 查找 Database CR/CRD
+  // 检查 Database Deployment 的副本数
+  // 若 deployment.replicas 与 cr.size 不匹配， then update it
+  // Then, requeue the reconciliation to ensure the desired state is reached. For example, by returning `reconcile.Result{RequeueAfter: time.Minute}, nil`.
+  if err != nil {
+    return reconcile.Result{RequeueAfter: time.Minute}, nil
+  }
+  ...
+
+  // 若循环结束时：
+  // 全部执行成功，协调可以停止
+  return reconcile.Result{}, nil
+
+}
+</code></pre>
+<aside class="note" role="note">
+<p class="note-title"> Return Options </p>
+
+<p>以下是一些可能的返回选项，用于重新启动对账：</p>
+<ul>
+<li>出现错误：</li>
+</ul>
+<pre><code class="language-go">return ctrl.Result{}, err
+</code></pre>
+<ul>
+<li>无错误（延迟后重新入队）：</li>
+</ul>
+<pre><code class="language-go">return ctrl.Result{RequeueAfter: time.Minute}, nil
+</code></pre>
+<ul>
+<li>在计算的时长后再次协调：</li>
+</ul>
+<pre><code class="language-go">return ctrl.Result{RequeueAfter: nextRun.Sub(r.Now())}, nil
+</code></pre>
+</aside>
+<h4 id="在我们例子的背景下"><a class="header" href="#在我们例子的背景下">在我们例子的背景下。</a></h4>
+<p>将示例自定义资源（CR）应用到集群时（即 <code>kubectl apply -f config/sample/cache_v1alpha1_memcached.yaml</code>），确保控制器为 Memcached 镜像创建 Deployment，且副本数与 CR 中定义一致。</p>
+<p>为此，首先实现检查集群上是否已有该 Memcached 实例的 Deployment 的操作；若不存在，控制器再创建。因此协调过程必须包含用于持续维持该期望状态的操作，例如：</p>
+<pre><code class="language-go">	// 检查部署是否已经存在，如果不存在则创建一个新部署。
+	found := &amp;appsv1.Deployment{}
+	err = r.Get(ctx, types.NamespacedName{Name: memcached.Name, Namespace: memcached.Namespace}, found)
+	if err != nil &amp;&amp; apierrors.IsNotFound(err) {
+		// 定义新的部署 
+		dep := r.deploymentForMemcached()
+		// 在集群上创建部署
+		if err = r.Create(ctx, dep); err != nil {
+            log.Error(err, "无法创建新的部署",
+            "Deployment.Namespace", dep.Namespace, "Deployment.Name", dep.Name)
+            return ctrl.Result{}, err
+        }
+		...
+	}
+</code></pre>
+<p>接下来注意，<code>deploymentForMemcached()</code> 需要定义并返回应在集群上创建的 Deployment。该函数应按必要规格构造 Deployment 对象，如下例所示：</p>
+<pre><code class="language-go">    dep := &amp;appsv1.Deployment{
+		Spec: appsv1.DeploymentSpec{
+			Replicas: &amp;replicas,
+			Template: corev1.PodTemplateSpec{
+				Spec: corev1.PodSpec{
+					Containers: []corev1.Container{{
+						Image:           "memcached:1.6.26-alpine3.19",
+						Name:            "memcached",
+						ImagePullPolicy: corev1.PullIfNotPresent,
+						Ports: []corev1.ContainerPort{{
+							ContainerPort: 11211,
+							Name:          "memcached",
+						}},
+						Command: []string{"memcached", "--memory-limit=64", "-o", "modern", "-v"},
+					}},
+				},
+			},
+		},
+	}
+</code></pre>
+<p>此外，实现机制以校验集群上 Memcached 副本数是否与 Custom Resource（CR）中的期望数量一致。若不一致，协调必须更新集群以保持一致。这意味着每当创建或更新 Memcached Kind 的 CR 时，控制器会持续协调，直到实际副本数与期望一致。下例说明该过程：</p>
+<pre><code class="language-go">	...
+	size := memcached.Spec.Size
+	if *found.Spec.Replicas != size {
+		found.Spec.Replicas = &amp;size
+		if err = r.Update(ctx, found); err != nil {
+			log.Error(err, "Failed to update Deployment",
+				"Deployment.Namespace", found.Namespace, "Deployment.Name", found.Name)
+            return ctrl.Result{}, err
+        }
+    ...
+</code></pre>
+<p>现在，您可以查看负责管理 Memcached 类型自定义资源的完整控制器。该控制器确保集群中维持所需状态，确保我们的 Memcached 实例继续运行，并保持用户指定的副本数量。</p>
+<details><summary><code>internal/controller/memcached_controller.go</code>: Our Controller Implementation </summary>
+<pre><code class="language-go">/*
+Copyright 2026 The Kubernetes authors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+package controller
+
+import (
+	"context"
+	"fmt"
+	"time"
+
+	appsv1 "k8s.io/api/apps/v1"
+	corev1 "k8s.io/api/core/v1"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
+	"k8s.io/apimachinery/pkg/api/meta"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/types"
+
+	"k8s.io/apimachinery/pkg/runtime"
+	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+	logf "sigs.k8s.io/controller-runtime/pkg/log"
+
+	cachev1alpha1 "example.com/memcached/api/v1alpha1"
+)
+
+// 管理状态条件的定义
+const (
+	// typeAvailableMemcached 表示部署调整的状态
+	typeAvailableMemcached = "Available"
+)
+
+const memcachedContainerName = "memcached"
+
+// MemcachedReconciler 负责调整 Memcached 对象。
+type MemcachedReconciler struct {
+	client.Client
+	Scheme *runtime.Scheme
+}
+
+// +kubebuilder:rbac:groups=cache.example.com,resources=memcacheds,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=cache.example.com,resources=memcacheds/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=cache.example.com,resources=memcacheds/finalizers,verbs=update
+// +kubebuilder:rbac:groups=events.k8s.io,resources=events,verbs=create;patch
+// +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=core,resources=pods,verbs=get;list;watch
+
+// Reconcile 是主 kubernetes 协调循环的一部分，其目标是
+// 使集群当前状态更接近期望状态。
+// It is essential for the controller's reconciliation loop to be idempotent. By following the Operator
+// pattern you will create Controllers which provide a reconcile function
+// responsible for synchronizing resources until the desired state is reached on the cluster.
+// Breaking this recommendation goes against the design principles of controller-runtime.
+// and may lead to unforeseen consequences such as resources becoming stuck and requiring manual intervention.
+// For further info:
+// - About Operator Pattern: https://kubernetes.io/docs/concepts/extend-kubernetes/operator/
+// - About Controllers: https://kubernetes.io/docs/concepts/architecture/controller/
+//
+// 更多细节参见 Reconcile 及其 Result：
+// - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.25.0/pkg/reconcile
+func (r *MemcachedReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+	log := logf.FromContext(ctx)
+
+	// 获取 Memcached 实例
+	// 目的是检查 Kind Memcached 的自定义资源是否
+	// 已在集群上应用，如果没有，我们返回 nil 以停止对账过程
+	memcached := &amp;cachev1alpha1.Memcached{}
+	err := r.Get(ctx, req.NamespacedName, memcached)
+	if err != nil {
+		if apierrors.IsNotFound(err) {
+			// 如果未找到自定义资源，通常意味着它已被删除或未创建
+			// 这样，我们将停止调整过程
+			log.Info("Memcached resource not found. Ignoring since object must be deleted")
+			return ctrl.Result{}, nil
+		}
+		// 读取对象时出错 - 重新排队请求。
+		log.Error(err, "Failed to get memcached")
+		return ctrl.Result{}, err
+	}
+
+	// 当没有可用状态时，我们将状态设置为未知。
+	if len(memcached.Status.Conditions) == 0 {
+		meta.SetStatusCondition(&amp;memcached.Status.Conditions, metav1.Condition{Type: typeAvailableMemcached, Status: metav1.ConditionUnknown, Reason: reasonReconciling, Message: "Starting reconciliation"})
+		if err = r.Status().Update(ctx, memcached); err != nil {
+			log.Error(err, "Failed to update Memcached status")
+			return ctrl.Result{}, err
+		}
+
+		// 在更新状态后，让我们重新获取 memcached 自定义资源
+		// 这样我们就可以获得集群中资源的最新状态，避免
+		// 引发错误"对象已被修改，请将
+		// 您的更改应用于最新版本并重试"，这将在后续操作中
+		// 如果我们再次尝试更新它，将重新触发对账过程
+		if err := r.Get(ctx, req.NamespacedName, memcached); err != nil {
+			log.Error(err, "Failed to re-fetch memcached")
+			return ctrl.Result{}, err
+		}
+	}
+
+	// 检查部署是否已经存在，如果不存在则创建一个新部署。
+	found := &amp;appsv1.Deployment{}
+	err = r.Get(ctx, types.NamespacedName{Name: memcached.Name, Namespace: memcached.Namespace}, found)
+	if err != nil &amp;&amp; apierrors.IsNotFound(err) {
+		// 定义新的部署 
+		dep, err := r.deploymentForMemcached(memcached)
+		if err != nil {
+			log.Error(err, "Failed to define new Deployment resource for Memcached")
+
+			// 以下实现将更新状态
+			meta.SetStatusCondition(&amp;memcached.Status.Conditions, metav1.Condition{Type: typeAvailableMemcached,
+				Status: metav1.ConditionFalse, Reason: reasonReconciling,
+				Message: fmt.Sprintf("Failed to create Deployment for the custom resource (%s): (%s)", memcached.Name, err)})
+
+			if err := r.Status().Update(ctx, memcached); err != nil {
+				log.Error(err, "Failed to update Memcached status")
+				return ctrl.Result{}, err
+			}
+
+			return ctrl.Result{}, err
+		}
+
+		log.Info("Creating a new Deployment",
+			"Deployment.Namespace", dep.Namespace, "Deployment.Name", dep.Name)
+		if err = r.Create(ctx, dep); err != nil {
+			log.Error(err, "无法创建新的部署",
+				"Deployment.Namespace", dep.Namespace, "Deployment.Name", dep.Name)
+			return ctrl.Result{}, err
+		}
+
+		// 部署成功创建
+		// 我们将重新排队调整，以确保状态
+		// 并继续进行下一步操作
+		return ctrl.Result{RequeueAfter: time.Minute}, nil
+	} else if err != nil {
+		log.Error(err, "Failed to get Deployment")
+		// 让我们返回错误，以便重新触发对账。
+		return ctrl.Result{}, err
+	}
+
+	// 若 Custom Resource 未定义 size，则将期望副本数设为 0
+	var desiredReplicas int32 = 0
+	if memcached.Spec.Size != nil {
+		desiredReplicas = *memcached.Spec.Size
+	}
+
+	// CRD API 定义了 Memcached 类型具有一个 MemcachedSpec.Size 字段
+	// 用于设置集群中部署实例的数量到所需状态。
+	// 因此，以下代码将确保部署的大小与我们正在对账的
+	// 自定义资源的 Size 规格中定义的相同。
+	if found.Spec.Replicas == nil || *found.Spec.Replicas != desiredReplicas {
+		found.Spec.Replicas = new(desiredReplicas)
+		if err = r.Update(ctx, found); err != nil {
+			log.Error(err, "Failed to update Deployment",
+				"Deployment.Namespace", found.Namespace, "Deployment.Name", found.Name)
+
+			// 在更新状态之前重新获取 memcached 自定义资源，
+			// 以便我们能够获得集群中资源的最新状态，并避免
+			// 引发错误"对象已被修改，请将您的更改应用于
+			// 最新版本并重试"，这将重新触发调整。
+			if err := r.Get(ctx, req.NamespacedName, memcached); err != nil {
+				log.Error(err, "Failed to re-fetch memcached")
+				return ctrl.Result{}, err
+			}
+
+			// 以下实现将更新状态
+			meta.SetStatusCondition(&amp;memcached.Status.Conditions, metav1.Condition{Type: typeAvailableMemcached,
+				Status: metav1.ConditionFalse, Reason: "Resizing",
+				Message: fmt.Sprintf("Failed to update the size for the custom resource (%s): (%s)", memcached.Name, err)})
+
+			if err := r.Status().Update(ctx, memcached); err != nil {
+				log.Error(err, "Failed to update Memcached status")
+				return ctrl.Result{}, err
+			}
+
+			return ctrl.Result{}, err
+		}
+
+		// 现在我们更新了大小，我们想要重新排队对账
+		// 以便确保在更新之前我们拥有资源的最新状态。
+		// 此外，它还将有助于确保集群上的期望状态。
+		return ctrl.Result{RequeueAfter: time.Minute}, nil
+	}
+
+	// 以下实现将更新状态
+	meta.SetStatusCondition(&amp;memcached.Status.Conditions, metav1.Condition{Type: typeAvailableMemcached,
+		Status: metav1.ConditionTrue, Reason: reasonReconciling,
+		Message: fmt.Sprintf("自定义资源（%s）部署成功，创建了 %d 个副本", memcached.Name, desiredReplicas)})
+
+	if err := r.Status().Update(ctx, memcached); err != nil {
+		log.Error(err, "Failed to update Memcached status")
+		return ctrl.Result{}, err
+	}
+
+	return ctrl.Result{}, nil
+}
+
+// SetupWithManager 将控制器与管理器进行设置。
+func (r *MemcachedReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	return ctrl.NewControllerManagedBy(mgr).
+		For(&amp;cachev1alpha1.Memcached{}).
+		Owns(&amp;appsv1.Deployment{}).
+		Named("memcached").
+		Complete(r)
+}
+
+// deploymentForMemcached 返回一个 Memcached 部署对象。
+func (r *MemcachedReconciler) deploymentForMemcached(
+	memcached *cachev1alpha1.Memcached) (*appsv1.Deployment, error) {
+	image := "memcached:1.6.26-alpine3.19"
+
+	dep := &amp;appsv1.Deployment{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      memcached.Name,
+			Namespace: memcached.Namespace,
+		},
+		Spec: appsv1.DeploymentSpec{
+			Replicas: memcached.Spec.Size,
+			Selector: &amp;metav1.LabelSelector{
+				MatchLabels: map[string]string{"app.kubernetes.io/name": "project"},
+			},
+			Template: corev1.PodTemplateSpec{
+				ObjectMeta: metav1.ObjectMeta{
+					Labels: map[string]string{"app.kubernetes.io/name": "project"},
+				},
+				Spec: corev1.PodSpec{
+					SecurityContext: &amp;corev1.PodSecurityContext{
+						RunAsNonRoot: new(true),
+						SeccompProfile: &amp;corev1.SeccompProfile{
+							Type: corev1.SeccompProfileTypeRuntimeDefault,
+						},
+					},
+					Containers: []corev1.Container{{
+						Image:           image,
+						Name:            memcachedContainerName,
+						ImagePullPolicy: corev1.PullIfNotPresent,
+						// 确保容器的限制性上下文
+						// 详细信息请参考： https://kubernetes.io/docs/concepts/security/pod-security-standards/#restricted
+						SecurityContext: &amp;corev1.SecurityContext{
+							RunAsNonRoot:             new(true),
+							RunAsUser:                new(int64(1001)),
+							AllowPrivilegeEscalation: new(false),
+							Capabilities: &amp;corev1.Capabilities{
+								Drop: []corev1.Capability{
+									"ALL",
+								},
+							},
+						},
+						Ports: []corev1.ContainerPort{{
+							ContainerPort: 11211,
+							Name:          memcachedContainerName,
+						}},
+						Command: []string{"memcached", "--memory-limit=64", "-o", "modern", "-v"},
+					}},
+				},
+			},
+		},
+	}
+
+	// 设置 Deployment 的 ownerRef
+	// 更多信息： https://kubernetes.io/docs/concepts/overview/working-with-objects/owners-dependents/
+	if err := ctrl.SetControllerReference(memcached, dep, r.Scheme); err != nil {
+		return nil, err
+	}
+	return dep, nil
+}
+</code></pre>
+</details>
+<h3 id="深入控制器实现"><a class="header" href="#深入控制器实现">深入控制器实现</a></h3>
+<h4 id="配置-manager-监视资源"><a class="header" href="#配置-manager-监视资源">配置 Manager 监视资源</a></h4>
+<p>整个想法是关注对控制器重要的资源。当控制器感兴趣的资源发生变化时，Watch 会触发控制器的对账循环，确保资源的实际状态与控制器逻辑中定义的期望状态相匹配。</p>
+<p>注意如何配置 Manager，以监视 Memcached Kind 自定义资源（CR）的创建、更新或删除，以及控制器所管理并拥有的 Deployment 的任何变更：</p>
+<pre><code class="language-go">// SetupWithManager 将控制器与管理器设置起来。
+// 部署也会被监视以确保其
+// 在集群中的期望状态。
+func (r *MemcachedReconciler) SetupWithManager(mgr ctrl.Manager) error {
+    return ctrl.NewControllerManagedBy(mgr).
+		// 监视 Memcached 自定义资源，并在其
+		//创建、更新或删除时触发协调
+		For(&amp;cachev1alpha1.Memcached{}).
+		// 监视由 Memcached 控制器管理的 Deployment。若 Deployment 发生任何变更
+        // owned and managed by this controller, it triggers reconciliation, ensuring that the cluster
+        // state aligns with the desired state.
+		Owns(&amp;appsv1.Deployment{}).
+		Complete(r)
+    }
+</code></pre>
+<h4 id="但是manager-如何知道哪些资源归它所有"><a class="header" href="#但是manager-如何知道哪些资源归它所有">但是，Manager 如何知道哪些资源归它所有？</a></h4>
+<p>控制器不应监视集群上任意 Deployment 并触发协调循环，而应仅在运行 Memcached 实例的特定 Deployment 发生变化时触发。例如，若有人误删 Deployment 或更改副本数，应触发协调以恢复期望状态。</p>
+<p>Manager 知道应观察哪个 Deployment，是因为设置了 <code>ownerRef</code>（所有者引用）：</p>
+<pre><code class="language-go">if err := ctrl.SetControllerReference(memcached, dep, r.Scheme); err != nil {
+    return nil, err
+}
+</code></pre>
+<aside class="note" role="note">
+<p class="note-title"><code>ownerRef</code> and Cascading Events</p>
+
+<p>ownerRef 至关重要：它不仅让控制器观察特定资源的变更，而且当从集群删除 Memcached 自定义资源（CR）时，其拥有的全部资源也会在级联事件中被自动删除。</p>
+<p>这确保删除父资源（Memcached CR）时，Kubernetes 也会清理所有关联资源（如 Deployment、Service 等），保持集群整洁一致。</p>
+<p>有关更多信息，请参阅 Kubernetes 文档中的 <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/owners-dependents/">拥有者和依赖项</a>。</p>
+</aside>
+<h3 id="授予权限"><a class="header" href="#授予权限">授予权限</a></h3>
+<p>务必确保控制器对其管理的资源具备必要权限（例如 create、get、update、list）。</p>
+<p>通过 <a href="./reference/markers/rbac.html">RBAC 标记</a> 配置 <a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">RBAC 权限</a>，<a href="./reference/controller-gen.html">controller-gen</a> 据此生成并更新 <code>config/rbac/</code> 中的清单。可在各控制器的 <code>Reconcile()</code> 方法上找到（并应定义）这些标记，参见示例实现：</p>
+<pre><code class="language-go">// +kubebuilder:rbac:groups=cache.example.com,resources=memcacheds,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=cache.example.com,resources=memcacheds/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=cache.example.com,resources=memcacheds/finalizers,verbs=update
+// +kubebuilder:rbac:groups=events.k8s.io,resources=events,verbs=create;patch
+// +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=core,resources=pods,verbs=get;list;watch
+</code></pre>
+<p>修改控制器后，运行 make manifests。这将让 <a href="./reference/controller-gen.html">controller-gen</a> 刷新 <code>config/rbac</code> 下的文件。</p>
+<details><summary><code>config/rbac/role.yaml</code>: Our RBAC Role generated </summary>
+<pre><code class="language-yaml">---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: manager-role
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cache.example.com
+  resources:
+  - memcacheds
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cache.example.com
+  resources:
+  - memcacheds/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - cache.example.com
+  resources:
+  - memcacheds/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - events.k8s.io
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+</code></pre>
+</details>
+<h3 id="监控程序-maingo"><a class="header" href="#监控程序-maingo">监控程序 (main.go)</a></h3>
+<p><code>cmd/main.go</code> 文件中的 <a href="https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/manager">Manager</a> 负责管理您应用程序中的控制器。</p>
+<details><summary><code>cmd/main.go</code>: Our main.go </summary>
+<pre><code class="language-go">/*
+Copyright 2026 The Kubernetes authors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+package main
+
+import (
+	"crypto/tls"
+	"flag"
+	"os"
+
+	// 导入所有 Kubernetes 客户端身份验证插件（例如 Azure、GCP、OIDC 等）
+	// 确保 exec-entrypoint 和 run 可以使用它们。
+	_ "k8s.io/client-go/plugin/pkg/client/auth"
+
+	"k8s.io/apimachinery/pkg/runtime"
+	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
+	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
+	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/healthz"
+	"sigs.k8s.io/controller-runtime/pkg/log/zap"
+	"sigs.k8s.io/controller-runtime/pkg/metrics/filters"
+	metricsserver "sigs.k8s.io/controller-runtime/pkg/metrics/server"
+	"sigs.k8s.io/controller-runtime/pkg/webhook"
+
+	cachev1alpha1 "example.com/memcached/api/v1alpha1"
+	"example.com/memcached/internal/controller"
+	// +kubebuilder:scaffold:imports
+)
+
+var (
+	scheme   = runtime.NewScheme()
+	setupLog = ctrl.Log.WithName("setup")
+)
+
+func init() {
+	utilruntime.Must(clientgoscheme.AddToScheme(scheme))
+
+	utilruntime.Must(cachev1alpha1.AddToScheme(scheme))
+	// +kubebuilder:scaffold:scheme
+}
+
+// nolint:gocyclo
+func main() {
+	var metricsAddr string
+	var metricsCertPath, metricsCertName, metricsCertKey string
+	var webhookCertPath, webhookCertName, webhookCertKey string
+	var webhookPort int
+	var enableLeaderElection bool
+	var probeAddr string
+	var secureMetrics bool
+	var enableHTTP2 bool
+	var tlsOpts []func(*tls.Config)
+	flag.StringVar(&amp;metricsAddr, "metrics-bind-address", "0", "The address the metrics endpoint binds to. "+
+		"使用 :8443 进行 HTTPS，使用 :8080 进行 HTTP，或者保持为 0 以禁用指标服务。")
+	flag.StringVar(&amp;probeAddr, "health-probe-bind-address", ":8081", "The address the probe endpoint binds to.")
+	flag.BoolVar(&amp;enableLeaderElection, "leader-elect", false,
+		"Enable leader election for controller manager. "+
+			"启用此功能将确保只有一个活动的控制管理器。")
+	flag.BoolVar(&amp;secureMetrics, "metrics-secure", true,
+		"如果设置，指标端点将通过 HTTPS 安全提供。请使用 --metrics-secure=false 以改为使用 HTTP。")
+	flag.StringVar(&amp;webhookCertPath, "webhook-cert-path", "", "The directory that contains the webhook certificate.")
+	flag.StringVar(&amp;webhookCertName, "webhook-cert-name", "tls.crt", "The name of the webhook certificate file.")
+	flag.StringVar(&amp;webhookCertKey, "webhook-cert-key", "tls.key", "The name of the webhook key file.")
+	flag.IntVar(&amp;webhookPort, "webhook-port", 9443, "Port the webhook server listens on. "+
+		"Defaults to 9443. Set -1 to disable the webhook server.")
+	flag.StringVar(&amp;metricsCertPath, "metrics-cert-path", "",
+		"The directory that contains the metrics server certificate.")
+	flag.StringVar(&amp;metricsCertName, "metrics-cert-name", "tls.crt", "The name of the metrics server certificate file.")
+	flag.StringVar(&amp;metricsCertKey, "metrics-cert-key", "tls.key", "The name of the metrics server key file.")
+	flag.BoolVar(&amp;enableHTTP2, "enable-http2", false,
+		"If set, HTTP/2 will be enabled for the metrics and webhook servers")
+	opts := zap.Options{
+		Development: true,
+	}
+	opts.BindFlags(flag.CommandLine)
+	flag.Parse()
+
+	ctrl.SetLogger(zap.New(zap.UseFlagOptions(&amp;opts)))
+
+	// 如果 enable-http2 标志为 false（默认值），则应禁用 http/2
+	// 由于其存在的漏洞。更具体地说，禁用 http/2 将
+	// 防止受到 HTTP/2 流取消和
+	// 快速重置 CVE 的漏洞影响。有关更多信息，请参见：
+	// - https://github.com/advisories/GHSA-qppj-fm5r-hxr3
+	// - https://github.com/advisories/GHSA-4374-p667-p6c8
+	disableHTTP2 := func(c *tls.Config) {
+		setupLog.Info("Disabling HTTP/2")
+		c.NextProtos = []string{"http/1.1"}
+	}
+
+	if !enableHTTP2 {
+		tlsOpts = append(tlsOpts, disableHTTP2)
+	}
+
+	// 初始Webhook TLS选项
+	webhookTLSOpts := tlsOpts
+	webhookServerOptions := webhook.Options{
+		TLSOpts: webhookTLSOpts,
+		Port:    webhookPort,
+	}
+
+	if len(webhookCertPath) &gt; 0 {
+		setupLog.Info("使用提供的证书初始化 Webhook 证书监视器",
+			"webhook-cert-path", webhookCertPath, "webhook-cert-name", webhookCertName, "webhook-cert-key", webhookCertKey)
+
+		webhookServerOptions.CertDir = webhookCertPath
+		webhookServerOptions.CertName = webhookCertName
+		webhookServerOptions.KeyName = webhookCertKey
+	}
+
+	webhookServer := webhook.NewServer(webhookServerOptions)
+
+	// Metrics 端点已在 'config/default/kustomization.yaml'. Metrics 选项用于配置服务器。
+	// 更多信息：
+	// - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.25.0/pkg/metrics/server
+	// - https://book.kubebuilder.io/reference/metrics.html
+	metricsServerOptions := metricsserver.Options{
+		BindAddress:   metricsAddr,
+		SecureServing: secureMetrics,
+		TLSOpts:       tlsOpts,
+	}
+
+	if secureMetrics {
+		// FilterProvider 用于通过认证/鉴权保护 metrics 端点。
+		// These configurations ensure that only authorized users and service accounts
+		// can access the metrics endpoint. The RBAC are configured in 'config/rbac/kustomization.yaml'. More info:
+		// https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.25.0/pkg/metrics/filters#WithAuthenticationAndAuthorization
+		metricsServerOptions.FilterProvider = filters.WithAuthenticationAndAuthorization
+	}
+
+	// 如果未指定证书，controller-runtime 将自动
+	// 为指标服务器生成自签名证书。虽然对于开发和测试来说很方便，
+	// 但这种设置不建议用于生产环境。
+	//
+	// TODO(用户)：如果您启用 certManager，请取消注释以下行：
+	// - [METRICS-WITH-CERTS] 在 config/default/kustomization.yaml 中生成并使用
+	// 由 cert-manager 管理的指标服务器证书。
+	// - [PROMETHEUS-WITH-CERTS] 在 config/prometheus/kustomization.yaml 中用于 TLS 认证。
+	if len(metricsCertPath) &gt; 0 {
+		setupLog.Info("使用提供的证书初始化指标证书监视器",
+			"metrics-cert-path", metricsCertPath, "metrics-cert-name", metricsCertName, "metrics-cert-key", metricsCertKey)
+
+		metricsServerOptions.CertDir = metricsCertPath
+		metricsServerOptions.CertName = metricsCertName
+		metricsServerOptions.KeyName = metricsCertKey
+	}
+
+	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
+		Scheme:                 scheme,
+		Metrics:                metricsServerOptions,
+		WebhookServer:          webhookServer,
+		HealthProbeBindAddress: probeAddr,
+		LeaderElection:         enableLeaderElection,
+		LeaderElectionID:       "4b13cc52.example.com",
+		// LeaderElectionReleaseOnCancel 定义了当管理器结束时，领导者是否应自愿辞职
+		// 当管理器停止时，这要求二进制文件立即结束，否则这个设置是不安全的。设置这个可以显著
+		// 加快自愿领导者的过渡，因为新的领导者不必首先等待
+		// LeaseDuration 时间。
+		//
+		// 在提供的默认脚手架中，程序会在
+		// 管理器停止后立即结束，因此启用此选项是可以的。不过，
+		// 如果您正在进行或打算在管理器停止后执行任何操作，如执行清理，
+		// 那么使用它可能是不安全的。
+		// LeaderElectionReleaseOnCancel: true,
+	})
+	if err != nil {
+		setupLog.Error(err, "Failed to start manager")
+		os.Exit(1)
+	}
+
+	if err := (&amp;controller.MemcachedReconciler{
+		Client: mgr.GetClient(),
+		Scheme: mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "Failed to create controller", "controller", "memcached")
+		os.Exit(1)
+	}
+	// +kubebuilder:scaffold:builder
+
+	if err := mgr.AddHealthzCheck("healthz", healthz.Ping); err != nil {
+		setupLog.Error(err, "Failed to set up health check")
+		os.Exit(1)
+	}
+	if err := mgr.AddReadyzCheck("readyz", healthz.Ping); err != nil {
+		setupLog.Error(err, "Failed to set up ready check")
+		os.Exit(1)
+	}
+
+	setupLog.Info("Starting manager")
+	if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {
+		setupLog.Error(err, "Failed to run manager")
+		os.Exit(1)
+	}
+}
+</code></pre>
+</details>
+<h3 id="使用-kubebuilder-插件脚手架附加选项"><a class="header" href="#使用-kubebuilder-插件脚手架附加选项">使用 Kubebuilder 插件脚手架附加选项</a></h3>
+<p>在更好理解如何创建自有 API 与控制器后，让我们在本项目中脚手架插件 <a href="./plugins/available/autoupdate-v1-alpha.html"><code>autoupdate.kubebuilder.io/v1-alpha</code></a>，以便项目能跟进最新 Kubebuilder 发行版的脚手架变更，从而采用生态中的改进。</p>
+<pre><code class="language-shell">kubebuilder edit --plugins="autoupdate/v1-alpha"
+</code></pre>
+<p>查看 <code>.github/workflows/auto-update.yml</code> 文件以了解其工作方式。</p>
+<h3 id="检查集群中运行的项目"><a class="header" href="#检查集群中运行的项目">检查集群中运行的项目</a></h3>
+<p>此时，您可以通过查看快速入门中定义的步骤来检查在集群上验证项目的步骤，请参见：<a href="./quick-start#run-it-on-the-cluster">在集群上运行</a>。</p>
+<h2 id="后续步骤"><a class="header" href="#后续步骤">后续步骤</a></h2>
+<ul>
+<li>若要更深入地开发解决方案，可继续阅读 <a href="./cronjob-tutorial/cronjob-tutorial.html">CronJob 教程</a></li>
+<li>有关优化您方法的见解，请参阅<a href="./reference/good-practices.html">最佳实践</a>文档。</li>
+</ul>
+<aside class="note" role="note">
+<p class="note-title"> Using Deploy Image plugin to generate APIs and source code </p>
+
+<p>在更好理解之后，可以了解 <a href="./plugins/available/deploy-image-plugin-v1-alpha.html">Deploy Image</a> 插件。该插件可脚手架用于在集群上部署并管理 Operand（镜像）的 API/控制器，提供与本指南类似的脚手架，并附带为控制器实现的测试等额外功能。</p>
+</aside>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="quick-start.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="cronjob-tutorial/cronjob-tutorial.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="quick-start.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="cronjob-tutorial/cronjob-tutorial.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="theme/js/inject-2360f38b.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

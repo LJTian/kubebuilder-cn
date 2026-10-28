@@ -1,0 +1,104 @@
+name: Test DevContainer Image
+
+on:
+  push:
+    paths:
+      - 'testdata/**'
+      - '.github/workflows/test-devcontainer.yml'
+      - 'pkg/plugins/golang/v4/scaffolds/internal/templates/devcontainer.go'
+  pull_request:
+    paths:
+      - 'testdata/**'
+      - '.github/workflows/test-devcontainer.yml'
+      - 'pkg/plugins/golang/v4/scaffolds/internal/templates/devcontainer.go'
+
+permissions: {}
+      
+jobs:
+  test-devcontainer:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Build and Run Dev Container Tests
+        uses: devcontainers/ci@513af61f4de4f75d37e4438f184ba4358f0fc1ca # v0.3.1900000450
+        with:
+          subFolder: testdata/project-v4
+          runCmd: |
+            # Source bash-completion for all tests
+            source /usr/share/bash-completion/bash_completion
+            
+            # Verify Tools Installation
+            echo "Verifying installed tools..."
+            docker --version
+            kind version
+            kubebuilder version
+            kubectl version --client
+            go version
+            echo "All required tools are installed"
+            
+            # Verify common-utils feature is installed
+            echo "Verifying common-utils feature..."
+            if ! command -v zsh &> /dev/null; then
+              echo "ERROR: common-utils feature not installed (zsh missing)"
+              exit 1
+            fi
+            echo "common-utils feature is installed"
+            
+            # Verify bash-completion setup
+            echo "Verifying bash-completion configuration..."
+            if ! grep -q "source /usr/share/bash-completion/bash_completion" ~/.bashrc; then
+              echo "ERROR: bash-completion not configured in .bashrc"
+              exit 1
+            fi
+            echo "bash-completion is configured in .bashrc"
+            
+            # Verify completion files exist
+            echo "Verifying completion files..."
+            for cmd in kubectl kind kubebuilder docker; do
+              if [ ! -f "/usr/share/bash-completion/completions/${cmd}" ]; then
+                echo "ERROR: Completion file for ${cmd} not found"
+                exit 1
+              fi
+              echo "${cmd} completion file exists"
+            done
+            echo "All completion files are present"
+            
+            # Test bash-completion works
+            echo "Testing bash-completion functionality..."
+            # Bash-completion uses lazy-loading, so manually source completion to test
+            source /usr/share/bash-completion/completions/kubectl
+            if ! complete -p kubectl &> /dev/null; then
+              echo "ERROR: kubectl completions not loaded"
+              exit 1
+            fi
+            echo "Bash completions are working"
+
+            # Test Docker-in-Docker
+            echo "Testing Docker-in-Docker functionality..."
+            docker ps
+            docker network ls
+            docker run --rm hello-world
+            echo "Docker is working inside devcontainer"
+
+            # Test Kubebuilder Workflow
+            echo "Testing Kubebuilder development workflow..."
+            go mod tidy
+            make all
+            echo "make all passed"
+            make docker-build IMG=controller:ci
+            echo "make docker-build passed"
+
+            # Test Kind Cluster Creation
+            echo "Testing kind cluster creation..."
+            kind create cluster --name test-cluster
+            kubectl cluster-info --context kind-test-cluster
+            kubectl get nodes
+            kind delete cluster --name test-cluster
+            echo "Kind cluster creation and deletion successful"
+

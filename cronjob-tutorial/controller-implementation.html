@@ -1,0 +1,921 @@
+<!DOCTYPE HTML>
+<html lang="zh_CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>实现控制器 - Kubebuilder 中文指南</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../logos/favicon.svg">
+        <link rel="shortcut icon" href="../logos/favicon.png">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/css/markers-0bcf2cc9.css">
+        <link rel="stylesheet" href="../theme/css/custom-265d96b0.css">
+        <link rel="stylesheet" href="../theme/css/version-dropdown-e6742374.css">
+        <link rel="stylesheet" href="../theme/css/global-banner-a2f85a7e.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex-a3608051.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc-675883bf.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"><img alt="Kubebuilder 中文指南" class="large-logo-img" src="..//logos/kb-logo-one-line.svg"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/LJTian/kubebuilder-cn" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/LJTian/kubebuilder-cn/edit/cn-book-v4/docs/book/src/" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="实现控制器"><a class="header" href="#实现控制器">实现控制器</a></h1>
+<p>我们CronJob控制器的基本逻辑是这样的：</p>
+<ol>
+<li>
+<p>加载指定的 CronJob</p>
+</li>
+<li>
+<p>列出所有有效的工作，并更新状态。</p>
+</li>
+<li>
+<p>根据历史限制清理旧的工作记录。</p>
+</li>
+<li>
+<p>检查是否已挂起（若已挂起则不做其他事）</p>
+</li>
+<li>
+<p>获取下一个计划的运行时间</p>
+</li>
+<li>
+<p>如果新工作在计划时间内、未超过截止日期且未被我们的并发策略阻止，则可以运行。</p>
+</li>
+<li>
+<p>当我们看到一个正在运行的任务（自动完成）或是下一个定时运行的时间到时，请重新排队。</p>
+</li>
+</ol>
+<div class="literate"><cite class="literate-source"><a href="https://sigs.k8s.io/kubebuilder/docs/book/src/cronjob-tutorial/testdata/project/internal/controller/cronjob_controller.go">project/internal/controller/cronjob_controller.go</a></cite><details class="collapse-code collapse-hide"><summary class="hljs">
+<pre class="hljs"><span class="collapse-summary">Apache License</span></pre>
+</summary>
+<p>Copyright 2026 The Kubernetes authors.</p>
+<p>Licensed under the Apache License, Version 2.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at</p>
+<pre><code>http://www.apache.org/licenses/LICENSE-2.0
+</code></pre>
+<p>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an “AS IS” BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</p>
+</details>
+<p>从一些导入开始。下面会看到比脚手架更多的导入，用到时再说明。</p>
+<pre><code class="language-go">package controller
+
+import (
+	"context"
+	"fmt"
+	"maps"
+	"slices"
+	"time"
+
+	"github.com/robfig/cron"
+	kbatch "k8s.io/api/batch/v1"
+	corev1 "k8s.io/api/core/v1"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
+	"k8s.io/apimachinery/pkg/api/meta"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
+	ref "k8s.io/client-go/tools/reference"
+	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+	logf "sigs.k8s.io/controller-runtime/pkg/log"
+
+	batchv1 "tutorial.kubebuilder.io/project/api/v1"
+)
+</code></pre>
+<p>接下来需要 Clock，以便在测试中伪造时间。</p>
+<pre><code class="language-go">// CronJobReconciler 协调 CronJob 对象
+type CronJobReconciler struct {
+	client.Client
+	Scheme *runtime.Scheme
+	Clock
+}
+</code></pre>
+<details class="collapse-code"><summary class="hljs">
+<pre class="hljs"><span class="collapse-summary">Clock Code Implementation</span></pre>
+</summary>
+<p>我们会 mock 时钟以便测试中随意跳转时间；“真实”时钟只是调用 <code>time.Now</code>。</p>
+<pre><code class="language-go">type realClock struct{}
+
+func (_ realClock) Now() time.Time { return time.Now() } //nolint:staticcheck
+
+// Clock 知道如何获取当前时间。
+// 可用于在测试中伪造时间。
+type Clock interface {
+	Now() time.Time
+}
+</code></pre>
+</details>
+<pre><code class="language-go">// 管理状态条件的定义
+const (
+	// typeAvailableCronJob 表示 CronJob 协调的状态
+	typeAvailableCronJob = "Available"
+	// typeProgressingCronJob 表示 CronJob 正在协调时使用的状态
+	typeProgressingCronJob = "Progressing"
+	// typeDegradedCronJob 表示 CronJob 遇到错误时使用的状态
+	typeDegradedCronJob = "Degraded"
+)
+</code></pre>
+<p>注意我们还需要更多 RBAC 权限——因为现在要创建和管理 Job，需要相应权限，这意味着再添加几条 <a href="/reference/markers/rbac.html">标记</a>。</p>
+<pre><code class="language-go">// +kubebuilder:rbac:groups=batch.tutorial.kubebuilder.io,resources=cronjobs,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=batch.tutorial.kubebuilder.io,resources=cronjobs/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=batch.tutorial.kubebuilder.io,resources=cronjobs/finalizers,verbs=update
+// +kubebuilder:rbac:groups=batch,resources=jobs,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=batch,resources=jobs/status,verbs=get
+</code></pre>
+<p>现在进入控制器核心——reconciler 逻辑。</p>
+<pre><code class="language-go">var (
+	scheduledTimeAnnotation = "batch.tutorial.kubebuilder.io/scheduled-at"
+)
+
+// Reconcile 是主 kubernetes 协调循环的一部分，其目标是
+// 使集群当前状态更接近期望状态。
+// TODO(user): Modify the Reconcile function to compare the state specified by
+// the CronJob object against the actual cluster state, and then
+// perform operations to make the cluster state reflect the state specified by
+// the user.
+//
+// 更多细节参见 Reconcile 及其 Result：
+// - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.25.0/pkg/reconcile
+// nolint:gocyclo
+func (r *CronJobReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+	log := logf.FromContext(ctx)
+</code></pre>
+<h3 id="1按名称加载-cronjob"><a class="header" href="#1按名称加载-cronjob">1：按名称加载 CronJob</a></h3>
+<p>我们用客户端获取 CronJob。所有客户端方法以 context（允许取消）为第一个参数，以相关对象为最后一个参数。Get 有些特殊，中间参数是 <a href="https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/client?tab=doc#ObjectKey"><code>NamespacedName</code></a>（如下文所见，多数方法没有中间参数）。</p>
+<p>许多 client 方法末尾还接受可变参数选项。</p>
+<pre><code class="language-go">	var cronJob batchv1.CronJob
+	if err := r.Get(ctx, req.NamespacedName, &amp;cronJob); err != nil {
+		if apierrors.IsNotFound(err) {
+			// 如果未找到自定义资源，通常意味着它已被删除或未创建
+			// 这样，我们将停止调整过程
+			log.Info("CronJob resource not found. Ignoring since object must be deleted")
+			return ctrl.Result{}, nil
+		}
+		// 读取对象时出错 - 重新排队请求。
+		log.Error(err, "Failed to get CronJob")
+		return ctrl.Result{}, err
+	}
+
+	// 若尚未存在则初始化 status conditions
+	if len(cronJob.Status.Conditions) == 0 {
+		meta.SetStatusCondition(&amp;cronJob.Status.Conditions, metav1.Condition{
+			Type:    typeProgressingCronJob,
+			Status:  metav1.ConditionUnknown,
+			Reason:  "Reconciling",
+			Message: "Starting reconciliation",
+		})
+		if err := r.Status().Update(ctx, &amp;cronJob); err != nil {
+			log.Error(err, "Failed to update CronJob status")
+			return ctrl.Result{}, err
+		}
+
+	
+</code></pre>
+<p>更新 status 后重新获取 CronJob，确保使用 API 服务器上的最新版本。</p>
+<p>Kubernetes 使用乐观并发，意味着任何更新（包括 status 更新）都可能更改资源版本。若继续用过期副本协调，后续更新可能因冲突失败，例如：“the object has been modified; please apply your changes to the latest version and try again”。</p>
+<p>在此重新获取可使协调逻辑与实际集群状态同步，避免不必要的冲突与重新入队。</p>
+<pre><code class="language-go">		if err := r.Get(ctx, req.NamespacedName, &amp;cronJob); err != nil {
+			log.Error(err, "Failed to re-fetch CronJob")
+			return ctrl.Result{}, err
+		}
+	}
+</code></pre>
+<h3 id="2列出所有活动-job并更新-status"><a class="header" href="#2列出所有活动-job并更新-status">2：列出所有活动 Job，并更新 status</a></h3>
+<p>要完整更新 status，需要列出此命名空间中属于该 CronJob 的所有子 Job。与 Get 类似，可用 List 方法列出子 Job。注意我们用可变参数选项设置命名空间与字段匹配（实际是下面设置的索引查找）。</p>
+<pre><code class="language-go">	var childJobs kbatch.JobList
+	if err := r.List(ctx, &amp;childJobs, client.InNamespace(req.Namespace), client.MatchingFields{jobOwnerKey: req.Name}); err != nil {
+		log.Error(err, "unable to list child Jobs")
+	
+</code></pre>
+<p>更新前请确保拿到资源的最新状态，以避免冲突错误（例如 “the object has been modified”），否则会重新触发协调循环。</p>
+<pre><code class="language-go">		if fetchErr := r.Get(ctx, req.NamespacedName, &amp;cronJob); fetchErr != nil {
+			log.Error(fetchErr, "Failed to re-fetch CronJob")
+			return ctrl.Result{}, fetchErr
+		}
+		// 更新 status condition 以反映错误
+		meta.SetStatusCondition(&amp;cronJob.Status.Conditions, metav1.Condition{
+			Type:    typeDegradedCronJob,
+			Status:  metav1.ConditionTrue,
+			Reason:  "ReconciliationError",
+			Message: fmt.Sprintf("Failed to list child jobs: %v", err),
+		})
+		if statusErr := r.Status().Update(ctx, &amp;cronJob); statusErr != nil {
+			log.Error(statusErr, "Failed to update CronJob status")
+		}
+		return ctrl.Result{}, err
+	}
+</code></pre>
+<aside class="note">
+<h1>What is this index about?</h1>
+
+<p>The reconciler fetches all jobs owned by the cronjob for the status. As our number of cronjobs increases,
+looking these up can become quite slow as we have to filter through all of them. For a more efficient lookup,
+these jobs will be indexed locally on the controller's name. A jobOwnerKey field is added to the
+cached job objects. This key references the owning controller and functions as the index. Later in this
+document we will configure the manager to actually index this field.</p>
+
+</aside>
+<p>一旦拥有所有归我们所有的 Job，就把它们分成活动、成功与失败的 Job，并跟踪最近一次运行以便记入 status。请记住，status 应能从世界状态重建，因此通常不宜读取根对象的 status。相反，每次运行都应重建它。我们在这里就这样做。</p>
+<p>我们可以使用 status 条件检查 Job 是否「已完成」以及成功还是失败。我们把该逻辑放在辅助函数中，使代码更清晰。</p>
+<pre><code class="language-go">	// 查找活动 Job 列表
+	var activeJobs []*kbatch.Job
+	var successfulJobs []*kbatch.Job
+	var failedJobs []*kbatch.Job
+	var mostRecentTime *time.Time // 查找上次运行以便更新 status
+</code></pre>
+<details class="collapse-code"><summary class="hljs">
+<pre class="hljs"><span class="collapse-summary">isJobFinished</span></pre>
+</summary>
+<p>若 Job 具有标记为 true 的 “Complete” 或 “Failed” 条件，我们视其为「已完成」。Status 条件允许向对象添加可扩展状态信息，供其他人或控制器检查完成度与健康状况等。</p>
+<pre><code class="language-go">	isJobFinished := func(job *kbatch.Job) (bool, kbatch.JobConditionType) {
+		for _, c := range job.Status.Conditions {
+			if (c.Type == kbatch.JobComplete || c.Type == kbatch.JobFailed) &amp;&amp; c.Status == corev1.ConditionTrue {
+				return true, c.Type
+			}
+		}
+
+		return false, ""
+	}
+</code></pre>
+</details><details class="collapse-code"><summary class="hljs">
+<pre class="hljs"><span class="collapse-summary">getScheduledTimeForJob</span></pre>
+</summary>
+<p>用辅助函数从创建 Job 时添加的注解中提取计划时间。</p>
+<pre><code class="language-go">	getScheduledTimeForJob := func(job *kbatch.Job) (*time.Time, error) {
+		timeRaw := job.Annotations[scheduledTimeAnnotation]
+		if len(timeRaw) == 0 {
+			return nil, nil
+		}
+
+		timeParsed, err := time.Parse(time.RFC3339, timeRaw)
+		if err != nil {
+			return nil, err
+		}
+		return &amp;timeParsed, nil
+	}
+</code></pre>
+</details>
+<pre><code class="language-go">	for i, job := range childJobs.Items {
+		_, finishedType := isJobFinished(&amp;job)
+		switch finishedType {
+		case "": // 进行中
+			activeJobs = append(activeJobs, &amp;childJobs.Items[i])
+		case kbatch.JobFailed:
+			failedJobs = append(failedJobs, &amp;childJobs.Items[i])
+		case kbatch.JobComplete:
+			successfulJobs = append(successfulJobs, &amp;childJobs.Items[i])
+		}
+
+		// 我们将启动时间存在注解中，以便从
+		// 活动 Job 自身重建。
+		scheduledTimeForJob, err := getScheduledTimeForJob(&amp;job)
+		if err != nil {
+			log.Error(err, "unable to parse schedule time for child job", "job", &amp;job)
+			continue
+		}
+		if scheduledTimeForJob != nil {
+			if mostRecentTime == nil || mostRecentTime.Before(*scheduledTimeForJob) {
+				mostRecentTime = scheduledTimeForJob
+			}
+		}
+	}
+
+	if mostRecentTime != nil {
+		cronJob.Status.LastScheduleTime = &amp;metav1.Time{Time: *mostRecentTime}
+	} else {
+		cronJob.Status.LastScheduleTime = nil
+	}
+	cronJob.Status.Active = nil
+	for _, activeJob := range activeJobs {
+		jobRef, err := ref.GetReference(r.Scheme, activeJob)
+		if err != nil {
+			log.Error(err, "unable to make reference to active job", "job", activeJob)
+			continue
+		}
+		cronJob.Status.Active = append(cronJob.Status.Active, *jobRef)
+	}
+</code></pre>
+<p>这里我们以稍高的日志级别记录观察到的 Job 数量，便于调试。注意我们不用格式化字符串，而是用固定消息，并用键值对附加额外信息。这样更易过滤与查询日志行。</p>
+<pre><code class="language-go">	log.V(1).Info("job count", "active jobs", len(activeJobs), "successful jobs", len(successfulJobs), "failed jobs", len(failedJobs))
+
+	// 检查 CronJob 是否已挂起
+	isSuspended := cronJob.Spec.Suspend != nil &amp;&amp; *cronJob.Spec.Suspend
+
+	// 根据当前状态更新 status conditions
+	if isSuspended {
+		meta.SetStatusCondition(&amp;cronJob.Status.Conditions, metav1.Condition{
+			Type:    typeAvailableCronJob,
+			Status:  metav1.ConditionFalse,
+			Reason:  "Suspended",
+			Message: "CronJob is suspended",
+		})
+	} else if len(failedJobs) &gt; 0 {
+		meta.SetStatusCondition(&amp;cronJob.Status.Conditions, metav1.Condition{
+			Type:    typeDegradedCronJob,
+			Status:  metav1.ConditionTrue,
+			Reason:  "JobsFailed",
+			Message: fmt.Sprintf("%d job(s) have failed", len(failedJobs)),
+		})
+		meta.SetStatusCondition(&amp;cronJob.Status.Conditions, metav1.Condition{
+			Type:    typeAvailableCronJob,
+			Status:  metav1.ConditionFalse,
+			Reason:  "JobsFailed",
+			Message: fmt.Sprintf("%d job(s) have failed", len(failedJobs)),
+		})
+	} else if len(activeJobs) &gt; 0 {
+		meta.SetStatusCondition(&amp;cronJob.Status.Conditions, metav1.Condition{
+			Type:    typeProgressingCronJob,
+			Status:  metav1.ConditionTrue,
+			Reason:  "JobsActive",
+			Message: fmt.Sprintf("%d job(s) are currently active", len(activeJobs)),
+		})
+		meta.SetStatusCondition(&amp;cronJob.Status.Conditions, metav1.Condition{
+			Type:    typeAvailableCronJob,
+			Status:  metav1.ConditionTrue,
+			Reason:  "JobsActive",
+			Message: fmt.Sprintf("CronJob is progressing with %d active job(s)", len(activeJobs)),
+		})
+	} else {
+		meta.SetStatusCondition(&amp;cronJob.Status.Conditions, metav1.Condition{
+			Type:    typeAvailableCronJob,
+			Status:  metav1.ConditionTrue,
+			Reason:  "AllJobsCompleted",
+			Message: "All jobs have completed successfully",
+		})
+		meta.SetStatusCondition(&amp;cronJob.Status.Conditions, metav1.Condition{
+			Type:    typeProgressingCronJob,
+			Status:  metav1.ConditionFalse,
+			Reason:  "NoJobsActive",
+			Message: "No jobs are currently active",
+		})
+	}
+</code></pre>
+<p>利用已收集的数据，我们将更新 CRD 的 status。与之前一样使用客户端。要专门更新 status 子资源，使用客户端的 <code>Status</code> 部分及其 <code>Update</code> 方法。</p>
+<p>status 子资源忽略对 spec 的更改，因此更不易与其他更新冲突，并可有独立权限。</p>
+<pre><code class="language-go">	if err := r.Status().Update(ctx, &amp;cronJob); err != nil {
+		log.Error(err, "unable to update CronJob status")
+		return ctrl.Result{}, err
+	}
+</code></pre>
+<p>更新 status 后，继续确保现实状态与 spec 中的期望一致。</p>
+<h3 id="3按历史限制清理旧-job"><a class="header" href="#3按历史限制清理旧-job">3：按历史限制清理旧 Job</a></h3>
+<p>首先清理旧 Job，以免残留过多。</p>
+<pre><code class="language-go">	// 注意：删除为“尽力而为”——若某一个失败，
+	// 不会仅为完成删除而重新入队。
+	if cronJob.Spec.FailedJobsHistoryLimit != nil {
+		slices.SortStableFunc(failedJobs, func(a, b *kbatch.Job) int {
+			aStartTime := a.Status.StartTime
+			bStartTime := b.Status.StartTime
+			switch {
+			case aStartTime == nil &amp;&amp; bStartTime == nil:
+				return 0
+			case aStartTime == nil:
+				return -1
+			case bStartTime == nil:
+				return 1
+			case aStartTime.Before(bStartTime):
+				return -1
+			case bStartTime.Before(aStartTime):
+				return 1
+			default:
+				return 0
+			}
+		})
+		for i, job := range failedJobs {
+			if int32(i) &gt;= int32(len(failedJobs))-*cronJob.Spec.FailedJobsHistoryLimit {
+				break
+			}
+			if err := r.Delete(ctx, job, client.PropagationPolicy(metav1.DeletePropagationBackground)); client.IgnoreNotFound(err) != nil {
+				log.Error(err, "unable to delete old failed job", "job", job)
+			} else {
+				log.V(1).Info("deleted old failed job", "job", job)
+			}
+		}
+	}
+
+	if cronJob.Spec.SuccessfulJobsHistoryLimit != nil {
+		slices.SortStableFunc(successfulJobs, func(a, b *kbatch.Job) int {
+			aStartTime := a.Status.StartTime
+			bStartTime := b.Status.StartTime
+			switch {
+			case aStartTime == nil &amp;&amp; bStartTime == nil:
+				return 0
+			case aStartTime == nil:
+				return -1
+			case bStartTime == nil:
+				return 1
+			case aStartTime.Before(bStartTime):
+				return -1
+			case bStartTime.Before(aStartTime):
+				return 1
+			default:
+				return 0
+			}
+		})
+		for i, job := range successfulJobs {
+			if int32(i) &gt;= int32(len(successfulJobs))-*cronJob.Spec.SuccessfulJobsHistoryLimit {
+				break
+			}
+			if err := r.Delete(ctx, job, client.PropagationPolicy(metav1.DeletePropagationBackground)); err != nil {
+				log.Error(err, "unable to delete old successful job", "job", job)
+			} else {
+				log.V(1).Info("deleted old successful job", "job", job)
+			}
+		}
+	}
+</code></pre>
+<h3 id="4检查是否已挂起"><a class="header" href="#4检查是否已挂起">4：检查是否已挂起</a></h3>
+<p>若此对象被挂起，我们不想运行任何 Job，因此到此停止。当正在运行的 Job 出了问题、想暂停运行以排查或调整集群而又不想删除对象时，这很有用。</p>
+<pre><code class="language-go">	if cronJob.Spec.Suspend != nil &amp;&amp; *cronJob.Spec.Suspend {
+		log.V(1).Info("cronjob suspended, skipping")
+		return ctrl.Result{}, nil
+	}
+</code></pre>
+<h3 id="5获取下次计划运行"><a class="header" href="#5获取下次计划运行">5：获取下次计划运行</a></h3>
+<p>若未暂停，需计算下次计划运行，以及是否还有未处理的运行。</p>
+<details class="collapse-code"><summary class="hljs">
+<pre class="hljs"><span class="collapse-summary">getNextSchedule</span></pre>
+</summary>
+<p>我们将使用方便的 cron 库计算下次计划时间。从上次运行开始计算合适时间；若找不到上次运行，则从 CronJob 创建时开始。</p>
+<p>如果错过的运行太多且未设置任何截止时间，我们将退出，以免在控制器重启或卡住时引发问题。</p>
+<p>否则返回错过的运行（只用最新一次）和下次运行，以便知道何时再次协调。</p>
+<pre><code class="language-go">	getNextSchedule := func(cronJob *batchv1.CronJob, now time.Time) (lastMissed time.Time, next time.Time, err error) {
+		sched, err := cron.ParseStandard(cronJob.Spec.Schedule)
+		if err != nil {
+			return time.Time{}, time.Time{}, fmt.Errorf("unparseable schedule %q: %w", cronJob.Spec.Schedule, err)
+		}
+
+		// 为优化，略取巧地从上次观测到的运行时间开始
+		// we could reconstitute this here, but there's not much point, since we've
+		// just updated it.
+		var earliestTime time.Time
+		if cronJob.Status.LastScheduleTime != nil {
+			earliestTime = cronJob.Status.LastScheduleTime.Time
+		} else {
+			earliestTime = cronJob.CreationTimestamp.Time
+		}
+		if cronJob.Spec.StartingDeadlineSeconds != nil {
+			// 控制器不会在此点之下调度任何内容
+			schedulingDeadline := now.Add(-time.Second * time.Duration(*cronJob.Spec.StartingDeadlineSeconds))
+
+			if schedulingDeadline.After(earliestTime) {
+				earliestTime = schedulingDeadline
+			}
+		}
+		if earliestTime.After(now) {
+			return time.Time{}, sched.Next(now), nil
+		}
+
+		starts := 0
+		for t := sched.Next(earliestTime); !t.After(now); t = sched.Next(t) {
+			lastMissed = t
+			// 对象可能错过多次启动。例如，若
+			// 控制器在周五下午 5:01 卡住，而大家都
+			// gone home, and someone comes in on Tuesday AM and discovers
+			// the problem and restarts the controller, then all the hourly
+			// jobs, more than 80 of them for one hourly scheduledJob, should
+			// all start running with no further intervention (if the scheduledJob
+			// allows concurrency and late starts).
+			//
+			// However, if there is a bug somewhere, or incorrect clock
+			// on controller's server or apiservers (for setting creationTimestamp)
+			// then there could be so many missed start times (it could be off
+			// by decades or more), that it would eat up all the CPU and memory
+			// of this controller. In that case, we want to not try to list
+			// all the missed start times.
+			starts++
+			if starts &gt; 100 {
+				// 无法获取最近时间则返回空切片
+				return time.Time{}, time.Time{}, fmt.Errorf("Too many missed start times (&gt; 100). Set or decrease .spec.startingDeadlineSeconds or check clock skew.") //nolint:staticcheck
+			}
+		}
+		return lastMissed, sched.Next(now), nil
+	}
+</code></pre>
+</details>
+<pre><code class="language-go">	// 算出下次需要创建的时间
+	// Job 的时间点（或任何错过的）。
+	missedRun, nextRun, err := getNextSchedule(&amp;cronJob, r.Now())
+	if err != nil {
+		log.Error(err, "unable to figure out CronJob schedule")
+		if fetchErr := r.Get(ctx, req.NamespacedName, &amp;cronJob); fetchErr != nil {
+			log.Error(fetchErr, "Failed to re-fetch CronJob")
+			return ctrl.Result{}, fetchErr
+		}
+		// 更新 status condition 以反映调度错误
+		meta.SetStatusCondition(&amp;cronJob.Status.Conditions, metav1.Condition{
+			Type:    typeDegradedCronJob,
+			Status:  metav1.ConditionTrue,
+			Reason:  "InvalidSchedule",
+			Message: fmt.Sprintf("Failed to parse schedule: %v", err),
+		})
+		if statusErr := r.Status().Update(ctx, &amp;cronJob); statusErr != nil {
+			log.Error(statusErr, "Failed to update CronJob status")
+		}
+		// 在收到能修复调度的更新前不必重新入队
+		// 因此不返回错误
+		return ctrl.Result{}, nil
+	}
+</code></pre>
+<p>准备最终的重新入队请求直到下次 Job，再判断是否真正需要运行。</p>
+<pre><code class="language-go">	scheduledResult := ctrl.Result{RequeueAfter: nextRun.Sub(r.Now())} // 保存以便别处复用
+	log = log.WithValues("now", r.Now(), "next run", nextRun)
+</code></pre>
+<h3 id="6若已到点未过截止且未被并发策略阻塞则运行新-job"><a class="header" href="#6若已到点未过截止且未被并发策略阻塞则运行新-job">6：若已到点、未过截止且未被并发策略阻塞，则运行新 Job</a></h3>
+<p>若错过一次运行且仍在启动截止时间内，则需要运行 Job。</p>
+<pre><code class="language-go">	if missedRun.IsZero() {
+		log.V(1).Info("no upcoming scheduled times, sleeping until next")
+		return scheduledResult, nil
+	}
+
+	// 确保启动运行尚未过晚
+	log = log.WithValues("current run", missedRun)
+	tooLate := false
+	if cronJob.Spec.StartingDeadlineSeconds != nil {
+		tooLate = missedRun.Add(time.Duration(*cronJob.Spec.StartingDeadlineSeconds) * time.Second).Before(r.Now())
+	}
+	if tooLate {
+		log.V(1).Info("missed starting deadline for last run, sleeping till next")
+		if fetchErr := r.Get(ctx, req.NamespacedName, &amp;cronJob); fetchErr != nil {
+			log.Error(fetchErr, "Failed to re-fetch CronJob")
+			return ctrl.Result{}, fetchErr
+		}
+		// 更新 status condition 以反映错过截止时间
+		meta.SetStatusCondition(&amp;cronJob.Status.Conditions, metav1.Condition{
+			Type:    typeDegradedCronJob,
+			Status:  metav1.ConditionTrue,
+			Reason:  "MissedSchedule",
+			Message: fmt.Sprintf("Missed starting deadline for run at %v", missedRun),
+		})
+		if statusErr := r.Status().Update(ctx, &amp;cronJob); statusErr != nil {
+			log.Error(statusErr, "Failed to update CronJob status")
+		}
+		return scheduledResult, nil
+	}
+</code></pre>
+<p>若确实需要运行 Job，我们要么等待现有 Job 完成，要么替换现有 Job，要么直接添加新 Job。若因缓存延迟导致信息过时，在拿到最新信息时会重新入队。</p>
+<pre><code class="language-go">	// 确定如何运行此 Job——并发策略可能禁止我们
+	// 同时运行多个……
+	if cronJob.Spec.ConcurrencyPolicy == batchv1.ForbidConcurrent &amp;&amp; len(activeJobs) &gt; 0 {
+		log.V(1).Info("concurrency policy blocks concurrent runs, skipping", "num active", len(activeJobs))
+		return scheduledResult, nil
+	}
+
+	// ……或指示我们替换现有的……
+	if cronJob.Spec.ConcurrencyPolicy == batchv1.ReplaceConcurrent {
+		for _, activeJob := range activeJobs {
+			// 不关心 Job 是否已删除
+			if err := r.Delete(ctx, activeJob, client.PropagationPolicy(metav1.DeletePropagationBackground)); client.IgnoreNotFound(err) != nil {
+				log.Error(err, "unable to delete active job", "job", activeJob)
+				return ctrl.Result{}, err
+			}
+		}
+	}
+</code></pre>
+<p>确定如何处理现有 Job 后，实际创建期望的 Job</p>
+<details class="collapse-code"><summary class="hljs">
+<pre class="hljs"><span class="collapse-summary">constructJobForCronJob</span></pre>
+</summary>
+<p>需根据 CronJob 模板构造 Job。复制模板中的 spec 与部分基本 object meta。</p>
+<p>然后设置“计划时间”注解，以便每次协调重建 <code>LastScheduleTime</code> 字段。</p>
+<p>最后，需要设置所有者引用。这允许 Kubernetes 垃圾回收器在删除 CronJob 时清理 Job，并让 controller-runtime 在给定 Job 变更（添加、删除、完成等）时确定需要协调哪个 CronJob。</p>
+<pre><code class="language-go">	constructJobForCronJob := func(cronJob *batchv1.CronJob, scheduledTime time.Time) (*kbatch.Job, error) {
+		// 希望给定名义启动时间的 Job 名称确定性，避免重复创建同一 Job
+		name := fmt.Sprintf("%s-%d", cronJob.Name, scheduledTime.Unix())
+
+		job := &amp;kbatch.Job{
+			ObjectMeta: metav1.ObjectMeta{
+				Labels:      make(map[string]string),
+				Annotations: make(map[string]string),
+				Name:        name,
+				Namespace:   cronJob.Namespace,
+			},
+			Spec: *cronJob.Spec.JobTemplate.Spec.DeepCopy(),
+		}
+		maps.Copy(job.Annotations, cronJob.Spec.JobTemplate.Annotations)
+		job.Annotations[scheduledTimeAnnotation] = scheduledTime.Format(time.RFC3339)
+		maps.Copy(job.Labels, cronJob.Spec.JobTemplate.Labels)
+		if err := ctrl.SetControllerReference(cronJob, job, r.Scheme); err != nil {
+			return nil, err
+		}
+
+		return job, nil
+	}
+</code></pre>
+</details>
+<pre><code class="language-go">	// 实际创建 Job……
+	job, err := constructJobForCronJob(&amp;cronJob, missedRun)
+	if err != nil {
+		log.Error(err, "unable to construct job from template")
+		// 不要立即重试；失败发生在构造 Job 时。
+		// 将在下次计划运行时再次协调, and updates to the CronJob
+		// can also trigger reconciliation sooner
+		return scheduledResult, nil
+	}
+
+	// ...and create it on the cluster
+	if err := r.Create(ctx, job); err != nil {
+		log.Error(err, "unable to create Job for CronJob", "job", job)
+		if fetchErr := r.Get(ctx, req.NamespacedName, &amp;cronJob); fetchErr != nil {
+			log.Error(fetchErr, "Failed to re-fetch CronJob")
+			return ctrl.Result{}, fetchErr
+		}
+		// 更新 status condition 以反映错误
+		meta.SetStatusCondition(&amp;cronJob.Status.Conditions, metav1.Condition{
+			Type:    typeDegradedCronJob,
+			Status:  metav1.ConditionTrue,
+			Reason:  "JobCreationFailed",
+			Message: fmt.Sprintf("Failed to create job: %v", err),
+		})
+		if statusErr := r.Status().Update(ctx, &amp;cronJob); statusErr != nil {
+			log.Error(statusErr, "Failed to update CronJob status")
+		}
+		return ctrl.Result{}, err
+	}
+
+	log.V(1).Info("created Job for CronJob run", "job", job)
+
+	if fetchErr := r.Get(ctx, req.NamespacedName, &amp;cronJob); fetchErr != nil {
+		log.Error(fetchErr, "Failed to re-fetch CronJob")
+		return ctrl.Result{}, fetchErr
+	}
+	// Update status condition to reflect successful job creation
+	meta.SetStatusCondition(&amp;cronJob.Status.Conditions, metav1.Condition{
+		Type:    typeProgressingCronJob,
+		Status:  metav1.ConditionTrue,
+		Reason:  "JobCreated",
+		Message: fmt.Sprintf("Created job %s", job.Name),
+	})
+	if statusErr := r.Status().Update(ctx, &amp;cronJob); statusErr != nil {
+		log.Error(statusErr, "Failed to update CronJob status")
+	}
+</code></pre>
+<h3 id="7当我们看到正在运行的-job或到了下次计划运行时间时重新入队"><a class="header" href="#7当我们看到正在运行的-job或到了下次计划运行时间时重新入队">7：当我们看到正在运行的 Job，或到了下次计划运行时间时重新入队</a></h3>
+<p>最后，返回上面准备好的结果，表示希望在下次运行需要发生时重新入队。这视为最大截止时间——若其间发生其他变更，如 Job 开始或完成、我们被修改等，可能更早再次协调。</p>
+<pre><code class="language-go">	// we'll requeue once we see the running job, and update our status
+	return scheduledResult, nil
+}
+</code></pre>
+<h3 id="setup"><a class="header" href="#setup">Setup</a></h3>
+<p>最后，更新我们的设置。为了让 reconciler 能按所有者快速查找 Job，需要索引。我们声明一个稍后可与客户端一起用作伪字段名的索引键，然后描述如何从 Job 对象提取索引值。索引器会自动处理命名空间，因此若 Job 有 CronJob 所有者，我们只需提取所有者名称。</p>
+<p>此外，我们将告知 manager 此控制器拥有一些 Job，这样当 Job 变更、被删除等时，它会自动对底层 CronJob 调用 Reconcile。</p>
+<pre><code class="language-go">var (
+	jobOwnerKey = ".metadata.controller"
+	apiGVStr    = batchv1.GroupVersion.String()
+)
+
+// SetupWithManager 将控制器与管理器进行设置。
+func (r *CronJobReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	// set up a real clock, since we're not in a test
+	if r.Clock == nil {
+		r.Clock = realClock{}
+	}
+
+	if err := mgr.GetFieldIndexer().IndexField(context.Background(), &amp;kbatch.Job{}, jobOwnerKey, func(rawObj client.Object) []string {
+		// grab the job object, extract the owner...
+		job := rawObj.(*kbatch.Job)
+		owner := metav1.GetControllerOf(job)
+		if owner == nil {
+			return nil
+		}
+		// ...make sure it's a CronJob...
+		if owner.APIVersion != apiGVStr || owner.Kind != "CronJob" {
+			return nil
+		}
+
+		// ...and if so, return it
+		return []string{owner.Name}
+	}); err != nil {
+		return err
+	}
+
+	return ctrl.NewControllerManagedBy(mgr).
+		For(&amp;batchv1.CronJob{}).
+		Owns(&amp;kbatch.Job{}).
+		Named("cronjob").
+		Complete(r)
+}
+</code></pre>
+</div>
+
+<p>那真是个难题，不过现在我们有了一个可用的控制器。接下来让我们对集群进行测试，如果没有问题，就可以部署了！</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../cronjob-tutorial/controller-overview.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../cronjob-tutorial/main-revisited.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../cronjob-tutorial/controller-overview.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../cronjob-tutorial/main-revisited.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-c2a407aa.js"></script>
+
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-abc7f01d.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../theme/js/inject-2360f38b.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

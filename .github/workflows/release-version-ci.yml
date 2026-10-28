@@ -1,0 +1,61 @@
+name: Test GoReleaser and CLI Version
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'pkg/**'
+      - 'cmd/**'
+      - 'build/.goreleaser.yml'
+      - '.github/workflows/release-version-ci.yml'
+
+permissions: {}
+
+jobs:
+  go-releaser-test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+          cache: false
+
+      - name: Clean dist directory
+        run: rm -rf dist || true
+
+      - name: Create temporary git tag
+        run: |
+          git tag v4.5.3-rc.1
+
+      - name: Install Syft to generate SBOMs
+        uses: anchore/sbom-action/download-syft@3ad7283483fc7af8ff2b4ea19663c2d5ca935e26 # v0.24.2
+          
+      - name: Run GoReleaser in mock mode using tag
+        uses: goreleaser/goreleaser-action@f06c13b6b1a9625abc9e6e439d9c05a8f2190e94 # v7.2.3
+        with:
+          version: v2.7.0
+          args: release --skip=publish --clean -f ./build/.goreleaser.yml
+
+      - name: Init project using built kubebuilder binary and check cliVersion
+        run: |
+          mkdir test-operator && cd test-operator
+          go mod init test-operator
+          chmod +x ../dist/kubebuilder_linux_$(go env GOARCH)_v1/kubebuilder
+          ../dist/kubebuilder_linux_$(go env GOARCH)_v1/kubebuilder init --domain example.com
+
+          echo "PROJECT file content:"
+          cat PROJECT
+
+          echo "Verifying cliVersion value..."
+          grep '^cliVersion: 4.5.3-rc.1$' PROJECT

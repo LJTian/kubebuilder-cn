@@ -1,0 +1,53 @@
+/* Adds a thin border to the sidebar (aesthetics) */
+#mdbook-sidebar {
+    border-right: 1px solid var(--theme-popup-border);
+}
+
+/* Sets the size of the logo on the menu bar */
+.large-logo-img {
+    height: 50px;
+}
+
+/* Centers the logo on the menu bar */
+.menu-title {
+    display: flex;
+    align-items: center; /* vertical centering */
+    justify-content: center; /* horizontal centering */
+}
+
+/* Fixes first header sliding under the menu bar when selected */
+.content {
+    overflow-y: clip;
+}
+
+/* Fixes contrast in codeblocks */
+pre > .hljs {
+    border: 1px solid var(--theme-popup-border);
+    border-radius: 6px;
+}
+
+/* Fixes scrollbar background color */
+html {
+    scrollbar-color: var(--scrollbar) transparent;
+}
+
+/* Fixes links formatting */
+.content a {
+    text-decoration: solid underline var(--links);
+}
+
+/* Hides excessive theme options */
+#mdbook-theme-default_theme,
+#mdbook-theme-rust,
+#mdbook-theme-coal,
+#mdbook-theme-ayu {
+    display: none;
+}
+
+/* custom light theme */
+.light {
+    --sidebar-bg: #eef5ff;
+    --sidebar-fg: #334155;
+    --sidebar-non-existant: #7b8da8;
+    --sidebar-spacer: #c9d3e0;
+}

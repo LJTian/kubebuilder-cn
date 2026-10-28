@@ -1,0 +1,151 @@
+version: "2"
+run:
+  allow-parallel-runners: true
+linters:
+  default: none
+  enable:
+    - asciicheck
+    - bidichk
+    - copyloopvar
+    - depguard
+    - dupl
+    - errcheck
+    - ginkgolinter
+    - goconst
+    - gocyclo
+    - govet
+    - importas
+    - ineffassign
+    - lll
+    - modernize
+    - misspell
+    - nakedret
+    - nolintlint
+    - prealloc
+    - revive
+    - staticcheck
+    - unconvert
+    - unparam
+    - unused
+    - wrapcheck
+    - whitespace
+  settings:
+    depguard:
+      rules:
+        forbid-sort-pkg:
+          deny:
+            - pkg: sort
+              desc: Should be replaced with slices package
+    ginkgolinter:
+      forbid-focus-container: true
+      forbid-spec-pollution: true
+    govet:
+      disable:
+        - fieldalignment
+      enable-all: true
+    importas:
+      no-unaliased: true
+      alias:
+        - pkg: sigs.k8s.io/kubebuilder/v4/pkg/plugins/optional/helm/v1alpha
+          alias: helmv1alpha
+        - pkg: sigs.k8s.io/kubebuilder/v4/pkg/plugins/optional/helm/v2alpha
+          alias: helmv2alpha
+        - pkg: sigs.k8s.io/kubebuilder/v4/pkg/plugins/optional/grafana/v1alpha
+          alias: grafanav1alpha
+        - pkg: "sigs.k8s.io/kubebuilder/v4/pkg/plugins/optional/autoupdate/v1alpha"
+          alias: autoupdatev1alpha
+        - pkg: sigs.k8s.io/kubebuilder/v4/pkg/plugins/golang/deploy-image/v1alpha1
+          alias: deployimagev1alpha1
+        - pkg: sigs.k8s.io/kubebuilder/v4/pkg/plugins/golang/v4
+          alias: golangv4
+        - pkg: sigs.k8s.io/kubebuilder/v4/pkg/plugins/common/kustomize/v2
+          alias: kustomizecommonv2
+    modernize:
+      disable:
+      # Suggest replacing omitempty with omitzero for struct fields.
+      # Disable this check for now since it introduces too many changes in our existing codebase.
+      # See https://pkg.go.dev/golang.org/x/tools/go/analysis/passes/modernize#hdr-Analyzer_omitzero for more details.
+        - omitzero
+    nolintlint:
+      allow-unused: false
+    revive:
+      rules:
+        - name: blank-imports
+        - name: context-as-argument
+        - name: context-keys-type
+        - name: dot-imports
+          arguments:
+            - allowedPackages:
+                - github.com/onsi/ginkgo/v2
+                - github.com/onsi/gomega
+        - name: error-return
+        - name: error-strings
+        - name: error-naming
+        - name: exported
+          disabled: true
+        - name: if-return
+        - name: import-shadowing
+        - name: increment-decrement
+        - name: var-naming
+          severity: warning
+          arguments:
+            - ["ID"] # allowed initialisms
+            - ["VM"] # disallowed initialisms
+            - [
+                # <-- this is a list containing one map
+                {
+                  skip-initialism-name-checks: true,
+                  upper-case-const: true,
+                  skip-package-name-checks: true,
+                  extra-bad-package-names: ["helpers", "models"],
+                },
+              ]
+        - name: var-declaration
+        - name: package-comments
+          disabled: true
+        - name: range
+        - name: receiver-naming
+        - name: time-naming
+        - name: unexported-return
+        - name: indent-error-flow
+        - name: errorf
+        - name: empty-block
+        - name: superfluous-else
+        - name: unused-parameter
+        - name: unreachable-code
+        - name: redefines-builtin-id
+        - name: bool-literal-in-expr
+        - name: constant-logical-expr
+        - name: comment-spacings
+  exclusions:
+    generated: lax
+    rules:
+      - linters:
+          - gosec
+        path: test/e2e/*
+      - linters:
+          - gosec
+          - lll
+        path: hack/docs/*
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - gci
+    - gofmt
+    - gofumpt
+    - goimports
+  settings:
+    gci:
+      sections:
+        - standard
+        - default
+        - prefix(sigs.k8s.io/kubebuilder)
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$

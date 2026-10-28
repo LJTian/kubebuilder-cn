@@ -1,0 +1,724 @@
+<!DOCTYPE HTML>
+<html lang="zh_CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>编写测试 - Kubebuilder 中文指南</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../logos/favicon.svg">
+        <link rel="shortcut icon" href="../logos/favicon.png">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/css/markers-0bcf2cc9.css">
+        <link rel="stylesheet" href="../theme/css/custom-265d96b0.css">
+        <link rel="stylesheet" href="../theme/css/version-dropdown-e6742374.css">
+        <link rel="stylesheet" href="../theme/css/global-banner-a2f85a7e.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex-a3608051.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc-675883bf.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"><img alt="Kubebuilder 中文指南" class="large-logo-img" src="..//logos/kb-logo-one-line.svg"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/LJTian/kubebuilder-cn" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/LJTian/kubebuilder-cn/edit/cn-book-v4/docs/book/src/" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="编写控制器测试"><a class="header" href="#编写控制器测试">编写控制器测试</a></h1>
+<p>测试 Kubernetes 控制器是一个大主题，而 kubebuilder 为您生成的样板测试文件相对较少。</p>
+<p>为了引导您了解用于 Kubebuilder 生成的控制器的集成测试模式，我们将重新审视在首个教程中构建的 CronJob，并为其编写一个简单的测试。</p>
+<p>基本的方法是，在您生成的 <code>suite_test.go</code> 文件中，您将使用 envtest 创建一个本地 Kubernetes API 服务器，实例化并运行您的控制器，然后编写额外的 <code>*_test.go</code> 文件，通过 <a href="http://onsi.github.io/ginkgo">Ginkgo</a> 来进行测试。</p>
+<p>如果您想要调整您的 envtest 集群的配置，请参阅<a href="../reference/envtest.html">为集成测试配置 envtest</a>一节，以及<a href="https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/envtest?tab=doc"><code>envtest 文档</code></a>。</p>
+<aside class="note" role="note">
+<p class="note-title">Other Examples</p>
+
+<p>若想查看 Kubebuilder 生成的更多控制器测试示例，请参阅 <a href="../plugins/available/deploy-image-plugin-v1-alpha.html">Deploy Image 插件（deploy-image/v1-alpha）</a>。该插件按推荐模式为在集群上管理 Operand（容器镜像）脚手架生成 API 与控制器。</p>
+<p>该插件抽象了管理 Deployment 的大量复杂性，同时仍允许你自定义生成的代码。启用后，插件还会生成使用 <a href="../reference/envtest.html">ENV TEST</a> 的控制器测试，以验证控制器创建了期望的 Deployment。</p>
+<p>此测试的示例可在 Kubebuilder 仓库的 <code>testdata</code> 目录下找到：<a href="https://github.com/kubernetes-sigs/kubebuilder/blob/master/testdata/project-v4-with-plugins/internal/controller/busybox_controller_test.go">testdata/project-v4-with-plugins/internal/controller/busybox_controller_test.go</a>。</p>
+</aside>
+<h2 id="测试环境设置"><a class="header" href="#测试环境设置">测试环境设置</a></h2>
+<div class="literate"><cite class="literate-source"><a href="https://sigs.k8s.io/kubebuilder/docs/book/src/cronjob-tutorial/testdata/project/internal/controller/suite_test.go">../../cronjob-tutorial/testdata/project/internal/controller/suite_test.go</a></cite><details class="collapse-code collapse-hide"><summary class="hljs">
+<pre class="hljs"><span class="collapse-summary">Apache License</span></pre>
+</summary>
+<p>Copyright 2026 The Kubernetes authors.</p>
+<p>Licensed under the Apache License, Version 2.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at</p>
+<pre><code>http://www.apache.org/licenses/LICENSE-2.0
+</code></pre>
+<p>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an “AS IS” BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</p>
+</details><details class="collapse-code collapse-hide"><summary class="hljs">
+<pre class="hljs"><span class="collapse-summary">Imports</span></pre>
+</summary>
+<p>当我们在<a href="/cronjob-tutorial/new-api.html">上一章</a>用 <code>kubebuilder create api</code> 创建 CronJob API 时，Kubebuilder 已为你做了一些测试工作。Kubebuilder 脚手架生成了 <code>internal/controller/suite_test.go</code>，完成了测试环境的基础设置。</p>
+<p>首先，它将包含必要的 import。</p>
+<pre><code class="language-go">package controller
+
+import (
+	"context"
+	"os"
+	"path/filepath"
+	"testing"
+
+	ctrl "sigs.k8s.io/controller-runtime"
+
+	. "github.com/onsi/ginkgo/v2"
+	. "github.com/onsi/gomega"
+
+	"k8s.io/client-go/kubernetes/scheme"
+	"k8s.io/client-go/rest"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/envtest"
+	logf "sigs.k8s.io/controller-runtime/pkg/log"
+	"sigs.k8s.io/controller-runtime/pkg/log/zap"
+
+	batchv1 "tutorial.kubebuilder.io/project/api/v1"
+	// +kubebuilder:scaffold:imports
+)
+
+// These tests use Ginkgo (BDD-style Go testing framework). Refer to
+// http://onsi.github.io/ginkgo/ to learn more about Ginkgo.
+</code></pre>
+</details>
+<p>现在，我们来过一遍生成的代码。</p>
+<pre><code class="language-go">var (
+	ctx       context.Context
+	cancel    context.CancelFunc
+	testEnv   *envtest.Environment
+	cfg       *rest.Config
+	k8sClient client.Client // You'll be using this client in your tests.
+)
+
+func TestControllers(t *testing.T) {
+	RegisterFailHandler(Fail)
+
+	RunSpecs(t, "Controller Suite")
+}
+
+var _ = BeforeSuite(func() {
+	logf.SetLogger(zap.New(zap.WriteTo(GinkgoWriter), zap.UseDevMode(true)))
+
+	ctx, cancel = context.WithCancel(context.TODO())
+
+	var err error
+</code></pre>
+<p>CronJob Kind 被加入测试环境使用的运行时 Scheme。这确保 CronJob API 已向 Scheme 注册，使测试控制器能够识别并与 CronJob 资源交互。</p>
+<pre><code class="language-go">	err = batchv1.AddToScheme(scheme.Scheme)
+	Expect(err).NotTo(HaveOccurred())
+</code></pre>
+<p>在 schemas 之后，你会看到以下标记。正是此标记允许在向项目添加新 API 时自动在此处加入新 schema。</p>
+<pre><code class="language-go">	// +kubebuilder:scaffold:scheme
+</code></pre>
+<p>envtest 环境配置为从指定目录加载自定义资源定义（CRD）。此设置使测试环境能够识别并与这些 CRD 定义的自定义资源交互。</p>
+<pre><code class="language-go">	By("bootstrapping test environment")
+	testEnv = &amp;envtest.Environment{
+		CRDDirectoryPaths:     []string{filepath.Join("..", "..", "config", "crd", "bases")},
+		ErrorIfCRDPathMissing: true,
+	}
+
+	// Retrieve the first found binary directory to allow running tests from IDEs
+	if getFirstFoundEnvTestBinaryDir() != "" {
+		testEnv.BinaryAssetsDirectory = getFirstFoundEnvTestBinaryDir()
+	}
+</code></pre>
+<p>然后，我们启动 envtest 集群。</p>
+<pre><code class="language-go">	// cfg is defined in this file globally.
+	cfg, err = testEnv.Start()
+	Expect(err).NotTo(HaveOccurred())
+	Expect(cfg).NotTo(BeNil())
+</code></pre>
+<p>创建一个用于测试 CRUD 操作的客户端。</p>
+<pre><code class="language-go">	k8sClient, err = client.New(cfg, client.Options{Scheme: scheme.Scheme})
+	Expect(err).NotTo(HaveOccurred())
+	Expect(k8sClient).NotTo(BeNil())
+</code></pre>
+<p>不过，此自动生成文件缺少的一点是实际启动控制器的方式。上面的代码会设置用于与自定义 Kind 交互的客户端，但无法测试控制器行为。若要测试自定义控制器逻辑，需要在 BeforeSuite() 函数中加入一些眼熟的 manager 逻辑，以便把自定义控制器注册到此测试集群上运行。</p>
+<p>你可能注意到下面的代码以与 CronJob 项目 main.go 几乎相同的逻辑运行控制器！唯一区别是 manager 在单独的 goroutine 中启动，以免在测试结束后阻塞 envtest 的清理。</p>
+<p>注意我们同时设置了「实时」k8s 客户端与来自 manager 的单独客户端。这是因为在测试中做断言时，通常希望针对 API 服务器的实时状态断言。若使用 manager 的客户端（<code>k8sManager.GetClient</code>），会针对缓存内容断言，更慢且可能使测试不稳定。也可用 manager 的 <code>APIReader</code> 达到同样效果，但那样测试断言与设置中会有两个客户端（一个读、一个写），容易出错。</p>
+<p>不过请注意，我们仍让 reconciler 针对 manager 的缓存客户端运行——我们希望控制器表现得像生产环境，并且使用了直接与 API 服务器通信时不可用的缓存功能（如索引）。</p>
+<pre><code class="language-go">	k8sManager, err := ctrl.NewManager(cfg, ctrl.Options{
+		Scheme: scheme.Scheme,
+	})
+	Expect(err).ToNot(HaveOccurred())
+
+	err = (&amp;CronJobReconciler{
+		Client: k8sManager.GetClient(),
+		Scheme: k8sManager.GetScheme(),
+	}).SetupWithManager(k8sManager)
+	Expect(err).ToNot(HaveOccurred())
+
+	go func() {
+		defer GinkgoRecover()
+		err = k8sManager.Start(ctx)
+		Expect(err).ToNot(HaveOccurred(), "failed to run manager")
+	}()
+})
+</code></pre>
+<p>Kubebuilder 还会生成用于清理 envtest 以及在 controllers/ 目录实际运行测试文件的样板函数。你无需改动这些。</p>
+<pre><code class="language-go">var _ = AfterSuite(func() {
+	By("tearing down the test environment")
+	cancel()
+	err := testEnv.Stop()
+	Expect(err).NotTo(HaveOccurred())
+})
+</code></pre>
+<p>现在控制器已在测试集群上运行，且客户端已准备好对 CronJob 执行操作，我们可以开始编写集成测试！</p>
+<pre><code class="language-go">// getFirstFoundEnvTestBinaryDir locates the first binary in the specified path.
+// ENVTEST-based tests depend on specific binaries, usually located in paths set by
+// controller-runtime. When running tests directly (e.g., via an IDE) without using
+// Makefile targets, the 'BinaryAssetsDirectory' must be explicitly configured.
+//
+// This function streamlines the process by finding the required binaries, similar to
+// setting the 'KUBEBUILDER_ASSETS' environment variable. To ensure the binaries are
+// properly set up, run 'make setup-envtest' beforehand.
+func getFirstFoundEnvTestBinaryDir() string {
+	basePath := filepath.Join("..", "..", "bin", "k8s")
+	entries, err := os.ReadDir(basePath)
+	if err != nil {
+		logf.Log.Error(err, "Failed to read directory", "path", basePath)
+		return ""
+	}
+	for _, entry := range entries {
+		if entry.IsDir() {
+			return filepath.Join(basePath, entry.Name())
+		}
+	}
+	return ""
+}
+</code></pre>
+</div>
+
+<h2 id="测试您的控制器行为"><a class="header" href="#测试您的控制器行为">测试您的控制器行为</a></h2>
+<div class="literate"><cite class="literate-source"><a href="https://sigs.k8s.io/kubebuilder/docs/book/src/cronjob-tutorial/testdata/project/internal/controller/cronjob_controller_test.go">../../cronjob-tutorial/testdata/project/internal/controller/cronjob_controller_test.go</a></cite><details class="collapse-code collapse-hide"><summary class="hljs">
+<pre class="hljs"><span class="collapse-summary">Apache License</span></pre>
+</summary>
+<p>Licensed under the Apache License, Version 2.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at</p>
+<pre><code>http://www.apache.org/licenses/LICENSE-2.0
+</code></pre>
+<p>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an “AS IS” BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</p>
+</details>
+<p>理想情况下，应为每个脚手架生成并在 <code>suite_test.go</code> 中调用的控制器准备一个 <code>&lt;kind&gt;_controller_test.go</code>。因此，我们为 CronJob 控制器编写示例测试（<code>cronjob_controller_test.go</code>）。</p>
+<details class="collapse-code collapse-hide"><summary class="hljs">
+<pre class="hljs"><span class="collapse-summary">Imports</span></pre>
+</summary>
+<p>照例，我们从必要的 import 开始。</p>
+<pre><code class="language-go">package controller
+
+import (
+	"context"
+	"reflect"
+	"time"
+
+	. "github.com/onsi/ginkgo/v2"
+	. "github.com/onsi/gomega"
+	batchv1 "k8s.io/api/batch/v1"
+	v1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/api/errors"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/types"
+
+	cronjobv1 "tutorial.kubebuilder.io/project/api/v1"
+)
+</code></pre>
+</details>
+<p>编写简单集成测试的第一步是实际创建一个可对之运行测试的 CronJob 实例。注意要创建 CronJob，需要创建一个包含 CronJob 规格的桩 CronJob 结构体。</p>
+<p>注意：创建桩 CronJob 时，CronJob 还需要其必需下游对象的桩。若没有下面的桩 Job 模板 spec 与 Pod 模板 spec，Kubernetes API 将无法创建 CronJob。</p>
+<pre><code class="language-go">var _ = Describe("CronJob controller", func() {
+	Context("CronJob controller test", func() {
+
+		const (
+			CronjobName        = "test-cronjob"
+			testContainerName  = "test-container"
+			testContainerImage = "test-image"
+		)
+
+		ctx := context.Background()
+
+		namespace := &amp;v1.Namespace{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      CronjobName,
+				Namespace: CronjobName,
+			},
+		}
+
+		typeNamespacedName := types.NamespacedName{
+			Name:      CronjobName,
+			Namespace: CronjobName,
+		}
+		cronJob := &amp;cronjobv1.CronJob{}
+
+		SetDefaultEventuallyTimeout(2 * time.Minute)
+		SetDefaultEventuallyPollingInterval(time.Second)
+
+		BeforeEach(func() {
+			By("Creating the Namespace to perform the tests")
+			err := k8sClient.Get(ctx, types.NamespacedName{Name: CronjobName}, &amp;v1.Namespace{})
+			if err != nil &amp;&amp; errors.IsNotFound(err) {
+				err = k8sClient.Create(ctx, namespace)
+				Expect(err).NotTo(HaveOccurred())
+			}
+
+			By("creating the custom resource for the Kind CronJob")
+			cronJob = &amp;cronjobv1.CronJob{}
+			err = k8sClient.Get(ctx, typeNamespacedName, cronJob)
+			if err != nil &amp;&amp; errors.IsNotFound(err) {
+			
+</code></pre>
+<p>让我们以与从 config/samples 下的清单应用相同的方式 mock 自定义资源</p>
+<pre><code class="language-go">				cronJob = &amp;cronjobv1.CronJob{
+					ObjectMeta: metav1.ObjectMeta{
+						Name:      CronjobName,
+						Namespace: namespace.Name,
+					},
+					Spec: cronjobv1.CronJobSpec{
+						Schedule: "1 * * * *",
+						JobTemplate: batchv1.JobTemplateSpec{
+							Spec: batchv1.JobSpec{
+								Template: v1.PodTemplateSpec{
+									Spec: v1.PodSpec{
+										Containers: []v1.Container{
+											{
+												Name:  testContainerName,
+												Image: testContainerImage,
+											},
+										},
+										RestartPolicy: v1.RestartPolicyOnFailure,
+									},
+								},
+							},
+						},
+					},
+				}
+
+				err = k8sClient.Create(ctx, cronJob)
+				Expect(err).NotTo(HaveOccurred())
+			}
+		})
+
+	
+</code></pre>
+<p>每个测试后，清理上面创建的资源。</p>
+<pre><code class="language-go">		AfterEach(func() {
+			By("removing the custom resource for the Kind CronJob")
+			found := &amp;cronjobv1.CronJob{}
+			err := k8sClient.Get(ctx, typeNamespacedName, found)
+			Expect(err).NotTo(HaveOccurred())
+
+			Eventually(func(g Gomega) {
+				g.Expect(k8sClient.Delete(context.TODO(), found)).To(Succeed())
+			}).Should(Succeed())
+
+			// TODO(user): Attention if you improve this code by adding other context test you MUST
+			// be aware of the current delete namespace limitations.
+			// More info: https://book.kubebuilder.io/reference/envtest.html#testing-considerations
+			By("Deleting the Namespace to perform the tests")
+			_ = k8sClient.Delete(ctx, namespace)
+		})
+
+	
+</code></pre>
+<p>现在我们可以开始实现校验控制器协调行为的测试。</p>
+<pre><code class="language-go">		It("should successfully reconcile a custom resource for CronJob", func() {
+			By("Checking if the custom resource was successfully created")
+			Eventually(func(g Gomega) {
+				found := &amp;cronjobv1.CronJob{}
+				g.Expect(k8sClient.Get(ctx, typeNamespacedName, found)).To(Succeed())
+			}).Should(Succeed())
+
+		
+</code></pre>
+<p>创建此 CronJob 后，验证控制器是否正确初始化 status 条件。控制器在后台运行（在 suite_test.go 中启动），因此会自动检测我们的 CronJob 并设置初始条件。</p>
+<pre><code class="language-go">			By("Checking that status conditions are initialized")
+			Eventually(func(g Gomega) {
+				g.Expect(k8sClient.Get(ctx, typeNamespacedName, cronJob)).To(Succeed())
+				g.Expect(cronJob.Status.Conditions).NotTo(BeEmpty())
+			}).Should(Succeed())
+
+		
+</code></pre>
+<p>现在验证 CronJob 最初没有活动 Job。这里使用 Gomega 的 <code>Consistently()</code> 检查以确保 status 保持稳定，确认控制器未过早创建 Job。</p>
+<pre><code class="language-go">			By("Checking that the CronJob has zero active Jobs")
+			Consistently(func(g Gomega) {
+				g.Expect(k8sClient.Get(ctx, typeNamespacedName, cronJob)).To(Succeed())
+				g.Expect(cronJob.Status.Active).To(BeEmpty())
+			}).WithTimeout(time.Second * 10).WithPolling(time.Millisecond * 250).Should(Succeed())
+
+		
+</code></pre>
+<p>接下来，我们实际创建一个属于 CronJob 的桩 Job。将 Job 的 status Active 计数设为 2，以模拟正在运行两个 Pod，即 Job 处于活动运行中。</p>
+<p>然后我们将 Job 的所有者引用指向测试 CronJob。这确保测试 Job 属于并被我们的测试 CronJob 跟踪。</p>
+<pre><code class="language-go">			By("Creating a new Job owned by the CronJob")
+			testJob := &amp;batchv1.Job{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      "test-job",
+					Namespace: namespace.Name,
+				},
+				Spec: batchv1.JobSpec{
+					Template: v1.PodTemplateSpec{
+						Spec: v1.PodSpec{
+							Containers: []v1.Container{
+								{
+									Name:  testContainerName,
+									Image: testContainerImage,
+								},
+							},
+							RestartPolicy: v1.RestartPolicyOnFailure,
+						},
+					},
+				},
+			}
+
+			// Note that your CronJob’s GroupVersionKind is required to set up this owner reference.
+			kind := reflect.TypeFor[cronjobv1.CronJob]().Name()
+			gvk := cronjobv1.GroupVersion.WithKind(kind)
+
+			controllerRef := metav1.NewControllerRef(cronJob, gvk)
+			testJob.SetOwnerReferences([]metav1.OwnerReference{*controllerRef})
+			Expect(k8sClient.Create(ctx, testJob)).To(Succeed())
+			// Note that you can not manage the status values while creating the resource.
+			// The status field is managed separately to reflect the current state of the resource.
+			// Therefore, it should be updated using a PATCH or PUT operation after the resource has been created.
+			// Additionally, it is recommended to use StatusConditions to manage the status. For further information see:
+			// https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
+			testJob.Status.Active = 2
+			Expect(k8sClient.Status().Update(ctx, testJob)).To(Succeed())
+
+		
+</code></pre>
+<p>将此 Job 添加到测试 CronJob 应触发控制器的 reconciler 逻辑。之后，我们可以验证控制器最终是否按预期更新了 CronJob 的 Status 字段！</p>
+<pre><code class="language-go">			By("Checking that the CronJob has one active Job in status")
+			Eventually(func(g Gomega) {
+				g.Expect(k8sClient.Get(ctx, typeNamespacedName, cronJob)).To(Succeed())
+				g.Expect(cronJob.Status.Active).To(HaveLen(1), "should have exactly one active job")
+				g.Expect(cronJob.Status.Active[0].Name).To(Equal("test-job"), "the active job name should match")
+			}).Should(Succeed())
+
+		
+</code></pre>
+<p>最后，验证控制器是否正确设置了 status 条件。Status 条件是 Kubernetes API 约定的关键部分，让用户和其他控制器能够理解资源状态。</p>
+<p>当有活动 Job 时，Available 条件应为 True，原因为 JobsActive。</p>
+<pre><code class="language-go">			By("Checking the latest Status Condition added to the CronJob instance")
+			Expect(k8sClient.Get(ctx, typeNamespacedName, cronJob)).To(Succeed())
+			var conditions []metav1.Condition
+			Expect(cronJob.Status.Conditions).To(ContainElement(
+				HaveField("Type", Equal("Available")), &amp;conditions))
+			Expect(conditions).To(HaveLen(1), "should have one Available condition")
+			Expect(conditions[0].Status).To(Equal(metav1.ConditionTrue), "Available should be True")
+			Expect(conditions[0].Reason).To(Equal("JobsActive"), "reason should be JobsActive")
+
+		
+</code></pre>
+<p>接下来，验证控制器是否根据历史限制裁剪旧的已完成 Job。</p>
+<pre><code class="language-go">			By("Checking that old finished Jobs are pruned by history limits")
+			failedJobsHistoryLimit := int32(1)
+			successfulJobsHistoryLimit := int32(1)
+			Eventually(func(g Gomega) {
+				g.Expect(k8sClient.Get(ctx, typeNamespacedName, cronJob)).To(Succeed())
+				cronJob.Spec.FailedJobsHistoryLimit = &amp;failedJobsHistoryLimit
+				cronJob.Spec.SuccessfulJobsHistoryLimit = &amp;successfulJobsHistoryLimit
+				g.Expect(k8sClient.Update(ctx, cronJob)).To(Succeed())
+			}).Should(Succeed())
+
+			createFinishedJob := func(name string, conditionType batchv1.JobConditionType, startTime *metav1.Time) *batchv1.Job {
+				finishedJob := &amp;batchv1.Job{
+					ObjectMeta: metav1.ObjectMeta{
+						Name:      name,
+						Namespace: namespace.Name,
+					},
+					Spec: batchv1.JobSpec{
+						Template: v1.PodTemplateSpec{
+							Spec: v1.PodSpec{
+								Containers: []v1.Container{
+									{
+										Name:  testContainerName,
+										Image: testContainerImage,
+									},
+								},
+								RestartPolicy: v1.RestartPolicyOnFailure,
+							},
+						},
+					},
+				}
+				finishedJob.SetOwnerReferences([]metav1.OwnerReference{*controllerRef})
+				Expect(k8sClient.Create(ctx, finishedJob)).To(Succeed())
+
+				finishedJob.Status.StartTime = startTime
+				finishedJob.Status.Conditions = []batchv1.JobCondition{{
+					Type:   conditionType,
+					Status: v1.ConditionTrue,
+				}}
+				if conditionType == batchv1.JobFailed {
+					finishedJob.Status.Conditions = append([]batchv1.JobCondition{{
+						Type:   batchv1.JobFailureTarget,
+						Status: v1.ConditionTrue,
+					}}, finishedJob.Status.Conditions...)
+				}
+				if conditionType == batchv1.JobComplete {
+					finishedJob.Status.CompletionTime = startTime
+					finishedJob.Status.Conditions = append([]batchv1.JobCondition{{
+						Type:   batchv1.JobSuccessCriteriaMet,
+						Status: v1.ConditionTrue,
+					}}, finishedJob.Status.Conditions...)
+				}
+				Expect(k8sClient.Status().Update(ctx, finishedJob)).To(Succeed())
+
+				return finishedJob
+			}
+
+			baseTime := time.Now()
+			failedOldStartTime := metav1.NewTime(baseTime.Add(-time.Minute))
+			failedNewStartTime := metav1.NewTime(baseTime.Add(time.Second))
+			successfulOldStartTime := metav1.NewTime(baseTime.Add(-time.Minute))
+			successfulNewStartTime := metav1.NewTime(baseTime.Add(time.Second))
+
+			failedOldJob := createFinishedJob("test-failed-job-old", batchv1.JobFailed, &amp;failedOldStartTime)
+			failedNewJob := createFinishedJob("test-failed-job-new", batchv1.JobFailed, &amp;failedNewStartTime)
+			successfulOldJob := createFinishedJob("test-successful-job-old", batchv1.JobComplete, &amp;successfulOldStartTime)
+			successfulNewJob := createFinishedJob("test-successful-job-new", batchv1.JobComplete, &amp;successfulNewStartTime)
+
+			assertJobDeleted := func(g Gomega, job *batchv1.Job) {
+				found := &amp;batchv1.Job{}
+				err := k8sClient.Get(ctx, types.NamespacedName{Name: job.Name, Namespace: job.Namespace}, found)
+				g.Expect(errors.IsNotFound(err)).To(BeTrue())
+			}
+			assertJobExists := func(g Gomega, job *batchv1.Job) {
+				found := &amp;batchv1.Job{}
+				g.Expect(k8sClient.Get(ctx, types.NamespacedName{Name: job.Name, Namespace: job.Namespace}, found)).To(Succeed())
+			}
+
+			Eventually(func(g Gomega) {
+				assertJobDeleted(g, failedOldJob)
+				assertJobDeleted(g, successfulOldJob)
+				assertJobExists(g, failedNewJob)
+				assertJobExists(g, successfulNewJob)
+			}).Should(Succeed())
+		})
+	})
+})
+</code></pre>
+<p>写完这些代码后，可以再次在 <code>controllers/</code> 目录运行 <code>make test</code> 或 <code>go test ./...</code> 来运行新测试！</p>
+</div>
+
+<p>以上的状态更新示例展示了一种针对自定义 Kind 及其下游对象的一般测试策略。到目前为止，希望您已经学习了以下测试控制器行为的方法：</p>
+<ul>
+<li>在 envtest 集群上设置您的控制器</li>
+<li>为创建测试对象编写存根</li>
+<li>将变化孤立到一个对象，以测试特定控制器的行为</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../cronjob-tutorial/running-webhook.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../multiversion-tutorial/tutorial.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../cronjob-tutorial/running-webhook.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../multiversion-tutorial/tutorial.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-c2a407aa.js"></script>
+
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-abc7f01d.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../theme/js/inject-2360f38b.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

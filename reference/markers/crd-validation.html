@@ -1,0 +1,2400 @@
+<!DOCTYPE HTML>
+<html lang="zh_CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>CRD 验证 - Kubebuilder 中文指南</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../logos/favicon.svg">
+        <link rel="shortcut icon" href="../../logos/favicon.png">
+        <link rel="stylesheet" href="../../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/css/markers-0bcf2cc9.css">
+        <link rel="stylesheet" href="../../theme/css/custom-265d96b0.css">
+        <link rel="stylesheet" href="../../theme/css/version-dropdown-e6742374.css">
+        <link rel="stylesheet" href="../../theme/css/global-banner-a2f85a7e.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex-a3608051.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc-675883bf.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"><img alt="Kubebuilder 中文指南" class="large-logo-img" src="../..//logos/kb-logo-one-line.svg"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/LJTian/kubebuilder-cn" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/LJTian/kubebuilder-cn/edit/cn-book-v4/docs/book/src/" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="crd-验证"><a class="header" href="#crd-验证">CRD 验证</a></h1>
+<p>这些标记会修改 CRD 验证模式在其修改的类型和字段上的生成方式。每个标记大致对应于一个 OpenAPI/JSON 模式选项。</p>
+<p>请参阅 <a href="/reference/generating-crd.html">生成 CRD</a> 以获取示例。</p>
+<aside class="note" role="note">
+<p class="note-title">Understanding Marker Grouping in Documentation</p>
+
+<p>某些标记可能看起来重复。然而，这些标记是根据它们的使用上下文进行分组的——例如字段、类型或数组。例如，一个像 <code>+kubebuilder:validation:Enum</code> 的标记可以应用于单个字段或数组项，这种灵活性在文档中有所体现。</p>
+<p>这种分组确保了清晰性，展示了同一个标记如何可以被用于不同的目的。</p>
+</aside>
+<aside class="note" role="note">
+<p class="note-title">Schema &amp; Validation</p>
+
+<p>自定义资源使用生成的 OpenAPI v3 schema 进行验证，且必须遵守 Kubernetes structural schema 规则。API 服务器仅强制执行可在 CRD schema 中表示的字段类型与约束。</p>
+<p>数值类型受 <a href="https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#validation">Kubernetes CRD OpenAPI v3 schema 兼容性</a> 约束。实践中优先使用能干净映射到受支持 OpenAPI 格式的 Go 类型（例如整数用 <code>int32</code> 和 <code>int64</code>）。需要类小数表示的值请使用 <code>resource.Quantity</code>。</p>
+<p>使用 Kubebuilder 校验 markers 声明额外约束——例如最小值与最大值、长度限制、模式、枚举以及 list 或 map 规则——以便它们反映在生成的 CRD 中并在运行时校验。</p>
+</aside>
+<div><input checked="" type="checkbox" class="markers-summarize" id="markers-summarize-CRD-validation"><label class="markers-summarize" for="markers-summarize-CRD-validation">Show Detailed Argument Help</label>
+<dl class="markers">
+<div class="marker" data-target="field">
+<dt class="literal name">// +required</dt>
+<dd class="args">
+<dl class="args summary"></dl>
+</dd>
+<dd class="description"><details><summary class="no-details">specifies that this field is required.</summary></details>
+<dl class="args"></dl>
+</dd>
+</div>
+<div class="marker" data-target="field">
+<dt class="literal name">// +optional</dt>
+<dd class="args">
+<dl class="args summary"></dl>
+</dd>
+<dd class="description"><details><summary class="no-details">specifies that this field is optional.</summary></details>
+<dl class="args"></dl>
+</dd>
+</div>
+<div class="marker" data-target="field">
+<dt class="literal name">// +nullable</dt>
+<dd class="args">
+<dl class="args summary"></dl>
+</dd>
+<dd class="description"><details><summary class="">marks this field as allowing the "null" value.</summary>
+<p>通常不必如此，但对自定义序列化可能有帮助。</p>
+<p>Example:</p>
+<pre><code>// +nullable
+Description *string
+</code></pre>
+</details>
+<dl class="args"></dl>
+</dd>
+</div>
+<div class="marker" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:items:XValidation</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal optional">fieldPath</dt>
+<dd class="argument type optional"><span class="optional">string</span></dd>
+<dt class="argument literal optional">message</dt>
+<dd class="argument type optional"><span class="optional">string</span></dd>
+<dt class="argument literal optional">messageExpression</dt>
+<dd class="argument type optional"><span class="optional">string</span></dd>
+<dt class="argument literal optional">optionalOldSelf</dt>
+<dd class="argument type optional"><span class="optional">bool</span></dd>
+<dt class="argument literal optional">reason</dt>
+<dd class="argument type optional"><span class="optional">string</span></dd>
+<dt class="literal argument">rule</dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items marks a field as requiring a value for which a given</summary>
+<p>表达式求值为 true。</p>
+<p>此标记可重复以指定多个表达式，所有这些表达式都必须求值为 true。</p>
+<p>CEL 表达式可使用：self（当前值）和 oldSelf（先前值；仅在更新时，创建时为 null）。规则作用域为其在 schema 中出现的位置；self 即为该值。</p>
+<p>Examples:</p>
+<pre><code>// Basic field validation using self
+// +kubebuilder:validation:XValidation:rule=&amp;#34;self.minReplicas &amp;lt;= self.replicas &amp;amp;&amp;amp; self.replicas &amp;lt;= self.maxReplicas&amp;#34;,message=&amp;#34;replicas must be between minReplicas and maxReplicas&amp;#34;
+
+// Validation with custom reason
+// +kubebuilder:validation:XValidation:rule=&amp;#34;self.x &amp;lt;= self.maxX&amp;#34;,message=&amp;#34;x cannot be greater than maxX&amp;#34;,reason=&amp;#34;FieldValueInvalid&amp;#34;
+
+// Immutability check using oldSelf (e.g. on a field so self/oldSelf are that field&amp;#39;s value)
+// +kubebuilder:validation:XValidation:rule=&amp;#34;self == oldSelf&amp;#34;,message=&amp;#34;field is immutable&amp;#34;
+
+// Validation with field path for better error reporting
+// +kubebuilder:validation:XValidation:rule=&amp;#34;self &amp;gt;= 1&amp;#34;,message=&amp;#34;value must be at least 1&amp;#34;,fieldPath=&amp;#34;.spec.replicas&amp;#34;
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal optional">fieldPath</dt>
+<dd class="argument type optional"><span class="optional">string</span></dd>
+<dd class="description"><details><summary class="">is the path to the field that failed validation (for clearer error messages).</summary>
+<p>示例：FieldPath=“.spec.replicas”</p>
+</details></dd>
+<dt class="argument literal optional">message</dt>
+<dd class="argument type optional"><span class="optional">string</span></dd>
+<dd class="description"><details><summary class="">is the text shown when validation fails.</summary>
+<p>若未设置，默认为 “failed rule: {Rule}”。不得包含换行。API 服务器有长度限制（例如 256 个字符）。完整细节见 k8s.io/apiextensions-apiserver 中的 ValidationRule。示例：Message=“replicas must be between minReplicas and maxReplicas”</p>
+</details></dd>
+<dt class="argument literal optional">messageExpression</dt>
+<dd class="argument type optional"><span class="optional">string</span></dd>
+<dd class="description"><details><summary class="">is a CEL expression that returns the message shown when validation fails.</summary>
+<p>可以设置 Message 或 MessageExpression，不能同时设置。MessageExpression 必须返回字符串。若两者都设置，使用 MessageExpression。若都未设置，使用默认消息。表达式可使用与 Rule 相同的变量（例如 self、oldSelf）。结果不得包含换行，并受与 Message 相同的消息长度限制。示例：MessageExpression=“’replicas must be between ’ + string(self.minReplicas) + ’ and ’ + string(self.maxReplicas)”</p>
+</details></dd>
+<dt class="optional argument literal">optionalOldSelf</dt>
+<dd class="argument type optional"><span class="optional">bool</span></dd>
+<dd class="description"><details><summary class="">OptionalOldSelf, when true, runs the rule on create and on update (even when there is no old value).</summary>
+<p>为 true 时，oldSelf 可能缺失：使用 oldSelf.hasValue() 检查，并用 oldSelf.value() 取值。规则始终运行；使用 oldSelf 前必须在规则中检查 oldSelf.hasValue()。仅当规则使用 oldSelf 时可设置。参见 k8s.io/apiextensions-apiserver 中的 ValidationRule。示例：OptionalOldSelf=true</p>
+</details></dd>
+<dt class="literal optional argument">reason</dt>
+<dd class="argument type optional"><span class="optional">string</span></dd>
+<dd class="description"><details><summary class="">is a short code for why validation failed, returned to API callers.</summary>
+<p>支持的值：“FieldValueInvalid”、“FieldValueForbidden”、“FieldValueRequired”、“FieldValueDuplicate”。未设置时默认为 “FieldValueInvalid”。示例：Reason=“FieldValueInvalid”</p>
+</details></dd>
+<dt class="argument literal">rule</dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+<dd class="description"><details><summary class="">is the CEL expression that must evaluate to true.</summary>
+<p>作用域为该 XValidation 在 schema 中的位置；self 即为该值。示例：Rule=“self.minReplicas &lt;= self.replicas &amp;&amp; self.replicas &lt;= self.maxReplicas”</p>
+</details></dd>
+</dl>
+</dd>
+</div>
+<div class="marker" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:items:XValidation</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal optional">fieldPath</dt>
+<dd class="optional argument type"><span class="optional">string</span></dd>
+<dt class="argument literal optional">message</dt>
+<dd class="type optional argument"><span class="optional">string</span></dd>
+<dt class="optional argument literal">messageExpression</dt>
+<dd class="argument type optional"><span class="optional">string</span></dd>
+<dt class="optional argument literal">optionalOldSelf</dt>
+<dd class="argument type optional"><span class="optional">bool</span></dd>
+<dt class="argument literal optional">reason</dt>
+<dd class="argument type optional"><span class="optional">string</span></dd>
+<dt class="literal argument">rule</dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items marks a field as requiring a value for which a given</summary>
+<p>表达式求值为 true。</p>
+<p>此标记可重复以指定多个表达式，所有这些表达式都必须求值为 true。</p>
+<p>CEL 表达式可使用：self（当前值）和 oldSelf（先前值；仅在更新时，创建时为 null）。规则作用域为其在 schema 中出现的位置；self 即为该值。</p>
+<p>Examples:</p>
+<pre><code>// Basic field validation using self
+// +kubebuilder:validation:XValidation:rule=&amp;#34;self.minReplicas &amp;lt;= self.replicas &amp;amp;&amp;amp; self.replicas &amp;lt;= self.maxReplicas&amp;#34;,message=&amp;#34;replicas must be between minReplicas and maxReplicas&amp;#34;
+
+// Validation with custom reason
+// +kubebuilder:validation:XValidation:rule=&amp;#34;self.x &amp;lt;= self.maxX&amp;#34;,message=&amp;#34;x cannot be greater than maxX&amp;#34;,reason=&amp;#34;FieldValueInvalid&amp;#34;
+
+// Immutability check using oldSelf (e.g. on a field so self/oldSelf are that field&amp;#39;s value)
+// +kubebuilder:validation:XValidation:rule=&amp;#34;self == oldSelf&amp;#34;,message=&amp;#34;field is immutable&amp;#34;
+
+// Validation with field path for better error reporting
+// +kubebuilder:validation:XValidation:rule=&amp;#34;self &amp;gt;= 1&amp;#34;,message=&amp;#34;value must be at least 1&amp;#34;,fieldPath=&amp;#34;.spec.replicas&amp;#34;
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal optional">fieldPath</dt>
+<dd class="argument type optional"><span class="optional">string</span></dd>
+<dd class="description"><details><summary class="">is the path to the field that failed validation (for clearer error messages).</summary>
+<p>示例：FieldPath=“.spec.replicas”</p>
+</details></dd>
+<dt class="argument literal optional">message</dt>
+<dd class="argument type optional"><span class="optional">string</span></dd>
+<dd class="description"><details><summary class="">is the text shown when validation fails.</summary>
+<p>若未设置，默认为 “failed rule: {Rule}”。不得包含换行。API 服务器有长度限制（例如 256 个字符）。完整细节见 k8s.io/apiextensions-apiserver 中的 ValidationRule。示例：Message=“replicas must be between minReplicas and maxReplicas”</p>
+</details></dd>
+<dt class="argument literal optional">messageExpression</dt>
+<dd class="optional argument type"><span class="optional">string</span></dd>
+<dd class="description"><details><summary class="">is a CEL expression that returns the message shown when validation fails.</summary>
+<p>可以设置 Message 或 MessageExpression，不能同时设置。MessageExpression 必须返回字符串。若两者都设置，使用 MessageExpression。若都未设置，使用默认消息。表达式可使用与 Rule 相同的变量（例如 self、oldSelf）。结果不得包含换行，并受与 Message 相同的消息长度限制。示例：MessageExpression=“’replicas must be between ’ + string(self.minReplicas) + ’ and ’ + string(self.maxReplicas)”</p>
+</details></dd>
+<dt class="literal optional argument">optionalOldSelf</dt>
+<dd class="argument type optional"><span class="optional">bool</span></dd>
+<dd class="description"><details><summary class="">OptionalOldSelf, when true, runs the rule on create and on update (even when there is no old value).</summary>
+<p>为 true 时，oldSelf 可能缺失：使用 oldSelf.hasValue() 检查，并用 oldSelf.value() 取值。规则始终运行；使用 oldSelf 前必须在规则中检查 oldSelf.hasValue()。仅当规则使用 oldSelf 时可设置。参见 k8s.io/apiextensions-apiserver 中的 ValidationRule。示例：OptionalOldSelf=true</p>
+</details></dd>
+<dt class="argument literal optional">reason</dt>
+<dd class="optional argument type"><span class="optional">string</span></dd>
+<dd class="description"><details><summary class="">is a short code for why validation failed, returned to API callers.</summary>
+<p>支持的值：“FieldValueInvalid”、“FieldValueForbidden”、“FieldValueRequired”、“FieldValueDuplicate”。未设置时默认为 “FieldValueInvalid”。示例：Reason=“FieldValueInvalid”</p>
+</details></dd>
+<dt class="argument literal">rule</dt>
+<dd class="type argument"><span class="optional">string</span></dd>
+<dd class="description"><details><summary class="">is the CEL expression that must evaluate to true.</summary>
+<p>作用域为该 XValidation 在 schema 中的位置；self 即为该值。示例：Rule=“self.minReplicas &lt;= self.replicas &amp;&amp; self.replicas &lt;= self.maxReplicas”</p>
+</details></dd>
+</dl>
+</dd>
+</div>
+<div class="marker" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:items:XIntOrString</dt>
+<dd class="args">
+<dl class="args summary"></dl>
+</dd>
+<dd class="description"><details><summary class="">for array items marks a fields as an IntOrString.</summary>
+<p>对 IntOrString 字段应用模式或其他校验时需要此项。关于该类型的已知信息在 collapse 阶段应用，因此在 marker 应用期间通常不可用。</p>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:XIntOrString
+// +kubebuilder:validation:Pattern=&amp;#34;^(\\d+|\\d+%|)$&amp;#34;
+Port intstr.IntOrString
+</code></pre>
+</details>
+<dl class="args"></dl>
+</dd>
+</div>
+<div class="marker" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:items:XIntOrString</dt>
+<dd class="args">
+<dl class="args summary"></dl>
+</dd>
+<dd class="description"><details><summary class="">for array items marks a fields as an IntOrString.</summary>
+<p>对 IntOrString 字段应用模式或其他校验时需要此项。关于该类型的已知信息在 collapse 阶段应用，因此在 marker 应用期间通常不可用。</p>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:XIntOrString
+// +kubebuilder:validation:Pattern=&amp;#34;^(\\d+|\\d+%|)$&amp;#34;
+Port intstr.IntOrString
+</code></pre>
+</details>
+<dl class="args"></dl>
+</dd>
+</div>
+<div class="marker" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:items:XEmbeddedResource</dt>
+<dd class="args">
+<dl class="args summary"></dl>
+</dd>
+<dd class="description"><details><summary class="">for array items marks a fields as an embedded resource with apiVersion, kind and metadata fields.</summary>
+<p>嵌入资源是具有 apiVersion、kind 和 metadata 字段的值。它们会根据当前运行的 apiserver 语义隐式校验。不必为这些字段添加额外 schema，但也可以添加。可与 PreserveUnknownFields 结合使用。</p>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:EmbeddedResource
+Template runtime.RawExtension
+</code></pre>
+</details>
+<dl class="args"></dl>
+</dd>
+</div>
+<div class="marker" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:items:XEmbeddedResource</dt>
+<dd class="args">
+<dl class="args summary"></dl>
+</dd>
+<dd class="description"><details><summary class="">for array items marks a fields as an embedded resource with apiVersion, kind and metadata fields.</summary>
+<p>嵌入资源是具有 apiVersion、kind 和 metadata 字段的值。它们会根据当前运行的 apiserver 语义隐式校验。不必为这些字段添加额外 schema，但也可以添加。可与 PreserveUnknownFields 结合使用。</p>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:EmbeddedResource
+Template runtime.RawExtension
+</code></pre>
+</details>
+<dl class="args"></dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:items:UniqueItems</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">bool</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items specifies that all items in this list must be unique.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:UniqueItems=true
+Tags []string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">bool</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="anonymous marker" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:items:UniqueItems</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">bool</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items specifies that all items in this list must be unique.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:UniqueItems=true
+Tags []string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">bool</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:items:Type</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items overrides the type for this field (which defaults to the equivalent of the Go type).</summary>
+<p>通常必须与自定义序列化配对。例如，metav1.Time 字段会标记为 “type: string” 和 “format: date-time”。</p>
+<p>常见类型包括：“string”、“number”、“integer”、“boolean”、“array”、“object”。</p>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:Type=string
+// +kubebuilder:validation:Format=date-time
+Time metav1.Time
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:items:Type</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items overrides the type for this field (which defaults to the equivalent of the Go type).</summary>
+<p>通常必须与自定义序列化配对。例如，metav1.Time 字段会标记为 “type: string” 和 “format: date-time”。</p>
+<p>常见类型包括：“string”、“number”、“integer”、“boolean”、“array”、“object”。</p>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:Type=string
+// +kubebuilder:validation:Format=date-time
+Time metav1.Time
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="anonymous marker" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:items:Pattern</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items specifies that this string must match the given regular expression.</summary>
+<p>示例（DNS 子域）：</p>
+<pre><code>// +kubebuilder:validation:Pattern=`^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$`
+DNSName string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:items:Pattern</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items specifies that this string must match the given regular expression.</summary>
+<p>示例（DNS 子域）：</p>
+<pre><code>// +kubebuilder:validation:Pattern=`^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$`
+DNSName string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="type argument"><span class="optional">string</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="anonymous marker" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:items:MultipleOf</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional"></span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items specifies that this field must have a numeric value that's a multiple of this one.</summary>
+<p>示例（值必须是 5 的倍数）：</p>
+<pre><code>// +kubebuilder:validation:MultipleOf=5
+Count int32
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional"></span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="anonymous marker" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:items:MultipleOf</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="literal argument"></dt>
+<dd class="argument type"><span class="optional"></span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items specifies that this field must have a numeric value that's a multiple of this one.</summary>
+<p>示例（值必须是 5 的倍数）：</p>
+<pre><code>// +kubebuilder:validation:MultipleOf=5
+Count int32
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional"></span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:items:Minimum</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="type argument"><span class="optional"></span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items specifies the minimum numeric value that this field can have. Negative numbers are supported.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:Minimum=0
+Replicas int32
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional"></span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:items:Minimum</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional"></span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items specifies the minimum numeric value that this field can have. Negative numbers are supported.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:Minimum=0
+Replicas int32
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional"></span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="anonymous marker" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:items:MinProperties</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items restricts the number of keys in an object</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:MinProperties=1
+Metadata map[string]string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:items:MinProperties</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items restricts the number of keys in an object</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:MinProperties=1
+Metadata map[string]string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:items:MinLength</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="literal argument"></dt>
+<dd class="type argument"><span class="optional">int</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items specifies the minimum length for this string.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:MinLength=1
+Name string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:items:MinLength</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="type argument"><span class="optional">int</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items specifies the minimum length for this string.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:MinLength=1
+Name string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:items:MinItems</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items specifies the minimum length for this list.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:MinItems=1
+Endpoints []string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:items:MinItems</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items specifies the minimum length for this list.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:MinItems=1
+Endpoints []string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="anonymous marker" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:items:Maximum</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional"></span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items specifies the maximum numeric value that this field can have.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:Maximum=100
+Percentage int32
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional"></span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="anonymous marker" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:items:Maximum</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional"></span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items specifies the maximum numeric value that this field can have.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:Maximum=100
+Percentage int32
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional"></span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:items:MaxProperties</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items restricts the number of keys in an object</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:MaxProperties=10
+Labels map[string]string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:items:MaxProperties</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items restricts the number of keys in an object</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:MaxProperties=10
+Labels map[string]string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:items:MaxLength</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items specifies the maximum length for this string.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:MaxLength=64
+Name string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="anonymous marker" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:items:MaxLength</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items specifies the maximum length for this string.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:MaxLength=64
+Name string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="type argument"><span class="optional">int</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:items:MaxItems</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items specifies the maximum length for this list.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:MaxItems=10
+Items []string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="anonymous marker" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:items:MaxItems</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items specifies the maximum length for this list.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:MaxItems=10
+Items []string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:items:Format</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items specifies additional "complex" formatting for this field.</summary>
+<p>例如，date-time 字段会标记为 “type: string” 和 “format: date-time”。</p>
+<p>常见格式包括：“int32”、“int64”、“float”、“double”、“byte”、“date”、“date-time”、“password”。</p>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:Format=date-time
+CreatedAt string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:items:Format</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="type argument"><span class="optional">string</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items specifies additional "complex" formatting for this field.</summary>
+<p>例如，date-time 字段会标记为 “type: string” 和 “format: date-time”。</p>
+<p>常见格式包括：“int32”、“int64”、“float”、“double”、“byte”、“date”、“date-time”、“password”。</p>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:Format=date-time
+CreatedAt string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:items:ExclusiveMinimum</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">bool</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items indicates that the minimum is "up to" but not including that value.</summary>
+<p>示例（值必须大于 0，而非大于等于 0）：</p>
+<pre><code>// +kubebuilder:validation:Minimum=0
+// +kubebuilder:validation:ExclusiveMinimum=true
+PositiveNumber float64
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">bool</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:items:ExclusiveMinimum</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="literal argument"></dt>
+<dd class="argument type"><span class="optional">bool</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items indicates that the minimum is "up to" but not including that value.</summary>
+<p>示例（值必须大于 0，而非大于等于 0）：</p>
+<pre><code>// +kubebuilder:validation:Minimum=0
+// +kubebuilder:validation:ExclusiveMinimum=true
+PositiveNumber float64
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="type argument"><span class="optional">bool</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:items:ExclusiveMaximum</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="type argument"><span class="optional">bool</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items indicates that the maximum is "up to" but not including that value.</summary>
+<p>示例（值必须小于 100，而非小于等于 100）：</p>
+<pre><code>// +kubebuilder:validation:Maximum=100
+// +kubebuilder:validation:ExclusiveMaximum=true
+Percentage float64
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">bool</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:items:ExclusiveMaximum</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="type argument"><span class="optional">bool</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items indicates that the maximum is "up to" but not including that value.</summary>
+<p>示例（值必须小于 100，而非小于等于 100）：</p>
+<pre><code>// +kubebuilder:validation:Maximum=100
+// +kubebuilder:validation:ExclusiveMaximum=true
+Percentage float64
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">bool</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="anonymous marker" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:items:Enum</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="slice"><span class="optional">any</span></span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items specifies that this (scalar) field is restricted to the *exact* values specified here.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:Enum=ClusterIP;NodePort;LoadBalancer
+ServiceType string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="slice"><span class="optional">any</span></span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:items:Enum</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="literal argument"></dt>
+<dd class="argument type"><span class="slice"><span class="optional">any</span></span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">for array items specifies that this (scalar) field is restricted to the *exact* values specified here.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:Enum=ClusterIP;NodePort;LoadBalancer
+ServiceType string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="slice"><span class="optional">any</span></span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:XValidation</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal optional">fieldPath</dt>
+<dd class="type optional argument"><span class="optional">string</span></dd>
+<dt class="argument literal optional">message</dt>
+<dd class="argument type optional"><span class="optional">string</span></dd>
+<dt class="optional argument literal">messageExpression</dt>
+<dd class="argument type optional"><span class="optional">string</span></dd>
+<dt class="argument literal optional">optionalOldSelf</dt>
+<dd class="optional argument type"><span class="optional">bool</span></dd>
+<dt class="literal optional argument">reason</dt>
+<dd class="argument type optional"><span class="optional">string</span></dd>
+<dt class="argument literal">rule</dt>
+<dd class="type argument"><span class="optional">string</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">marks a field as requiring a value for which a given</summary>
+<p>表达式求值为 true。</p>
+<p>此标记可重复以指定多个表达式，所有这些表达式都必须求值为 true。</p>
+<p>CEL 表达式可使用：self（当前值）和 oldSelf（先前值；仅在更新时，创建时为 null）。规则作用域为其在 schema 中出现的位置；self 即为该值。</p>
+<p>Examples:</p>
+<pre><code>// Basic field validation using self
+// +kubebuilder:validation:XValidation:rule=&amp;#34;self.minReplicas &amp;lt;= self.replicas &amp;amp;&amp;amp; self.replicas &amp;lt;= self.maxReplicas&amp;#34;,message=&amp;#34;replicas must be between minReplicas and maxReplicas&amp;#34;
+
+// Validation with custom reason
+// +kubebuilder:validation:XValidation:rule=&amp;#34;self.x &amp;lt;= self.maxX&amp;#34;,message=&amp;#34;x cannot be greater than maxX&amp;#34;,reason=&amp;#34;FieldValueInvalid&amp;#34;
+
+// Immutability check using oldSelf (e.g. on a field so self/oldSelf are that field&amp;#39;s value)
+// +kubebuilder:validation:XValidation:rule=&amp;#34;self == oldSelf&amp;#34;,message=&amp;#34;field is immutable&amp;#34;
+
+// Validation with field path for better error reporting
+// +kubebuilder:validation:XValidation:rule=&amp;#34;self &amp;gt;= 1&amp;#34;,message=&amp;#34;value must be at least 1&amp;#34;,fieldPath=&amp;#34;.spec.replicas&amp;#34;
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal optional">fieldPath</dt>
+<dd class="argument type optional"><span class="optional">string</span></dd>
+<dd class="description"><details><summary class="">is the path to the field that failed validation (for clearer error messages).</summary>
+<p>示例：FieldPath=“.spec.replicas”</p>
+</details></dd>
+<dt class="argument literal optional">message</dt>
+<dd class="argument type optional"><span class="optional">string</span></dd>
+<dd class="description"><details><summary class="">is the text shown when validation fails.</summary>
+<p>若未设置，默认为 “failed rule: {Rule}”。不得包含换行。API 服务器有长度限制（例如 256 个字符）。完整细节见 k8s.io/apiextensions-apiserver 中的 ValidationRule。示例：Message=“replicas must be between minReplicas and maxReplicas”</p>
+</details></dd>
+<dt class="argument literal optional">messageExpression</dt>
+<dd class="optional argument type"><span class="optional">string</span></dd>
+<dd class="description"><details><summary class="">is a CEL expression that returns the message shown when validation fails.</summary>
+<p>可以设置 Message 或 MessageExpression，不能同时设置。MessageExpression 必须返回字符串。若两者都设置，使用 MessageExpression。若都未设置，使用默认消息。表达式可使用与 Rule 相同的变量（例如 self、oldSelf）。结果不得包含换行，并受与 Message 相同的消息长度限制。示例：MessageExpression=“’replicas must be between ’ + string(self.minReplicas) + ’ and ’ + string(self.maxReplicas)”</p>
+</details></dd>
+<dt class="argument literal optional">optionalOldSelf</dt>
+<dd class="optional argument type"><span class="optional">bool</span></dd>
+<dd class="description"><details><summary class="">OptionalOldSelf, when true, runs the rule on create and on update (even when there is no old value).</summary>
+<p>为 true 时，oldSelf 可能缺失：使用 oldSelf.hasValue() 检查，并用 oldSelf.value() 取值。规则始终运行；使用 oldSelf 前必须在规则中检查 oldSelf.hasValue()。仅当规则使用 oldSelf 时可设置。参见 k8s.io/apiextensions-apiserver 中的 ValidationRule。示例：OptionalOldSelf=true</p>
+</details></dd>
+<dt class="argument literal optional">reason</dt>
+<dd class="argument type optional"><span class="optional">string</span></dd>
+<dd class="description"><details><summary class="">is a short code for why validation failed, returned to API callers.</summary>
+<p>支持的值：“FieldValueInvalid”、“FieldValueForbidden”、“FieldValueRequired”、“FieldValueDuplicate”。未设置时默认为 “FieldValueInvalid”。示例：Reason=“FieldValueInvalid”</p>
+</details></dd>
+<dt class="argument literal">rule</dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+<dd class="description"><details><summary class="">is the CEL expression that must evaluate to true.</summary>
+<p>作用域为该 XValidation 在 schema 中的位置；self 即为该值。示例：Rule=“self.minReplicas &lt;= self.replicas &amp;&amp; self.replicas &lt;= self.maxReplicas”</p>
+</details></dd>
+</dl>
+</dd>
+</div>
+<div class="marker" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:XValidation</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="literal optional argument">fieldPath</dt>
+<dd class="argument type optional"><span class="optional">string</span></dd>
+<dt class="argument literal optional">message</dt>
+<dd class="argument type optional"><span class="optional">string</span></dd>
+<dt class="argument literal optional">messageExpression</dt>
+<dd class="argument type optional"><span class="optional">string</span></dd>
+<dt class="argument literal optional">optionalOldSelf</dt>
+<dd class="argument type optional"><span class="optional">bool</span></dd>
+<dt class="argument literal optional">reason</dt>
+<dd class="type optional argument"><span class="optional">string</span></dd>
+<dt class="argument literal">rule</dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">marks a field as requiring a value for which a given</summary>
+<p>表达式求值为 true。</p>
+<p>此标记可重复以指定多个表达式，所有这些表达式都必须求值为 true。</p>
+<p>CEL 表达式可使用：self（当前值）和 oldSelf（先前值；仅在更新时，创建时为 null）。规则作用域为其在 schema 中出现的位置；self 即为该值。</p>
+<p>Examples:</p>
+<pre><code>// Basic field validation using self
+// +kubebuilder:validation:XValidation:rule=&amp;#34;self.minReplicas &amp;lt;= self.replicas &amp;amp;&amp;amp; self.replicas &amp;lt;= self.maxReplicas&amp;#34;,message=&amp;#34;replicas must be between minReplicas and maxReplicas&amp;#34;
+
+// Validation with custom reason
+// +kubebuilder:validation:XValidation:rule=&amp;#34;self.x &amp;lt;= self.maxX&amp;#34;,message=&amp;#34;x cannot be greater than maxX&amp;#34;,reason=&amp;#34;FieldValueInvalid&amp;#34;
+
+// Immutability check using oldSelf (e.g. on a field so self/oldSelf are that field&amp;#39;s value)
+// +kubebuilder:validation:XValidation:rule=&amp;#34;self == oldSelf&amp;#34;,message=&amp;#34;field is immutable&amp;#34;
+
+// Validation with field path for better error reporting
+// +kubebuilder:validation:XValidation:rule=&amp;#34;self &amp;gt;= 1&amp;#34;,message=&amp;#34;value must be at least 1&amp;#34;,fieldPath=&amp;#34;.spec.replicas&amp;#34;
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal optional">fieldPath</dt>
+<dd class="optional argument type"><span class="optional">string</span></dd>
+<dd class="description"><details><summary class="">is the path to the field that failed validation (for clearer error messages).</summary>
+<p>示例：FieldPath=“.spec.replicas”</p>
+</details></dd>
+<dt class="argument literal optional">message</dt>
+<dd class="optional argument type"><span class="optional">string</span></dd>
+<dd class="description"><details><summary class="">is the text shown when validation fails.</summary>
+<p>若未设置，默认为 “failed rule: {Rule}”。不得包含换行。API 服务器有长度限制（例如 256 个字符）。完整细节见 k8s.io/apiextensions-apiserver 中的 ValidationRule。示例：Message=“replicas must be between minReplicas and maxReplicas”</p>
+</details></dd>
+<dt class="argument literal optional">messageExpression</dt>
+<dd class="argument type optional"><span class="optional">string</span></dd>
+<dd class="description"><details><summary class="">is a CEL expression that returns the message shown when validation fails.</summary>
+<p>可以设置 Message 或 MessageExpression，不能同时设置。MessageExpression 必须返回字符串。若两者都设置，使用 MessageExpression。若都未设置，使用默认消息。表达式可使用与 Rule 相同的变量（例如 self、oldSelf）。结果不得包含换行，并受与 Message 相同的消息长度限制。示例：MessageExpression=“’replicas must be between ’ + string(self.minReplicas) + ’ and ’ + string(self.maxReplicas)”</p>
+</details></dd>
+<dt class="argument literal optional">optionalOldSelf</dt>
+<dd class="argument type optional"><span class="optional">bool</span></dd>
+<dd class="description"><details><summary class="">OptionalOldSelf, when true, runs the rule on create and on update (even when there is no old value).</summary>
+<p>为 true 时，oldSelf 可能缺失：使用 oldSelf.hasValue() 检查，并用 oldSelf.value() 取值。规则始终运行；使用 oldSelf 前必须在规则中检查 oldSelf.hasValue()。仅当规则使用 oldSelf 时可设置。参见 k8s.io/apiextensions-apiserver 中的 ValidationRule。示例：OptionalOldSelf=true</p>
+</details></dd>
+<dt class="argument literal optional">reason</dt>
+<dd class="argument type optional"><span class="optional">string</span></dd>
+<dd class="description"><details><summary class="">is a short code for why validation failed, returned to API callers.</summary>
+<p>支持的值：“FieldValueInvalid”、“FieldValueForbidden”、“FieldValueRequired”、“FieldValueDuplicate”。未设置时默认为 “FieldValueInvalid”。示例：Reason=“FieldValueInvalid”</p>
+</details></dd>
+<dt class="argument literal">rule</dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+<dd class="description"><details><summary class="">is the CEL expression that must evaluate to true.</summary>
+<p>作用域为该 XValidation 在 schema 中的位置；self 即为该值。示例：Rule=“self.minReplicas &lt;= self.replicas &amp;&amp; self.replicas &lt;= self.maxReplicas”</p>
+</details></dd>
+</dl>
+</dd>
+</div>
+<div class="marker" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:XIntOrString</dt>
+<dd class="args">
+<dl class="args summary"></dl>
+</dd>
+<dd class="description"><details><summary class="">marks a fields as an IntOrString.</summary>
+<p>对 IntOrString 字段应用模式或其他校验时需要此项。关于该类型的已知信息在 collapse 阶段应用，因此在 marker 应用期间通常不可用。</p>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:XIntOrString
+// +kubebuilder:validation:Pattern=&amp;#34;^(\\d+|\\d+%|)$&amp;#34;
+Port intstr.IntOrString
+</code></pre>
+</details>
+<dl class="args"></dl>
+</dd>
+</div>
+<div class="marker" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:XIntOrString</dt>
+<dd class="args">
+<dl class="args summary"></dl>
+</dd>
+<dd class="description"><details><summary class="">marks a fields as an IntOrString.</summary>
+<p>对 IntOrString 字段应用模式或其他校验时需要此项。关于该类型的已知信息在 collapse 阶段应用，因此在 marker 应用期间通常不可用。</p>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:XIntOrString
+// +kubebuilder:validation:Pattern=&amp;#34;^(\\d+|\\d+%|)$&amp;#34;
+Port intstr.IntOrString
+</code></pre>
+</details>
+<dl class="args"></dl>
+</dd>
+</div>
+<div class="marker" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:XEmbeddedResource</dt>
+<dd class="args">
+<dl class="args summary"></dl>
+</dd>
+<dd class="description"><details><summary class="">marks a fields as an embedded resource with apiVersion, kind and metadata fields.</summary>
+<p>嵌入资源是具有 apiVersion、kind 和 metadata 字段的值。它们会根据当前运行的 apiserver 语义隐式校验。不必为这些字段添加额外 schema，但也可以添加。可与 PreserveUnknownFields 结合使用。</p>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:EmbeddedResource
+Template runtime.RawExtension
+</code></pre>
+</details>
+<dl class="args"></dl>
+</dd>
+</div>
+<div class="marker" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:XEmbeddedResource</dt>
+<dd class="args">
+<dl class="args summary"></dl>
+</dd>
+<dd class="description"><details><summary class="">marks a fields as an embedded resource with apiVersion, kind and metadata fields.</summary>
+<p>嵌入资源是具有 apiVersion、kind 和 metadata 字段的值。它们会根据当前运行的 apiserver 语义隐式校验。不必为这些字段添加额外 schema，但也可以添加。可与 PreserveUnknownFields 结合使用。</p>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:EmbeddedResource
+Template runtime.RawExtension
+</code></pre>
+</details>
+<dl class="args"></dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:UniqueItems</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">bool</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">specifies that all items in this list must be unique.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:UniqueItems=true
+Tags []string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">bool</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:UniqueItems</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">bool</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">specifies that all items in this list must be unique.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:UniqueItems=true
+Tags []string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">bool</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:Type</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">overrides the type for this field (which defaults to the equivalent of the Go type).</summary>
+<p>通常必须与自定义序列化配对。例如，metav1.Time 字段会标记为 “type: string” 和 “format: date-time”。</p>
+<p>常见类型包括：“string”、“number”、“integer”、“boolean”、“array”、“object”。</p>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:Type=string
+// +kubebuilder:validation:Format=date-time
+Time metav1.Time
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:Type</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">overrides the type for this field (which defaults to the equivalent of the Go type).</summary>
+<p>通常必须与自定义序列化配对。例如，metav1.Time 字段会标记为 “type: string” 和 “format: date-time”。</p>
+<p>常见类型包括：“string”、“number”、“integer”、“boolean”、“array”、“object”。</p>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:Type=string
+// +kubebuilder:validation:Format=date-time
+Time metav1.Time
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:Schemaless</dt>
+<dd class="args">
+<dl class="args summary"></dl>
+</dd>
+<dd class="description"><details><summary class="">marks a field as being a schemaless object.</summary>
+<p>无 schema 的对象不会被内省，因此你必须自行提供类型与校验信息。此标签的一个用途是嵌入保存 JSONSchema 类型对象的字段。由于该字段禁用所有类型检查，建议仅作为最后手段使用。</p>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:Schemaless
+JSONSchema apiextensionsv1.JSONSchemaProps
+</code></pre>
+</details>
+<dl class="args"></dl>
+</dd>
+</div>
+<div class="marker deprecated" data-target="package" data-deprecated="">
+<dt class="literal name">// +kubebuilder:validation:Required</dt>
+<dd class="args">
+<dl class="args summary"></dl>
+</dd>
+<dd class="description"><details><summary class="no-details">specifies that all fields in this package are required by default. Prefer using field-level +required markers instead.</summary></details>
+<dl class="args"></dl>
+</dd>
+</div>
+<div class="marker deprecated" data-target="field" data-deprecated="required">
+<dt class="literal name">// +kubebuilder:validation:Required</dt>
+<dd class="args">
+<dl class="args summary"></dl>
+</dd>
+<dd class="description"><details><summary class="no-details">specifies that this field is required.</summary></details>
+<dl class="args"></dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:Pattern</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">specifies that this string must match the given regular expression.</summary>
+<p>示例（DNS 子域）：</p>
+<pre><code>// +kubebuilder:validation:Pattern=`^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$`
+DNSName string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="literal argument"></dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:Pattern</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="literal argument"></dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">specifies that this string must match the given regular expression.</summary>
+<p>示例（DNS 子域）：</p>
+<pre><code>// +kubebuilder:validation:Pattern=`^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$`
+DNSName string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker deprecated" data-target="package" data-deprecated="">
+<dt class="literal name">// +kubebuilder:validation:Optional</dt>
+<dd class="args">
+<dl class="args summary"></dl>
+</dd>
+<dd class="description"><details><summary class="no-details">specifies that all fields in this package are optional by default. Prefer using field-level +optional markers instead.</summary></details>
+<dl class="args"></dl>
+</dd>
+</div>
+<div class="marker deprecated" data-target="field" data-deprecated="optional">
+<dt class="literal name">// +kubebuilder:validation:Optional</dt>
+<dd class="args">
+<dl class="args summary"></dl>
+</dd>
+<dd class="description"><details><summary class="no-details">specifies that this field is optional.</summary></details>
+<dl class="args"></dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:MultipleOf</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional"></span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">specifies that this field must have a numeric value that's a multiple of this one.</summary>
+<p>示例（值必须是 5 的倍数）：</p>
+<pre><code>// +kubebuilder:validation:MultipleOf=5
+Count int32
+</code></pre>
+</details>
+<dl class="args">
+<dt class="literal argument"></dt>
+<dd class="argument type"><span class="optional"></span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="anonymous marker" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:MultipleOf</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional"></span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">specifies that this field must have a numeric value that's a multiple of this one.</summary>
+<p>示例（值必须是 5 的倍数）：</p>
+<pre><code>// +kubebuilder:validation:MultipleOf=5
+Count int32
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional"></span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:Minimum</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional"></span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">specifies the minimum numeric value that this field can have. Negative numbers are supported.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:Minimum=0
+Replicas int32
+</code></pre>
+</details>
+<dl class="args">
+<dt class="literal argument"></dt>
+<dd class="argument type"><span class="optional"></span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:Minimum</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional"></span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">specifies the minimum numeric value that this field can have. Negative numbers are supported.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:Minimum=0
+Replicas int32
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional"></span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="anonymous marker" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:MinProperties</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">restricts the number of keys in an object</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:MinProperties=1
+Metadata map[string]string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:MinProperties</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="type argument"><span class="optional">int</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">restricts the number of keys in an object</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:MinProperties=1
+Metadata map[string]string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="anonymous marker" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:MinLength</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">specifies the minimum length for this string.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:MinLength=1
+Name string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:MinLength</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="literal argument"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">specifies the minimum length for this string.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:MinLength=1
+Name string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="literal argument"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:MinItems</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">specifies the minimum length for this list.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:MinItems=1
+Endpoints []string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:MinItems</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">specifies the minimum length for this list.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:MinItems=1
+Endpoints []string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="anonymous marker" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:Maximum</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional"></span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">specifies the maximum numeric value that this field can have.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:Maximum=100
+Percentage int32
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional"></span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="anonymous marker" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:Maximum</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional"></span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">specifies the maximum numeric value that this field can have.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:Maximum=100
+Percentage int32
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional"></span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:MaxProperties</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">restricts the number of keys in an object</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:MaxProperties=10
+Labels map[string]string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="anonymous marker" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:MaxProperties</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">restricts the number of keys in an object</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:MaxProperties=10
+Labels map[string]string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:MaxLength</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="type argument"><span class="optional">int</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">specifies the maximum length for this string.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:MaxLength=64
+Name string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="anonymous marker" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:MaxLength</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="literal argument"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">specifies the maximum length for this string.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:MaxLength=64
+Name string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:MaxItems</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">specifies the maximum length for this list.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:MaxItems=10
+Items []string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:MaxItems</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">int</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">specifies the maximum length for this list.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:MaxItems=10
+Items []string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="literal argument"></dt>
+<dd class="type argument"><span class="optional">int</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:Format</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">specifies additional "complex" formatting for this field.</summary>
+<p>例如，date-time 字段会标记为 “type: string” 和 “format: date-time”。</p>
+<p>常见格式包括：“int32”、“int64”、“float”、“double”、“byte”、“date”、“date-time”、“password”。</p>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:Format=date-time
+CreatedAt string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="type argument"><span class="optional">string</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="anonymous marker" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:Format</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">specifies additional "complex" formatting for this field.</summary>
+<p>例如，date-time 字段会标记为 “type: string” 和 “format: date-time”。</p>
+<p>常见格式包括：“int32”、“int64”、“float”、“double”、“byte”、“date”、“date-time”、“password”。</p>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:Format=date-time
+CreatedAt string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">string</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:ExclusiveMinimum</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">bool</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">indicates that the minimum is "up to" but not including that value.</summary>
+<p>示例（值必须大于 0，而非大于等于 0）：</p>
+<pre><code>// +kubebuilder:validation:Minimum=0
+// +kubebuilder:validation:ExclusiveMinimum=true
+PositiveNumber float64
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">bool</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="anonymous marker" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:ExclusiveMinimum</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">bool</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">indicates that the minimum is "up to" but not including that value.</summary>
+<p>示例（值必须大于 0，而非大于等于 0）：</p>
+<pre><code>// +kubebuilder:validation:Minimum=0
+// +kubebuilder:validation:ExclusiveMinimum=true
+PositiveNumber float64
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">bool</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:ExclusiveMaximum</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">bool</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">indicates that the maximum is "up to" but not including that value.</summary>
+<p>示例（值必须小于 100，而非小于等于 100）：</p>
+<pre><code>// +kubebuilder:validation:Maximum=100
+// +kubebuilder:validation:ExclusiveMaximum=true
+Percentage float64
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">bool</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:ExclusiveMaximum</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">bool</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">indicates that the maximum is "up to" but not including that value.</summary>
+<p>示例（值必须小于 100，而非小于等于 100）：</p>
+<pre><code>// +kubebuilder:validation:Maximum=100
+// +kubebuilder:validation:ExclusiveMaximum=true
+Percentage float64
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">bool</span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:ExactlyOneOf</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="literal argument"></dt>
+<dd class="argument type"><span class="slice"><span class="optional">string</span></span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="no-details">specifies a list of field names that must conform to the ExactlyOneOf constraint.</summary></details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="slice"><span class="optional">string</span></span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:Enum</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="type argument"><span class="slice"><span class="optional">any</span></span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">specifies that this (scalar) field is restricted to the *exact* values specified here.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:Enum=ClusterIP;NodePort;LoadBalancer
+ServiceType string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="slice"><span class="optional">any</span></span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="anonymous marker" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:Enum</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="literal argument"></dt>
+<dd class="argument type"><span class="slice"><span class="optional">any</span></span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">specifies that this (scalar) field is restricted to the *exact* values specified here.</summary>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:Enum=ClusterIP;NodePort;LoadBalancer
+ServiceType string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="literal argument"></dt>
+<dd class="argument type"><span class="slice"><span class="optional">any</span></span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker" data-target="field">
+<dt class="literal name">// +kubebuilder:validation:EmbeddedResource</dt>
+<dd class="args">
+<dl class="args summary"></dl>
+</dd>
+<dd class="description"><details><summary class="">marks a fields as an embedded resource with apiVersion, kind and metadata fields.</summary>
+<p>嵌入资源是具有 apiVersion、kind 和 metadata 字段的值。它们会根据当前运行的 apiserver 语义隐式校验。不必为这些字段添加额外 schema，但也可以添加。可与 PreserveUnknownFields 结合使用。</p>
+<p>Example:</p>
+<pre><code>// +kubebuilder:validation:EmbeddedResource
+Template runtime.RawExtension
+</code></pre>
+</details>
+<dl class="args"></dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:AtMostOneOf</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="slice"><span class="optional">string</span></span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="no-details">specifies a list of field names that must conform to the AtMostOneOf constraint.</summary></details>
+<dl class="args">
+<dt class="literal argument"></dt>
+<dd class="argument type"><span class="slice"><span class="optional">string</span></span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:validation:AtLeastOneOf</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="slice"><span class="optional">string</span></span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="no-details">specifies a list of field names that must conform to the AtLeastOneOf constraint.</summary></details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="slice"><span class="optional">string</span></span></dd>
+<dd class="description"></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="type">
+<dt class="literal name">// +kubebuilder:title</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">any</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">sets the title for this field.</summary>
+<p>title 是使 OpenAPI 文档更友好的元数据，在文档工具中查看时让 schema 更易理解。它是不影响校验的元数据字段，但提供关于 schema 所表示内容的重要上下文。</p>
+<p>Examples:</p>
+<pre><code>// Simple title
+// +kubebuilder:title=&amp;#34;Replica Count&amp;#34;
+Replicas int32
+
+// Descriptive title
+// +kubebuilder:title=&amp;#34;Database Connection Configuration&amp;#34;
+DatabaseConfig DatabaseConfig
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">any</span></dd>
+<dd class="description"><details><summary class="no-details">is the title text to be shown in OpenAPI documentation.</summary></details></dd>
+</dl>
+</dd>
+</div>
+<div class="anonymous marker" data-target="field">
+<dt class="literal name">// +kubebuilder:title</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">any</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">sets the title for this field.</summary>
+<p>title 是使 OpenAPI 文档更友好的元数据，在文档工具中查看时让 schema 更易理解。它是不影响校验的元数据字段，但提供关于 schema 所表示内容的重要上下文。</p>
+<p>Examples:</p>
+<pre><code>// Simple title
+// +kubebuilder:title=&amp;#34;Replica Count&amp;#34;
+Replicas int32
+
+// Descriptive title
+// +kubebuilder:title=&amp;#34;Database Connection Configuration&amp;#34;
+DatabaseConfig DatabaseConfig
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="type argument"><span class="optional">any</span></dd>
+<dd class="description"><details><summary class="no-details">is the title text to be shown in OpenAPI documentation.</summary></details></dd>
+</dl>
+</dd>
+</div>
+<div class="anonymous marker" data-target="field">
+<dt class="literal name">// +kubebuilder:example</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">any</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">sets the example value for this field.</summary>
+<p>示例值会被接受为对该字段有效的任意值。常见类型的格式包括：布尔：<code>true</code>，字符串：<code>Cluster</code>，数值：<code>1.24</code>，数组：<code>{1,2}</code>，对象：<code>{policy: "delete"}</code>）。示例应以 pruned 形式定义，仅做尽力校验。完整校验示例需要将包含它的 CRD 提交到 apiserver。</p>
+<p>示例显示在 API 文档中，帮助用户理解期望格式。</p>
+<p>用法示例：</p>
+<pre><code>// String example
+// +kubebuilder:example=&amp;#34;my-service&amp;#34;
+ServiceName string
+
+// Integer example
+// +kubebuilder:example=5
+Replicas int32
+
+// Boolean example
+// +kubebuilder:example=false
+Debug bool
+
+// Array example
+// +kubebuilder:example={8080,8443}
+Ports []int
+
+// Object example
+// +kubebuilder:example={cpu: &amp;#34;100m&amp;#34;, memory: &amp;#34;128Mi&amp;#34;}
+Resources map[string]string
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="type argument"><span class="optional">any</span></dd>
+<dd class="description"><details><summary class="no-details">is the example value to be shown in API documentation.</summary></details></dd>
+</dl>
+</dd>
+</div>
+<div class="marker anonymous" data-target="field">
+<dt class="literal name">// +kubebuilder:default</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">any</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">sets the default value for this field.</summary>
+<p>默认值会被接受为对该字段有效的任意值。常见类型的格式包括：布尔：<code>true</code>，字符串：<code>Cluster</code>，数值：<code>1.24</code>，数组：<code>{1,2}</code>，对象：<code>{policy: "delete"}</code>）。默认值应以 pruned 形式定义，仅做尽力校验。完整校验默认值需要将包含它的 CRD 提交到 apiserver。</p>
+<p>Examples:</p>
+<pre><code>// String default
+// +kubebuilder:default=&amp;#34;ClusterIP&amp;#34;
+ServiceType string
+
+// Integer default
+// +kubebuilder:default=3
+Replicas int32
+
+// Boolean default
+// +kubebuilder:default=true
+Enabled bool
+
+// Array default
+// +kubebuilder:default={80,443}
+Ports []int
+
+// Object default
+// +kubebuilder:default={replicas: 1}
+Config map[string]interface{}
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal"></dt>
+<dd class="argument type"><span class="optional">any</span></dd>
+<dd class="description"><details><summary class="no-details">is the default value. It can be any value valid for the field type.</summary></details></dd>
+</dl>
+</dd>
+</div>
+<div class="marker" data-target="field">
+<dt class="literal name">// +k8s:required</dt>
+<dd class="args">
+<dl class="args summary"></dl>
+</dd>
+<dd class="description"><details><summary class="no-details">specifies that this field is required.</summary></details>
+<dl class="args"></dl>
+</dd>
+</div>
+<div class="marker" data-target="field">
+<dt class="literal name">// +k8s:optional</dt>
+<dd class="args">
+<dl class="args summary"></dl>
+</dd>
+<dd class="description"><details><summary class="no-details">specifies that this field is optional.</summary></details>
+<dl class="args"></dl>
+</dd>
+</div>
+<div class="marker" data-target="field">
+<dt class="literal name">// +k8s:immutable</dt>
+<dd class="args">
+<dl class="args summary"></dl>
+</dd>
+<dd class="description"><details><summary class="">marks a field as immutable. Once set, the value cannot be changed.</summary>
+<p>对于可选字段，允许从 unset 到 set 的单次转换。</p>
+<p>注意：嵌套在可选字段下的不可变字段仍可通过取消设置可选父字段并重新设置来更新。</p>
+<p>Examples:</p>
+<pre><code>// +k8s:immutable
+// +required
+Port intstr.IntOrString
+
+// +k8s:immutable
+// +optional
+TargetPort intstr.IntOrString
+</code></pre>
+</details>
+<dl class="args"></dl>
+</dd>
+</div>
+<div class="marker" data-target="field">
+<dt class="literal name">// +default</dt>
+<dd class="args">
+<dl class="args summary">
+<dt class="argument literal">value</dt>
+<dd class="argument type"><span class="optional">any</span></dd>
+</dl>
+</dd>
+<dd class="description"><details><summary class="">sets the default value for this field.</summary>
+<p>默认值会被接受为对该字段有效的任意值。仅接受 JSON 格式的值。<code>ref(...)</code> 值会被忽略。常见类型的格式包括：布尔：<code>true</code>，字符串：<code>"Cluster"</code>，数值：<code>1.24</code>，数组：<code>[1,2]</code>，对象：<code>{"policy": "delete"}</code>）。默认值应以 pruned 形式定义，仅做尽力校验。完整校验默认值需要将包含它的 CRD 提交到 apiserver。</p>
+<p>Examples:</p>
+<pre><code>// String default (note the JSON quotes)
+// +default=&amp;#34;ClusterIP&amp;#34;
+ServiceType string
+
+// Integer default
+// +default=3
+Replicas int32
+
+// Boolean default
+// +default=true
+Enabled bool
+
+// Array default (JSON format)
+// +default=[80,443]
+Ports []int
+
+// Object default (JSON format)
+// +default={&amp;#34;policy&amp;#34;: &amp;#34;delete&amp;#34;}
+Config map[string]interface{}
+</code></pre>
+</details>
+<dl class="args">
+<dt class="argument literal">value</dt>
+<dd class="argument type"><span class="optional">any</span></dd>
+<dd class="description"><details><summary class="no-details">is the default value in JSON format. It can be any value valid for the field type.</summary></details></dd>
+</dl>
+</dd>
+</div>
+</dl>
+</div>
+
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../reference/markers/crd.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../../reference/markers/crd-processing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../reference/markers/crd.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../../reference/markers/crd-processing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-c2a407aa.js"></script>
+
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../theme/js/inject-2360f38b.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,89 @@
+# Build zh_CN mdBook from cn-book-v4 and push static site to cd-deploy-v4 (artifact-only).
+name: Deploy mdBook site for External CD
+
+on:
+  push:
+    branches: ["cn-book-v4"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: read
+  id-token: write
+
+concurrency:
+  group: "external-cd-v4"
+  cancel-in-progress: false
+
+env:
+  SOURCE_BRANCH: cn-book-v4
+  TARGET_BRANCH: cd-deploy-v4
+  COMMIT_MESSAGE: "Auto commit built mdBook site for external CD"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'push' && github.ref_name || env.SOURCE_BRANCH }}
+
+      - name: Install Rust and mdBook i18n helpers
+        run: |
+          curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf -y | sh
+          rustup update stable
+          cargo install mdbook-i18n-helpers --locked
+
+      - name: Install Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '^1.23.8'
+
+      - name: Build mdBook site (zh_CN)
+        run: |
+          echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
+          cd docs/book
+          /bin/bash -x install-and-build.sh
+          MDBOOK_BOOK__LANGUAGE=zh_CN /tmp/mdbook build -d book/zh_CN
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: built-book
+          path: ./docs/book/book/zh_CN
+
+  deploy-external-cd:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'push' && github.ref_name || env.SOURCE_BRANCH }}
+          fetch-depth: 0
+
+      - name: Download built artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: built-book
+          path: /tmp/built-book
+
+      - name: Set up Git user
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - name: Prepare and commit built site
+        run: |
+          git checkout --orphan "${{ env.TARGET_BRANCH }}" || git checkout "${{ env.TARGET_BRANCH }}"
+          rm -rf ./*
+          cp -r /tmp/built-book/* .
+          # keep a marker so the branch is clearly artifact-only
+          printf '%s\n' "Built from ${{ env.SOURCE_BRANCH }}; do not edit by hand." > .cd-deploy-v4-README
+          git add .
+          git commit -m "${{ env.COMMIT_MESSAGE }}"
+
+      - name: Push artifact branch
+        run: |
+          git push origin "${{ env.TARGET_BRANCH }}" --force
