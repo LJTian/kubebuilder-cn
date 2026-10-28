@@ -1,15 +1,23 @@
 [book]
 authors = ["The Kubebuilder Maintainers"]
+multilingual = true
 src = "src"
-title = "The Kubebuilder Book"
+title = "Kubebuilder 中文指南"
+
+[preprocessor.gettext]
+after = ["links"]
+
+[build]
+extra-watch-dirs = ["po"]
 
 [output.html]
 default-theme = "light"
 preferred-dark-theme = "navy"
 smart-punctuation = true
-additional-css = ["theme/css/markers.css", "theme/css/custom.css", "theme/css/version-dropdown.css"]
-git-repository-url = "https://github.com/kubernetes-sigs/kubebuilder"
-edit-url-template = "https://github.com/kubernetes-sigs/kubebuilder/edit/master/docs/book/{path}"
+additional-css = ["theme/css/markers.css", "theme/css/custom.css", "theme/css/version-dropdown.css", "theme/css/global-banner.css"]
+additional-js = ["theme/js/inject.js"]
+git-repository-url = "https://github.com/LJTian/kubebuilder-cn"
+edit-url-template = "https://github.com/LJTian/kubebuilder-cn/edit/cn-book-v4/docs/book/{path}"
 sidebar-header-nav = false
 
 [preprocessor.literatego]
