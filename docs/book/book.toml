@@ -1,8 +1,8 @@
 [book]
 authors = ["The Kubebuilder Maintainers"]
-multilingual = true
 src = "src"
 title = "Kubebuilder 中文指南"
+language = "zh_CN"
 
 [preprocessor.gettext]
 after = ["links"]
